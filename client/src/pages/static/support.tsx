@@ -1,3 +1,4 @@
+import React from "react";
 import { useLocation } from "wouter";
 import { Phone, Mail, Clock, HelpCircle, Bug, Send } from "lucide-react";
 import SubPageHeader from "@/components/layout/SubPageHeader";
