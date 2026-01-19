@@ -1,0 +1,163 @@
+## Phase 7: History Screen (4 prompts)
+
+### Prompt 7A: History Tabs + Appointments List
+
+```
+Add to MedAlpha prototype:
+
+Screen HI-01 - History (Appointments Tab):
+- Header: "History"
+- Segmented control tabs:
+  - "Appointments" (active)
+  - "Prescriptions"
+  - "Consultations"
+- Filter row: "All Time" dropdown + "Filter" button
+- List of past appointment cards:
+
+  Card 1:
+  - Status badge: "Completed" (green)
+  - "Dr. Anna Schmidt"
+  - "General Practice"
+  - "Health Center Berlin"
+  - "January 15, 2026 at 9:00 AM"
+  - Arrow on right
+
+  Card 2:
+  - Status badge: "Cancelled" (gray)
+  - "Dr. Thomas Weber"
+  - "Dermatology"
+  - "Skin Clinic Mitte"
+  - "January 10, 2026 at 2:30 PM"
+
+  Card 3:
+  - Status badge: "Completed" (green)
+  - "Dr. Maria Koch"
+  - "General Practice"
+  - "Health Center Berlin"
+  - "December 20, 2025 at 11:00 AM"
+
+- Empty state (if no history):
+  - Calendar illustration
+  - "No past appointments"
+  - "Book your first appointment" link
+
+- Tapping a card navigates to HI-02
+- Bottom navigation: History tab active
+```
+
+### Prompt 7B: Appointment Detail + Prescriptions Tab
+
+```
+Add to MedAlpha prototype:
+
+Screen HI-02 - Appointment Detail:
+- Header with back arrow: "Appointment Details"
+- Status badge (top): "Completed"
+- Summary card:
+  - Doctor: "Dr. Anna Schmidt"
+  - Specialty: "General Practice"
+  - Location: "Health Center Berlin"
+  - Date: "January 15, 2026"
+  - Time: "9:00 AM"
+- Doctor's Notes section (if available):
+  - "Routine checkup. Blood pressure normal. Recommended annual follow-up."
+- Related items:
+  - "Prescription issued" - link to prescription detail
+- Action buttons:
+  - "Book Again" (filled blue)
+  - "Find Similar Doctors" (outlined)
+- Back returns to HI-01
+
+Update HI-01 for Prescriptions Tab:
+- When "Prescriptions" tab active:
+- List of prescription cards:
+
+  Card 1:
+  - Status: "Delivered" (green)
+  - "Metformin 500mg"
+  - "30 tablets"
+  - "Ordered: January 16, 2026"
+  - "Delivered: January 18, 2026"
+
+  Card 2:
+  - Status: "Redeemed at pharmacy" (blue)
+  - "Ibuprofen 400mg"
+  - "20 tablets"
+  - "January 5, 2026"
+  - "Apotheke am Markt"
+
+- Tapping navigates to HI-03
+```
+
+### Prompt 7C: Prescription Detail + Consultations Tab
+
+```
+Add to MedAlpha prototype:
+
+Screen HI-03 - Prescription Detail:
+- Header with back arrow: "Prescription Details"
+- Status badge: "Delivered"
+- Medication card:
+  - Name: "Metformin 500mg"
+  - Form: Tablets
+  - Quantity: 30
+  - Dosage: "1x daily with meals"
+- Prescription info:
+  - Prescribed by: "Dr. Anna Schmidt"
+  - Date issued: "January 15, 2026"
+  - Valid until: "April 15, 2026"
+- Fulfillment info:
+  - Method: "Online delivery (Apo Group)"
+  - Order #: "MED-2026-0116"
+  - Delivered: "January 18, 2026"
+- Action: "Reorder" button (if eligible)
+- Back returns to HI-01 (Prescriptions tab)
+
+Update HI-01 for Consultations Tab:
+- When "Consultations" tab active:
+- List of telemedicine cards:
+
+  Card 1:
+  - Status: "Completed" (green)
+  - Video icon
+  - "Dr. Müller"
+  - "Video Consultation"
+  - "January 19, 2026"
+  - "Duration: 12 minutes"
+
+  Card 2:
+  - Status: "Completed" (green)
+  - "Dr. Fischer"
+  - "Video Consultation"
+  - "January 5, 2026"
+  - "Duration: 8 minutes"
+
+- Tapping navigates to HI-04
+```
+
+### Prompt 7D: Consultation Detail
+
+```
+Add to MedAlpha prototype:
+
+Screen HI-04 - Consultation Detail:
+- Header with back arrow: "Consultation Details"
+- Status badge: "Completed"
+- Summary card:
+  - Video icon + "Video Consultation"
+  - "Dr. Müller"
+  - "January 19, 2026"
+  - "Duration: 12 minutes"
+  - "Powered by Teleclinic" badge
+- Doctor's Summary:
+  - "Diagnosis: Common cold"
+  - "Recommendation: Rest, fluids, over-the-counter cold medication. Follow up if symptoms persist beyond 7 days."
+- Prescription section (if issued):
+  - Card showing prescription with link to detail
+- Documents section:
+  - "Consultation Summary (PDF)" - download icon
+- Action buttons:
+  - "Book Follow-up" (filled blue)
+  - "Book with Same Doctor" (outlined)
+- Back returns to HI-01 (Consultations tab)
+```

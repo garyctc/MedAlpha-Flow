@@ -45,6 +45,12 @@ import PharmacyMap from "@/pages/pharmacy/map";
 import PharmacyList from "@/pages/pharmacy/list";
 import PharmacyDetail from "@/pages/pharmacy/detail";
 
+// History Flow
+import HistoryPage from "@/pages/history/index";
+import AppointmentDetail from "@/pages/history/appointment-detail";
+import HistoryPrescriptionDetail from "@/pages/history/prescription-detail";
+import ConsultationDetail from "@/pages/history/consultation-detail";
+
 
 import Placeholder from "@/pages/placeholder";
 
@@ -93,9 +99,14 @@ function AppRoutes() {
       <Route path="/pharmacy/list" component={PharmacyList} />
       <Route path="/pharmacy/detail" component={PharmacyDetail} />
 
+      {/* History Routes */}
+      <Route path="/history" component={HistoryPage} />
+      <Route path="/history/appointment/:id" component={AppointmentDetail} />
+      <Route path="/history/prescription/:id" component={HistoryPrescriptionDetail} />
+      <Route path="/history/consultation/:id" component={ConsultationDetail} />
+
       {/* Placeholders */}
       <Route path="/appointments" component={() => <Placeholder title="Appointments" />} />
-      <Route path="/history" component={() => <Placeholder title="History" />} />
       <Route path="/profile" component={() => <Placeholder title="Profile" />} />
       
       <Route component={NotFound} />
