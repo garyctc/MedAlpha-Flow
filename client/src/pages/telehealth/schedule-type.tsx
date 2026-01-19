@@ -24,7 +24,7 @@ export default function ScheduleType() {
           className="w-full bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between group hover:border-primary/30 transition-all text-left"
         >
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-blue-50 text-primary rounded-xl flex items-center justify-center">
+            <div className="w-12 h-12 bg-blue-50 text-primary rounded-xl flex items-center justify-center shrink-0">
               <Clock size={24} />
             </div>
             <div>
@@ -42,7 +42,7 @@ export default function ScheduleType() {
           className="w-full bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between group hover:border-primary/30 transition-all text-left"
         >
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center">
+            <div className="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center shrink-0">
               <Calendar size={24} />
             </div>
             <div>
