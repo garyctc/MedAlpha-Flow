@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { User, Shield, HelpCircle, LogOut, ChevronRight, CreditCard, Bell, FileText } from "lucide-react";
+import { User, Shield, HelpCircle, LogOut, ChevronRight, CreditCard, Bell, FileText, Globe } from "lucide-react";
 import SubPageHeader from "@/components/layout/SubPageHeader";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -49,6 +49,8 @@ export default function ProfilePage() {
                 <MenuRow icon={Shield} label="Insurance Information" onClick={handleInsuranceClick} />
                 <div className="h-px bg-slate-50 mx-4"></div>
                 <MenuRow icon={Bell} label="Notification Preferences" onClick={() => {}} />
+                <div className="h-px bg-slate-50 mx-4"></div>
+                <MenuRow icon={Globe} label="Language" value="English" onClick={() => setLocation("/profile/language")} />
              </div>
            </section>
 
@@ -74,7 +76,7 @@ export default function ProfilePage() {
   );
 }
 
-function MenuRow({ icon: Icon, label, onClick }: any) {
+function MenuRow({ icon: Icon, label, value, onClick }: any) {
   return (
     <button onClick={onClick} className="w-full px-4 py-4 flex items-center justify-between hover:bg-slate-50 transition-colors group">
       <div className="flex items-center gap-3">
@@ -83,7 +85,10 @@ function MenuRow({ icon: Icon, label, onClick }: any) {
         </div>
         <span className="font-medium text-slate-700 text-sm group-hover:text-slate-900">{label}</span>
       </div>
-      <ChevronRight size={18} className="text-slate-300 group-hover:text-primary" />
+      <div className="flex items-center gap-2">
+        {value && <span className="text-sm text-slate-400 font-medium">{value}</span>}
+        <ChevronRight size={18} className="text-slate-300 group-hover:text-primary" />
+      </div>
     </button>
   );
 }

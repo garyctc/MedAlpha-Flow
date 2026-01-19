@@ -1,0 +1,133 @@
+## Phase 16: Language Preferences Flow (4 prompts)
+
+### Prompt 16A: Language Selection Screen
+
+```
+Add to MedAlpha prototype:
+
+Screen SE-03 - Language Selection:
+- Header with back arrow: "Language"
+- Background: #F5F7FA
+
+Section 1 - Current Language:
+- Card (white, rounded-lg, shadow-card)
+- Padding: 16px
+- Row:
+  - Label: "App Language" (foreground, 16px)
+  - Value: "English" (primary blue #0C3D91, 16px, bold)
+  - Checkmark icon (green #2E7D32)
+- Help text below: "The app will display in your selected language" (gray, 14px)
+
+Section 2 - Available Languages:
+- Section header: "Available" (gray, 12px, uppercase, 8px bottom margin)
+- Card (white, rounded-lg)
+- Radio list with 16px padding between items:
+
+  Row 1 (Selected):
+  - Flag emoji: 🇬🇧 (24px)
+  - Text: "English" (16px)
+  - Radio button: Filled blue circle
+  - 16px gap between elements
+
+  Row 2:
+  - Flag emoji: 🇩🇪 (24px)
+  - Text: "Deutsch" (16px)
+  - Radio button: Empty circle (gray border)
+
+Section 3 - Coming Soon:
+- Section header: "Coming Soon" (gray, 12px, uppercase)
+- Card (white, rounded-lg)
+- List (all items grayed out, opacity 50%):
+
+  Row 1:
+  - Flag: 🇹🇷
+  - Text: "Türkçe"
+  - Badge: "Soon" (small, gray background)
+
+  Row 2:
+  - Flag: 🇵🇱
+  - Text: "Polski"
+  - Badge: "Soon"
+
+  Row 3:
+  - Flag: 🇷🇴
+  - Text: "Română"
+  - Badge: "Soon"
+
+  Row 4 (Expandable):
+  - Text: "More languages..."
+  - ChevronDown icon
+  - Tapping expands to show full list
+
+Footer:
+- Text: "Need another language?" (gray, 14px)
+- Link: "Let us know" (blue, underline)
+- 24px padding from bottom
+
+Back button → PR-04 (Settings)
+Selecting a language shows toast: "Language updated" and returns to PR-04
+```
+
+### Prompt 16B: Expanded Language List
+
+```
+Add to MedAlpha prototype:
+
+Screen SE-03b - Language Selection (Expanded State):
+- Same as SE-03
+- "More languages" section is expanded
+
+Expanded list (all grayed out with "Soon" badge):
+- 🇧🇬 Български (Bulgarian)
+- 🇭🇷 Hrvatski (Croatian)
+- 🇷🇸 Српски (Serbian)
+- 🇭🇺 Magyar (Hungarian)
+- 🇨🇿 Čeština (Czech)
+- 🇸🇰 Slovenčina (Slovak)
+- 🇸🇮 Slovenščina (Slovenian)
+- 🇮🇹 Italiano (Italian)
+- 🇪🇸 Español (Spanish)
+- 🇵🇹 Português (Portuguese)
+
+Each row:
+- Flag emoji (24px)
+- Language name in native script (16px, gray/disabled)
+- "Soon" badge (right side)
+- 12px vertical padding
+
+"More languages" row changes to:
+- Text: "Show fewer"
+- ChevronUp icon
+- Tapping collapses back to SE-03
+
+Scrollable if content exceeds viewport.
+```
+
+### Prompt 16C: Update Settings Main
+
+```
+Update MedAlpha prototype:
+
+Screen PR-04 - Settings Main:
+- Keep existing layout
+- Add new row in the first section (after any existing rows):
+
+  Language Row:
+  - Icon: Globe (lucide-react)
+  - Label: "Language"
+  - Value: "English" (gray, right-aligned)
+  - ChevronRight icon
+  - Tapping → SE-03 (Language Selection)
+
+Row styling:
+- Height: 56px
+- Padding: 16px horizontal
+- Border bottom: 1px #E2E8F0
+- Background: white
+- Touch target: Full row tappable
+
+Position this row logically:
+- After "Notifications" if it exists
+- Before "Accessibility" if it exists
+- Or as first row in Preferences section
+```
