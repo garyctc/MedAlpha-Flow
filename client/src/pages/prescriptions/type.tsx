@@ -42,7 +42,7 @@ export default function PrescriptionType() {
           {/* Local Pharmacy Card */}
           <motion.button
             whileTap={{ scale: 0.98 }}
-            onClick={() => setLocation("/prescriptions/redeem")} // Navigate to the old QR screen
+            onClick={() => setLocation("/pharmacy/map")}
             className="w-full bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between group hover:border-primary/30 transition-all text-left"
           >
             <div className="flex items-center gap-4">

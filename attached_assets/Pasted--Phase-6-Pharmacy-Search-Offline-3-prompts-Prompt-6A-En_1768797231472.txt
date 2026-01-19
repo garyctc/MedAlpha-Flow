@@ -1,0 +1,103 @@
+## Phase 6: Pharmacy Search - Offline (3 prompts)
+
+### Prompt 6A: Enable Offline Option
+
+```
+Update MedAlpha prototype:
+
+On Screen RX-01 (Redemption Type):
+- Card 2 - Local Pharmacy should navigate to PS-01
+
+Add Screen PS-01 - Pharmacy Map:
+- Header with back arrow: "Find a Pharmacy"
+- Map area (large, ~60% of screen):
+  - Gray rectangle with map pin markers
+  - User location indicator (blue dot)
+  - 3-4 pharmacy pins (red/blue markers)
+- Floating search bar at top of map: "Search location..."
+- Bottom sheet (partial, showing list preview):
+  - "3 pharmacies nearby"
+  - Drag handle to expand
+  - First pharmacy card visible (teaser)
+- Tapping a pin or expanding sheet shows PS-02
+```
+
+### Prompt 6B: Pharmacy List
+
+```
+Add to MedAlpha prototype:
+
+Screen PS-02 - Pharmacy List:
+- Header with back arrow: "Nearby Pharmacies"
+- Filter chips row:
+  - "Open Now" (toggle)
+  - "24 Hours"
+  - "Highest Rated"
+- List of pharmacy cards:
+
+  Card 1:
+  - Pharmacy name: "Apotheke am Markt"
+  - Address: "Marktstraße 15, Berlin"
+  - Distance: "0.3 km"
+  - Status badge: "Open" (green) or "Closed" (gray)
+  - Hours: "Open until 7:00 PM"
+  - Rating: 4.6 stars (42 reviews)
+  - Arrow on right
+
+  Card 2:
+  - "Stadt-Apotheke"
+  - "Hauptstraße 8, Berlin"
+  - "0.7 km"
+  - "Open" badge
+  - 4.2 stars
+
+  Card 3:
+  - "Nacht-Apotheke"
+  - "Bahnhofstraße 22, Berlin"
+  - "1.2 km"
+  - "24 Hours" badge (blue)
+  - 4.0 stars
+
+- Tapping a card navigates to PS-03
+```
+
+### Prompt 6C: Pharmacy Detail
+
+```
+Add to MedAlpha prototype:
+
+Screen PS-03 - Pharmacy Detail:
+- Header with back arrow: "Apotheke am Markt"
+- Hero section:
+  - Small map preview showing location
+  - Pharmacy name (large)
+  - Rating: 4.6 stars (42 reviews)
+  - Status: "Open" badge
+- Info sections:
+
+  Address:
+  - Map pin icon
+  - "Marktstraße 15"
+  - "10115 Berlin"
+  - "0.3 km away"
+
+  Hours:
+  - Clock icon
+  - "Monday - Friday: 8:00 AM - 7:00 PM"
+  - "Saturday: 9:00 AM - 2:00 PM"
+  - "Sunday: Closed"
+
+  Contact:
+  - Phone icon + "030 1234567"
+  - Email icon + "info@apotheke-markt.de"
+
+- Action buttons (full width):
+  - "Get Directions" (filled blue) - opens maps
+  - "Call Pharmacy" (outlined blue)
+
+- Info note at bottom:
+  - "Present your e-prescription at the pharmacy counter"
+  - "Your Gesundheitskarte may be required"
+
+- Navigation: Back returns to PS-02
+```

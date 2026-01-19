@@ -40,6 +40,11 @@ import WaitingRoom from "@/pages/telehealth/waiting-room";
 import TelehealthCall from "@/pages/telehealth/call";
 import TelehealthSummary from "@/pages/telehealth/summary";
 
+// Pharmacy Search Flow
+import PharmacyMap from "@/pages/pharmacy/map";
+import PharmacyList from "@/pages/pharmacy/list";
+import PharmacyDetail from "@/pages/pharmacy/detail";
+
 
 import Placeholder from "@/pages/placeholder";
 
@@ -82,6 +87,11 @@ function AppRoutes() {
       <Route path="/telehealth/waiting-room" component={WaitingRoom} />
       <Route path="/telehealth/call" component={TelehealthCall} />
       <Route path="/telehealth/summary" component={TelehealthSummary} />
+
+      {/* Pharmacy Search Routes */}
+      <Route path="/pharmacy/map" component={PharmacyMap} />
+      <Route path="/pharmacy/list" component={PharmacyList} />
+      <Route path="/pharmacy/detail" component={PharmacyDetail} />
 
       {/* Placeholders */}
       <Route path="/appointments" component={() => <Placeholder title="Appointments" />} />
