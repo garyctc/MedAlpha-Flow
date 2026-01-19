@@ -1,0 +1,62 @@
+## Phase 1: Foundation (3 prompts)
+
+### Prompt 1A: App Shell + Home Screen
+
+```
+Create a mobile healthcare app prototype (375px width, mobile viewport).
+
+App name: MedAlpha
+Visual style: Professional healthcare, trustworthy. Primary blue #0C3D91, white cards, light gray background #F5F7FA. Rounded corners (16px for cards, 12px for buttons). Clean sans-serif font. No iOS-specific elements.
+
+Screen 1 - Home:
+- Top: "MedAlpha" header with user avatar icon (right)
+- Welcome banner card: "Welcome back, [Name]" with subtle blue gradient
+- Two feature cards in a row:
+  - "Book Appointment" with calendar icon
+  - "Redeem Prescription" with pill icon
+- Section: "Upcoming" with one appointment card showing doctor name, date, time
+- Bottom navigation bar: Home (active), Appointments, Prescriptions, History, Profile
+
+All cards white with subtle shadow. Touch targets minimum 44px. No emojis.
+```
+
+### Prompt 1B: Minimal Onboarding
+
+```
+Add to the MedAlpha prototype:
+
+Screen 0A - Splash:
+- Centered app logo/name "MedAlpha"
+- Tagline below: "Your healthcare companion"
+- Background: primary blue #0C3D91
+- Text: white
+- Clean, minimal, no animations needed
+
+Screen 0B - Login:
+- Header: "Sign In"
+- Email input field with label
+- Password input field with label (show/hide toggle)
+- Primary button: "Sign In" (blue #0C3D91, white text, full width)
+- Link below: "Don't have an account? Register"
+- Bottom: "Forgot password?" link
+- White background, cards have subtle shadow
+
+Navigation: Splash -> Login -> Home
+```
+
+### Prompt 1C: Bottom Navigation Setup
+
+```
+Update MedAlpha prototype:
+
+Add consistent bottom navigation to all screens:
+- 5 tabs: Home, Appointments, Prescriptions, History, Profile
+- Icons: house, calendar, pill, clock, user (simple line icons)
+- Active tab: blue #0C3D91 with filled icon
+- Inactive tabs: gray #5A6178 with outline icons
+- Background: white with top border #E2E8F0
+- Height: 56px with safe area padding below
+
+Tab bar should appear on: Home, Appointments list, Prescriptions list, History, Profile
+Tab bar should NOT appear on: Splash, Login, flow screens (booking steps, scanning)
+```
