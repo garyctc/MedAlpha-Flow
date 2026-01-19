@@ -20,6 +20,7 @@ import BookingSuccess from "@/pages/booking/success";
 
 // Prescription Flow
 import PrescriptionType from "@/pages/prescriptions/type";
+import PrescriptionRedeemStart from "@/pages/prescriptions/redeem-start";
 import PrescriptionRedeem from "@/pages/prescriptions/redeem";
 import NfcIntro from "@/pages/prescriptions/nfc-intro";
 import NfcScan from "@/pages/prescriptions/nfc-scan";
@@ -51,11 +52,11 @@ import PharmacyMap from "@/pages/pharmacy/map";
 import PharmacyList from "@/pages/pharmacy/list";
 import PharmacyDetail from "@/pages/pharmacy/detail";
 
-// History Flow
-import HistoryPage from "@/pages/history/index";
-import AppointmentDetail from "@/pages/history/appointment-detail";
-import HistoryPrescriptionDetail from "@/pages/history/prescription-detail";
-import ConsultationDetail from "@/pages/history/consultation-detail";
+// History Flow - Removed
+// import HistoryPage from "@/pages/history/index";
+// import AppointmentDetail from "@/pages/history/appointment-detail";
+// import HistoryPrescriptionDetail from "@/pages/history/prescription-detail";
+// import ConsultationDetail from "@/pages/history/consultation-detail";
 
 // Profile Flow
 import ProfilePage from "@/pages/profile/index";
@@ -131,6 +132,7 @@ function AppRoutes() {
       <Route path="/prescriptions/pkv-error" component={PkvError} />
       
       {/* Shared Flow */}
+      <Route path="/prescriptions/redeem-start" component={PrescriptionRedeemStart} />
       <Route path="/prescriptions/list" component={PrescriptionList} />
       <Route path="/prescriptions/detail" component={PrescriptionDetail} />
       <Route path="/prescriptions/pharmacy" component={PharmacyConfirm} />
@@ -153,12 +155,6 @@ function AppRoutes() {
       <Route path="/pharmacy/map" component={PharmacyMap} />
       <Route path="/pharmacy/list" component={PharmacyList} />
       <Route path="/pharmacy/detail" component={PharmacyDetail} />
-
-      {/* History Routes */}
-      <Route path="/history" component={HistoryPage} />
-      <Route path="/history/appointment/:id" component={AppointmentDetail} />
-      <Route path="/history/prescription/:id" component={HistoryPrescriptionDetail} />
-      <Route path="/history/consultation/:id" component={ConsultationDetail} />
 
       {/* Profile Routes */}
       <Route path="/profile" component={ProfilePage} />

@@ -1,0 +1,187 @@
+## Phase 17: Navigation Cleanup (4 prompts)
+
+### Prompt 17A: Update Appointments Tabs
+
+```
+Update MedAlpha prototype:
+
+Screen AP-01 - Appointments:
+- Keep existing layout
+- Change tab labels:
+  - Tab 1: "Upcoming" (unchanged)
+  - Tab 2: "Past" (was "All")
+
+"Past" tab content:
+- Section header: "January 2026"
+- Card 1 (Completed):
+  - Status badge: "Completed" (green background)
+  - "Dr. Müller"
+  - "General Practice"
+  - "January 15, 2026"
+  - ChevronRight
+
+- Card 2 (Video consultation):
+  - Status badge: "Video" (blue background)
+  - "Completed" badge (green, smaller)
+  - "Dr. Weber"
+  - "Dermatology - Teleclinic"
+  - "January 10, 2026"
+  - ChevronRight
+
+- Card 3 (Cancelled):
+  - Status badge: "Cancelled" (red background)
+  - "Dr. Koch"
+  - "Orthopedics"
+  - "January 5, 2026"
+  - ChevronRight
+
+Empty state for Past tab:
+- Calendar illustration with checkmark
+- "No past appointments"
+- "Your appointment history will appear here"
+
+Keep "Upcoming" tab unchanged.
+```
+
+### Prompt 17B: Update Prescriptions with Tabs
+
+```
+Update MedAlpha prototype:
+
+Screen PX-01 - Prescriptions:
+- Add tab row below header:
+  - Tab 1: "Active" (selected by default, blue underline)
+  - Tab 2: "Delivered"
+
+"Active" tab (keep existing content):
+- List of active/pending prescriptions
+- Cards with medication name, dosage, status
+- FAB for new prescription
+
+"Delivered" tab content:
+- Section header: "January 2026"
+- Card 1:
+  - Status badge: "Delivered" (green background)
+  - Medication: "Metformin 500mg"
+  - "30 tablets"
+  - "Delivered January 18, 2026"
+  - "Apo Group" pharmacy badge
+  - ChevronRight → PX-02 (detail)
+
+- Card 2:
+  - Status badge: "Delivered" (green)
+  - Medication: "Ibuprofen 400mg"
+  - "20 tablets"
+  - "Delivered January 12, 2026"
+  - "dm Pharmacy Berlin" badge
+  - ChevronRight
+
+- Card 3:
+  - Status badge: "Picked up" (green)
+  - Medication: "Vitamin D 1000 IU"
+  - "60 capsules"
+  - "Picked up January 8, 2026"
+  - "Local pharmacy" badge
+  - ChevronRight
+
+Section header: "December 2025"
+- Card 4:
+  - Status badge: "Delivered" (green)
+  - Medication: "Amoxicillin 500mg"
+  - "21 tablets"
+  - "Delivered December 20, 2025"
+  - "Apo Group"
+
+Empty state for Delivered tab:
+- Package illustration with checkmark
+- "No delivered prescriptions"
+- "Your prescription history will appear here"
+
+Tab styling:
+- Active tab: Blue text (#0C3D91), blue underline (2px)
+- Inactive tab: Gray text (#5A6178)
+- Tab bar: White background, bottom border gray
+- Same styling as AP-01 tabs
+```
+
+### Prompt 17C: Update Bottom Navigation
+
+```
+Update MedAlpha prototype:
+
+Bottom Navigation:
+- Remove "History" tab entirely
+- Keep 4 tabs only:
+  1. Home (house icon)
+  2. Appointments (calendar icon)
+  3. Prescriptions (pill icon)
+  4. Profile (user icon)
+
+Tab spacing:
+- Distribute evenly across 375px width
+- Each tab: ~94px wide
+- Icon above label
+- Active state: Blue (#0C3D91)
+- Inactive state: Gray (#5A6178)
+
+Update all screens:
+- Remove History tab from bottom nav
+- Ensure correct tab is highlighted on each screen:
+  - Home, AB-*, TM-*: Home tab active
+  - AP-*, appointments: Appointments tab active
+  - PX-*, RX-*: Prescriptions tab active
+  - PR-*, SE-*: Profile tab active
+```
+
+### Prompt 17D: Update Prescription Detail for Delivered
+
+```
+Update MedAlpha prototype:
+
+Screen PX-02 - Prescription Detail (Delivered variant):
+- Header with back arrow: "Prescription Details"
+- Status section:
+  - Large badge: "Delivered" (green background)
+  - Date: "January 18, 2026"
+
+- Medication card:
+  - Name: "Metformin 500mg"
+  - Dosage: "Take 1 tablet twice daily with meals"
+  - Quantity: "30 tablets"
+  - Prescribed by: "Dr. Anna Schmidt"
+
+- Delivery info card:
+  - Pharmacy: "Apo Group"
+  - Order number: "#APO-2026-12345"
+  - Delivered to: "Friedrichstraße 123, Berlin"
+  - Tracking: "DHL - Delivered"
+
+- Actions:
+  - "Reorder" button (primary blue) - if medication is refillable
+  - "Download Receipt" button (outlined)
+
+- For picked up prescriptions:
+  - Show pharmacy name and address instead of delivery info
+  - "Picked up at: dm Pharmacy Berlin"
+  - "Charlottenstraße 45, 10117 Berlin"
+
+Back returns to PX-01 (Delivered tab)
+```
+
+### Prompt 17E: Delete History Screens
+
+```
+Update MedAlpha prototype:
+
+Remove these screens (no longer needed):
+- HI-01 (History Tabs)
+- HI-02 (Appointment List - now in AP-01 Past tab)
+- HI-03 (Appointment Detail - use AP-02)
+- HI-04 (Prescription List - now in PX-01 Delivered tab)
+- HI-05 (Prescription Detail - use PX-02)
+- HI-06 (Consultation List - merged into AP-01 Past tab)
+- HI-07 (Consultation Detail - use AP-02 with video badge)
+
+These screens are now redundant.
+Content has been merged into AP-01 and PX-01.
+```
