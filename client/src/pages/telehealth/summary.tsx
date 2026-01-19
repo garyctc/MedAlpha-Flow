@@ -44,7 +44,9 @@ export default function TelehealthSummary() {
                </div>
                <span className="font-medium text-slate-900">View Prescription</span>
              </div>
-             <Button size="sm" variant="outline" className="border-emerald-200 text-emerald-700 hover:bg-emerald-50">View</Button>
+             <Link href="/prescriptions/detail">
+               <Button size="sm" variant="outline" className="border-emerald-200 text-emerald-700 hover:bg-emerald-50">View</Button>
+             </Link>
           </div>
           
           <div className="bg-white p-4 rounded-xl border border-slate-100 flex items-center justify-between shadow-sm">
@@ -54,7 +56,9 @@ export default function TelehealthSummary() {
                </div>
                <span className="font-medium text-slate-900">Book Follow-up</span>
              </div>
-             <Button size="sm" variant="outline" className="border-blue-200 text-primary hover:bg-blue-50">Book</Button>
+             <Link href="/telehealth/schedule-type">
+               <Button size="sm" variant="outline" className="border-blue-200 text-primary hover:bg-blue-50">Book</Button>
+             </Link>
           </div>
         </div>
 
