@@ -25,7 +25,7 @@ function PromoCarousel() {
       subtitle: "Vitamins and supplements for a healthy life.",
       gradient: "from-amber-500 to-orange-500",
       icon: Sun,
-      link: "/prescriptions/type"
+      link: "/prescriptions"
     },
     {
       id: 3,
@@ -121,7 +121,7 @@ export default function Home() {
             </motion.button>
           </Link>
 
-          <Link href="/prescriptions/type">
+          <Link href="/prescriptions">
             <motion.button 
               whileTap={{ scale: 0.98 }}
               className="w-full bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex flex-col items-start gap-4 text-left hover:border-primary/20 hover:shadow-md transition-all group"

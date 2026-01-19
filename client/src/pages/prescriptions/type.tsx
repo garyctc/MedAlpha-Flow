@@ -30,7 +30,9 @@ export default function PrescriptionType() {
 
   return (
     <div className="min-h-screen bg-background pb-20">
-      <SubPageHeader title="Redeem Prescription" backPath="/home" />
+      <header className="px-5 py-4 pt-12 bg-white border-b border-slate-100 flex justify-between items-center sticky top-0 z-10">
+        <h1 className="font-bold text-xl text-slate-900 font-display">Prescriptions</h1>
+      </header>
       
       <main className="p-5 space-y-6">
         {/* Insurance Toggle/Badge */}
