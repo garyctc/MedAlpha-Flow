@@ -62,6 +62,10 @@ import SupportPage from "@/pages/static/support";
 import PrivacyPolicy from "@/pages/static/privacy";
 import LegalDisclosure from "@/pages/static/legal";
 
+// Appointments Flow
+import AppointmentsPage from "@/pages/appointments/index";
+import FutureAppointmentDetail from "@/pages/appointments/detail";
+
 
 import Placeholder from "@/pages/placeholder";
 
@@ -127,8 +131,11 @@ function AppRoutes() {
       <Route path="/static/privacy" component={PrivacyPolicy} />
       <Route path="/static/legal" component={LegalDisclosure} />
 
+      {/* Appointment Routes */}
+      <Route path="/appointments" component={AppointmentsPage} />
+      <Route path="/appointments/detail" component={FutureAppointmentDetail} />
+
       {/* Placeholders */}
-      <Route path="/appointments" component={() => <Placeholder title="Appointments" />} />
       
       <Route component={NotFound} />
     </Switch>

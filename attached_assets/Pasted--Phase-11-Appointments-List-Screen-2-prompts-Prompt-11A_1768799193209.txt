@@ -1,0 +1,93 @@
+## Phase 11: Appointments List Screen (2 prompts)
+
+### Prompt 11A: Appointments List
+
+```
+Add to MedAlpha prototype:
+
+Screen AP-01 - Appointments:
+- Header: "Appointments"
+- Filter/sort row:
+  - "Upcoming" chip (active, blue)
+  - "All" chip
+  - Sort icon (right)
+- List of appointment cards:
+
+  Card 1 - Upcoming:
+  - Status badge: "Tomorrow" (blue)
+  - "Dr. Anna Schmidt"
+  - "General Practice"
+  - "Health Center Berlin"
+  - "January 20, 2026 at 9:00 AM"
+  - Arrow on right
+
+  Card 2 - This Week:
+  - Status badge: "In 3 days" (blue)
+  - "Dr. Weber"
+  - "Dermatology"
+  - "Skin Clinic Mitte"
+  - "January 22, 2026 at 2:30 PM"
+  - Arrow on right
+
+  Card 3 - Next Week:
+  - Status badge: "Jan 27" (gray)
+  - "Dr. Koch"
+  - "General Practice"
+  - "Health Center Berlin"
+  - "January 27, 2026 at 11:00 AM"
+
+- Empty state (if no appointments):
+  - Calendar illustration with plus icon
+  - "No upcoming appointments"
+  - "Book an appointment" button (blue)
+
+- Floating action button (bottom right):
+  - Plus icon in blue circle
+  - Tapping navigates to AB-01 (booking flow)
+
+- Bottom navigation: Appointments tab active (blue)
+- Tapping a card navigates to AP-02
+```
+
+### Prompt 11B: Appointment Detail + Actions
+
+```
+Add to MedAlpha prototype:
+
+Screen AP-02 - Appointment Detail:
+- Header with back arrow: "Appointment Details"
+- Status badge (top): "Tomorrow at 9:00 AM"
+- Summary card:
+  - Doctor section:
+    - Avatar circle (gray placeholder)
+    - "Dr. Anna Schmidt"
+    - "General Practice"
+    - Rating: 4.8 stars
+  - Divider line
+  - Location section:
+    - Map pin icon
+    - "Health Center Berlin"
+    - "Friedrichstraße 123, Berlin"
+    - "Get Directions" link (blue)
+  - Divider line
+  - Date & Time section:
+    - Calendar icon + "January 20, 2026"
+    - Clock icon + "9:00 AM"
+    - "Add to Calendar" link (blue)
+
+- Action buttons (stacked):
+  - "Reschedule Appointment" (outlined blue)
+  - "Cancel Appointment" (outlined red)
+
+- Info section:
+  - "What to bring:"
+  - "• Your Gesundheitskarte (health card)"
+  - "• Previous medical records (if applicable)"
+  - "• List of current medications"
+
+- Back returns to AP-01
+
+Navigation for actions:
+- "Reschedule" -> AB-05 (date/time picker with pre-filled data)
+- "Cancel" -> Confirmation dialog -> Success -> AP-01
+```
