@@ -71,13 +71,7 @@ export default function Login() {
             </div>
           </div>
 
-          <div className="flex items-center justify-between text-sm">
-            <label className="flex items-center gap-2 cursor-pointer text-slate-600">
-               <div className="w-4 h-4 rounded border border-slate-300 flex items-center justify-center data-[checked=true]:bg-primary data-[checked=true]:border-primary transition-colors">
-                  {/* Fake Checkbox for prototype */}
-               </div>
-               Remember me
-            </label>
+          <div className="flex items-center justify-start text-sm">
             <a href="#" className="text-primary font-medium hover:underline">Forgot password?</a>
           </div>
 
