@@ -32,20 +32,20 @@ export default function EditProfile() {
        // But value has spaces: "+49 151 12345678"
        // Let's just check if it starts with +49 and has enough digits for now visually
        if (!formData.phone.startsWith("+49") || formData.phone.length < 12) {
-          newErrors.phone = "Ungültige Telefonnummer. Format: +49 151 12345678";
+          newErrors.phone = "Invalid phone number. Format: +49 151 12345678";
           isValid = false;
        }
     }
 
     // Name validation
     if (formData.firstName.length < 2) {
-      newErrors.firstName = "Name muss 2-50 Zeichen enthalten";
+      newErrors.firstName = "Name must be 2-50 characters";
       isValid = false;
     }
 
     // Email validation
     if (!formData.email.includes("@")) {
-      newErrors.email = "Ungültige E-Mail-Adresse";
+      newErrors.email = "Invalid email address";
       isValid = false;
     }
 
@@ -62,11 +62,11 @@ export default function EditProfile() {
 
   return (
     <div className="min-h-screen bg-background pb-32">
-      <SubPageHeader title="Profil bearbeiten" backPath="/profile" />
+      <SubPageHeader title="Edit Profile" backPath="/profile" />
       
       <main className="p-5 space-y-5">
         <div className="space-y-3">
-          <Label htmlFor="firstName" className="text-sm font-medium text-slate-700">Vorname</Label>
+          <Label htmlFor="firstName" className="text-sm font-medium text-slate-700">First Name</Label>
           <Input 
             id="firstName"
             value={formData.firstName}
@@ -77,7 +77,7 @@ export default function EditProfile() {
         </div>
 
         <div className="space-y-3">
-          <Label htmlFor="lastName" className="text-sm font-medium text-slate-700">Nachname</Label>
+          <Label htmlFor="lastName" className="text-sm font-medium text-slate-700">Last Name</Label>
           <Input 
             id="lastName"
             value={formData.lastName}
@@ -87,7 +87,7 @@ export default function EditProfile() {
         </div>
 
         <div className="space-y-3">
-          <Label className="text-sm font-medium text-slate-700">Geburtsdatum</Label>
+          <Label className="text-sm font-medium text-slate-700">Date of Birth</Label>
           <div className="relative">
             <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
             <Input 
@@ -96,11 +96,11 @@ export default function EditProfile() {
               className="h-12 rounded-xl bg-slate-50 border-slate-200 pl-10 text-slate-500"
             />
           </div>
-          <p className="text-xs text-slate-400">Änderung nur über Support möglich</p>
+          <p className="text-xs text-slate-400">Change only possible via support</p>
         </div>
 
         <div className="space-y-3">
-          <Label htmlFor="phone" className="text-sm font-medium text-slate-700">Telefonnummer</Label>
+          <Label htmlFor="phone" className="text-sm font-medium text-slate-700">Phone Number</Label>
           <div className="relative">
             <Input 
               id="phone"
@@ -115,7 +115,7 @@ export default function EditProfile() {
         </div>
 
         <div className="space-y-3">
-          <Label htmlFor="email" className="text-sm font-medium text-slate-700">E-Mail</Label>
+          <Label htmlFor="email" className="text-sm font-medium text-slate-700">Email</Label>
           <div className="relative">
              <Input 
               id="email"
@@ -135,14 +135,14 @@ export default function EditProfile() {
             className="w-full h-12 text-base rounded-xl bg-primary hover:bg-primary/90 text-white"
             onClick={handleSave}
            >
-             Speichern
+             Save
            </Button>
            <Button 
             variant="ghost"
             className="w-full h-12 text-base rounded-xl text-slate-600"
             onClick={() => setLocation("/profile")}
            >
-             Abbrechen
+             Cancel
            </Button>
         </div>
       </div>

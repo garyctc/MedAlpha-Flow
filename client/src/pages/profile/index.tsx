@@ -27,14 +27,6 @@ export default function ProfilePage() {
     <div className="min-h-screen bg-background pb-24">
       <header className="px-5 py-4 pt-12 bg-white border-b border-slate-100 flex justify-between items-center sticky top-0 z-10">
         <h1 className="font-bold text-xl text-slate-900 font-display">Profile</h1>
-        <Button 
-          variant="ghost" 
-          size="sm" 
-          className="text-primary font-medium"
-          onClick={() => setLocation("/profile/edit")}
-        >
-          Edit
-        </Button>
       </header>
       
       <main className="p-5 space-y-8">
@@ -54,7 +46,7 @@ export default function ProfilePage() {
              <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
                 <MenuRow icon={User} label="Personal Information" onClick={() => setLocation("/profile/edit")} />
                 <div className="h-px bg-slate-50 mx-4"></div>
-                <MenuRow icon={Shield} label="Versicherungsinformationen" onClick={handleInsuranceClick} />
+                <MenuRow icon={Shield} label="Insurance Information" onClick={handleInsuranceClick} />
                 <div className="h-px bg-slate-50 mx-4"></div>
                 <MenuRow icon={Bell} label="Notification Preferences" onClick={() => {}} />
              </div>
