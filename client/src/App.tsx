@@ -51,6 +51,11 @@ import AppointmentDetail from "@/pages/history/appointment-detail";
 import HistoryPrescriptionDetail from "@/pages/history/prescription-detail";
 import ConsultationDetail from "@/pages/history/consultation-detail";
 
+// Profile Flow
+import ProfilePage from "@/pages/profile/index";
+import HelpSupport from "@/pages/profile/support";
+import PrivacyLegal from "@/pages/profile/legal";
+
 
 import Placeholder from "@/pages/placeholder";
 
@@ -105,9 +110,13 @@ function AppRoutes() {
       <Route path="/history/prescription/:id" component={HistoryPrescriptionDetail} />
       <Route path="/history/consultation/:id" component={ConsultationDetail} />
 
+      {/* Profile Routes */}
+      <Route path="/profile" component={ProfilePage} />
+      <Route path="/profile/support" component={HelpSupport} />
+      <Route path="/profile/legal" component={PrivacyLegal} />
+
       {/* Placeholders */}
       <Route path="/appointments" component={() => <Placeholder title="Appointments" />} />
-      <Route path="/profile" component={() => <Placeholder title="Profile" />} />
       
       <Route component={NotFound} />
     </Switch>
