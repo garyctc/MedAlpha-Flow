@@ -1,0 +1,217 @@
+## Phase 15: Edit Profile Flow (4 prompts)
+
+### Prompt 15A: PR-02 Edit Profile (2 states)
+
+```
+Add to MedAlpha prototype:
+
+Screen PR-02 - Edit Profile (Default State):
+- Header with back arrow: "Profil bearbeiten"
+- Form fields (vertical stack, 12px gaps):
+
+  Field 1 - First Name:
+  - Label: "Vorname"
+  - Input: Editable text field
+  - Value: "Max"
+  - Border: gray-20 (#E2E8F0)
+  - Rounded-md (12px)
+  - Padding: 12px
+
+  Field 2 - Last Name:
+  - Label: "Nachname"
+  - Input: Editable text field
+  - Value: "Mustermann"
+
+  Field 3 - Date of Birth (Read-Only):
+  - Label: "Geburtsdatum"
+  - Input: Gray background (#F5F7FA)
+  - Lock icon (left side)
+  - Value: "15.03.1990"
+  - Help text below: "Änderung nur über Support möglich" (gray, small)
+
+  Field 4 - Phone:
+  - Label: "Telefonnummer"
+  - Input: Editable text field
+  - Value: "+49 151 12345678"
+  - Placeholder: "+49 151 12345678"
+
+  Field 5 - Email:
+  - Label: "E-Mail"
+  - Input: Editable text field
+  - Value: "max@example.com"
+
+- Footer (fixed to bottom):
+  - "Speichern" button (primary blue #0C3D91, full width)
+  - "Abbrechen" button (ghost, full width, 8px gap above)
+
+- Back button navigates to PR-01
+
+Screen PR-02 - Edit Profile (Error State):
+- Same as default, but:
+
+  Phone field (error state):
+  - Red border (#DC2626)
+  - AlertCircle icon (red, right side)
+  - Error text below: "Ungültige Telefonnummer. Format: +49 151 12345678"
+
+  Email field (valid state):
+  - Green border (#2E7D32)
+  - Check icon (green, right side)
+
+  Save button:
+  - Disabled state (gray, opacity 50%)
+
+Design system:
+- Font: Open Sans
+- Spacing: 12px between fields, 16px section padding
+- Border radius: 12px for inputs
+- Touch targets: 44px minimum height
+```
+
+### Prompt 15B: PR-03 Insurance Info (GKV variant)
+
+```
+Add to MedAlpha prototype:
+
+Screen PR-03 - Insurance Info (GKV):
+- Header with back arrow: "Versicherungsinformationen"
+
+Section 1 - Insurance Type (Read-Only):
+- Badge: "Gesetzliche Versicherung (GKV)"
+  - Blue background (#E8F0FE)
+  - Blue text (#0C3D91)
+  - Shield icon with cross
+  - Full width, rounded-lg (16px)
+  - Padding: 12px
+- Lock icon (small, right side of badge)
+- Help text below badge: "Änderung nur über Support möglich" (gray)
+- Link: "Support kontaktieren" (blue, underline)
+
+Section 2 - Insurance Provider:
+- Label: "Krankenkasse"
+- Dropdown input:
+  - Selected value: "Techniker Krankenkasse (TK)"
+  - ChevronDown icon (right)
+  - Border: gray-20
+  - Rounded-md (12px)
+  - Tappable (opens picker with: TK, AOK, Barmer, DAK, IKK)
+
+Section 3 - Card Information:
+- Label: "Versichertennummer"
+- Input field:
+  - Value: "A123456789"
+  - Editable
+  - Border: gray-20
+- Help text: "10 Zeichen: Buchstabe + 9 Ziffern" (gray, small)
+- Secondary button: "Gesundheitskarte neu scannen"
+  - Outlined blue
+  - Camera icon
+  - Full width
+
+Footer:
+- "Speichern" button (primary blue, full width)
+- "Abbrechen" button (ghost, full width, 8px gap)
+
+Sections have 24px gaps between them.
+Back button navigates to PR-01.
+
+Design system matches PR-02.
+```
+
+### Prompt 15C: PR-03 Insurance Info (PKV variant)
+
+```
+Add to MedAlpha prototype:
+
+Screen PR-03 - Insurance Info (PKV):
+- Header with back arrow: "Versicherungsinformationen"
+
+Section 1 - Insurance Type (Read-Only):
+- Badge: "Private Versicherung (PKV)"
+  - Purple background (#F3E8FF)
+  - Purple text (#7C3AED)
+  - Shield icon with star
+  - Full width, rounded-lg (16px)
+  - Padding: 12px
+- Lock icon (small, right side of badge)
+- Help text below: "Änderung nur über Support möglich" (gray)
+- Link: "Support kontaktieren" (blue, underline)
+
+Section 2 - Insurance Provider:
+- Label: "Private Krankenkasse"
+- Dropdown input:
+  - Selected: "Allianz Private Krankenversicherung"
+  - ChevronDown icon (right)
+  - Border: gray-20
+  - Rounded-md (12px)
+  - Tappable (opens: Allianz, DKV, Debeka, AXA, HUK)
+
+Section 3 - GesundheitsID Setup:
+- Label: "GesundheitsID Status"
+- Status card:
+  - If setup:
+    - Green background (#F0FDF4)
+    - Check icon (green)
+    - Text: "GesundheitsID verbunden"
+  - If not setup:
+    - Yellow background (#FFFBEB)
+    - AlertCircle icon (orange)
+    - Text: "GesundheitsID noch nicht eingerichtet"
+- Link button: "GesundheitsID in App einrichten"
+  - Blue text with ExternalLink icon
+  - Opens external app
+
+Footer:
+- "Speichern" button (primary blue, full width)
+- "Abbrechen" button (ghost, full width, 8px gap)
+
+Design system matches PR-02 and PR-03 (GKV).
+Back navigates to PR-01.
+```
+
+### Prompt 15D: Update PR-01 to link to new screens
+
+```
+Update MedAlpha prototype:
+
+Screen PR-01 - Profile Overview:
+- Keep existing layout
+- Update "Edit Profile" link (top right):
+  - Tapping navigates to PR-02 (Edit Profile)
+- Add new list item after insurance badge:
+  - Icon: Shield (left)
+  - Text: "Versicherungsinformationen"
+  - ChevronRight icon (right)
+  - Tapping navigates to PR-03 (Insurance Info)
+  - If user is GKV: Navigate to PR-03 (GKV variant)
+  - If user is PKV: Navigate to PR-03 (PKV variant)
+
+Keep all other elements unchanged.
+```
+
+---
+
+## Validation Rules
+
+### Name Fields
+- Pattern: `/^[a-zA-ZäöüÄÖÜß\s\-']{2,50}$/`
+- Min length: 2 characters
+- Max length: 50 characters
+- Allow: German characters, spaces, hyphens, apostrophes
+- Error: "Name muss 2-50 Zeichen enthalten"
+
+### Phone Number
+- Pattern: `/^\+49[1-9]\d{8,10}$/`
+- Format: +49 followed by 9-11 digits
+- No spaces in stored value
+- Display format: "+49 151 12345678"
+- Error: "Ungültige Telefonnummer. Format: +49 151 12345678"
+
+### Email
+- Pattern: Standard email regex
+- Error: "Ungültige E-Mail-Adresse"
+
+### Versichertennummer (GKV)
+- Pattern: `/^[A-Z]\d{9}$/`
+- Format: One letter + 9 digits
+- Error: "Versichertennummer: Buchstabe + 9 Ziffern"

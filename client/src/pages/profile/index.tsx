@@ -13,11 +13,28 @@ export default function ProfilePage() {
     setLocation("/login");
   };
 
+  const handleInsuranceClick = () => {
+    // Check saved type or default to GKV for prototype
+    const type = localStorage.getItem("user-insurance-type");
+    if (type === "pkv") {
+      setLocation("/profile/insurance-pkv");
+    } else {
+      setLocation("/profile/insurance-gkv");
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background pb-24">
       <header className="px-5 py-4 pt-12 bg-white border-b border-slate-100 flex justify-between items-center sticky top-0 z-10">
         <h1 className="font-bold text-xl text-slate-900 font-display">Profile</h1>
-        <Button variant="ghost" size="sm" className="text-primary font-medium">Edit</Button>
+        <Button 
+          variant="ghost" 
+          size="sm" 
+          className="text-primary font-medium"
+          onClick={() => setLocation("/profile/edit")}
+        >
+          Edit
+        </Button>
       </header>
       
       <main className="p-5 space-y-8">
@@ -35,9 +52,9 @@ export default function ProfilePage() {
            <section>
              <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 px-1">Account</h3>
              <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
-                <MenuRow icon={User} label="Personal Information" onClick={() => {}} />
+                <MenuRow icon={User} label="Personal Information" onClick={() => setLocation("/profile/edit")} />
                 <div className="h-px bg-slate-50 mx-4"></div>
-                <MenuRow icon={CreditCard} label="Insurance Details" onClick={() => {}} />
+                <MenuRow icon={Shield} label="Versicherungsinformationen" onClick={handleInsuranceClick} />
                 <div className="h-px bg-slate-50 mx-4"></div>
                 <MenuRow icon={Bell} label="Notification Preferences" onClick={() => {}} />
              </div>
