@@ -1,4 +1,4 @@
-import { Switch, Route } from "wouter";
+import { Switch, Route, Router } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -30,7 +30,7 @@ import OrderReview from "@/pages/prescriptions/review";
 import OrderSuccess from "@/pages/prescriptions/success";
 
 
-function Router() {
+function AppRoutes() {
   return (
     <Switch>
       <Route path="/" component={Splash} />
@@ -72,11 +72,13 @@ function Router() {
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="min-h-screen font-sans bg-background text-foreground antialiased selection:bg-primary/20">
-        <Router />
-        <BottomNav />
-        <Toaster />
-      </div>
+      <Router>
+        <div className="min-h-screen font-sans bg-background text-foreground antialiased selection:bg-primary/20">
+          <AppRoutes />
+          <BottomNav />
+          <Toaster />
+        </div>
+      </Router>
     </QueryClientProvider>
   );
 }

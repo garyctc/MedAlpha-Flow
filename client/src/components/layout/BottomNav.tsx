@@ -22,22 +22,24 @@ export default function BottomNav() {
         {tabs.map((tab) => {
           const isActive = location === tab.path;
           return (
-            <Link key={tab.name} href={tab.path}>
-              <a className="flex flex-col items-center justify-center w-full h-full space-y-1">
-                <tab.icon
-                  size={24}
-                  className={cn(
-                    "transition-colors duration-200",
-                    isActive ? "text-primary fill-current" : "text-slate-400 stroke-[1.5px]"
-                  )}
-                />
-                <span className={cn(
-                  "text-[10px] font-medium transition-colors duration-200",
-                   isActive ? "text-primary" : "text-slate-400"
-                )}>
-                  {tab.name}
-                </span>
-              </a>
+            <Link 
+              key={tab.name} 
+              href={tab.path} 
+              className="flex flex-col items-center justify-center w-full h-full space-y-1"
+            >
+              <tab.icon
+                size={24}
+                className={cn(
+                  "transition-colors duration-200",
+                  isActive ? "text-primary fill-current" : "text-slate-400 stroke-[1.5px]"
+                )}
+              />
+              <span className={cn(
+                "text-[10px] font-medium transition-colors duration-200",
+                 isActive ? "text-primary" : "text-slate-400"
+              )}>
+                {tab.name}
+              </span>
             </Link>
           );
         })}
