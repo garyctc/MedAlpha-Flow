@@ -18,7 +18,7 @@ export default function BookingType() {
           className="w-full bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between group hover:border-primary/30 transition-all text-left"
         >
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-blue-50 text-primary rounded-xl flex items-center justify-center">
+            <div className="w-12 h-12 bg-blue-50 text-primary rounded-xl flex items-center justify-center shrink-0">
               <Building size={24} />
             </div>
             <div>
@@ -36,7 +36,7 @@ export default function BookingType() {
           className="w-full bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between group hover:border-primary/30 transition-all text-left relative overflow-hidden"
         >
           <div className="flex items-center gap-4 relative z-10">
-            <div className="w-12 h-12 bg-purple-50 text-purple-600 rounded-xl flex items-center justify-center">
+            <div className="w-12 h-12 bg-purple-50 text-purple-600 rounded-xl flex items-center justify-center shrink-0">
               <Video size={24} />
             </div>
             <div>
