@@ -66,6 +66,8 @@ function PromoCarousel() {
   );
 }
 
+import dmLogo from "@/assets/dm-logo.png";
+
 export default function Home() {
   // Toggle this to see empty state
   const hasAppointments = true; 
@@ -74,8 +76,11 @@ export default function Home() {
     <div className="min-h-screen bg-background pb-24" data-testid="home-screen">
       {/* Header */}
       <header className="bg-white px-6 pt-12 pb-6 border-b border-slate-100 flex justify-between items-center sticky top-0 z-10">
-        <div>
-          <h1 className="text-xl font-bold text-primary font-display tracking-tight">MedAlpha</h1>
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 flex items-center justify-center">
+            <img src={dmLogo} alt="DM Logo" className="w-full h-full object-contain" />
+          </div>
+          <h1 className="text-xl font-bold text-slate-900 font-display tracking-tight">MedAlpha</h1>
         </div>
         <div className="flex items-center gap-4">
            <button className="text-slate-400 hover:text-primary transition-colors relative">
