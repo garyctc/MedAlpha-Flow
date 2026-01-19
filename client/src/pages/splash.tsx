@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useLocation } from "wouter";
 import { motion } from "framer-motion";
-import dmLogo from "@/assets/dm-logo.png";
+import dmLogo from "@/assets/dm-logo.svg";
 
 export default function Splash() {
   const [, setLocation] = useLocation();

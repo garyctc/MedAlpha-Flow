@@ -66,7 +66,7 @@ function PromoCarousel() {
   );
 }
 
-import dmLogo from "@/assets/dm-logo.png";
+import dmLogo from "@/assets/dm-logo.svg";
 
 export default function Home() {
   // Toggle this to see empty state
