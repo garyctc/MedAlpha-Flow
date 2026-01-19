@@ -80,11 +80,12 @@ export default function Home() {
         <section>
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-bold text-lg text-slate-800">Upcoming</h3>
-            {hasAppointments && <a href="#" className="text-sm font-medium text-primary hover:underline">See all</a>}
+            {hasAppointments && <Link href="/appointments" className="text-sm font-medium text-primary hover:underline">See all</Link>}
           </div>
           
           {hasAppointments ? (
-            <Card className="border-none shadow-md shadow-slate-200/50 rounded-2xl overflow-hidden">
+            <Link href="/appointments/detail">
+            <Card className="border-none shadow-md shadow-slate-200/50 rounded-2xl overflow-hidden cursor-pointer hover:scale-[1.01] transition-transform">
                <CardContent className="p-0">
                  <div className="flex">
                     <div className="bg-blue-50 w-20 flex flex-col items-center justify-center border-r border-blue-100 p-2">
@@ -108,6 +109,7 @@ export default function Home() {
                  </div>
                </CardContent>
             </Card>
+            </Link>
           ) : (
             // Empty State
             <div className="bg-white rounded-2xl border border-slate-100 border-dashed p-8 text-center flex flex-col items-center justify-center gap-3">
