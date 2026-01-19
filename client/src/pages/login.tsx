@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { motion } from "framer-motion";
+import dmLogo from "@/assets/dm-logo.png";
 
 export default function Login() {
   const [, setLocation] = useLocation();
@@ -29,10 +30,8 @@ export default function Login() {
         transition={{ duration: 0.4 }}
       >
         <div className="mb-10 text-center">
-          <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mx-auto mb-4 text-primary">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className="w-6 h-6">
-              <path d="M12 5v14M5 12h14" />
-            </svg>
+          <div className="w-20 h-20 flex items-center justify-center mx-auto mb-4">
+            <img src={dmLogo} alt="DM Logo" className="w-full h-full object-contain" />
           </div>
           <h1 className="text-2xl font-bold font-display text-slate-900 mb-2">Welcome Back</h1>
           <p className="text-slate-500">Sign in to manage your health</p>
