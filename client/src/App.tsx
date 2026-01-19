@@ -30,6 +30,8 @@ import OrderReview from "@/pages/prescriptions/review";
 import OrderSuccess from "@/pages/prescriptions/success";
 
 
+import Placeholder from "@/pages/placeholder";
+
 function AppRoutes() {
   return (
     <Switch>
@@ -60,9 +62,9 @@ function AppRoutes() {
       <Route path="/prescriptions/success" component={OrderSuccess} />
 
       {/* Placeholders */}
-      <Route path="/appointments" component={Home} />
-      <Route path="/history" component={Home} />
-      <Route path="/profile" component={Home} />
+      <Route path="/appointments" component={() => <Placeholder title="Appointments" />} />
+      <Route path="/history" component={() => <Placeholder title="History" />} />
+      <Route path="/profile" component={() => <Placeholder title="Profile" />} />
       
       <Route component={NotFound} />
     </Switch>

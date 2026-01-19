@@ -6,6 +6,9 @@ import { Button } from "@/components/ui/button";
 import avatarImage from "@assets/generated_images/professional_user_avatar_for_healthcare_app.png";
 
 export default function Home() {
+  // Toggle this to see empty state
+  const hasAppointments = true; 
+
   return (
     <div className="min-h-screen bg-background pb-24" data-testid="home-screen">
       {/* Header */}
@@ -34,7 +37,9 @@ export default function Home() {
           <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl"></div>
           <div className="relative z-10">
             <h2 className="text-2xl font-bold font-display mb-1">Welcome back, Alex</h2>
-            <p className="text-primary-foreground/80 text-sm">You have 1 appointment today.</p>
+            <p className="text-primary-foreground/80 text-sm">
+              {hasAppointments ? "You have 1 appointment today." : "You have no upcoming appointments."}
+            </p>
           </div>
         </motion.div>
 
@@ -75,33 +80,46 @@ export default function Home() {
         <section>
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-bold text-lg text-slate-800">Upcoming</h3>
-            <a href="#" className="text-sm font-medium text-primary hover:underline">See all</a>
+            {hasAppointments && <a href="#" className="text-sm font-medium text-primary hover:underline">See all</a>}
           </div>
           
-          <Card className="border-none shadow-md shadow-slate-200/50 rounded-2xl overflow-hidden">
-             <CardContent className="p-0">
-               <div className="flex">
-                  <div className="bg-blue-50 w-20 flex flex-col items-center justify-center border-r border-blue-100 p-2">
-                     <span className="text-xs font-bold text-primary uppercase">Jan</span>
-                     <span className="text-2xl font-bold text-slate-900">24</span>
-                     <span className="text-xs font-medium text-slate-500 mt-1">10:00</span>
-                  </div>
-                  <div className="p-4 flex-1 flex justify-between items-center">
-                     <div>
-                       <h4 className="font-bold text-slate-900">Dr. Sarah Johnson</h4>
-                       <p className="text-sm text-slate-500">General Checkup</p>
-                       <div className="flex items-center gap-1 mt-2 text-xs text-slate-400">
-                         <MapPin size={12} />
-                         <span>Curaay Clinic, Downtown</span>
+          {hasAppointments ? (
+            <Card className="border-none shadow-md shadow-slate-200/50 rounded-2xl overflow-hidden">
+               <CardContent className="p-0">
+                 <div className="flex">
+                    <div className="bg-blue-50 w-20 flex flex-col items-center justify-center border-r border-blue-100 p-2">
+                       <span className="text-xs font-bold text-primary uppercase">Jan</span>
+                       <span className="text-2xl font-bold text-slate-900">24</span>
+                       <span className="text-xs font-medium text-slate-500 mt-1">10:00</span>
+                    </div>
+                    <div className="p-4 flex-1 flex justify-between items-center">
+                       <div>
+                         <h4 className="font-bold text-slate-900">Dr. Sarah Johnson</h4>
+                         <p className="text-sm text-slate-500">General Checkup</p>
+                         <div className="flex items-center gap-1 mt-2 text-xs text-slate-400">
+                           <MapPin size={12} />
+                           <span>Curaay Clinic, Downtown</span>
+                         </div>
                        </div>
-                     </div>
-                     <Button size="icon" variant="ghost" className="text-slate-300">
-                       <ChevronRight size={20} />
-                     </Button>
-                  </div>
-               </div>
-             </CardContent>
-          </Card>
+                       <Button size="icon" variant="ghost" className="text-slate-300">
+                         <ChevronRight size={20} />
+                       </Button>
+                    </div>
+                 </div>
+               </CardContent>
+            </Card>
+          ) : (
+            // Empty State
+            <div className="bg-white rounded-2xl border border-slate-100 border-dashed p-8 text-center flex flex-col items-center justify-center gap-3">
+              <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center text-slate-300 mb-2">
+                <Calendar size={32} />
+              </div>
+              <p className="font-medium text-slate-900">No upcoming appointments</p>
+              <Link href="/booking/type">
+                <Button variant="link" className="text-primary h-auto p-0">Book Appointment</Button>
+              </Link>
+            </div>
+          )}
         </section>
 
         {/* Recent Activity Mini-List */}

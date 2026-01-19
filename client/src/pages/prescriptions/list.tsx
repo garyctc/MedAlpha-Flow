@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
-import { Check, Calendar, ChevronRight } from "lucide-react";
+import { Check, Calendar } from "lucide-react";
 import SubPageHeader from "@/components/layout/SubPageHeader";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const prescriptions = [
   {
@@ -29,6 +30,12 @@ const prescriptions = [
 export default function PrescriptionList() {
   const [, setLocation] = useLocation();
   const [items, setItems] = useState(prescriptions);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 1500);
+    return () => clearTimeout(timer);
+  }, []);
 
   const toggleSelection = (id: number) => {
     setItems(items.map(item => 
@@ -52,36 +59,54 @@ export default function PrescriptionList() {
         </div>
 
         <div className="space-y-4">
-          {items.map((item) => (
-            <div 
-              key={item.id}
-              onClick={() => toggleSelection(item.id)}
-              className={`bg-white p-5 rounded-2xl border transition-all cursor-pointer relative overflow-hidden ${
-                item.selected 
-                  ? "border-primary shadow-md shadow-primary/10 ring-1 ring-primary" 
-                  : "border-slate-100 shadow-sm hover:border-slate-300"
-              }`}
-            >
-              <div className="flex items-start gap-4">
-                 <div className="pt-1 pointer-events-none">
-                    <Checkbox checked={item.selected} />
-                 </div>
-                 <div className="flex-1">
-                    <div className="flex justify-between items-start mb-1">
-                      <h3 className="font-bold text-slate-900 text-lg">{item.medication}</h3>
-                    </div>
-                    <p className="text-slate-600 mb-3 font-medium">{item.detail}</p>
-                    
-                    <div className="flex flex-wrap gap-y-1 gap-x-4 text-xs text-slate-500">
-                       <span>Issued: {item.issued}</span>
-                       <span className="flex items-center gap-1">
-                         <Calendar size={12} /> Exp: {item.expires}
-                       </span>
-                    </div>
-                 </div>
+          {loading ? (
+            // Skeleton Loading
+            Array.from({ length: 2 }).map((_, i) => (
+              <div key={i} className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm flex items-start gap-4">
+                <Skeleton className="w-5 h-5 rounded mt-1" />
+                <div className="flex-1 space-y-3">
+                  <Skeleton className="h-6 w-3/4" />
+                  <Skeleton className="h-4 w-1/2" />
+                  <div className="flex gap-4">
+                    <Skeleton className="h-3 w-20" />
+                    <Skeleton className="h-3 w-20" />
+                  </div>
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            // Real Data
+            items.map((item) => (
+              <div 
+                key={item.id}
+                onClick={() => toggleSelection(item.id)}
+                className={`bg-white p-5 rounded-2xl border transition-all cursor-pointer relative overflow-hidden ${
+                  item.selected 
+                    ? "border-primary shadow-md shadow-primary/10 ring-1 ring-primary" 
+                    : "border-slate-100 shadow-sm hover:border-slate-300"
+                }`}
+              >
+                <div className="flex items-start gap-4">
+                   <div className="pt-1 pointer-events-none">
+                      <Checkbox checked={item.selected} />
+                   </div>
+                   <div className="flex-1">
+                      <div className="flex justify-between items-start mb-1">
+                        <h3 className="font-bold text-slate-900 text-lg">{item.medication}</h3>
+                      </div>
+                      <p className="text-slate-600 mb-3 font-medium">{item.detail}</p>
+                      
+                      <div className="flex flex-wrap gap-y-1 gap-x-4 text-xs text-slate-500">
+                         <span>Issued: {item.issued}</span>
+                         <span className="flex items-center gap-1">
+                           <Calendar size={12} /> Exp: {item.expires}
+                         </span>
+                      </div>
+                   </div>
+                </div>
+              </div>
+            ))
+          )}
         </div>
       </main>
 
@@ -90,10 +115,10 @@ export default function PrescriptionList() {
         <div className="max-w-[375px] mx-auto">
            <Button 
             className="w-full h-12 text-base rounded-xl bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/20"
-            disabled={selectedCount === 0}
+            disabled={selectedCount === 0 || loading}
             onClick={() => setLocation("/prescriptions/detail")}
            >
-             Continue with {selectedCount} selected
+             {loading ? "Loading..." : `Continue with ${selectedCount} selected`}
            </Button>
         </div>
       </div>
