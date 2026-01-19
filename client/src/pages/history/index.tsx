@@ -22,9 +22,9 @@ export default function HistoryPage() {
       <main className="p-5">
         <Tabs defaultValue="appointments" onValueChange={setActiveTab} className="w-full">
           <TabsList className="w-full h-12 bg-slate-100 p-1 mb-6 rounded-xl grid grid-cols-3">
-            <TabsTrigger value="appointments" className="rounded-lg text-xs font-medium data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm">Appointments</TabsTrigger>
+            <TabsTrigger value="appointments" className="rounded-lg text-xs font-medium data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm">In-Person</TabsTrigger>
             <TabsTrigger value="prescriptions" className="rounded-lg text-xs font-medium data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm">Prescriptions</TabsTrigger>
-            <TabsTrigger value="consultations" className="rounded-lg text-xs font-medium data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm">Consultations</TabsTrigger>
+            <TabsTrigger value="consultations" className="rounded-lg text-xs font-medium data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm">Video</TabsTrigger>
           </TabsList>
 
           <TabsContent value="appointments" className="space-y-4 outline-none">
