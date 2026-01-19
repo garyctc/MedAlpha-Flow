@@ -14,13 +14,13 @@ export default function PrivacyLegal() {
            <MenuRow 
              icon={Shield} 
              label="Privacy Policy" 
-             onClick={() => {}} // Placeholder
+             onClick={() => setLocation("/static/privacy")}
            />
            <div className="h-px bg-slate-50 mx-4"></div>
            <MenuRow 
              icon={FileText} 
              label="Legal Disclosure" 
-             onClick={() => {}} // Placeholder
+             onClick={() => setLocation("/static/legal")}
            />
            <div className="h-px bg-slate-50 mx-4"></div>
            <MenuRow 

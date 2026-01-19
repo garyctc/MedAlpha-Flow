@@ -14,19 +14,19 @@ export default function HelpSupport() {
            <MenuRow 
              icon={HelpCircle} 
              label="FAQ" 
-             onClick={() => {}} // Placeholder
+             onClick={() => setLocation("/static/faq")}
            />
            <div className="h-px bg-slate-50 mx-4"></div>
            <MenuRow 
              icon={MessageSquare} 
              label="Contact Support" 
-             onClick={() => {}} // Placeholder
+             onClick={() => setLocation("/static/support")}
            />
            <div className="h-px bg-slate-50 mx-4"></div>
            <MenuRow 
              icon={Flag} 
              label="Report a Problem" 
-             onClick={() => {}} // Placeholder
+             onClick={() => setLocation("/static/support")}
            />
         </div>
       </main>

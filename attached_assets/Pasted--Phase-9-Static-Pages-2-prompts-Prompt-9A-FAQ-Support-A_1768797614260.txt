@@ -1,0 +1,94 @@
+## Phase 9: Static Pages (2 prompts)
+
+### Prompt 9A: FAQ + Support
+
+```
+Add to MedAlpha prototype:
+
+Screen ST-01 - FAQ:
+- Header with back arrow: "FAQ"
+- Search bar: "Search questions..."
+- Accordion sections:
+
+  Section 1: "Appointments"
+  - "How do I book an appointment?" (expandable)
+  - "Can I cancel or reschedule?" (expandable)
+  - "What if I'm late?" (expandable)
+
+  Section 2: "Prescriptions"
+  - "How does e-prescription work?" (expandable)
+  - "Do I need my health card?" (expandable)
+  - "How long does delivery take?" (expandable)
+
+  Section 3: "Video Consultations"
+  - "What do I need for a video call?" (expandable)
+  - "Is it covered by insurance?" (expandable)
+
+- Expanded item shows answer text (placeholder content)
+- "Can't find what you're looking for?" link at bottom -> Support
+
+Screen ST-02 - Support:
+- Header with back arrow: "Support"
+- Contact card:
+  - "Need help? We're here for you."
+  - Phone: "+49 800 123 4567"
+  - Email: "support@medalpha.de"
+  - Hours: "Monday - Friday, 8 AM - 6 PM"
+- Contact form:
+  - Subject dropdown: "General", "Appointments", "Prescriptions", "Technical Issue"
+  - Message text area
+  - "Send Message" button (blue)
+- Quick links:
+  - "View FAQ"
+  - "Report a Bug"
+```
+
+### Prompt 9B: Privacy Policy + Legal Disclosure
+
+```
+Add to MedAlpha prototype:
+
+Screen ST-03 - Privacy Policy:
+- Header with back arrow: "Privacy Policy"
+- Last updated: "January 1, 2026"
+- Scrollable content sections:
+
+  Section: "Data We Collect"
+  - Paragraph placeholder text about personal data, health data, usage data
+
+  Section: "How We Use Your Data"
+  - Bullet points about service provision, improvement, legal requirements
+
+  Section: "Data Sharing"
+  - Information about healthcare partners (Curaay, Teleclinic, Apo Group)
+
+  Section: "Your Rights"
+  - GDPR rights: access, rectification, deletion, portability
+
+  Section: "Contact"
+  - Data protection officer contact info
+
+- Long scrollable text content
+- "Back to Top" floating button when scrolled
+
+Screen ST-04 - Legal Disclosure:
+- Header with back arrow: "Legal"
+- Company information:
+  - "MedAlpha GmbH"
+  - "Musterstraße 123"
+  - "10115 Berlin, Germany"
+- Registration:
+  - "Commercial Register: Amtsgericht Berlin"
+  - "Registration Number: HRB 123456"
+- Management:
+  - "Managing Directors: [Names]"
+- Contact:
+  - "Email: legal@medalpha.de"
+  - "Phone: +49 30 1234567"
+- VAT ID:
+  - "VAT ID: DE123456789"
+- Regulatory info:
+  - Brief text about healthcare app regulations
+
+Both screens: Simple text layout, white background, readable typography.
+```

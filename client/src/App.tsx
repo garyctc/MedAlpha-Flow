@@ -56,6 +56,12 @@ import ProfilePage from "@/pages/profile/index";
 import HelpSupport from "@/pages/profile/support";
 import PrivacyLegal from "@/pages/profile/legal";
 
+// Static Pages
+import FAQPage from "@/pages/static/faq";
+import SupportPage from "@/pages/static/support";
+import PrivacyPolicy from "@/pages/static/privacy";
+import LegalDisclosure from "@/pages/static/legal";
+
 
 import Placeholder from "@/pages/placeholder";
 
@@ -114,6 +120,12 @@ function AppRoutes() {
       <Route path="/profile" component={ProfilePage} />
       <Route path="/profile/support" component={HelpSupport} />
       <Route path="/profile/legal" component={PrivacyLegal} />
+
+      {/* Static Routes */}
+      <Route path="/static/faq" component={FAQPage} />
+      <Route path="/static/support" component={SupportPage} />
+      <Route path="/static/privacy" component={PrivacyPolicy} />
+      <Route path="/static/legal" component={LegalDisclosure} />
 
       {/* Placeholders */}
       <Route path="/appointments" component={() => <Placeholder title="Appointments" />} />
