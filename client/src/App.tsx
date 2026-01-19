@@ -66,6 +66,15 @@ import LegalDisclosure from "@/pages/static/legal";
 import AppointmentsPage from "@/pages/appointments/index";
 import FutureAppointmentDetail from "@/pages/appointments/detail";
 
+// Registration Flow
+import RegisterAccount from "@/pages/register/account";
+import RegisterVerifyEmail from "@/pages/register/verify-email";
+import RegisterPersonal from "@/pages/register/personal-info";
+import RegisterInsuranceType from "@/pages/register/insurance-type";
+import RegisterGKVDetails from "@/pages/register/gkv-details";
+import RegisterPKVDetails from "@/pages/register/pkv-details";
+import RegisterComplete from "@/pages/register/complete";
+
 
 import Placeholder from "@/pages/placeholder";
 
@@ -75,6 +84,15 @@ function AppRoutes() {
       <Route path="/" component={Splash} />
       <Route path="/login" component={Login} />
       <Route path="/home" component={Home} />
+
+      {/* Registration Routes */}
+      <Route path="/register" component={RegisterAccount} />
+      <Route path="/register/verify" component={RegisterVerifyEmail} />
+      <Route path="/register/personal" component={RegisterPersonal} />
+      <Route path="/register/insurance" component={RegisterInsuranceType} />
+      <Route path="/register/gkv-details" component={RegisterGKVDetails} />
+      <Route path="/register/pkv-details" component={RegisterPKVDetails} />
+      <Route path="/register/complete" component={RegisterComplete} />
       
       {/* Booking Routes */}
       <Route path="/booking" component={BookingType} />

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLocation } from "wouter";
+import { useLocation, Link } from "wouter";
 import { Eye, EyeOff, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -85,7 +85,7 @@ export default function Login() {
 
         <div className="mt-8 text-center text-sm text-slate-500">
           Don't have an account?{" "}
-          <a href="#" className="text-primary font-bold hover:underline">Register</a>
+          <Link href="/register" className="text-primary font-bold hover:underline">Register</Link>
         </div>
       </motion.div>
     </div>

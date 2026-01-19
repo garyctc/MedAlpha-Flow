@@ -1,0 +1,235 @@
+## Phase 13: Registration Flow (6 prompts)
+
+### Prompt 13A: Email & Password
+
+```
+Add to MedAlpha prototype:
+
+Update Login screen (existing):
+- Ensure "Don't have an account? Register" link navigates to REG-01
+
+Screen REG-01 - Create Account:
+- Header with back arrow: "Create Account"
+- Progress indicator: Step 1 of 5 (dots or bar)
+- Form fields:
+  - "Email address" input (email keyboard)
+  - "Password" input (with show/hide toggle)
+  - "Confirm password" input
+- Password requirements (shown below field):
+  - "At least 8 characters"
+  - "One uppercase letter"
+  - "One number"
+  - Checkmarks appear as requirements are met (green)
+- "Continue" button (blue, full width)
+  - Disabled until all fields valid
+- "Already have an account? Sign in" link
+- Navigates to REG-01b (Email Verification)
+
+Validation:
+- Email: Valid format, not already registered
+- Password: Meets requirements
+- Confirm: Matches password
+- Show inline errors (red text below field)
+```
+
+### Prompt 13A2: Email Verification
+
+```
+Add to MedAlpha prototype:
+
+Screen REG-01b - Verify Email:
+- Header with back arrow: "Verify Email"
+- Progress indicator: Step 1 of 5 (same step, sub-step)
+- Icon: Email/envelope with checkmark
+- Title: "Check your inbox"
+- Subtitle: "We sent a verification code to"
+- Email display: "max@example.com" (bold)
+- 6-digit code input field (large, spaced digits)
+- "Resend code" link with timer: "Resend in 0:45"
+  - After timer: "Resend code" (blue, tappable)
+- "Verify" button (blue, full width)
+  - Disabled until 6 digits entered
+- "Use a different email" link (navigates back to REG-01)
+- On success → REG-02
+
+Error states:
+- "Invalid code. Please try again." (code doesn't match)
+- "Code expired. Request a new one." (after 10 minutes)
+- "Too many attempts. Try again in 5 minutes."
+```
+
+### Prompt 13B: Personal Information
+
+```
+Add to MedAlpha prototype:
+
+Screen REG-02 - Personal Information:
+- Header with back arrow: "Personal Information"
+- Progress indicator: Step 2 of 5
+- Form fields:
+  - "First name" input
+  - "Last name" input
+  - "Date of birth" input (date picker, DD.MM.YYYY format)
+  - "Phone number" input (phone keyboard, +49 prefix)
+- Info text below phone field:
+  - "We'll send verification codes to this number"
+- "Continue" button (blue, full width)
+  - Disabled until all fields filled
+- Navigates to REG-03
+
+All fields required.
+German date format (DD.MM.YYYY).
+Phone number with country code selector (default +49).
+```
+
+### Prompt 13C: Insurance Type Selection (Educational)
+
+```
+Add to MedAlpha prototype:
+
+Screen REG-03 - Insurance Type:
+- Header with back arrow: "Your Health Insurance"
+- Progress indicator: Step 3 of 5
+- Title: "Which insurance covers your prescriptions?"
+- Subtitle: "This determines how you'll redeem e-prescriptions"
+
+- Two large option cards (radio selection):
+
+  Card 1 - GKV (Public):
+  - Radio button (left)
+  - Icon: Shield with cross
+  - Title: "Public Insurance (GKV)"
+  - Subtitle: "Gesetzliche Krankenversicherung"
+  - Bullet points:
+    - "You have a Gesundheitskarte (health card) with NFC"
+    - "Prescriptions cost €5-10 copay"
+    - "Examples: TK, AOK, Barmer, DAK"
+  - Border highlights blue when selected
+
+  Card 2 - PKV (Private):
+  - Radio button (left)
+  - Icon: Shield with star
+  - Title: "Private Insurance (PKV)"
+  - Subtitle: "Private Krankenversicherung"
+  - Bullet points:
+    - "You use GesundheitsID to access prescriptions"
+    - "You pay upfront, then get reimbursed"
+    - "Examples: Allianz, DKV, Debeka, AXA"
+  - Border highlights purple when selected
+
+- "Not sure?" expandable section:
+  - "Check your insurance card. If it has an NFC symbol and a 6-digit CAN number, you have GKV."
+  - Image showing where to find NFC symbol on card
+
+- "Continue" button (blue, full width)
+  - Disabled until selection made
+- GKV selected → REG-04-GKV
+- PKV selected → REG-04-PKV
+```
+
+### Prompt 13D: GKV Insurance Details
+
+```
+Add to MedAlpha prototype:
+
+Screen REG-04-GKV - Health Card Setup:
+- Header with back arrow: "Health Card Details"
+- Progress indicator: Step 4 of 5
+- Icon: Health card illustration
+- Title: "Set up your Gesundheitskarte"
+- Subtitle: "You'll use this card to retrieve prescriptions"
+
+- Form section:
+  - "Insurance provider" dropdown:
+    - Search field: "Search your provider..."
+    - Popular: TK, AOK, Barmer, DAK, IKK
+    - "Show all providers..."
+  - "Versichertennummer" input (10 digits):
+    - Label: "Insurance number"
+    - Help text: "Found on front of your card (10 digits)"
+    - Info icon opens helper image
+
+- What to expect section (light blue card):
+  - Title: "How prescriptions work with GKV"
+  - "1. Scan your health card using NFC"
+  - "2. Enter the 6-digit CAN from your card"
+  - "3. Verify with SMS code"
+  - "4. Select prescriptions and pay copay (€5-10)"
+
+- Checkbox:
+  - "I understand my prescription copay will be €5-10 per medication"
+
+- "Complete Registration" button (blue, full width)
+- Navigates to REG-05
+```
+
+### Prompt 13E: PKV Insurance Details
+
+```
+Add to MedAlpha prototype:
+
+Screen REG-04-PKV - GesundheitsID Setup:
+- Header with back arrow: "Private Insurance Setup"
+- Progress indicator: Step 4 of 5
+- Icon: Phone with shield illustration
+- Title: "Set up GesundheitsID access"
+- Subtitle: "You'll sign in through your insurer's app"
+
+- Form section:
+  - "Insurance provider" dropdown:
+    - Search field: "Search your provider..."
+    - Popular: Allianz, DKV, Debeka, AXA, HUK
+    - "Show all providers..."
+
+- Prerequisites checklist:
+  - Title: "Before you can redeem prescriptions:"
+  - Checkbox 1: "I have requested my KVNR from my insurer"
+  - Checkbox 2: "I have my insurer's app with GesundheitsID enabled"
+  - Checkbox 3: "I have completed Online Check-in at my doctor"
+  - "Learn more about these requirements" link
+
+- What to expect section (light purple card):
+  - Title: "How prescriptions work with PKV"
+  - "1. Sign in through your insurer's app"
+  - "2. Select prescriptions and pay full price"
+  - "3. Download Kostenbeleg (receipt)"
+  - "4. Submit to insurer for reimbursement"
+
+- Info note (gray):
+  - "Not ready yet? You can still use local pharmacies. Complete GesundheitsID setup later in Settings."
+
+- "Complete Registration" button (blue, full width)
+  - Enabled even if checkboxes unchecked (can set up later)
+- Navigates to REG-05
+```
+
+### Prompt 13F: Registration Complete
+
+```
+Add to MedAlpha prototype:
+
+Screen REG-05 - Welcome:
+- Large green checkmark icon (centered)
+- Title: "Welcome to MedAlpha!"
+- Subtitle: "Your account has been created"
+
+- User summary card:
+  - Name: "Max Mustermann"
+  - Email: "max@example.com"
+  - Insurance: "Public Insurance (GKV)" or "Private Insurance (PKV)"
+  - Insurance badge matches selection (blue for GKV, purple for PKV)
+
+- What's next section:
+  - For GKV:
+    - "Book your first appointment"
+    - "Have your health card ready to redeem prescriptions"
+  - For PKV:
+    - "Book your first appointment"
+    - "Set up GesundheitsID in your insurer's app"
+
+- Two buttons:
+  - "Explore the App" (filled blue) → Home
+  - "Book an Appointment" (outlined blue) → AB-01
+
+- Skip to Home by default after 5 seconds (optional auto-navigate)
+```
