@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useLocation } from "wouter";
 import { motion } from "framer-motion";
-import { Smartphone, Vibrate, X } from "lucide-react";
+import { Smartphone, Vibrate, Wifi } from "lucide-react";
 
 export default function NfcScan() {
   const [, setLocation] = useLocation();
@@ -11,8 +11,8 @@ export default function NfcScan() {
     const timer = setTimeout(() => {
       // Could vibrate here if device API supported
       if (navigator.vibrate) navigator.vibrate(200);
-      setLocation("/prescriptions/list");
-    }, 2500);
+      setLocation("/prescriptions/gkv-sms-verify");
+    }, 4000); // Increased duration as per Prompt 14C
 
     return () => clearTimeout(timer);
   }, [setLocation]);
@@ -44,9 +44,10 @@ export default function NfcScan() {
          </motion.div>
 
          <h2 className="text-2xl font-bold mb-2">Scanning...</h2>
-         <p className="text-white/60 mb-8">Hold your card steady</p>
+         <p className="text-white/60 mb-2">Hold your card still</p>
+         <p className="text-white/40 text-sm">This may take up to 20 seconds</p>
 
-         <div className="flex items-center gap-2 text-white/40 text-sm">
+         <div className="flex items-center gap-2 text-white/40 text-sm mt-8">
            <Vibrate size={16} />
            <span>Haptic feedback enabled</span>
          </div>

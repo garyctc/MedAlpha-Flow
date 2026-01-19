@@ -23,11 +23,17 @@ import PrescriptionType from "@/pages/prescriptions/type";
 import PrescriptionRedeem from "@/pages/prescriptions/redeem";
 import NfcIntro from "@/pages/prescriptions/nfc-intro";
 import NfcScan from "@/pages/prescriptions/nfc-scan";
+import GkvSmsVerify from "@/pages/prescriptions/gkv-sms-verify";
+import PkvAuth from "@/pages/prescriptions/pkv-auth";
+import PkvInsurerSelect from "@/pages/prescriptions/pkv-insurer-select";
+import PkvRedirect from "@/pages/prescriptions/pkv-redirect";
+import PkvError from "@/pages/prescriptions/pkv-error";
 import PrescriptionList from "@/pages/prescriptions/list";
 import PrescriptionDetail from "@/pages/prescriptions/detail";
 import PharmacyConfirm from "@/pages/prescriptions/pharmacy";
 import OrderReview from "@/pages/prescriptions/review";
 import OrderSuccess from "@/pages/prescriptions/success";
+import PrescriptionReceipt from "@/pages/prescriptions/receipt";
 
 // Telehealth Flow
 import ScheduleType from "@/pages/telehealth/schedule-type";
@@ -108,13 +114,25 @@ function AppRoutes() {
       <Route path="/prescriptions" component={PrescriptionType} />
       <Route path="/prescriptions/type" component={PrescriptionType} />
       <Route path="/prescriptions/redeem" component={PrescriptionRedeem} />
+      
+      {/* GKV Flow */}
       <Route path="/prescriptions/nfc-intro" component={NfcIntro} />
       <Route path="/prescriptions/nfc-scan" component={NfcScan} />
+      <Route path="/prescriptions/gkv-sms-verify" component={GkvSmsVerify} />
+      
+      {/* PKV Flow */}
+      <Route path="/prescriptions/pkv-auth" component={PkvAuth} />
+      <Route path="/prescriptions/pkv-insurer-select" component={PkvInsurerSelect} />
+      <Route path="/prescriptions/pkv-redirect" component={PkvRedirect} />
+      <Route path="/prescriptions/pkv-error" component={PkvError} />
+      
+      {/* Shared Flow */}
       <Route path="/prescriptions/list" component={PrescriptionList} />
       <Route path="/prescriptions/detail" component={PrescriptionDetail} />
       <Route path="/prescriptions/pharmacy" component={PharmacyConfirm} />
       <Route path="/prescriptions/review" component={OrderReview} />
       <Route path="/prescriptions/success" component={OrderSuccess} />
+      <Route path="/prescriptions/receipt" component={PrescriptionReceipt} />
 
       {/* Telehealth Routes */}
       <Route path="/telehealth/schedule-type" component={ScheduleType} />

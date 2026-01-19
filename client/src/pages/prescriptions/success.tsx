@@ -1,9 +1,18 @@
 import { motion } from "framer-motion";
-import { Link } from "wouter";
-import { Check, Package } from "lucide-react";
+import { Link, useLocation } from "wouter";
+import { Check, Package, FileText, Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useState, useEffect } from "react";
 
 export default function OrderSuccess() {
+  const [, setLocation] = useLocation();
+  const [insuranceType, setInsuranceType] = useState<"gkv" | "pkv">("gkv");
+
+  useEffect(() => {
+    const saved = localStorage.getItem("user-insurance-type") as "gkv" | "pkv";
+    if (saved) setInsuranceType(saved);
+  }, []);
+
   return (
     <div className="min-h-screen bg-white flex flex-col items-center justify-center p-6 text-center" data-testid="order-success-screen">
       <motion.div
@@ -27,7 +36,7 @@ export default function OrderSuccess() {
         <p className="text-slate-500 mb-8 max-w-[280px] mx-auto">Your prescription has been sent to Apo Group.</p>
 
         {/* Order Details Card */}
-        <div className="bg-slate-50 rounded-2xl border border-slate-100 p-6 mb-8 text-left relative overflow-hidden">
+        <div className="bg-slate-50 rounded-2xl border border-slate-100 p-6 mb-6 text-left relative overflow-hidden">
            <div className="flex items-center gap-4 mb-4">
              <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center border border-slate-200 text-primary">
                <Package size={20} />
@@ -43,6 +52,30 @@ export default function OrderSuccess() {
              <p className="font-bold text-slate-900">January 21-22, 2026</p>
            </div>
         </div>
+
+        {/* PKV Kostenbeleg Section */}
+        {insuranceType === "pkv" && (
+          <div className="bg-purple-50 rounded-2xl border border-purple-100 p-5 mb-8 text-left">
+            <h3 className="font-bold text-purple-900 mb-3 flex items-center gap-2">
+              Reimbursement Receipt
+            </h3>
+            <div className="flex gap-4 items-start mb-3">
+               <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center text-purple-600 border border-purple-100 flex-shrink-0">
+                 <FileText size={20} />
+               </div>
+               <div>
+                 <p className="text-sm text-purple-900 font-medium">Your Kostenbeleg will be available after delivery</p>
+                 <p className="text-xs text-purple-700 mt-1">We'll notify you when it's ready</p>
+               </div>
+            </div>
+            <button 
+              onClick={() => setLocation("/prescriptions/receipt")} 
+              className="text-xs font-bold text-purple-600 flex items-center gap-1 hover:underline"
+            >
+              <Info size={12} /> Preview Receipt
+            </button>
+          </div>
+        )}
 
         <div className="space-y-3 w-full">
            <Button variant="outline" className="w-full h-12 rounded-xl text-base border-slate-200 text-slate-700">

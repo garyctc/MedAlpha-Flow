@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
-import { Check, Calendar } from "lucide-react";
+import { Check, Calendar, Info, Shield, CreditCard } from "lucide-react";
 import SubPageHeader from "@/components/layout/SubPageHeader";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -14,6 +14,7 @@ const prescriptions = [
     doctor: "Dr. Schmidt",
     issued: "Jan 15, 2026",
     expires: "Apr 15, 2026",
+    price: 24.95,
     selected: true
   },
   {
@@ -23,6 +24,7 @@ const prescriptions = [
     doctor: "Dr. Schmidt",
     issued: "Jan 15, 2026",
     expires: "Apr 15, 2026",
+    price: 18.50,
     selected: false
   }
 ];
@@ -31,8 +33,13 @@ export default function PrescriptionList() {
   const [, setLocation] = useLocation();
   const [items, setItems] = useState(prescriptions);
   const [loading, setLoading] = useState(true);
+  const [insuranceType, setInsuranceType] = useState<"gkv" | "pkv">("gkv");
+  const [exempt, setExempt] = useState(false);
 
   useEffect(() => {
+    const saved = localStorage.getItem("user-insurance-type") as "gkv" | "pkv";
+    if (saved) setInsuranceType(saved);
+    
     const timer = setTimeout(() => setLoading(false), 1500);
     return () => clearTimeout(timer);
   }, []);
@@ -43,11 +50,22 @@ export default function PrescriptionList() {
     ));
   };
 
-  const selectedCount = items.filter(i => i.selected).length;
+  const selectedItems = items.filter(i => i.selected);
+  const selectedCount = selectedItems.length;
+
+  const calculateTotal = () => {
+    if (insuranceType === "gkv") {
+      return exempt ? 0 : selectedCount * 5.00;
+    } else {
+      return selectedItems.reduce((sum, item) => sum + item.price, 0);
+    }
+  };
+
+  const total = calculateTotal();
 
   return (
-    <div className="min-h-screen bg-background pb-28">
-      <SubPageHeader title="Your Prescriptions" backPath="/prescriptions/nfc-intro" />
+    <div className="min-h-screen bg-background pb-32">
+      <SubPageHeader title="Your Prescriptions" backPath="/prescriptions/type" />
       
       <main className="p-5 space-y-6">
         {/* Success Banner */}
@@ -57,6 +75,22 @@ export default function PrescriptionList() {
           </div>
           <p className="font-bold">2 prescriptions found</p>
         </div>
+
+        {/* GKV Exemption Toggle */}
+        {insuranceType === "gkv" && (
+          <div className="bg-blue-50 border border-blue-100 rounded-xl p-4 flex items-start gap-3">
+             <Checkbox 
+               id="exempt" 
+               checked={exempt}
+               onCheckedChange={(c) => setExempt(c as boolean)}
+               className="mt-1"
+             />
+             <div>
+               <label htmlFor="exempt" className="font-bold text-slate-900 text-sm block">I have a copay exemption</label>
+               <p className="text-xs text-slate-500">Befreiungsausweis required</p>
+             </div>
+          </div>
+        )}
 
         <div className="space-y-4">
           {loading ? (
@@ -96,7 +130,26 @@ export default function PrescriptionList() {
                       </div>
                       <p className="text-slate-600 mb-3 font-medium">{item.detail}</p>
                       
-                      <div className="flex flex-wrap gap-y-1 gap-x-4 text-xs text-slate-500">
+                      {/* Price Label */}
+                      <div className="mb-3">
+                        {insuranceType === "gkv" ? (
+                          <div className="flex items-center gap-2">
+                            <span className="text-sm font-bold text-slate-900 bg-slate-100 px-2 py-1 rounded">
+                              Copay: €{exempt ? "0.00" : "5.00"}
+                            </span>
+                            {exempt && <Info size={14} className="text-blue-500" />}
+                          </div>
+                        ) : (
+                          <div>
+                            <span className="text-sm font-bold text-slate-900 bg-slate-100 px-2 py-1 rounded">
+                              Price: €{item.price.toFixed(2)}
+                            </span>
+                            <p className="text-[10px] text-purple-600 font-medium mt-1">Reimbursable by your insurer</p>
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="flex flex-wrap gap-y-1 gap-x-4 text-xs text-slate-500 border-t border-slate-50 pt-3">
                          <span>Issued: {item.issued}</span>
                          <span className="flex items-center gap-1">
                            <Calendar size={12} /> Exp: {item.expires}
@@ -116,9 +169,13 @@ export default function PrescriptionList() {
            <Button 
             className="w-full h-12 text-base rounded-xl bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/20"
             disabled={selectedCount === 0 || loading}
-            onClick={() => setLocation("/prescriptions/detail")}
+            onClick={() => setLocation("/prescriptions/detail")} // Should probably go to review/pharmacy first? Prompt says 05 -> ... -> 07. Existing flow has pharmacy confirm in between.
            >
-             {loading ? "Loading..." : `Continue with ${selectedCount} selected`}
+             {loading ? "Loading..." : (
+               insuranceType === "gkv" 
+                 ? `Continue with €${total.toFixed(2)} copay`
+                 : `Continue with €${total.toFixed(2)} total`
+             )}
            </Button>
         </div>
       </div>

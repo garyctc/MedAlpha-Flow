@@ -1,0 +1,269 @@
+## Phase 14: Insurance-Aware Prescription Flow (6 prompts)
+
+### Prompt 14A: Update RX-01 with Insurance Detection
+
+```
+Update MedAlpha prototype:
+
+Screen RX-01 - Redemption Type (updated):
+- Header with back arrow: "Redeem Prescription"
+- Insurance indicator badge (top right):
+  - Shows user's insurance type from profile
+  - GKV: "Public Insurance" badge (blue)
+  - PKV: "Private Insurance" badge (purple)
+  - Tappable to change in settings
+
+- Info banner:
+  - GKV: "Scan your health card to retrieve prescriptions"
+  - PKV: "Use GesundheitsID to retrieve prescriptions"
+
+- Two large option cards (unchanged):
+  - Online Pharmacy → routes based on insurance type
+  - Local Pharmacy → PS-01 (unchanged)
+
+Navigation:
+- GKV + Online → RX-02-GKV
+- PKV + Online → RX-02-PKV
+- Local Pharmacy → PS-01 (both insurance types)
+```
+
+### Prompt 14B: PKV GesundheitsID Flow (New Screens)
+
+```
+Add to MedAlpha prototype:
+
+Screen RX-02-PKV - GesundheitsID Instructions:
+- Header with back arrow: "Connect via GesundheitsID"
+- Partner badge: "Secure authentication"
+- Illustration: Phone with shield/lock icon
+- Title: "Sign in with your PKV app"
+- Prerequisites checklist:
+  - ✓ "You have a KVNR from your insurer"
+  - ✓ "Your PKV app has GesundheitsID enabled"
+  - ✓ "You've completed Online Check-in at your doctor"
+- "Don't have these? Learn how to set up" link (blue)
+- Primary button: "Continue to PKV Login"
+- Navigates to RX-03-PKV
+
+Screen RX-03-PKV - PKV App Selection:
+- Header with back arrow: "Select Your Insurer"
+- Search bar: "Search insurance company..."
+- List of PKV companies (cards):
+  - "Allianz Private Krankenversicherung" with logo
+  - "DKV Deutsche Krankenversicherung" with logo
+  - "HUK-COBURG Krankenversicherung" with logo
+  - "Debeka Krankenversicherung" with logo
+  - "AXA Krankenversicherung" with logo
+  - "Show all insurers..." link
+- Info text: "You'll be redirected to your insurer's app to authenticate"
+- Tapping an insurer shows redirect screen
+
+Screen RX-03-PKV-Redirect - App Redirect:
+- Full screen overlay
+- PKV logo (selected insurer)
+- "Opening [Insurer] app..."
+- Loading spinner
+- "You'll return here after signing in"
+- "Cancel" link at bottom
+- On success → RX-05 (Prescription List)
+
+Screen RX-04-PKV - PKV Error States:
+- Header with back arrow: "Setup Required"
+- Error card (orange border):
+  - Icon: warning triangle
+  - Title varies by error:
+    - "KVNR Not Found"
+    - "GesundheitsID Not Set Up"
+    - "Online Check-in Required"
+  - Description: Specific instructions for each error
+- Action button: "Contact Your Insurer" or "Open PKV App"
+- "Try Again" link
+- "Use Local Pharmacy Instead" link (gray)
+```
+
+### Prompt 14C: Update GKV NFC Flow (Minor Updates)
+
+```
+Update MedAlpha prototype:
+
+Screen RX-02-GKV (was RX-02) - NFC Instructions:
+- Header with back arrow: "Scan Health Card"
+- Same illustration as before (phone + NFC + card)
+- Title: "Position your Gesundheitskarte"
+- Updated instructions:
+  - "1. Have your health card (eGK) ready"
+  - "2. Find the 6-digit CAN on the card front"
+  - "3. Hold the card against your phone"
+- CAN input field: "Enter 6-digit CAN" (numeric keypad)
+- Info text: "The CAN is printed on your card, usually top right"
+- "Where is my CAN?" help link
+- Primary button: "Start Scanning"
+- Navigates to RX-03-GKV
+
+Screen RX-03-GKV (was RX-03) - NFC Scanning:
+- Same scanning animation
+- Add: "This may take up to 20 seconds"
+- On success → SMS verification screen (new)
+
+Screen RX-03-GKV-SMS - SMS Verification (new):
+- Header: "Verify Your Identity"
+- Icon: phone with message
+- "We sent a code to +49 *** ***78"
+- 6-digit code input field
+- "Resend code" link (with timer)
+- "Didn't receive it? Check your number in profile"
+- On success → RX-05
+
+Screen RX-04-GKV (was RX-04) - GKV Error States:
+- Same as before, but add:
+  - "Card not NFC-enabled" error (older eGK versions)
+  - "CAN incorrect" error
+  - "SMS verification failed" error
+```
+
+### Prompt 14D: Update Prescription List (Insurance-Aware Pricing)
+
+```
+Update MedAlpha prototype:
+
+Screen RX-05 - Prescription List (insurance-aware):
+- Header with back arrow: "Your Prescriptions"
+- Success banner (same as before)
+
+GKV view - Show copay:
+  Card 1:
+  - Checkbox (checked)
+  - Medication: "Metformin 500mg"
+  - Details: "30 tablets, 1x daily"
+  - Price label: "Copay: €5.00"
+  - If exempt: "Copay: €0.00 (exempt)" with info icon
+
+  Card 2:
+  - Checkbox (unchecked)
+  - Medication: "Lisinopril 10mg"
+  - Price label: "Copay: €5.00"
+
+- Copay exemption option (GKV only):
+  - Checkbox: "I have a copay exemption (Befreiungsausweis)"
+  - When checked, all copays show €0.00
+
+PKV view - Show full price:
+  Card 1:
+  - Checkbox (checked)
+  - Medication: "Metformin 500mg"
+  - Details: "30 tablets, 1x daily"
+  - Price label: "Price: €24.95"
+  - Subtext: "Reimbursable by your insurer"
+
+  Card 2:
+  - Checkbox (unchecked)
+  - Medication: "Lisinopril 10mg"
+  - Price label: "Price: €18.50"
+  - Subtext: "Reimbursable by your insurer"
+
+- Bottom button:
+  - GKV: "Continue with €5.00 copay"
+  - PKV: "Continue with €24.95 total"
+```
+
+### Prompt 14E: Update Checkout (Insurance-Aware Payment)
+
+```
+Update MedAlpha prototype:
+
+Screen RX-07-GKV - Checkout (GKV version):
+- Header with back arrow: "Review Order"
+- Pharmacy card (same as before)
+- Delivery info (same)
+
+- Order summary card:
+  - "Metformin 500mg"
+  - "Medication price: €24.95" (gray, struck through)
+  - "Insurance covers: -€19.95"
+  - "Your copay: €5.00"
+  - Divider
+  - "E-Rezept-Rabatt: -€2.50" (green, if applicable)
+  - "Final amount: €2.50"
+
+- Copay exemption note (if checked earlier):
+  - "Copay exempt - €0.00"
+
+- Terms checkbox (same)
+- "Pay €2.50" button (blue)
+- Navigates to RX-08 → RX-09-GKV
+
+Screen RX-07-PKV - Checkout (PKV version):
+- Header with back arrow: "Review Order"
+- Pharmacy card (same)
+- Delivery info (same)
+
+- Order summary card:
+  - "Metformin 500mg"
+  - "Price: €24.95"
+  - Divider
+  - "Privatrezept-Bonus: €2.50 credit" (blue info text)
+  - "You'll receive €2.50 account credit for future orders"
+  - Divider
+  - "Total due now: €24.95"
+
+- Reimbursement info card (light purple background):
+  - "After delivery, you'll receive a Kostenbeleg (receipt)"
+  - "Submit this to your insurer for reimbursement"
+  - "Typical reimbursement: 75-100% depending on your tariff"
+
+- Terms checkbox (same)
+- "Pay €24.95 (reimbursable)" button (blue)
+- Navigates to RX-08 → RX-09-PKV
+```
+
+### Prompt 14F: Update Confirmation (PKV Kostenbeleg)
+
+```
+Update MedAlpha prototype:
+
+Screen RX-09-GKV - Order Confirmation (GKV):
+- Same as current RX-09
+- Green checkmark
+- "Order Placed!"
+- Order details
+- "Track Order" button
+- "Done" button → Home
+
+Screen RX-09-PKV - Order Confirmation (PKV):
+- Green checkmark
+- "Order Placed!"
+- Order details card (same as GKV):
+  - Order number
+  - Estimated delivery
+
+- Kostenbeleg section (new, purple accent):
+  - Header: "Reimbursement Receipt"
+  - Card with document icon:
+    - "Your Kostenbeleg will be available after delivery"
+    - "We'll notify you when it's ready"
+  - "What is a Kostenbeleg?" help link
+
+- Action buttons:
+  - "Track Order" (outlined)
+  - "Done" (filled blue)
+- "Done" → Home
+
+Screen RX-10-PKV - Kostenbeleg Ready (new, accessed from History):
+- Header with back arrow: "Reimbursement Receipt"
+- Order info:
+  - Order #MED-2026-0119
+  - "Metformin 500mg"
+  - "Amount paid: €24.95"
+  - "Date: January 19, 2026"
+- Kostenbeleg preview card:
+  - Document icon
+  - "Kostenbeleg_MED-2026-0119.pdf"
+  - File size: "124 KB"
+- Action buttons (stacked):
+  - "Download PDF" (filled blue)
+  - "Send to PKV App" (outlined blue) - opens share sheet
+  - "Email to Myself" (outlined gray)
+- Info text:
+  - "Submit this document to your insurer for reimbursement"
+  - "Keep a copy for your records"
+```
