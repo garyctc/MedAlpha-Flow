@@ -1,0 +1,129 @@
+## Phase 2: Appointment Booking Flow (4 prompts)
+
+### Prompt 2A: Booking Type Selection
+
+```
+Add to MedAlpha prototype:
+
+Screen AB-01 - Booking Type:
+- Header with back arrow: "Book Appointment"
+- Two large option cards, stacked vertically:
+
+  Card 1 - In-Person:
+  - Icon: building/clinic icon
+  - Title: "In-Person Visit"
+  - Subtitle: "Book a doctor's appointment at a clinic near you"
+  - Arrow indicator on right
+
+  Card 2 - Telemedicine (disabled/grayed):
+  - Icon: video icon
+  - Title: "Video Consultation"
+  - Subtitle: "Coming soon"
+  - Visually disabled (opacity 50%)
+
+- Cards: white, 16px rounded, shadow
+- Tapping In-Person card navigates to AB-02
+
+Navigation: Home -> AB-01 (via "Book Appointment" card)
+```
+
+### Prompt 2B: Select Specialty + Location
+
+```
+Add to MedAlpha prototype:
+
+Screen AB-02 - Select Specialty:
+- Header with back arrow: "Select Specialty"
+- Search bar at top: "Search specialties..."
+- Grid of specialty cards (2 columns):
+  - General Practice (stethoscope icon)
+  - Dermatology (skin icon)
+  - Cardiology (heart icon)
+  - Orthopedics (bone icon)
+  - Gynecology (person icon)
+  - Pediatrics (child icon)
+- Each card: white, icon + label, tappable
+- Tapping a card navigates to AB-03
+
+Screen AB-03 - Select Location:
+- Header with back arrow: "Select Location"
+- Map placeholder (gray rectangle with pin icon)
+- Below map: "Nearby Clinics" section
+- List of 3 clinic cards:
+  - Clinic name (bold)
+  - Address line
+  - Distance: "1.2 km"
+  - Rating: stars + number
+- Each card tappable, navigates to AB-04
+
+Use consistent styling: #0C3D91 for icons, white cards, #F5F7FA background.
+```
+
+### Prompt 2C: Select Doctor + Date/Time
+
+```
+Add to MedAlpha prototype:
+
+Screen AB-04 - Select Doctor:
+- Header with back arrow: "Select Doctor"
+- Filter chips row: "All", "Available Today", "Highest Rated"
+- List of 3 doctor cards:
+  - Avatar circle (gray placeholder)
+  - Doctor name: "Dr. Anna Schmidt"
+  - Specialty: "General Practice"
+  - Rating: 4.8 stars
+  - Next available: "Tomorrow, 9:00 AM"
+  - Right arrow
+- Cards white, tappable, navigate to AB-05
+
+Screen AB-05 - Select Date & Time:
+- Header with back arrow: "Select Date & Time"
+- Calendar component showing current month
+  - Selected date highlighted in blue #0C3D91
+  - Today indicated
+- Below calendar: "Available Times"
+- Time slot chips in rows:
+  - "9:00 AM", "9:30 AM", "10:00 AM", "10:30 AM"
+  - "11:00 AM", "2:00 PM", "2:30 PM", "3:00 PM"
+- Selected time: blue background, white text
+- Unselected: white background, blue border
+- Bottom: "Continue" button (full width, blue)
+- Tapping Continue navigates to AB-06
+```
+
+### Prompt 2D: Review + Confirmation
+
+```
+Add to MedAlpha prototype:
+
+Screen AB-06 - Review Booking:
+- Header with back arrow: "Review Booking"
+- Summary card (white, rounded):
+  - Section: Doctor
+    - Avatar + "Dr. Anna Schmidt"
+    - "General Practice"
+  - Divider line
+  - Section: Location
+    - Clinic icon + "Health Center Berlin"
+    - "Friedrichstraße 123, Berlin"
+  - Divider line
+  - Section: Date & Time
+    - Calendar icon + "January 20, 2026"
+    - Clock icon + "9:00 AM"
+- Each section has "Edit" link on right (blue text)
+- Bottom: "Confirm Booking" button (full width, blue #0C3D91)
+- Tapping Confirm navigates to AB-07
+
+Screen AB-07 - Confirmation Success:
+- Large green checkmark icon centered (use #2E7D32)
+- Title: "Appointment Confirmed!"
+- Subtitle: "Your appointment has been booked successfully."
+- Summary card (compact):
+  - "Dr. Anna Schmidt"
+  - "January 20, 2026 at 9:00 AM"
+  - "Health Center Berlin"
+- Two buttons:
+  - "Add to Calendar" (outlined, blue border)
+  - "Done" (filled blue)
+- Tapping Done navigates to Home
+```

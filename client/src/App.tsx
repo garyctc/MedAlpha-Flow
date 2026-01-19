@@ -10,9 +10,12 @@ import Login from "@/pages/login";
 import Home from "@/pages/home";
 
 // Booking Flow
+import BookingType from "@/pages/booking/type";
 import SpecialtySelect from "@/pages/booking/specialty";
+import LocationSelect from "@/pages/booking/location";
 import DoctorSelect from "@/pages/booking/doctors";
 import BookingCalendar from "@/pages/booking/calendar";
+import BookingReview from "@/pages/booking/review";
 import BookingSuccess from "@/pages/booking/success";
 
 // Prescription Flow
@@ -26,9 +29,13 @@ function Router() {
       <Route path="/home" component={Home} />
       
       {/* Booking Routes */}
-      <Route path="/booking" component={SpecialtySelect} />
+      <Route path="/booking" component={BookingType} />
+      <Route path="/booking/type" component={BookingType} />
+      <Route path="/booking/specialty" component={SpecialtySelect} />
+      <Route path="/booking/location" component={LocationSelect} />
       <Route path="/booking/doctors" component={DoctorSelect} />
       <Route path="/booking/calendar" component={BookingCalendar} />
+      <Route path="/booking/review" component={BookingReview} />
       <Route path="/booking/success" component={BookingSuccess} />
 
       {/* Prescription Routes */}
