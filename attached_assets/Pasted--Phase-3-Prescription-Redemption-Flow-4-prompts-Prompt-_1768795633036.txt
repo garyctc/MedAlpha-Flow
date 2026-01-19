@@ -1,0 +1,154 @@
+## Phase 3: Prescription Redemption Flow (4 prompts)
+
+### Prompt 3A: Redemption Type Selection
+
+```
+Add to MedAlpha prototype:
+
+Screen RX-01 - Redemption Type:
+- Header with back arrow: "Redeem Prescription"
+- Info banner (light blue background #F0F4FA):
+  - "Choose how you'd like to redeem your e-prescription"
+- Two large option cards, stacked:
+
+  Card 1 - Online:
+  - Icon: delivery truck
+  - Title: "Online Pharmacy"
+  - Subtitle: "Get your medication delivered to your door"
+  - Badge: "Powered by Apo Group"
+  - Arrow on right
+
+  Card 2 - Local (for Phase 2, shown but navigates to placeholder):
+  - Icon: map pin
+  - Title: "Local Pharmacy"
+  - Subtitle: "Find a pharmacy near you"
+  - Arrow on right
+
+- Cards white, 16px rounded, shadow
+- Tapping Online navigates to RX-02
+
+Navigation: Home -> RX-01 (via "Redeem Prescription" card)
+```
+
+### Prompt 3B: NFC Scanning Flow
+
+```
+Add to MedAlpha prototype:
+
+Screen RX-02 - NFC Instructions:
+- Header with back arrow: "Scan Health Card"
+- Large illustration area (centered):
+  - Phone icon with NFC waves
+  - Health card icon below/beside
+- Title: "Position your health card"
+- Instructions:
+  - "1. Hold your Gesundheitskarte (health card) ready"
+  - "2. Place it against the back of your phone"
+  - "3. Keep it still until scanning completes"
+- Primary button: "Start Scanning" (full width, blue)
+- Link below: "Having trouble? Enter manually"
+- Tapping Start navigates to RX-03
+
+Screen RX-03 - NFC Scanning:
+- Full screen scanning state
+- Large animated circle/pulse indicator (blue)
+- Text: "Scanning..."
+- Subtext: "Hold your card steady"
+- Phone vibration indicator icon
+- Cancel link at bottom
+- Auto-navigates to RX-04 after 2 seconds (simulate success)
+
+Screen RX-04 - NFC Error (alternate state):
+- Red/orange warning icon
+- Title: "Card Not Detected"
+- Subtitle: "Please try again or enter your prescription manually"
+- Two buttons:
+  - "Try Again" (filled blue)
+  - "Enter Manually" (outlined)
+```
+
+### Prompt 3C: Prescription List + Detail
+
+```
+Add to MedAlpha prototype:
+
+Screen RX-05 - Prescription List:
+- Header with back arrow: "Your Prescriptions"
+- Success banner (green #2E7D32 background, white text):
+  - Checkmark + "2 prescriptions found"
+- List of prescription cards (selectable with checkbox):
+
+  Card 1 (selected):
+  - Checkbox (checked, blue)
+  - Medication: "Metformin 500mg"
+  - Details: "30 tablets, 1x daily"
+  - Issued: "Dr. Schmidt, Jan 15, 2026"
+  - Expires: "Apr 15, 2026"
+
+  Card 2 (not selected):
+  - Checkbox (unchecked)
+  - Medication: "Lisinopril 10mg"
+  - Details: "28 tablets, 1x daily"
+  - Issued: "Dr. Schmidt, Jan 15, 2026"
+  - Expires: "Apr 15, 2026"
+
+- Bottom: "Continue with 1 selected" button (blue)
+- Tapping Continue navigates to RX-06
+
+Screen RX-06 - Prescription Detail:
+- Header with back arrow: "Prescription Details"
+- Card showing full medication info:
+  - Medication name (large): "Metformin 500mg"
+  - Form: Tablets
+  - Quantity: 30
+  - Dosage: 1x daily
+  - Prescribed by: Dr. Anna Schmidt
+  - Date issued: January 15, 2026
+  - Valid until: April 15, 2026
+- "Redeem This Prescription" button (blue)
+- Navigates to RX-07
+```
+
+### Prompt 3D: Pharmacy Confirm + Order
+
+```
+Add to MedAlpha prototype:
+
+Screen RX-07 - Pharmacy Confirm:
+- Header with back arrow: "Confirm Pharmacy"
+- Partner card (white, blue accent border):
+  - "Apo Group" logo placeholder
+  - "Your prescription will be fulfilled by Apo Group Online Pharmacy"
+- Delivery info card:
+  - Truck icon + "Standard Delivery"
+  - "Estimated: 1-2 business days"
+  - "Free shipping on prescriptions"
+- Checkbox: "I accept the terms and conditions"
+- "Continue to Order" button (blue, disabled until checkbox)
+- Navigates to RX-08
+
+Screen RX-08 - Order Review:
+- Header with back arrow: "Review Order"
+- Delivery address card:
+  - "Delivery Address"
+  - "Max Mustermann"
+  - "Musterstraße 123"
+  - "10115 Berlin"
+  - "Edit" link (blue)
+- Order summary card:
+  - "Metformin 500mg" - Covered by insurance
+  - Total: €0.00 (or "Insurance covered")
+- "Place Order" button (blue)
+- Navigates to RX-09
+
+Screen RX-09 - Order Confirmation:
+- Large green checkmark (#2E7D32)
+- Title: "Order Placed!"
+- Subtitle: "Your prescription has been sent to Apo Group"
+- Order details card:
+  - Order number: #MED-2026-0119
+  - Estimated delivery: January 21-22, 2026
+- "Track Order" button (outlined)
+- "Done" button (filled blue)
+- Done navigates to Home
+```

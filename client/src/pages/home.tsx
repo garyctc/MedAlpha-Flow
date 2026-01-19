@@ -40,7 +40,7 @@ export default function Home() {
 
         {/* Feature Cards */}
         <div className="grid grid-cols-2 gap-4">
-          <Link href="/booking">
+          <Link href="/booking/type">
             <motion.button 
               whileTap={{ scale: 0.98 }}
               className="w-full bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex flex-col items-start gap-4 text-left hover:border-primary/20 hover:shadow-md transition-all group"
@@ -55,7 +55,7 @@ export default function Home() {
             </motion.button>
           </Link>
 
-          <Link href="/prescriptions">
+          <Link href="/prescriptions/type">
             <motion.button 
               whileTap={{ scale: 0.98 }}
               className="w-full bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex flex-col items-start gap-4 text-left hover:border-primary/20 hover:shadow-md transition-all group"

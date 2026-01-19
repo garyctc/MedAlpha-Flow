@@ -19,7 +19,16 @@ import BookingReview from "@/pages/booking/review";
 import BookingSuccess from "@/pages/booking/success";
 
 // Prescription Flow
+import PrescriptionType from "@/pages/prescriptions/type";
 import PrescriptionRedeem from "@/pages/prescriptions/redeem";
+import NfcIntro from "@/pages/prescriptions/nfc-intro";
+import NfcScan from "@/pages/prescriptions/nfc-scan";
+import PrescriptionList from "@/pages/prescriptions/list";
+import PrescriptionDetail from "@/pages/prescriptions/detail";
+import PharmacyConfirm from "@/pages/prescriptions/pharmacy";
+import OrderReview from "@/pages/prescriptions/review";
+import OrderSuccess from "@/pages/prescriptions/success";
+
 
 function Router() {
   return (
@@ -39,8 +48,16 @@ function Router() {
       <Route path="/booking/success" component={BookingSuccess} />
 
       {/* Prescription Routes */}
-      <Route path="/prescriptions" component={PrescriptionRedeem} />
+      <Route path="/prescriptions" component={PrescriptionType} />
+      <Route path="/prescriptions/type" component={PrescriptionType} />
       <Route path="/prescriptions/redeem" component={PrescriptionRedeem} />
+      <Route path="/prescriptions/nfc-intro" component={NfcIntro} />
+      <Route path="/prescriptions/nfc-scan" component={NfcScan} />
+      <Route path="/prescriptions/list" component={PrescriptionList} />
+      <Route path="/prescriptions/detail" component={PrescriptionDetail} />
+      <Route path="/prescriptions/pharmacy" component={PharmacyConfirm} />
+      <Route path="/prescriptions/review" component={OrderReview} />
+      <Route path="/prescriptions/success" component={OrderSuccess} />
 
       {/* Placeholders */}
       <Route path="/appointments" component={Home} />
