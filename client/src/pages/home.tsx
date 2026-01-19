@@ -125,7 +125,7 @@ export default function Home() {
                 <Pill size={24} />
               </div>
               <div>
-                <span className="block font-bold text-slate-800 group-hover:text-emerald-700 transition-colors">Redeem Script</span>
+                <span className="block font-bold text-slate-800 group-hover:text-emerald-700 transition-colors">Redeem Prescription</span>
                 <span className="text-xs text-slate-500 mt-1 block">Pharmacy pickup</span>
               </div>
             </motion.button>
