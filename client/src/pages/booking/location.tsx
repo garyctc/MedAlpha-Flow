@@ -58,17 +58,24 @@ export default function LocationSelect() {
                 onClick={() => setLocation(`/booking/doctors?clinic=${clinic.id}`)}
                 className="w-full bg-white p-4 rounded-2xl border border-slate-100 shadow-sm text-left hover:border-primary/30 transition-all flex justify-between items-center group"
               >
-                <div>
-                  <h3 className="font-bold text-slate-900 group-hover:text-primary transition-colors">{clinic.name}</h3>
+                <div className="w-full">
+                  <div className="flex justify-between items-start">
+                    <h3 className="font-bold text-slate-900 group-hover:text-primary transition-colors">{clinic.name}</h3>
+                  </div>
                   <p className="text-sm text-slate-500 mt-1">{clinic.address}</p>
-                  <div className="flex items-center gap-3 mt-2">
-                    <span className="text-xs font-medium text-primary bg-blue-50 px-2 py-0.5 rounded flex items-center gap-1">
-                      <Navigation size={10} />
-                      {clinic.distance}
-                    </span>
-                    <span className="text-xs font-medium text-amber-700 bg-amber-50 px-2 py-0.5 rounded flex items-center gap-1">
-                      <Star size={10} className="fill-current" />
-                      {clinic.rating} ({clinic.reviews})
+                  <div className="flex items-center justify-between mt-3">
+                    <div className="flex items-center gap-3">
+                      <span className="text-xs font-medium text-primary bg-blue-50 px-2 py-0.5 rounded flex items-center gap-1">
+                        <Navigation size={10} />
+                        {clinic.distance}
+                      </span>
+                      <span className="text-xs font-medium text-amber-700 bg-amber-50 px-2 py-0.5 rounded flex items-center gap-1">
+                        <Star size={10} className="fill-current" />
+                        {clinic.rating} ({clinic.reviews})
+                      </span>
+                    </div>
+                    <span className="text-xs font-bold text-primary border border-primary/20 px-3 py-1.5 rounded-lg group-hover:bg-primary group-hover:text-white transition-colors">
+                      Select
                     </span>
                   </div>
                 </div>

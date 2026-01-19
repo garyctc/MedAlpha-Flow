@@ -98,13 +98,16 @@ export default function DoctorSelect() {
                     </div>
                   </div>
                   <p className="text-xs text-slate-500 font-medium">{doc.specialty}</p>
-                  <div className="flex items-center gap-1.5 mt-2 text-xs text-primary font-medium">
-                    <Clock size={12} />
-                    Next: {doc.nextAvailable}
+                  <div className="flex items-center justify-between mt-2">
+                    <div className="flex items-center gap-1.5 text-xs text-primary font-medium">
+                      <Clock size={12} />
+                      Next: {doc.nextAvailable}
+                    </div>
+                    <span className="text-xs font-bold bg-primary text-white px-3 py-1.5 rounded-lg shadow-sm shadow-primary/20">
+                      Book
+                    </span>
                   </div>
                 </div>
-                
-                <ChevronRight className="text-slate-300 group-hover:text-primary transition-colors" size={20} />
               </motion.button>
             ))
           )}
