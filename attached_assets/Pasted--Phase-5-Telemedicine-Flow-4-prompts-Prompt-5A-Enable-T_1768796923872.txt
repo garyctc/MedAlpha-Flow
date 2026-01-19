@@ -1,0 +1,165 @@
+## Phase 5: Telemedicine Flow (4 prompts)
+
+### Prompt 5A: Enable Telemedicine + Schedule Type
+
+```
+Update MedAlpha prototype:
+
+On Screen AB-01 (Booking Type):
+- Enable the Telemedicine card (remove disabled state)
+- Card 2 - Telemedicine:
+  - Icon: video icon
+  - Title: "Video Consultation"
+  - Subtitle: "Speak with a doctor from home"
+  - Badge: "Powered by Teleclinic"
+  - Arrow indicator on right
+- Tapping navigates to TM-01
+
+Add Screen TM-01 - Schedule Type:
+- Header with back arrow: "Video Consultation"
+- Partner badge: "Powered by Teleclinic" (small, top right)
+- Two option cards:
+
+  Card 1 - Next Available:
+  - Clock icon
+  - Title: "Next Available"
+  - Subtitle: "Estimated wait: ~15 minutes"
+  - Arrow on right
+
+  Card 2 - Schedule:
+  - Calendar icon
+  - Title: "Pick a Time"
+  - Subtitle: "Choose a specific appointment slot"
+  - Arrow on right
+
+- Tapping "Next Available" navigates to TM-02
+- Tapping "Pick a Time" navigates to simplified date/time picker (reuse AB-05 pattern)
+```
+
+### Prompt 5B: Symptom Questionnaire
+
+```
+Add to MedAlpha prototype:
+
+Screen TM-02 - Symptom Questionnaire:
+- Header with back arrow: "Describe Your Symptoms"
+- Progress indicator: "Step 1 of 3"
+- Question card:
+  - "What is your main concern today?"
+  - Multi-select chips:
+    - "Cold/Flu symptoms"
+    - "Skin issue"
+    - "Stomach problems"
+    - "Pain/Injury"
+    - "Mental health"
+    - "Other"
+- "Next" button (blue, full width)
+- Navigates to TM-02b
+
+Screen TM-02b - Symptom Details:
+- Header with back arrow: "More Details"
+- Progress indicator: "Step 2 of 3"
+- Questions:
+  - "How long have you had these symptoms?"
+    - Radio options: "Less than 24 hours", "1-3 days", "4-7 days", "More than a week"
+  - "Rate your discomfort (1-10)"
+    - Slider or number selector
+- "Next" button
+- Navigates to TM-02c
+
+Screen TM-02c - Additional Info:
+- Header with back arrow: "Additional Information"
+- Progress indicator: "Step 3 of 3"
+- Text area: "Any other details the doctor should know?"
+- Checkbox: "I have uploaded relevant photos" (optional)
+- "Review" button
+- Navigates to TM-03
+```
+
+### Prompt 5C: Review + Confirmation
+
+```
+Add to MedAlpha prototype:
+
+Screen TM-03 - Review Consultation:
+- Header with back arrow: "Review"
+- Summary card:
+  - Section: Consultation Type
+    - "Video Consultation"
+    - "Next available (~15 min wait)"
+  - Divider
+  - Section: Your Symptoms
+    - Selected symptoms listed
+    - Duration shown
+    - "Edit" link (blue)
+  - Divider
+  - Section: Cost
+    - "Covered by insurance" or "€25.00"
+- Checkbox: "I consent to video consultation terms"
+- "Confirm" button (blue, full width)
+- Navigates to TM-04
+
+Screen TM-04 - Confirmation:
+- Green checkmark icon (#2E7D32)
+- Title: "Consultation Scheduled!"
+- Subtitle: "You'll be connected with a doctor shortly"
+- Info card:
+  - "Estimated wait: ~15 minutes"
+  - "You'll receive a notification when it's your turn"
+- Two buttons:
+  - "Join Waiting Room" (filled blue)
+  - "I'll Wait for Notification" (outlined)
+- "Join Waiting Room" navigates to TM-05
+```
+
+### Prompt 5D: Waiting Room + Call Placeholder
+
+```
+Add to MedAlpha prototype:
+
+Screen TM-05 - Waiting Room:
+- Header: "Waiting Room" (no back arrow, show X to leave)
+- Partner badge: "Powered by Teleclinic"
+- Camera preview area (gray rectangle with camera icon)
+  - Below: "Your camera preview"
+- Status section:
+  - "Position in queue: 2"
+  - "Estimated wait: ~8 minutes"
+  - Animated dots or pulse indicator
+- Test buttons row:
+  - "Test Camera" icon button
+  - "Test Microphone" icon button
+- Tip card (light blue background):
+  - "Tip: Find a quiet, well-lit space for your consultation"
+- "Leave Waiting Room" link (red text, bottom)
+- Auto-transitions to TM-06 (simulate call starting)
+
+Screen TM-06 - Call In Progress (Placeholder):
+- Full screen dark background
+- Center content:
+  - Large video icon
+  - "Call in progress..."
+  - "Dr. Müller"
+  - Call duration: "03:45"
+- Bottom control bar:
+  - Mute button (microphone icon)
+  - Camera toggle (camera icon)
+  - End call button (red, phone icon)
+  - Chat button (message icon)
+- Tapping "End call" navigates to TM-07
+
+Screen TM-07 - Post-Call Summary:
+- Header: "Consultation Complete"
+- Summary card:
+  - "Video Consultation with Dr. Müller"
+  - "Duration: 12 minutes"
+  - "January 19, 2026"
+- Doctor's Notes section:
+  - "Diagnosis: Common cold"
+  - "Recommendation: Rest, fluids, OTC medication"
+- Action cards:
+  - "View Prescription" (if issued) - links to RX flow
+  - "Book Follow-up" - links to booking
+- "Rate Your Consultation" - 5 stars
+- "Done" button - returns to Home
+```

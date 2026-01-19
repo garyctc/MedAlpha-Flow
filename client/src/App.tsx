@@ -29,6 +29,17 @@ import PharmacyConfirm from "@/pages/prescriptions/pharmacy";
 import OrderReview from "@/pages/prescriptions/review";
 import OrderSuccess from "@/pages/prescriptions/success";
 
+// Telehealth Flow
+import ScheduleType from "@/pages/telehealth/schedule-type";
+import SymptomsIntro from "@/pages/telehealth/symptoms-intro";
+import SymptomsDetails from "@/pages/telehealth/symptoms-details";
+import SymptomsInfo from "@/pages/telehealth/symptoms-info";
+import TelehealthReview from "@/pages/telehealth/review";
+import TelehealthConfirmation from "@/pages/telehealth/confirmation";
+import WaitingRoom from "@/pages/telehealth/waiting-room";
+import TelehealthCall from "@/pages/telehealth/call";
+import TelehealthSummary from "@/pages/telehealth/summary";
+
 
 import Placeholder from "@/pages/placeholder";
 
@@ -60,6 +71,17 @@ function AppRoutes() {
       <Route path="/prescriptions/pharmacy" component={PharmacyConfirm} />
       <Route path="/prescriptions/review" component={OrderReview} />
       <Route path="/prescriptions/success" component={OrderSuccess} />
+
+      {/* Telehealth Routes */}
+      <Route path="/telehealth/schedule-type" component={ScheduleType} />
+      <Route path="/telehealth/symptoms-intro" component={SymptomsIntro} />
+      <Route path="/telehealth/symptoms-details" component={SymptomsDetails} />
+      <Route path="/telehealth/symptoms-info" component={SymptomsInfo} />
+      <Route path="/telehealth/review" component={TelehealthReview} />
+      <Route path="/telehealth/confirmation" component={TelehealthConfirmation} />
+      <Route path="/telehealth/waiting-room" component={WaitingRoom} />
+      <Route path="/telehealth/call" component={TelehealthCall} />
+      <Route path="/telehealth/summary" component={TelehealthSummary} />
 
       {/* Placeholders */}
       <Route path="/appointments" component={() => <Placeholder title="Appointments" />} />

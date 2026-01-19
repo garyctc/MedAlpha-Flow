@@ -11,6 +11,7 @@ export default function BookingType() {
       <SubPageHeader title="Book Appointment" backPath="/home" />
       
       <main className="p-5 space-y-4">
+        {/* In-Person Card */}
         <motion.button
           whileTap={{ scale: 0.98 }}
           onClick={() => setLocation("/booking/specialty")}
@@ -28,17 +29,26 @@ export default function BookingType() {
           <ChevronRight className="text-slate-300 group-hover:text-primary transition-colors" />
         </motion.button>
 
-        <div className="w-full bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between opacity-50 cursor-not-allowed">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-slate-100 text-slate-400 rounded-xl flex items-center justify-center">
+        {/* Telemedicine Card */}
+        <motion.button
+          whileTap={{ scale: 0.98 }}
+          onClick={() => setLocation("/telehealth/schedule-type")}
+          className="w-full bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between group hover:border-primary/30 transition-all text-left relative overflow-hidden"
+        >
+          <div className="flex items-center gap-4 relative z-10">
+            <div className="w-12 h-12 bg-purple-50 text-purple-600 rounded-xl flex items-center justify-center">
               <Video size={24} />
             </div>
             <div>
               <h3 className="font-bold text-slate-900 text-lg">Video Consultation</h3>
-              <p className="text-slate-500 text-sm mt-1">Coming soon</p>
+              <p className="text-slate-500 text-sm mt-1">Speak with a doctor from home</p>
+              <span className="inline-block mt-2 text-[10px] font-bold text-purple-600 bg-purple-50 px-2 py-0.5 rounded-full uppercase tracking-wider">
+                  Powered by Teleclinic
+              </span>
             </div>
           </div>
-        </div>
+          <ChevronRight className="text-slate-300 group-hover:text-purple-600 transition-colors relative z-10" />
+        </motion.button>
       </main>
     </div>
   );
