@@ -115,16 +115,45 @@ export default function HistoryPage() {
         <section>
           <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">December 2025</h3>
           <div className="space-y-4">
+            {(activeTab === "all" || activeTab === "video") && (
+              <HistoryCard
+                icon={Video}
+                iconColor="text-red-600"
+                iconBg="bg-red-50"
+                title="Dr. Weber"
+                subtitle="Dermatology • Video"
+                date="Jan 3, 2026"
+                status="Cancelled"
+                statusColor="text-red-600"
+                amount="€0.00"
+                onClick={() => {}}
+              />
+            )}
+            
             {(activeTab === "all" || activeTab === "prescriptions") && (
               <HistoryCard
                 icon={Pill}
                 iconColor="text-emerald-600"
                 iconBg="bg-emerald-50"
-                title="Ibuprofen 400mg"
+                title="Amoxicillin 500mg"
                 subtitle="Prescription • 20 tablets"
-                date="Dec 28, 2025"
-                status="Redeemed"
+                date="Dec 20, 2025"
+                status="Delivered"
                 amount="€5.00"
+                onClick={() => {}}
+              />
+            )}
+
+            {(activeTab === "all" || activeTab === "prescriptions") && (
+              <HistoryCard
+                icon={Pill}
+                iconColor="text-emerald-600"
+                iconBg="bg-emerald-50"
+                title="Vitamin D 1000 IU"
+                subtitle="Prescription • 60 capsules"
+                date="Dec 15, 2025"
+                status="Picked Up"
+                amount="€12.50"
                 onClick={() => {}}
               />
             )}
