@@ -61,8 +61,13 @@ import HistoryPage from "@/pages/history/index";
 // Profile Flow
 import ProfilePage from "@/pages/profile/index";
 import EditProfile from "@/pages/profile/edit";
+import LinkedAccounts from "@/pages/profile/linked-accounts";
 import InsuranceInfoGKV from "@/pages/profile/insurance-gkv";
 import InsuranceInfoPKV from "@/pages/profile/insurance-pkv";
+
+// SSO Flow
+import SSOLoading from "@/pages/sso/loading";
+import CompleteProfile from "@/pages/sso/complete-profile";
 import LanguageSelection from "@/pages/profile/language";
 import HelpSupport from "@/pages/profile/support";
 import PrivacyLegal from "@/pages/profile/legal";
@@ -162,7 +167,12 @@ function AppRoutes() {
       {/* Profile Routes */}
       <Route path="/profile" component={ProfilePage} />
       <Route path="/profile/edit" component={EditProfile} />
+      <Route path="/profile/linked-accounts" component={LinkedAccounts} />
       <Route path="/profile/insurance-gkv" component={InsuranceInfoGKV} />
+
+      {/* SSO Routes */}
+      <Route path="/sso/loading" component={SSOLoading} />
+      <Route path="/sso/complete-profile" component={CompleteProfile} />
       <Route path="/profile/insurance-pkv" component={InsuranceInfoPKV} />
       <Route path="/profile/language" component={LanguageSelection} />
       <Route path="/profile/support" component={HelpSupport} />

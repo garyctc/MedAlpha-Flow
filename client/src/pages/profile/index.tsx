@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { User, Shield, HelpCircle, LogOut, ChevronRight, CreditCard, Bell, FileText, Globe } from "lucide-react";
+import { User, Shield, HelpCircle, LogOut, ChevronRight, CreditCard, Bell, FileText, Globe, Link2 } from "lucide-react";
 import SubPageHeader from "@/components/layout/SubPageHeader";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -47,6 +47,8 @@ export default function ProfilePage() {
                 <MenuRow icon={User} label="Personal Information" onClick={() => setLocation("/profile/edit")} />
                 <div className="h-px bg-slate-50 mx-4"></div>
                 <MenuRow icon={Shield} label="Insurance Information" onClick={handleInsuranceClick} />
+                <div className="h-px bg-slate-50 mx-4"></div>
+                <MenuRow icon={Link2} label="Linked Accounts" value="1 connected" onClick={() => setLocation("/profile/linked-accounts")} />
                 <div className="h-px bg-slate-50 mx-4"></div>
                 <MenuRow icon={Bell} label="Notification Preferences" onClick={() => {}} />
                 <div className="h-px bg-slate-50 mx-4"></div>

@@ -1,0 +1,213 @@
+## Phase 18: SSO Partner Handover (6 prompts)
+
+### Prompt 18A: Update Login Screen with SSO Options
+
+```
+Update MedAlpha prototype:
+
+Screen RE-01 - Login:
+- Keep existing email/password form
+- Add below the "Login" button:
+  - Divider line with text: "or continue with"
+  - Partner button row (horizontal, 2 buttons):
+    - Button 1: Partner logo placeholder + "dm" text
+    - Button 2: Partner logo placeholder + "PAYBACK" text
+  - Style: Outlined buttons, gray border, white background
+  - Button height: 48px
+  - Partner logo: 24x24px placeholder circle
+  - On tap: → SSO-01
+
+- Add at bottom:
+  - Link text: "More partner options" (gray, small)
+  - On tap: Show bottom sheet with full partner list
+
+Partner button styling:
+- Border: 1px solid #E5E7EB
+- Border radius: 8px
+- Background: white
+- Text: #1F2937, 14px, medium weight
+- Logo + text centered horizontally
+- Gap between logo and text: 8px
+
+Keep existing:
+- "Don't have an account? Register" link
+- "Forgot password?" link
+```
+
+### Prompt 18B: Create SSO Loading Screen
+
+```
+Create new MedAlpha screen:
+
+Screen SSO-01 - SSO Loading:
+- Status bar (dark)
+- No header/back button (user cannot go back during auth)
+
+Center content:
+- Partner logo placeholder (64x64px circle, gray)
+- Below logo: "Connecting with dm..." (16px, gray)
+- Below text: Loading spinner (blue, 32px)
+
+After 2 seconds (simulate success):
+- If first-time user: → SSO-02
+- If returning user: → HO-01 (Home)
+
+Error state variant:
+- Red X icon (48px)
+- "Connection failed"
+- "Unable to connect with dm. Please try again."
+- "Try Again" button (primary blue) → retry
+- "Back to Login" button (text only) → RE-01
+
+Frame size: 375x812px (iPhone 14)
+Background: white
+```
+
+### Prompt 18C: Create Profile Completion Screen
+
+```
+Create new MedAlpha screen:
+
+Screen SSO-02 - Complete Your Profile:
+- Header: "Complete Your Profile"
+- No back button (must complete)
+
+Intro text:
+- "Welcome from dm!"
+- "We just need a few more details to get you started."
+- Gray text, 14px
+
+Pre-filled section (read-only):
+- Card with gray background
+- "From your dm account:" label (small, gray)
+- Name: "Max Mustermann" (with lock icon)
+- Email: "max@example.com" (with lock icon)
+- Small text: "Managed by dm" (gray, 12px)
+
+Editable fields:
+- Phone number (required)
+  - Label: "Phone Number"
+  - Placeholder: "+49"
+  - Helper: "For appointment reminders"
+
+- Date of birth (required)
+  - Label: "Date of Birth"
+  - Placeholder: "DD.MM.YYYY"
+  - Date picker on tap
+
+- Insurance (if not from partner):
+  - Label: "Health Insurance"
+  - Dropdown: "Select your insurance"
+  - Options: GKV providers + "Private (PKV)" option
+
+Bottom:
+- "Continue" button (primary blue, full width)
+- On tap: → RE-06 (Terms & Conditions)
+
+Validation:
+- All fields required
+- Phone must be valid German format
+- DOB must be 18+ years ago
+```
+
+### Prompt 18D: Create Linked Accounts Screen
+
+```
+Create new MedAlpha screen:
+
+Screen PR-04 - Linked Accounts:
+- Header with back arrow: "Linked Accounts"
+
+Intro text:
+- "Connect partner accounts to sign in faster and sync your benefits."
+- Gray, 14px, 16px padding
+
+Connected accounts section:
+- Section header: "Connected"
+- Card 1 (connected):
+  - dm logo placeholder (40x40)
+  - "dm" (16px, bold)
+  - "Connected January 15, 2026" (14px, gray)
+  - "Unlink" button (text, red) on right
+  - Tap card → bottom sheet with account details
+
+Available to connect section:
+- Section header: "Available"
+- Card 2 (not connected):
+  - PAYBACK logo placeholder (40x40)
+  - "PAYBACK" (16px, bold)
+  - "Earn points on health bookings" (14px, gray)
+  - "Connect" button (outlined blue) on right
+  - On tap: → Partner auth flow → return with success toast
+
+- Card 3 (not connected):
+  - Insurance logo placeholder (40x40)
+  - "TK - Techniker" (16px, bold)
+  - "Access digital health card" (14px, gray)
+  - "Connect" button (outlined blue) on right
+
+Card styling:
+- White background
+- 16px padding
+- 8px border radius
+- 1px border #E5E7EB
+- 12px gap between cards
+
+Bottom nav: Profile tab active
+```
+
+### Prompt 18E: Update Profile Screen with Linked Accounts
+
+```
+Update MedAlpha prototype:
+
+Screen PR-01 - Profile:
+- Keep existing layout
+- Add new row after "Insurance Information":
+
+New row:
+- Icon: Link icon (or chain icon)
+- Label: "Linked Accounts"
+- Value: "1 connected" (or "None" if no accounts linked)
+- ChevronRight
+- On tap: → PR-04
+
+Row styling:
+- Same as other profile rows
+- Icon color: #5A6178
+- Label: 16px, #1F2937
+- Value: 14px, #5A6178
+
+Position: After "Insurance Information" row, before "Settings" section
+```
+
+### Prompt 18F: Update Edit Profile for Partner-Sourced Fields
+
+```
+Update MedAlpha prototype:
+
+Screen PR-02 - Edit Profile (SSO user variant):
+- Keep existing layout
+
+For fields sourced from partner (name, email):
+- Show field with value (not editable)
+- Gray background (#F9FAFB)
+- Lock icon on right side of field
+- Below field: "Managed by dm" link text (blue, 12px)
+- On tap link: Show info bottom sheet
+
+Info bottom sheet content:
+- Title: "Partner-Managed Field"
+- Text: "This information comes from your dm account. To update it, please visit the dm app or website."
+- "Got it" button (primary blue)
+- "Open dm" button (text only, opens external link)
+
+Editable fields (phone, DOB) remain normal:
+- White background
+- Editable
+- No lock icon
+
+Visual distinction:
+- Partner fields: Gray background, lock icon, "Managed by" label
+- User fields: White background, fully editable
+```

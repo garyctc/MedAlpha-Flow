@@ -67,23 +67,30 @@ export default function EditProfile() {
       <main className="p-5 space-y-5">
         <div className="space-y-3">
           <Label htmlFor="firstName" className="text-sm font-medium text-slate-700">First Name</Label>
-          <Input 
-            id="firstName"
-            value={formData.firstName}
-            onChange={(e) => setFormData({...formData, firstName: e.target.value})}
-            className="h-12 rounded-xl bg-white border-slate-200"
-          />
-          {errors.firstName && <p className="text-xs text-red-600">{errors.firstName}</p>}
+          <div className="relative">
+            <Input 
+              id="firstName"
+              value={formData.firstName}
+              readOnly
+              className="h-12 rounded-xl bg-slate-50 border-slate-200 text-slate-500 pr-10"
+            />
+            <Lock className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+          </div>
+          <button className="text-xs text-primary font-medium hover:underline">Managed by dm</button>
         </div>
 
         <div className="space-y-3">
           <Label htmlFor="lastName" className="text-sm font-medium text-slate-700">Last Name</Label>
-          <Input 
-            id="lastName"
-            value={formData.lastName}
-            onChange={(e) => setFormData({...formData, lastName: e.target.value})}
-            className="h-12 rounded-xl bg-white border-slate-200"
-          />
+          <div className="relative">
+             <Input 
+              id="lastName"
+              value={formData.lastName}
+              readOnly
+              className="h-12 rounded-xl bg-slate-50 border-slate-200 text-slate-500 pr-10"
+            />
+            <Lock className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+          </div>
+          <button className="text-xs text-primary font-medium hover:underline">Managed by dm</button>
         </div>
 
         <div className="space-y-3">
@@ -120,12 +127,12 @@ export default function EditProfile() {
              <Input 
               id="email"
               value={formData.email}
-              onChange={(e) => setFormData({...formData, email: e.target.value})}
-              className={`h-12 rounded-xl bg-white pr-10 ${!errors.email && formData.email ? "border-green-600 focus-visible:ring-green-600" : "border-slate-200"}`}
+              readOnly
+              className="h-12 rounded-xl bg-slate-50 border-slate-200 text-slate-500 pr-10"
             />
-             {!errors.email && formData.email && <Check className="absolute right-3 top-1/2 -translate-y-1/2 text-green-600" size={16} />}
+             <Lock className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
           </div>
-           {errors.email && <p className="text-xs text-red-600">{errors.email}</p>}
+           <button className="text-xs text-primary font-medium hover:underline">Managed by dm</button>
         </div>
       </main>
 

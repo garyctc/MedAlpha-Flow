@@ -81,6 +81,44 @@ export default function Login() {
           >
             {loading ? "Signing in..." : "Sign In"}
           </Button>
+
+          {/* SSO Options */}
+          <div className="relative flex py-2 items-center">
+            <div className="flex-grow border-t border-slate-200"></div>
+            <span className="flex-shrink-0 mx-4 text-slate-400 text-xs font-medium uppercase tracking-wider">or continue with</span>
+            <div className="flex-grow border-t border-slate-200"></div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3">
+             <Button 
+               type="button" 
+               variant="outline" 
+               className="h-12 border-slate-200 text-slate-700 font-medium hover:bg-slate-50 rounded-xl gap-2"
+               onClick={() => setLocation("/sso/loading")}
+             >
+               <div className="w-6 h-6 bg-slate-100 rounded-full flex items-center justify-center">
+                 <span className="text-[8px] font-bold text-slate-500">dm</span>
+               </div>
+               dm
+             </Button>
+             <Button 
+               type="button" 
+               variant="outline" 
+               className="h-12 border-slate-200 text-slate-700 font-medium hover:bg-slate-50 rounded-xl gap-2"
+               onClick={() => setLocation("/sso/loading")}
+             >
+               <div className="w-6 h-6 bg-blue-50 rounded-full flex items-center justify-center">
+                 <span className="text-[6px] font-bold text-blue-700">PB</span>
+               </div>
+               PAYBACK
+             </Button>
+          </div>
+
+          <div className="text-center">
+            <button type="button" className="text-sm text-slate-400 hover:text-slate-600 font-medium" onClick={() => {}}>
+              More partner options
+            </button>
+          </div>
         </form>
 
         <div className="mt-8 text-center text-sm text-slate-500">
