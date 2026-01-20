@@ -26,13 +26,13 @@ export default function BookingType() {
               <p className="text-slate-500 text-sm mt-1">Book a doctor's appointment at a clinic near you</p>
             </div>
           </div>
-          <ChevronRight className="text-slate-300 group-hover:text-primary transition-colors" />
+          <ChevronRight size={20} className="text-slate-300 group-hover:text-primary transition-colors" />
         </motion.button>
 
         {/* Telemedicine Card */}
         <motion.button
           whileTap={{ scale: 0.98 }}
-          onClick={() => setLocation("/telehealth/schedule-type")}
+          onClick={() => setLocation("/teleclinic/simulated")}
           className="w-full bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between group hover:border-primary/30 transition-all text-left relative overflow-hidden"
         >
           <div className="flex items-center gap-4 relative z-10">
@@ -47,7 +47,7 @@ export default function BookingType() {
               </span>
             </div>
           </div>
-          <ChevronRight className="text-slate-300 group-hover:text-purple-600 transition-colors relative z-10" />
+          <ChevronRight size={20} className="text-slate-300 group-hover:text-purple-600 transition-colors relative z-10" />
         </motion.button>
       </main>
     </div>

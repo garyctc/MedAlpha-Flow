@@ -82,7 +82,7 @@ export default function PrescriptionRedeemStart() {
                 </span>
               </div>
             </div>
-            <ChevronRight className="text-slate-300 group-hover:text-primary transition-colors relative z-10" />
+            <ChevronRight size={20} className="text-slate-300 group-hover:text-primary transition-colors relative z-10" />
           </motion.button>
 
           {/* Local Pharmacy Card */}
@@ -100,7 +100,7 @@ export default function PrescriptionRedeemStart() {
                 <p className="text-slate-500 text-sm mt-1">Find a pharmacy near you</p>
               </div>
             </div>
-            <ChevronRight className="text-slate-300 group-hover:text-primary transition-colors" />
+            <ChevronRight size={20} className="text-slate-300 group-hover:text-primary transition-colors" />
           </motion.button>
         </div>
       </main>

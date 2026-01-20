@@ -47,6 +47,9 @@ import WaitingRoom from "@/pages/telehealth/waiting-room";
 import TelehealthCall from "@/pages/telehealth/call";
 import TelehealthSummary from "@/pages/telehealth/summary";
 
+// Teleclinic Integration
+import TeleclinicSimulated from "@/pages/teleclinic/simulated";
+
 // Pharmacy Search Flow
 import PharmacyMap from "@/pages/pharmacy/map";
 import PharmacyList from "@/pages/pharmacy/list";
@@ -155,6 +158,9 @@ function AppRoutes() {
       <Route path="/telehealth/waiting-room" component={WaitingRoom} />
       <Route path="/telehealth/call" component={TelehealthCall} />
       <Route path="/telehealth/summary" component={TelehealthSummary} />
+
+      {/* Teleclinic Integration */}
+      <Route path="/teleclinic/simulated" component={TeleclinicSimulated} />
 
       {/* Pharmacy Search Routes */}
       <Route path="/pharmacy/map" component={PharmacyMap} />
