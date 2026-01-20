@@ -12,34 +12,32 @@ export default function PrescriptionType() {
 
   return (
     <div className="min-h-screen bg-background pb-24">
-      <header className="px-5 py-4 pt-12 bg-white border-b border-slate-100 flex justify-between items-center sticky top-0 z-10">
-        <h1 className="font-bold text-xl text-slate-900 font-display">Prescriptions</h1>
+      <header className="bg-white border-b border-slate-100 sticky top-0 z-10">
+        <div className="px-5 py-4 pt-12">
+          <h1 className="font-bold text-xl text-slate-900 font-display mb-4">Prescriptions</h1>
+          
+          <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
+            {[
+              { id: "active", label: "Active" },
+              { id: "delivered", label: "Delivered" }
+            ].map((option) => (
+              <button
+                key={option.id}
+                onClick={() => setActiveTab(option.id as any)}
+                className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors whitespace-nowrap ${
+                  activeTab === option.id
+                    ? "bg-slate-900 text-white border-slate-900"
+                    : "bg-white text-slate-600 border-slate-200 hover:border-slate-300"
+                }`}
+              >
+                {option.label}
+              </button>
+            ))}
+          </div>
+        </div>
       </header>
       
       <main className="p-5 space-y-6">
-        {/* Tabs */}
-        <div className="flex gap-2 mb-2 border-b border-slate-200">
-          <button 
-            onClick={() => setActiveTab("active")}
-            className={`px-4 py-3 text-sm font-medium transition-colors border-b-2 -mb-[2px] ${
-              activeTab === "active" 
-                ? "border-primary text-primary" 
-                : "border-transparent text-slate-500"
-            }`}
-          >
-            Active
-          </button>
-          <button 
-            onClick={() => setActiveTab("delivered")}
-            className={`px-4 py-3 text-sm font-medium transition-colors border-b-2 -mb-[2px] ${
-              activeTab === "delivered" 
-                ? "border-primary text-primary" 
-                : "border-transparent text-slate-500"
-            }`}
-          >
-            Delivered
-          </button>
-        </div>
 
         {activeTab === "active" ? (
           /* Active Content */
