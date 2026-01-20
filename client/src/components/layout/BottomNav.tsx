@@ -17,8 +17,8 @@ export default function BottomNav() {
   if (location === "/" || location === "/login") return null;
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-slate-200 h-[80px] pb-safe">
-      <div className="grid grid-cols-5 items-center h-14 max-w-[375px] mx-auto w-full">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-slate-200 h-[80px] pb-safe max-w-[375px] mx-auto">
+      <div className="grid grid-cols-5 items-center h-14 w-full">
         {tabs.map((tab) => {
           const isActive = location === tab.path || location.startsWith(tab.path + "/"); // Simple active check
           return (

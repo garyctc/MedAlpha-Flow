@@ -139,8 +139,8 @@ export default function AppointmentsPage() {
         </div>
       </header>
       
-      <main className="p-5 relative min-h-[calc(100vh-140px)]">
-        
+      <main className="p-5 relative">
+
         {/* Note: Removed tabs for Upcoming/Past as History is now in a separate tab */}
 
         <div className="space-y-4">
@@ -163,16 +163,19 @@ export default function AppointmentsPage() {
           )}
         </div>
 
-        {/* FAB */}
+      </main>
+
+      {/* FAB */}
+      <div className="fixed bottom-[160px] left-0 right-0 max-w-[375px] mx-auto pointer-events-none z-20">
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => setLocation("/booking/type")}
-          className="fixed bottom-24 right-5 w-14 h-14 bg-primary text-white rounded-full shadow-lg shadow-primary/30 flex items-center justify-center z-20"
+          className="absolute right-5 w-14 h-14 bg-primary text-white rounded-full shadow-lg shadow-primary/30 flex items-center justify-center pointer-events-auto"
         >
           <Plus size={28} />
         </motion.button>
-      </main>
+      </div>
     </div>
   );
 }

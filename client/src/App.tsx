@@ -199,9 +199,11 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <Router>
-        <div className="min-h-screen font-sans bg-background text-foreground antialiased selection:bg-primary/20">
-          <AppRoutes />
-          <BottomNav />
+        <div className="min-h-screen font-sans bg-background text-foreground antialiased selection:bg-primary/20 flex items-start justify-center">
+          <div className="w-full max-w-[375px] relative">
+            <AppRoutes />
+            <BottomNav />
+          </div>
           <Toaster />
         </div>
       </Router>

@@ -46,16 +46,19 @@ export default function PrescriptionType() {
              />
           </div>
 
-        {/* FAB */}
+      </main>
+
+      {/* FAB */}
+      <div className="fixed bottom-[160px] left-0 right-0 max-w-[375px] mx-auto pointer-events-none z-20">
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => setLocation("/prescriptions/redeem-start")}
-          className="fixed bottom-24 right-5 w-14 h-14 bg-primary text-white rounded-full shadow-lg shadow-primary/30 flex items-center justify-center z-20"
+          className="absolute right-5 w-14 h-14 bg-primary text-white rounded-full shadow-lg shadow-primary/30 flex items-center justify-center pointer-events-auto"
         >
           <Plus size={28} />
         </motion.button>
-      </main>
+      </div>
     </div>
   );
 }
