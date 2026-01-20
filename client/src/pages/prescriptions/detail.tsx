@@ -93,7 +93,7 @@ export default function PrescriptionDetail() {
         </main>
 
         {/* Sticky Bottom Button */}
-        <div className="fixed bottom-0 left-0 right-0 p-5 bg-white border-t border-slate-100 pb-safe z-10 flex gap-3">
+        <div className="fixed bottom-0 left-0 right-0 p-5 bg-white border-t border-slate-100 pb-safe z-[60] flex gap-3">
            <Button variant="outline" className="flex-1 h-12 rounded-xl text-primary border-primary hover:bg-primary/5">
              <Download size={18} className="mr-2" /> Receipt
            </Button>
@@ -164,7 +164,7 @@ export default function PrescriptionDetail() {
       </main>
 
       {/* Sticky Bottom Button */}
-      <div className="fixed bottom-0 left-0 right-0 p-5 bg-white border-t border-slate-100 pb-safe z-10">
+      <div className="fixed bottom-0 left-0 right-0 p-5 bg-white border-t border-slate-100 pb-safe z-[60]">
         <div className="max-w-[375px] mx-auto">
            <Button 
             className="w-full h-12 text-base rounded-xl bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/20"
