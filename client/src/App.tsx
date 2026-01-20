@@ -52,8 +52,8 @@ import PharmacyMap from "@/pages/pharmacy/map";
 import PharmacyList from "@/pages/pharmacy/list";
 import PharmacyDetail from "@/pages/pharmacy/detail";
 
-// History Flow - Removed
-// import HistoryPage from "@/pages/history/index";
+// History Flow
+import HistoryPage from "@/pages/history/index";
 // import AppointmentDetail from "@/pages/history/appointment-detail";
 // import HistoryPrescriptionDetail from "@/pages/history/prescription-detail";
 // import ConsultationDetail from "@/pages/history/consultation-detail";
@@ -155,6 +155,9 @@ function AppRoutes() {
       <Route path="/pharmacy/map" component={PharmacyMap} />
       <Route path="/pharmacy/list" component={PharmacyList} />
       <Route path="/pharmacy/detail" component={PharmacyDetail} />
+
+      {/* History Routes */}
+      <Route path="/history" component={HistoryPage} />
 
       {/* Profile Routes */}
       <Route path="/profile" component={ProfilePage} />

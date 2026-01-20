@@ -97,8 +97,8 @@ export default function AppointmentsPage() {
   const [filterType, setFilterType] = useState<"all" | "in-person" | "video">("all");
 
   const filteredAppointments = SAMPLE_APPOINTMENTS.filter(apt => {
-    // Filter by tab status
-    if (apt.status !== activeTab) return false;
+    // Only show upcoming appointments in this view, as past ones are in History tab
+    if (apt.status !== "upcoming") return false;
     
     // Filter by type
     if (filterType === "all") return true;
@@ -156,41 +156,16 @@ export default function AppointmentsPage() {
       </header>
       
       <main className="p-5 relative min-h-[calc(100vh-140px)]">
-        {/* Tabs */}
-        <div className="flex gap-2 mb-6 border-b border-slate-200">
-          <button 
-            onClick={() => setActiveTab("upcoming")}
-            className={`px-4 py-3 text-sm font-medium transition-colors border-b-2 -mb-[2px] ${
-              activeTab === "upcoming" 
-                ? "border-primary text-primary" 
-                : "border-transparent text-slate-500"
-            }`}
-          >
-            Upcoming
-          </button>
-          <button 
-            onClick={() => setActiveTab("past")}
-            className={`px-4 py-3 text-sm font-medium transition-colors border-b-2 -mb-[2px] ${
-              activeTab === "past" 
-                ? "border-primary text-primary" 
-                : "border-transparent text-slate-500"
-            }`}
-          >
-            Past
-          </button>
-        </div>
+        
+        {/* Note: Removed tabs for Upcoming/Past as History is now in a separate tab */}
 
         <div className="space-y-4">
-          {activeTab === "past" && filteredAppointments.length > 0 && (
-             <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">January 2026</h3>
-          )}
-
           {filteredAppointments.length > 0 ? (
             filteredAppointments.map((apt) => (
               <AppointmentCard 
                 key={apt.id}
                 data={apt}
-                onClick={() => apt.status === "upcoming" ? setLocation("/appointments/detail") : {}}
+                onClick={() => setLocation("/appointments/detail")}
               />
             ))
           ) : (
@@ -198,7 +173,8 @@ export default function AppointmentsPage() {
                <div className="w-12 h-12 bg-slate-50 rounded-full flex items-center justify-center mb-3">
                  <Filter size={20} className="text-slate-300" />
                </div>
-               <p className="text-sm">No {filterType !== 'all' ? filterType : ''} appointments found</p>
+               <p className="text-sm">No upcoming {filterType !== 'all' ? filterType : ''} appointments</p>
+               <Button variant="link" onClick={() => setLocation("/history")} className="mt-2 text-primary">View History</Button>
              </div>
           )}
         </div>
