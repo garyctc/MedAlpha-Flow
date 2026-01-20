@@ -8,39 +8,18 @@ import { Checkbox } from "@/components/ui/checkbox";
 
 export default function PrescriptionType() {
   const [, setLocation] = useLocation();
-  const [activeTab, setActiveTab] = useState("active");
 
   return (
     <div className="min-h-screen bg-background pb-24">
       <header className="bg-white border-b border-slate-100 sticky top-0 z-10">
         <div className="px-5 py-4 pt-12">
-          <h1 className="font-bold text-xl text-slate-900 font-display mb-4">Prescriptions</h1>
-          
-          <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
-            {[
-              { id: "active", label: "Active" },
-              { id: "delivered", label: "Delivered" }
-            ].map((option) => (
-              <button
-                key={option.id}
-                onClick={() => setActiveTab(option.id as any)}
-                className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors whitespace-nowrap ${
-                  activeTab === option.id
-                    ? "bg-slate-900 text-white border-slate-900"
-                    : "bg-white text-slate-600 border-slate-200 hover:border-slate-300"
-                }`}
-              >
-                {option.label}
-              </button>
-            ))}
-          </div>
+          <h1 className="font-bold text-xl text-slate-900 font-display">Prescriptions</h1>
         </div>
       </header>
       
       <main className="p-5 space-y-6">
 
-        {activeTab === "active" ? (
-          /* Active Content */
+          {/* Active Content */}
           <div className="space-y-4">
              {/* Reusing existing prescription list items statically for now as per design */}
              <ActivePrescriptionCard 
@@ -60,58 +39,6 @@ export default function PrescriptionType() {
                onClick={() => setLocation("/prescriptions/detail")}
              />
           </div>
-        ) : (
-          /* Delivered Content */
-          <div className="space-y-6">
-            <div>
-              <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">January 2026</h3>
-              <div className="space-y-4">
-                <DeliveredCard 
-                  status="Delivered"
-                  statusColor="bg-emerald-50 text-emerald-700"
-                  medication="Metformin 500mg"
-                  detail="30 tablets"
-                  date="Delivered Jan 18, 2026"
-                  pharmacy="Apo Group"
-                  onClick={() => setLocation("/prescriptions/detail?status=delivered")}
-                />
-                <DeliveredCard 
-                  status="Delivered"
-                  statusColor="bg-emerald-50 text-emerald-700"
-                  medication="Ibuprofen 400mg"
-                  detail="20 tablets"
-                  date="Delivered Jan 12, 2026"
-                  pharmacy="dm Pharmacy Berlin"
-                  onClick={() => setLocation("/prescriptions/detail?status=delivered")}
-                />
-                <DeliveredCard 
-                  status="Picked up"
-                  statusColor="bg-emerald-50 text-emerald-700"
-                  medication="Vitamin D 1000 IU"
-                  detail="60 capsules"
-                  date="Picked up Jan 8, 2026"
-                  pharmacy="Local Pharmacy"
-                  onClick={() => setLocation("/prescriptions/detail?status=pickedup")}
-                />
-              </div>
-            </div>
-
-            <div>
-              <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">December 2025</h3>
-              <div className="space-y-4">
-                 <DeliveredCard 
-                  status="Delivered"
-                  statusColor="bg-emerald-50 text-emerald-700"
-                  medication="Amoxicillin 500mg"
-                  detail="21 tablets"
-                  date="Delivered Dec 20, 2025"
-                  pharmacy="Apo Group"
-                  onClick={() => setLocation("/prescriptions/detail?status=delivered")}
-                />
-              </div>
-            </div>
-          </div>
-        )}
 
         {/* FAB */}
         <motion.button
