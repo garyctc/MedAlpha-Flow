@@ -75,23 +75,27 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-background pb-24" data-testid="home-screen">
       {/* Header */}
-      <header className="bg-white px-6 pt-12 pb-6 border-b border-slate-100 flex justify-between items-center sticky top-0 z-10">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 flex items-center justify-center">
-            <img src={dmLogo} alt="DM Logo" className="w-full h-full object-contain" />
+      <header className="bg-white border-b border-slate-100 sticky top-0 z-10">
+        <div className="px-5 py-4 pt-12">
+          <div className="flex justify-between items-center min-h-10">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 flex items-center justify-center">
+                <img src={dmLogo} alt="DM Logo" className="w-full h-full object-contain" />
+              </div>
+              <h1 className="text-xl font-bold text-slate-900 font-display tracking-tight">MedAlpha</h1>
+            </div>
+            <div className="flex items-center gap-4">
+               <button className="text-slate-400 hover:text-primary transition-colors relative">
+                 <Bell size={24} />
+                 <span className="absolute top-0 right-0 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white"></span>
+               </button>
+               <Link href="/profile">
+                 <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-slate-100 shadow-sm cursor-pointer">
+                   <img src={avatarImage} alt="Profile" className="w-full h-full object-cover" />
+                 </div>
+               </Link>
+            </div>
           </div>
-          <h1 className="text-xl font-bold text-slate-900 font-display tracking-tight">MedAlpha</h1>
-        </div>
-        <div className="flex items-center gap-4">
-           <button className="text-slate-400 hover:text-primary transition-colors relative">
-             <Bell size={24} />
-             <span className="absolute top-0 right-0 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white"></span>
-           </button>
-           <Link href="/profile">
-             <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-slate-100 shadow-sm cursor-pointer">
-               <img src={avatarImage} alt="Profile" className="w-full h-full object-cover" />
-             </div>
-           </Link>
         </div>
       </header>
 

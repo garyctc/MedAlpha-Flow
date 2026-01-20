@@ -5,6 +5,7 @@ import { Plus, ChevronRight, Package, Check, Calendar, Info } from "lucide-react
 import SubPageHeader from "@/components/layout/SubPageHeader";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import dmLogo from "@/assets/dm-logo.svg";
 
 export default function PrescriptionType() {
   const [, setLocation] = useLocation();
@@ -13,7 +14,12 @@ export default function PrescriptionType() {
     <div className="min-h-screen bg-background pb-24">
       <header className="bg-white border-b border-slate-100 sticky top-0 z-10">
         <div className="px-5 py-4 pt-12">
-          <h1 className="font-bold text-xl text-slate-900 font-display">Prescriptions</h1>
+          <div className="flex items-center gap-2 min-h-10">
+            <div className="w-8 h-8 flex items-center justify-center">
+              <img src={dmLogo} alt="DM Logo" className="w-full h-full object-contain" />
+            </div>
+            <h1 className="font-bold text-xl text-slate-900 font-display">Prescriptions</h1>
+          </div>
         </div>
       </header>
       

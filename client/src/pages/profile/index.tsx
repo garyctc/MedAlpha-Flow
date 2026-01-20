@@ -4,6 +4,7 @@ import SubPageHeader from "@/components/layout/SubPageHeader";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import avatarImage from "@assets/generated_images/professional_user_avatar_for_healthcare_app.png";
+import dmLogo from "@/assets/dm-logo.svg";
 
 export default function ProfilePage() {
   const [, setLocation] = useLocation();
@@ -26,7 +27,12 @@ export default function ProfilePage() {
   return (
     <div className="min-h-screen bg-background pb-24">
       <header className="px-5 py-4 pt-12 bg-white border-b border-slate-100 flex justify-between items-center sticky top-0 z-10">
-        <h1 className="font-bold text-xl text-slate-900 font-display">Profile</h1>
+        <div className="flex items-center gap-2 min-h-10">
+          <div className="w-8 h-8 flex items-center justify-center">
+            <img src={dmLogo} alt="DM Logo" className="w-full h-full object-contain" />
+          </div>
+          <h1 className="font-bold text-xl text-slate-900 font-display">Profile</h1>
+        </div>
       </header>
       
       <main className="p-5 space-y-8">

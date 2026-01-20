@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Calendar, Filter, ChevronRight, Plus, MapPin, Clock, Video, CheckCircle2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import dmLogo from "@/assets/dm-logo.svg";
 
 type Appointment = {
   id: string;
@@ -108,7 +109,12 @@ export default function AppointmentsPage() {
     <div className="min-h-screen bg-background pb-24">
       <header className="bg-white border-b border-slate-100 sticky top-0 z-20">
         <div className="px-5 py-4 pt-12">
-          <h1 className="font-bold text-xl text-slate-900 font-display mb-4">Appointments</h1>
+          <div className="flex items-center gap-2 mb-4 min-h-10">
+            <div className="w-8 h-8 flex items-center justify-center">
+              <img src={dmLogo} alt="DM Logo" className="w-full h-full object-contain" />
+            </div>
+            <h1 className="font-bold text-xl text-slate-900 font-display">Appointments</h1>
+          </div>
           
           <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
             {[

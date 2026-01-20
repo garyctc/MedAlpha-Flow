@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Calendar, Pill, Search, Filter, ChevronRight, FileText, Download, Video } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import dmLogo from "@/assets/dm-logo.svg";
 
 export default function HistoryPage() {
   const [, setLocation] = useLocation();
@@ -12,7 +13,12 @@ export default function HistoryPage() {
   return (
     <div className="min-h-screen bg-background pb-24">
       <header className="px-5 py-4 pt-12 bg-white border-b border-slate-100 sticky top-0 z-10">
-        <h1 className="font-bold text-xl text-slate-900 font-display mb-4">History</h1>
+        <div className="flex items-center gap-2 mb-4 min-h-10">
+          <div className="w-8 h-8 flex items-center justify-center">
+            <img src={dmLogo} alt="DM Logo" className="w-full h-full object-contain" />
+          </div>
+          <h1 className="font-bold text-xl text-slate-900 font-display">History</h1>
+        </div>
         
         {/* Search */}
         <div className="relative mb-4">

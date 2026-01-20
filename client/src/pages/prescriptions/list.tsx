@@ -67,7 +67,7 @@ export default function PrescriptionList() {
   return (
     <div className="min-h-screen bg-background pb-32">
       <div className="bg-white border-b border-slate-100 sticky top-0 z-10">
-        <SubPageHeader title="Your Prescriptions" backPath="/prescriptions/type" className="border-none pb-2" />
+        <SubPageHeader title="Your Prescriptions" backPath="/prescriptions/type" className="border-none pb-2" showLogo={true} />
         <div className="px-4 pb-4">
            <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
             {[
