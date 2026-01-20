@@ -93,7 +93,6 @@ const SAMPLE_APPOINTMENTS: Appointment[] = [
 export default function AppointmentsPage() {
   const [, setLocation] = useLocation();
   const [activeTab, setActiveTab] = useState<"upcoming" | "past">("upcoming");
-  const [showFilter, setShowFilter] = useState(false);
   const [filterType, setFilterType] = useState<"all" | "in-person" | "video">("all");
 
   const filteredAppointments = SAMPLE_APPOINTMENTS.filter(apt => {
@@ -108,51 +107,30 @@ export default function AppointmentsPage() {
   return (
     <div className="min-h-screen bg-background pb-24">
       <header className="bg-white border-b border-slate-100 sticky top-0 z-20">
-        <div className="px-5 py-4 pt-12 flex justify-between items-center">
-          <h1 className="font-bold text-xl text-slate-900 font-display">Appointments</h1>
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            className={cn("gap-2 transition-colors", showFilter && "text-primary bg-primary/5")}
-            onClick={() => setShowFilter(!showFilter)}
-          >
-            {showFilter ? <X size={16} /> : <Filter size={16} />} 
-            {showFilter ? "Close" : "Filter"}
-          </Button>
+        <div className="px-5 py-4 pt-12">
+          <h1 className="font-bold text-xl text-slate-900 font-display mb-4">Appointments</h1>
+          
+          <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
+            {[
+              { id: "all", label: "All Types" },
+              { id: "in-person", label: "In-Person" },
+              { id: "video", label: "Video" }
+            ].map((option) => (
+              <button
+                key={option.id}
+                onClick={() => setFilterType(option.id as any)}
+                className={cn(
+                  "px-3 py-1.5 rounded-full text-xs font-medium border transition-colors whitespace-nowrap",
+                  filterType === option.id
+                    ? "bg-slate-900 text-white border-slate-900"
+                    : "bg-white text-slate-600 border-slate-200 hover:border-slate-300"
+                )}
+              >
+                {option.label}
+              </button>
+            ))}
+          </div>
         </div>
-        
-        {/* Filter Options */}
-        <AnimatePresence>
-          {showFilter && (
-            <motion.div 
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              className="px-5 pb-4 overflow-hidden"
-            >
-              <div className="flex gap-2">
-                {[
-                  { id: "all", label: "All Types" },
-                  { id: "in-person", label: "In-Person" },
-                  { id: "video", label: "Video" }
-                ].map((option) => (
-                  <button
-                    key={option.id}
-                    onClick={() => setFilterType(option.id as any)}
-                    className={cn(
-                      "px-3 py-1.5 rounded-full text-xs font-medium border transition-colors",
-                      filterType === option.id
-                        ? "bg-slate-900 text-white border-slate-900"
-                        : "bg-white text-slate-600 border-slate-200 hover:border-slate-300"
-                    )}
-                  >
-                    {option.label}
-                  </button>
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </header>
       
       <main className="p-5 relative min-h-[calc(100vh-140px)]">

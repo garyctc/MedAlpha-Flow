@@ -35,6 +35,7 @@ export default function PrescriptionList() {
   const [loading, setLoading] = useState(true);
   const [insuranceType, setInsuranceType] = useState<"gkv" | "pkv">("gkv");
   const [exempt, setExempt] = useState(false);
+  const [activeTab, setActiveTab] = useState<"active" | "redeemed">("active");
 
   useEffect(() => {
     const saved = localStorage.getItem("user-insurance-type") as "gkv" | "pkv";
@@ -65,7 +66,29 @@ export default function PrescriptionList() {
 
   return (
     <div className="min-h-screen bg-background pb-32">
-      <SubPageHeader title="Your Prescriptions" backPath="/prescriptions/type" />
+      <div className="bg-white border-b border-slate-100 sticky top-0 z-10">
+        <SubPageHeader title="Your Prescriptions" backPath="/prescriptions/type" className="border-none pb-2" />
+        <div className="px-4 pb-4">
+           <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
+            {[
+              { id: "active", label: "Active" },
+              { id: "redeemed", label: "Redeemed" }
+            ].map((option) => (
+              <button
+                key={option.id}
+                onClick={() => setActiveTab(option.id as any)}
+                className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors whitespace-nowrap ${
+                  activeTab === option.id
+                    ? "bg-slate-900 text-white border-slate-900"
+                    : "bg-white text-slate-600 border-slate-200 hover:border-slate-300"
+                }`}
+              >
+                {option.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
       
       <main className="p-5 space-y-6">
         {/* Success Banner */}
