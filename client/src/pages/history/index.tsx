@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { useLocation } from "wouter";
 import { motion } from "framer-motion";
-import { Calendar, Pill, Search, Filter, ChevronRight, FileText, Download } from "lucide-react";
+import { Calendar, Pill, Search, Filter, ChevronRight, FileText, Download, Video } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 export default function HistoryPage() {
   const [, setLocation] = useLocation();
-  const [activeTab, setActiveTab] = useState<"all" | "appointments" | "prescriptions">("all");
+  const [activeTab, setActiveTab] = useState<"all" | "in-person" | "prescriptions" | "video">("all");
 
   return (
     <div className="min-h-screen bg-background pb-24">
@@ -25,17 +25,22 @@ export default function HistoryPage() {
 
         {/* Filter Tabs */}
         <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
-          {["all", "appointments", "prescriptions"].map((tab) => (
+          {[
+            { id: "all", label: "All" },
+            { id: "in-person", label: "In-Person" },
+            { id: "prescriptions", label: "Prescriptions" },
+            { id: "video", label: "Video" }
+          ].map((tab) => (
             <button
-              key={tab}
-              onClick={() => setActiveTab(tab as any)}
-              className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors whitespace-nowrap capitalize ${
-                activeTab === tab
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id as any)}
+              className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors whitespace-nowrap ${
+                activeTab === tab.id
                   ? "bg-slate-900 text-white border-slate-900"
                   : "bg-white text-slate-600 border-slate-200 hover:border-slate-300"
               }`}
             >
-              {tab}
+              {tab.label}
             </button>
           ))}
         </div>
@@ -47,7 +52,7 @@ export default function HistoryPage() {
           <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">January 2026</h3>
           <div className="space-y-4">
             
-            {(activeTab === "all" || activeTab === "appointments") && (
+            {(activeTab === "all" || activeTab === "in-person") && (
               <HistoryCard
                 icon={Calendar}
                 iconColor="text-blue-600"
@@ -75,9 +80,9 @@ export default function HistoryPage() {
               />
             )}
 
-            {(activeTab === "all" || activeTab === "appointments") && (
+            {(activeTab === "all" || activeTab === "video") && (
               <HistoryCard
-                icon={Calendar}
+                icon={Video}
                 iconColor="text-indigo-600"
                 iconBg="bg-indigo-50"
                 title="Dr. Weber"
@@ -89,7 +94,7 @@ export default function HistoryPage() {
               />
             )}
             
-             {(activeTab === "all" || activeTab === "appointments") && (
+             {(activeTab === "all" || activeTab === "in-person") && (
               <HistoryCard
                 icon={Calendar}
                 iconColor="text-red-600"
