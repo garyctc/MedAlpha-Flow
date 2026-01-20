@@ -92,7 +92,6 @@ body {
   position: relative;
   box-shadow: 0 0 20px rgba(0,0,0,0.1);
   overflow-x: hidden;
-  filter: grayscale(100%);
 }
 
 /* Typography Utilities */
