@@ -1,23 +1,28 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
-import { Lock, AlertCircle, Check } from "lucide-react";
+import { Lock, AlertCircle } from "lucide-react";
 import SubPageHeader from "@/components/layout/SubPageHeader";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useToast } from "@/hooks/use-toast";
+import { getUserProfile, saveUserProfile } from "@/lib/storage";
 
 export default function EditProfile() {
   const [, setLocation] = useLocation();
+  const { toast } = useToast();
+
+  // Initialize from localStorage
+  const profile = getUserProfile();
   const [formData, setFormData] = useState({
-    firstName: "Max",
-    lastName: "Mustermann",
-    phone: "+49 151 12345678",
-    email: "max@example.com"
+    firstName: profile?.firstName || "Max",
+    lastName: profile?.lastName || "Mustermann",
+    phone: profile?.phone || "+49 151 12345678",
+    email: profile?.email || "max@example.com",
+    dateOfBirth: profile?.dateOfBirth || "1990-03-15"
   });
 
-  // Read address from localStorage
-  const addressData = JSON.parse(localStorage.getItem("user-address") || "{}");
-  const hasAddress = addressData.street && addressData.city && addressData.postalCode;
+  const hasAddress = profile?.street && profile?.city && profile?.postalCode;
 
   const [errors, setErrors] = useState({
     phone: "",
@@ -59,7 +64,23 @@ export default function EditProfile() {
 
   const handleSave = () => {
     if (validate()) {
-      // Mock save
+      // Save to localStorage
+      saveUserProfile({
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        phone: formData.phone,
+        email: formData.email,
+        dateOfBirth: formData.dateOfBirth,
+        street: profile?.street || "",
+        city: profile?.city || "",
+        postalCode: profile?.postalCode || ""
+      });
+
+      toast({
+        title: "Profile updated",
+        description: "Your changes have been saved successfully.",
+      });
+
       setLocation("/profile");
     }
   };
@@ -101,8 +122,8 @@ export default function EditProfile() {
           <Label className="text-sm font-medium text-slate-700">Date of Birth</Label>
           <div className="relative">
             <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
-            <Input 
-              value="15.03.1990"
+            <Input
+              value={formData.dateOfBirth.split('-').reverse().join('.')}
               readOnly
               className="h-12 rounded-xl bg-slate-50 border-slate-200 pl-10 text-slate-500"
             />
@@ -145,7 +166,7 @@ export default function EditProfile() {
             <>
               <div className="relative">
                 <Input
-                  value={addressData.street}
+                  value={profile?.street || ""}
                   readOnly
                   className="h-12 rounded-xl bg-slate-50 border-slate-200 text-slate-500 pr-10"
                 />
@@ -154,7 +175,7 @@ export default function EditProfile() {
               <div className="grid grid-cols-2 gap-3">
                 <div className="relative">
                   <Input
-                    value={addressData.city}
+                    value={profile?.city || ""}
                     readOnly
                     className="h-12 rounded-xl bg-slate-50 border-slate-200 text-slate-500 pr-10"
                   />
@@ -162,7 +183,7 @@ export default function EditProfile() {
                 </div>
                 <div className="relative">
                   <Input
-                    value={addressData.postalCode}
+                    value={profile?.postalCode || ""}
                     readOnly
                     className="h-12 rounded-xl bg-slate-50 border-slate-200 text-slate-500 pr-10"
                   />

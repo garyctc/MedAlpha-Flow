@@ -7,6 +7,8 @@ import { cn } from "@/lib/utils";
 import dmLogo from "@/assets/dm-logo.svg";
 import { useToast } from "@/hooks/use-toast";
 import PushNotificationBanner from "@/components/ui/push-notification-banner";
+import { getUserAppointments, saveAppointment } from "@/lib/storage";
+import type { Appointment as StoredAppointment } from "@/types/storage";
 
 type Appointment = {
   id: string;
@@ -21,77 +23,45 @@ type Appointment = {
   subStatus?: string; // e.g., "Cancelled", "Completed", "Processing"
 };
 
-const SAMPLE_APPOINTMENTS: Appointment[] = [
-  {
-    id: "1",
-    status: "upcoming",
-    type: "in-person",
-    badge: "Tomorrow",
-    badgeColor: "bg-blue-50 text-blue-600",
-    doctor: "Dr. Anna Schmidt",
-    role: "General Practice",
-    location: "Health Center Berlin",
-    date: "Jan 20, 2026 • 9:00 AM"
-  },
-  {
-    id: "2",
-    status: "upcoming",
-    type: "in-person",
-    badge: "In 3 days",
-    badgeColor: "bg-blue-50 text-blue-600",
-    doctor: "Dr. Weber",
-    role: "Dermatology",
-    location: "Skin Clinic Mitte",
-    date: "Jan 22, 2026 • 2:30 PM"
-  },
-  {
-    id: "3",
-    status: "upcoming",
-    type: "video",
-    badge: "Jan 27",
-    badgeColor: "bg-slate-100 text-slate-500",
-    doctor: "Dr. Koch",
-    role: "General Practice",
-    location: "Video Consultation",
-    date: "Jan 27, 2026 • 11:00 AM"
-  },
-  {
-    id: "4",
-    status: "past",
-    type: "in-person",
-    badge: "Completed",
-    badgeColor: "bg-emerald-50 text-emerald-700",
-    doctor: "Dr. Müller",
-    role: "General Practice",
-    location: "Health Center Berlin",
-    date: "Jan 15, 2026",
-    subStatus: "Completed"
-  },
-  {
-    id: "5",
-    status: "past",
-    type: "video",
-    badge: "Video",
-    badgeColor: "bg-blue-50 text-blue-700",
-    doctor: "Dr. Weber",
-    role: "Dermatology",
-    location: "Teleclinic",
-    date: "Jan 10, 2026",
-    subStatus: "Completed"
-  },
-  {
-    id: "6",
-    status: "past",
-    type: "in-person",
-    badge: "Cancelled",
-    badgeColor: "bg-red-50 text-red-600",
-    doctor: "Dr. Koch",
-    role: "Orthopedics",
-    location: "Health Center Berlin",
-    date: "Jan 5, 2026",
-    subStatus: "Cancelled"
-  }
-];
+// Convert stored appointments to display format
+function convertStoredAppointments(stored: StoredAppointment[]): Appointment[] {
+  return stored.map(apt => {
+    const statusDisplay = apt.status === 'processing' ? 'processing' :
+      apt.status === 'upcoming' ? 'upcoming' : 'past';
+
+    let badge = apt.date;
+    let badgeColor = "bg-slate-100 text-slate-500";
+
+    if (apt.status === 'processing') {
+      badge = 'Processing';
+      badgeColor = "bg-blue-50 text-blue-600";
+    } else if (apt.status === 'completed') {
+      badge = 'Completed';
+      badgeColor = "bg-emerald-50 text-emerald-700";
+    } else if (apt.status === 'cancelled') {
+      badge = 'Cancelled';
+      badgeColor = "bg-red-50 text-red-600";
+    } else if (apt.type === 'video') {
+      badge = 'Video';
+      badgeColor = "bg-blue-50 text-blue-700";
+    }
+
+    return {
+      id: apt.id,
+      status: statusDisplay,
+      type: apt.type,
+      badge,
+      badgeColor,
+      doctor: apt.doctor,
+      role: apt.specialty,
+      location: apt.clinic,
+      date: `${apt.date} • ${apt.time}`,
+      subStatus: apt.status === 'completed' ? 'Completed' :
+        apt.status === 'cancelled' ? 'Cancelled' :
+        apt.status === 'processing' ? 'Processing' : undefined
+    };
+  });
+}
 
 export default function AppointmentsPage() {
   const [, setLocation] = useLocation();
@@ -125,7 +95,7 @@ export default function AppointmentsPage() {
         const doctorName = "Dr. Sarah Johnson";
 
         // Update to confirmed
-        setPendingBooking({
+        const confirmedAppointment = {
           id: booking.id,
           status: "upcoming",
           type: "in-person",
@@ -136,6 +106,21 @@ export default function AppointmentsPage() {
           location: "Curaay Health Center, Downtown Berlin",
           date: "January 24, 2026 • 10:00 AM",
           subStatus: undefined
+        };
+
+        setPendingBooking(confirmedAppointment);
+
+        // Save to persistent storage
+        saveAppointment({
+          id: booking.id,
+          type: "in-person",
+          doctor: doctorName,
+          specialty: "General Practice",
+          clinic: "Curaay Health Center, Downtown Berlin",
+          date: "January 24, 2026",
+          time: "10:00 AM",
+          status: "upcoming",
+          createdAt: booking.createdAt
         });
 
         // Store doctor name for push notification
@@ -162,10 +147,11 @@ export default function AppointmentsPage() {
     }
   }, [toast]);
 
-  // Combine pending booking with sample appointments
+  // Combine pending booking with stored appointments
+  const storedAppointments = convertStoredAppointments(getUserAppointments());
   const allAppointments = pendingBooking
-    ? [pendingBooking, ...SAMPLE_APPOINTMENTS]
-    : SAMPLE_APPOINTMENTS;
+    ? [pendingBooking, ...storedAppointments]
+    : storedAppointments;
 
   const filteredAppointments = allAppointments.filter(apt => {
     // Only show upcoming and processing appointments in this view
@@ -273,14 +259,14 @@ function AppointmentCard({ data, onClick }: { data: Appointment, onClick: () => 
       onClick={onClick}
       className={`w-full p-4 rounded-2xl border shadow-sm flex flex-col gap-3 text-left transition-all group ${
         isProcessing
-          ? "bg-teal-50 border-teal-200"
+          ? "bg-purple-50 border-purple-200"
           : "bg-white border-slate-100 hover:border-primary/30"
       }`}
     >
       <div className="flex justify-between items-start w-full">
         <div className="flex gap-2">
           {data.subStatus === "Processing" && (
-            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider bg-teal-500 text-white flex items-center gap-1 animate-pulse">
+            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider bg-purple-600 text-white flex items-center gap-1 animate-pulse">
               <Loader2 size={10} className="animate-spin" /> Processing
             </span>
           )}
@@ -307,7 +293,7 @@ function AppointmentCard({ data, onClick }: { data: Appointment, onClick: () => 
       <div className="flex justify-between items-center w-full">
         <div className="flex-1">
           <h3 className={`font-bold text-lg transition-colors ${
-            isProcessing ? "text-teal-900" : "text-slate-900 group-hover:text-primary"
+            isProcessing ? "text-purple-900" : "text-slate-900 group-hover:text-primary"
           }`}>{data.doctor}</h3>
           <p className="text-sm text-slate-500">{data.role}</p>
           <div className="flex items-center gap-1 mt-1 text-xs text-slate-400">
@@ -315,13 +301,13 @@ function AppointmentCard({ data, onClick }: { data: Appointment, onClick: () => 
              <span>{data.location}</span>
           </div>
           {isProcessing && (
-            <span className="inline-block mt-2 text-[9px] font-bold text-teal-600 bg-teal-100 px-2 py-0.5 rounded-full uppercase tracking-wider">
+            <span className="inline-block mt-2 text-[9px] font-bold text-purple-700 bg-purple-100 px-2 py-0.5 rounded-full uppercase tracking-wider">
               Powered by Curaay
             </span>
           )}
         </div>
         <ChevronRight size={20} className={`transition-colors ${
-          isProcessing ? "text-teal-400" : "text-slate-300 group-hover:text-primary"
+          isProcessing ? "text-purple-400" : "text-slate-300 group-hover:text-primary"
         }`} />
       </div>
     </motion.button>

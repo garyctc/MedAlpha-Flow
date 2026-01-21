@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
 import { Loader2, Video, Check, Calendar, Lock, RefreshCw, ChevronLeft, ChevronRight, Share, Compass } from "lucide-react";
 import { motion } from "framer-motion";
+import { saveAppointment } from "@/lib/storage";
 
 type FlowStep = "loading" | "booking" | "confirming";
 
@@ -22,12 +23,25 @@ export default function TeleclinicSimulated() {
   // Auto-advance from confirming to appointments
   useEffect(() => {
     if (step === "confirming") {
+      // Save video appointment to persistent storage
+      saveAppointment({
+        id: `TEL-${Date.now()}`,
+        type: "video",
+        doctor: "Dr. Available Doctor",
+        specialty: selectedReason || "General Consultation",
+        clinic: "Teleclinic",
+        date: selectedTime.split(",")[0],
+        time: selectedTime.split(",")[1]?.trim() || "TBD",
+        status: "upcoming",
+        createdAt: new Date().toISOString()
+      });
+
       const timer = setTimeout(() => {
         setLocation("/appointments");
       }, 1500);
       return () => clearTimeout(timer);
     }
-  }, [step, setLocation]);
+  }, [step, setLocation, selectedReason, selectedTime]);
 
   const handleBooking = () => {
     if (selectedReason && selectedTime) {

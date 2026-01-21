@@ -76,13 +76,13 @@ export default function CuraayRefinement() {
                 onClick={() => setSelectedOption(option)}
                 className={`w-full p-4 rounded-xl border-2 text-left transition-all ${
                   selectedOption === option
-                    ? "border-teal-500 bg-teal-50"
+                    ? "border-purple-600 bg-purple-50"
                     : "border-slate-200 bg-white hover:border-slate-300"
                 }`}
               >
                 <span
                   className={`font-medium ${
-                    selectedOption === option ? "text-teal-900" : "text-slate-700"
+                    selectedOption === option ? "text-purple-900" : "text-slate-700"
                   }`}
                 >
                   {option}
@@ -94,7 +94,7 @@ export default function CuraayRefinement() {
 
         {/* Submit Button */}
         <Button
-          className="w-full h-12 text-base font-semibold rounded-xl bg-teal-500 hover:bg-teal-600 text-white"
+          className="w-full h-12 text-base font-semibold rounded-xl bg-purple-600 hover:bg-purple-700 text-white"
           disabled={!selectedOption}
           onClick={handleSubmit}
         >

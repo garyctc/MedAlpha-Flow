@@ -56,7 +56,7 @@ export default function CuraayProcessing() {
   return (
     <div className="min-h-screen bg-white flex flex-col items-center justify-center p-5 text-center">
       {/* Curaay Logo */}
-      <div className="w-20 h-20 bg-teal-500 rounded-full mb-6 flex items-center justify-center shadow-lg">
+      <div className="w-20 h-20 bg-purple-600 rounded-full mb-6 flex items-center justify-center shadow-lg">
         <span className="text-white text-3xl font-bold">C</span>
       </div>
 
@@ -68,7 +68,7 @@ export default function CuraayProcessing() {
       <div className="w-full max-w-xs mb-8">
         <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
           <div
-            className="h-full bg-teal-500 transition-all duration-300 ease-out"
+            className="h-full bg-purple-600 transition-all duration-300 ease-out"
             style={{ width: `${progress}%` }}
           ></div>
         </div>
@@ -86,9 +86,9 @@ export default function CuraayProcessing() {
               <div
                 className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${
                   isCompleted
-                    ? "bg-teal-500 text-white"
+                    ? "bg-purple-600 text-white"
                     : isCurrent
-                    ? "bg-teal-100 text-teal-600"
+                    ? "bg-purple-100 text-purple-600"
                     : "bg-slate-100 text-slate-400"
                 }`}
               >
@@ -111,7 +111,7 @@ export default function CuraayProcessing() {
       </div>
 
       {/* Spinner */}
-      <Loader2 className="animate-spin text-teal-500 mb-8" size={32} />
+      <Loader2 className="animate-spin text-purple-600 mb-8" size={32} />
 
       {/* Cancel Button */}
       <button

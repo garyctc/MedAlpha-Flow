@@ -5,9 +5,19 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import avatarImage from "@assets/generated_images/professional_user_avatar_for_healthcare_app.png";
 import dmLogo from "@/assets/dm-logo.svg";
+import { getUserProfile, getUserInsurance } from "@/lib/storage";
 
 export default function ProfilePage() {
   const [, setLocation] = useLocation();
+
+  // Get profile data from localStorage
+  const profile = getUserProfile();
+  const insurance = getUserInsurance();
+
+  const displayName = profile
+    ? `${profile.firstName} ${profile.lastName}`
+    : "Max Mustermann";
+  const displayEmail = profile?.email || "max@example.com";
 
   const handleSignOut = () => {
     // In a real app, clear auth state here
@@ -16,7 +26,7 @@ export default function ProfilePage() {
 
   const handleInsuranceClick = () => {
     // Check saved type or default to GKV for prototype
-    const type = localStorage.getItem("user-insurance-type");
+    const type = insurance?.type || localStorage.getItem("user-insurance-type");
     if (type === "pkv") {
       setLocation("/profile/insurance-pkv");
     } else {
@@ -41,8 +51,8 @@ export default function ProfilePage() {
            <div className="w-24 h-24 rounded-full border-4 border-white shadow-md overflow-hidden mb-4">
              <img src={avatarImage} alt="Profile" className="w-full h-full object-cover" />
            </div>
-           <h2 className="text-xl font-bold text-slate-900 font-display">Max Mustermann</h2>
-           <p className="text-slate-500 text-sm">max@example.com</p>
+           <h2 className="text-xl font-bold text-slate-900 font-display">{displayName}</h2>
+           <p className="text-slate-500 text-sm">{displayEmail}</p>
         </div>
 
         {/* Menu Sections */}
