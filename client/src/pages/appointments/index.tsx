@@ -4,9 +4,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Calendar, Filter, ChevronRight, Plus, MapPin, Clock, Video, CheckCircle2, X, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import dmLogo from "@/assets/dm-logo.svg";
+import appLogo from "@/assets/app-logo.svg";
 import { useToast } from "@/hooks/use-toast";
 import PushNotificationBanner from "@/components/ui/push-notification-banner";
+import { FEATURES } from "@/lib/features";
 import { getUserAppointments, saveAppointment } from "@/lib/storage";
 import type { Appointment as StoredAppointment } from "@/types/storage";
 import { useTranslation } from "react-i18next";
@@ -218,9 +219,9 @@ export default function AppointmentsPage() {
         title={t("appointments.push.title")}
         message={t("appointments.push.message", { doctor: confirmedDoctorName })}
         onDismiss={() => setShowPushNotification(false)}
-        onActionPrimary={() => setLocation("/prescriptions")}
+        onActionPrimary={FEATURES.prescriptionEnabled ? () => setLocation("/prescriptions") : undefined}
         onActionSecondary={() => setLocation("/pharmacy/map")}
-        primaryLabel={t("appointments.push.primary")}
+        primaryLabel={FEATURES.prescriptionEnabled ? t("appointments.push.primary") : undefined}
         secondaryLabel={t("appointments.push.secondary")}
       />
 
@@ -228,7 +229,7 @@ export default function AppointmentsPage() {
         <div className="px-5 py-4 pt-12">
           <div className="flex items-center gap-2 mb-4 min-h-10">
             <div className="w-8 h-8 flex items-center justify-center">
-              <img src={dmLogo} alt="DM Logo" className="w-full h-full object-contain" />
+              <img src={appLogo} alt="MedAlpha Connect Logo" className="w-full h-full object-contain" />
             </div>
             <h1 className="font-bold text-xl text-slate-900 font-display">{t("appointments.title")}</h1>
           </div>

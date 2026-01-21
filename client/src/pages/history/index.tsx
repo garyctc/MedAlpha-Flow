@@ -4,7 +4,8 @@ import { motion } from "framer-motion";
 import { Calendar, Pill, Search, Filter, ChevronRight, FileText, Download, Video } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import dmLogo from "@/assets/dm-logo.svg";
+import appLogo from "@/assets/app-logo.svg";
+import { FEATURES } from "@/lib/features";
 
 export default function HistoryPage() {
   const [, setLocation] = useLocation();
@@ -15,7 +16,7 @@ export default function HistoryPage() {
       <header className="px-5 py-4 pt-12 bg-white border-b border-slate-100 sticky top-0 z-10">
         <div className="flex items-center gap-2 mb-4 min-h-10">
           <div className="w-8 h-8 flex items-center justify-center">
-            <img src={dmLogo} alt="DM Logo" className="w-full h-full object-contain" />
+            <img src={appLogo} alt="MedAlpha Connect Logo" className="w-full h-full object-contain" />
           </div>
           <h1 className="font-bold text-xl text-slate-900 font-display">History</h1>
         </div>
@@ -34,7 +35,7 @@ export default function HistoryPage() {
           {[
             { id: "all", label: "All" },
             { id: "in-person", label: "In-Person" },
-            { id: "prescriptions", label: "Prescriptions" },
+            ...(FEATURES.prescriptionEnabled ? [{ id: "prescriptions", label: "Prescriptions" }] : []),
             { id: "video", label: "Video" }
           ].map((tab) => (
             <button
@@ -72,7 +73,7 @@ export default function HistoryPage() {
               />
             )}
 
-            {(activeTab === "all" || activeTab === "prescriptions") && (
+            {FEATURES.prescriptionEnabled && (activeTab === "all" || activeTab === "prescriptions") && (
               <HistoryCard
                 icon={Pill}
                 iconColor="text-emerald-600"
@@ -136,7 +137,7 @@ export default function HistoryPage() {
               />
             )}
             
-            {(activeTab === "all" || activeTab === "prescriptions") && (
+            {FEATURES.prescriptionEnabled && (activeTab === "all" || activeTab === "prescriptions") && (
               <HistoryCard
                 icon={Pill}
                 iconColor="text-emerald-600"
@@ -150,7 +151,7 @@ export default function HistoryPage() {
               />
             )}
 
-            {(activeTab === "all" || activeTab === "prescriptions") && (
+            {FEATURES.prescriptionEnabled && (activeTab === "all" || activeTab === "prescriptions") && (
               <HistoryCard
                 icon={Pill}
                 iconColor="text-emerald-600"
