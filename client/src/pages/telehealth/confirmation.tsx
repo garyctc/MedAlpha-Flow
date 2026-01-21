@@ -16,7 +16,7 @@ export default function TelehealthConfirmation() {
         transition={reduceMotion ? { duration: 0 } : { duration: DURATION_SLOW, ease: EASING_DEFAULT }}
         className="w-24 h-24 bg-green-50 rounded-full flex items-center justify-center mb-6"
       >
-        <div className="w-16 h-16 bg-[#2E7D32] rounded-full flex items-center justify-center shadow-lg shadow-green-200">
+        <div className="w-16 h-16 bg-success rounded-full flex items-center justify-center shadow-lg shadow-green-200">
           <Check size={40} className="text-white" strokeWidth={3} />
         </div>
       </motion.div>

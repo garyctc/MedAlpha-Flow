@@ -16,7 +16,7 @@ export default function InsuranceInfoGKV() {
       <main className="p-5 space-y-8">
         {/* Insurance Type */}
         <div className="space-y-2">
-          <div className="flex items-center justify-between bg-blue-50 text-[#0C3D91] p-3 rounded-2xl border border-blue-100">
+          <div className="flex items-center justify-between bg-blue-50 text-primary p-3 rounded-2xl border border-blue-100">
              <div className="flex items-center gap-3">
                <Shield size={20} className="fill-current" />
                <span className="font-bold">Public Insurance (GKV)</span>

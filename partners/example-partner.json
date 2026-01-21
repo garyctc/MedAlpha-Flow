@@ -1,0 +1,24 @@
+{
+  "partnerId": "example-partner",
+  "branding": {
+    "appName": "Example Health",
+    "companyName": "Example Partner GmbH",
+    "supportEmail": "support@example-partner.de",
+    "tagline": "Your personalized health platform"
+  },
+  "assets": {
+    "logo": "/assets/partners/example-partner/logo.svg",
+    "favicon": "/assets/partners/example-partner/favicon.png"
+  },
+  "colors": {
+    "primary": "#1E40AF",
+    "secondary": "#DC2626",
+    "success": "#16A34A",
+    "warning": "#F59E0B"
+  },
+  "features": {
+    "prescriptionEnabled": true,
+    "telemedicineEnabled": true,
+    "appointmentsEnabled": true
+  }
+}

@@ -46,7 +46,7 @@ export default function LocationSelect() {
       <main className="p-5 space-y-6">
         {/* Map Placeholder */}
         <div className="w-full h-48 bg-slate-200 rounded-2xl relative overflow-hidden flex items-center justify-center">
-           <div className="absolute inset-0 opacity-10" style={{ backgroundImage: "radial-gradient(#0C3D91 1px, transparent 1px)", backgroundSize: "20px 20px" }}></div>
+           <div className="absolute inset-0 opacity-10" style={{ backgroundImage: "radial-gradient(hsl(var(--primary)) 1px, transparent 1px)", backgroundSize: "20px 20px" }}></div>
            <div className="w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center shadow-lg animate-bounce">
              <MapPin size={24} fill="currentColor" />
            </div>

@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import appLogo from "@/assets/app-logo.svg";
+import { branding } from "@/config/branding";
 
 export default function Login() {
   const [, setLocation] = useLocation();
@@ -31,7 +32,7 @@ export default function Login() {
       >
         <div className="mb-10 text-center">
           <div className="w-20 h-20 flex items-center justify-center mx-auto mb-4">
-            <img src={appLogo} alt="MedAlpha Connect Logo" className="w-full h-full object-contain" />
+            <img src={appLogo} alt={`${branding.appName} Logo`} className="w-full h-full object-contain" />
           </div>
           <h1 className="text-2xl font-bold font-display text-slate-900 mb-2">Welcome Back</h1>
           <p className="text-slate-500">Sign in to manage your health</p>

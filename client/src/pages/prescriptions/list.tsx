@@ -92,7 +92,7 @@ export default function PrescriptionList() {
       
       <main className="p-5 space-y-6">
         {/* Success Banner */}
-        <div className="bg-[#2E7D32] rounded-xl p-4 flex items-center gap-3 shadow-md shadow-green-900/10 text-white">
+        <div className="bg-success rounded-xl p-4 flex items-center gap-3 shadow-md shadow-green-900/10 text-white">
           <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
             <Check size={18} strokeWidth={3} />
           </div>

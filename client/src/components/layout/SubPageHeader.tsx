@@ -2,6 +2,7 @@ import { ChevronLeft } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { cn } from "@/lib/utils";
 import appLogo from "@/assets/app-logo.svg";
+import { branding } from "@/config/branding";
 
 interface SubPageHeaderProps {
   title: string;
@@ -35,7 +36,7 @@ export default function SubPageHeader({ title, backPath, className, showLogo = f
       </button>
       {showLogo && (
         <div className="w-8 h-8 flex items-center justify-center flex-shrink-0">
-          <img src={appLogo} alt="MedAlpha Connect Logo" className="w-full h-full object-contain" />
+          <img src={appLogo} alt={`${branding.appName} Logo`} className="w-full h-full object-contain" />
         </div>
       )}
       <h1 className="text-lg font-bold text-slate-900 font-display">{title}</h1>

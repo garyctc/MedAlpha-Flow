@@ -74,6 +74,7 @@ function PromoCarousel() {
 }
 
 import appLogo from "@/assets/app-logo.svg";
+import { branding } from "@/config/branding";
 
 export default function Home() {
   // Toggle this to see empty state
@@ -95,9 +96,9 @@ export default function Home() {
           <div className="flex justify-between items-center min-h-10">
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 flex items-center justify-center">
-                <img src={appLogo} alt="MedAlpha Connect Logo" className="w-full h-full object-contain" />
+                <img src={appLogo} alt={`${branding.appName} Logo`} className="w-full h-full object-contain" />
               </div>
-              <h1 className="text-xl font-bold text-foreground font-display tracking-tight">MedAlpha Connect</h1>
+              <h1 className="text-xl font-bold text-foreground font-display tracking-tight">{branding.appName}</h1>
             </div>
             <div className="flex items-center gap-4">
                <button className="text-muted-foreground hover:text-primary transition-colors relative">

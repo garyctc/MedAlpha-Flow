@@ -1,0 +1,24 @@
+{
+  "partnerId": "dm-clinical",
+  "branding": {
+    "appName": "dm Clinical",
+    "companyName": "dm Klinik GmbH",
+    "supportEmail": "support@dm-klinik.de",
+    "tagline": "Healthcare where you need it"
+  },
+  "assets": {
+    "logo": "/assets/partners/dm-clinical/logo.svg",
+    "favicon": "/assets/partners/dm-clinical/favicon.png"
+  },
+  "colors": {
+    "primary": "#0C3D91",
+    "secondary": "#EE161F",
+    "success": "#2E7D32",
+    "warning": "#F59E0B"
+  },
+  "features": {
+    "prescriptionEnabled": true,
+    "telemedicineEnabled": true,
+    "appointmentsEnabled": true
+  }
+}

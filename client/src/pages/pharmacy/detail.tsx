@@ -14,7 +14,7 @@ export default function PharmacyDetail() {
         {/* Hero Section */}
         <div className="text-center">
            <div className="w-full h-32 bg-slate-200 rounded-2xl mb-4 overflow-hidden relative">
-              <div className="absolute inset-0 opacity-30" style={{ backgroundImage: "radial-gradient(#0C3D91 1px, transparent 1px)", backgroundSize: "16px 16px" }}></div>
+              <div className="absolute inset-0 opacity-30" style={{ backgroundImage: "radial-gradient(hsl(var(--primary)) 1px, transparent 1px)", backgroundSize: "16px 16px" }}></div>
               <div className="absolute inset-0 flex items-center justify-center">
                 <MapPin className="text-red-500 drop-shadow-md" size={32} fill="currentColor" />
               </div>

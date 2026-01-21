@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, CheckCircle2, Pill, MapPin } from "lucide-react";
+import { branding } from "@/config/branding";
 
 type PushNotificationProps = {
   show: boolean;
@@ -59,7 +60,7 @@ export default function PushNotificationBanner({
                 <div className="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center">
                   <CheckCircle2 size={14} className="text-white" />
                 </div>
-                <span className="text-white font-semibold text-sm">MedAlpha</span>
+                <span className="text-white font-semibold text-sm">{branding.appName}</span>
               </div>
               <button
                 onClick={handleDismiss}

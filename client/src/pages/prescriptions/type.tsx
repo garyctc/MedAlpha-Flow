@@ -6,6 +6,7 @@ import SubPageHeader from "@/components/layout/SubPageHeader";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import appLogo from "@/assets/app-logo.svg";
+import { branding } from "@/config/branding";
 
 export default function PrescriptionType() {
   const [, setLocation] = useLocation();
@@ -16,7 +17,7 @@ export default function PrescriptionType() {
         <div className="px-5 py-4 pt-12">
           <div className="flex items-center gap-2 min-h-10">
             <div className="w-8 h-8 flex items-center justify-center">
-              <img src={appLogo} alt="MedAlpha Connect Logo" className="w-full h-full object-contain" />
+              <img src={appLogo} alt={`${branding.appName} Logo`} className="w-full h-full object-contain" />
             </div>
             <h1 className="font-bold text-xl text-slate-900 font-display">Prescriptions</h1>
           </div>

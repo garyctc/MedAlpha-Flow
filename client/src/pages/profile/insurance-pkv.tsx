@@ -16,7 +16,7 @@ export default function InsuranceInfoPKV() {
       <main className="p-5 space-y-8">
         {/* Insurance Type */}
         <div className="space-y-2">
-          <div className="flex items-center justify-between bg-purple-50 text-[#7C3AED] p-3 rounded-2xl border border-purple-100">
+          <div className="flex items-center justify-between bg-purple-50 text-purple-600 p-3 rounded-2xl border border-purple-100">
              <div className="flex items-center gap-3">
                <Shield size={20} className="fill-current" />
                <span className="font-bold">Private Insurance (PKV)</span>

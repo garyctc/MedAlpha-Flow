@@ -1,6 +1,7 @@
 import { build as esbuild } from "esbuild";
 import { build as viteBuild } from "vite";
-import { rm, readFile } from "fs/promises";
+import { rm, readFile, writeFile } from "fs/promises";
+import path from "path";
 
 // server deps to bundle to reduce openat(2) syscalls
 // which helps cold start times
@@ -32,10 +33,36 @@ const allowlist = [
   "zod-validation-error",
 ];
 
+function getEnvVar(key: string, defaultValue: string): string {
+  return process.env[key] || defaultValue;
+}
+
+async function processHtmlTemplate() {
+  console.log("processing HTML template...");
+
+  const htmlPath = path.join(process.cwd(), "client", "index.html");
+  let html = await readFile(htmlPath, "utf-8");
+
+  // Replace template variables with environment values
+  const replacements = {
+    "%VITE_APP_TITLE%": getEnvVar("VITE_APP_TITLE", "MedAlpha Connect"),
+    "%VITE_APP_DESCRIPTION%": getEnvVar("VITE_APP_DESCRIPTION", "Your healthcare companion"),
+    "%VITE_APP_OG_IMAGE%": getEnvVar("VITE_APP_OG_IMAGE", "/og-image.png"),
+    "%VITE_FAVICON_PATH%": getEnvVar("VITE_FAVICON_PATH", "/favicon.png"),
+  };
+
+  for (const [placeholder, value] of Object.entries(replacements)) {
+    html = html.replaceAll(placeholder, value);
+  }
+
+  await writeFile(htmlPath, html, "utf-8");
+}
+
 async function buildAll() {
   await rm("dist", { recursive: true, force: true });
 
   console.log("building client...");
+  await processHtmlTemplate();
   await viteBuild();
 
   console.log("building server...");
