@@ -4,6 +4,7 @@ import { useLocation } from "wouter";
 import { Star, Clock, ChevronRight } from "lucide-react";
 import SubPageHeader from "@/components/layout/SubPageHeader";
 import { Skeleton } from "@/components/ui/skeleton";
+import { saveBookingDraft } from "@/lib/storage";
 
 const doctors = [
   { 
@@ -42,6 +43,11 @@ export default function DoctorSelect() {
     const timer = setTimeout(() => setLoading(false), 1500);
     return () => clearTimeout(timer);
   }, []);
+
+  const handleDoctorClick = (doctorId: number, doctorName: string) => {
+    saveBookingDraft({ doctor: doctorName });
+    setLocation(`/booking/calendar?doctor=${doctorId}`);
+  };
 
   return (
     <div className="min-h-screen bg-background pb-20">
@@ -84,7 +90,7 @@ export default function DoctorSelect() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                onClick={() => setLocation(`/booking/calendar?doctor=${doc.id}`)}
+                onClick={() => handleDoctorClick(doc.id, doc.name)}
                 className="w-full bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4 text-left hover:border-primary/30 transition-all group"
               >
                 <div className="w-16 h-16 rounded-full bg-slate-200 flex-shrink-0"></div>

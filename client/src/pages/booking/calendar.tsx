@@ -4,6 +4,7 @@ import { Clock } from "lucide-react";
 import SubPageHeader from "@/components/layout/SubPageHeader";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
+import { saveBookingDraft } from "@/lib/storage";
 
 export default function BookingCalendar() {
   const [, setLocation] = useLocation();
@@ -12,6 +13,16 @@ export default function BookingCalendar() {
 
   const morningSlots = ["09:00 AM", "09:30 AM", "10:00 AM", "10:30 AM"];
   const afternoonSlots = ["11:00 AM", "02:00 PM", "02:30 PM", "03:00 PM"];
+
+  const handleContinue = () => {
+    if (date && selectedTime) {
+      saveBookingDraft({
+        date: date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
+        time: selectedTime
+      });
+      setLocation("/booking/review");
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background pb-28">
@@ -81,7 +92,7 @@ export default function BookingCalendar() {
             <Button
               className="w-full h-12 text-base rounded-xl bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/20"
               disabled={!date || !selectedTime}
-              onClick={() => setLocation("/booking/review")}
+              onClick={handleContinue}
             >
               Continue
             </Button>

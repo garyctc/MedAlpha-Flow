@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import SubPageHeader from "@/components/layout/SubPageHeader";
+import { saveRegistrationDraft } from "@/lib/storage";
 
 export default function RegisterGKVDetails() {
   const [, setLocation] = useLocation();
@@ -108,10 +109,16 @@ export default function RegisterGKVDetails() {
           </Label>
         </div>
 
-        <Button 
+        <Button
           className="w-full h-12 text-base font-medium rounded-xl"
           disabled={!isFormValid}
-          onClick={() => setLocation("/register/complete?type=gkv")}
+          onClick={() => {
+            saveRegistrationDraft({
+              insuranceProvider: provider,
+              insuranceNumber: insuranceNumber
+            });
+            setLocation("/register/complete?type=gkv");
+          }}
         >
           Complete Registration
         </Button>

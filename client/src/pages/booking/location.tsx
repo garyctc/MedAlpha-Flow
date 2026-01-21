@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { useLocation } from "wouter";
 import { MapPin, Star, Navigation } from "lucide-react";
 import SubPageHeader from "@/components/layout/SubPageHeader";
+import { saveBookingDraft } from "@/lib/storage";
 
 const clinics = [
   {
@@ -33,6 +34,11 @@ const clinics = [
 export default function LocationSelect() {
   const [, setLocation] = useLocation();
 
+  const handleClinicClick = (clinicId: number, clinicName: string) => {
+    saveBookingDraft({ location: clinicName });
+    setLocation(`/booking/doctors?clinic=${clinicId}`);
+  };
+
   return (
     <div className="min-h-screen bg-background pb-20">
       <SubPageHeader title="Select Location" backPath="/booking/specialty" />
@@ -55,7 +61,7 @@ export default function LocationSelect() {
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.1 }}
-                onClick={() => setLocation(`/booking/doctors?clinic=${clinic.id}`)}
+                onClick={() => handleClinicClick(clinic.id, clinic.name)}
                 className="w-full bg-white p-4 rounded-2xl border border-slate-100 shadow-sm text-left hover:border-primary/30 transition-all flex justify-between items-center group"
               >
                 <div className="w-full">

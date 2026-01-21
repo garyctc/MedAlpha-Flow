@@ -2,9 +2,16 @@ import { useLocation } from "wouter";
 import { User, MapPin, Calendar, Clock } from "lucide-react";
 import SubPageHeader from "@/components/layout/SubPageHeader";
 import { Button } from "@/components/ui/button";
+import { getBookingDraft, clearBookingDraft } from "@/lib/storage";
 
 export default function BookingReview() {
   const [, setLocation] = useLocation();
+  const draft = getBookingDraft();
+
+  const handleConfirm = () => {
+    clearBookingDraft();
+    setLocation("/booking/curaay-processing");
+  };
 
   return (
     <div className="min-h-screen bg-background pb-28">
@@ -17,8 +24,8 @@ export default function BookingReview() {
           <div className="p-4 flex items-center gap-4">
             <div className="w-12 h-12 bg-slate-200 rounded-full flex-shrink-0"></div>
             <div className="flex-1">
-              <p className="font-bold text-slate-900">Dr. Anna Schmidt</p>
-              <p className="text-sm text-slate-500">General Practice</p>
+              <p className="font-bold text-slate-900">{draft?.doctor || "Dr. Anna Schmidt"}</p>
+              <p className="text-sm text-slate-500">{draft?.specialty || "General Practice"}</p>
             </div>
             <button className="text-sm font-medium text-primary">Edit</button>
           </div>
@@ -31,7 +38,7 @@ export default function BookingReview() {
               <MapPin size={20} />
             </div>
             <div className="flex-1 pt-0.5">
-              <p className="font-bold text-slate-900 text-sm">Health Center Berlin</p>
+              <p className="font-bold text-slate-900 text-sm">{draft?.location || "Health Center Berlin"}</p>
               <p className="text-xs text-slate-500 mt-0.5">Friedrichstraße 123, Berlin</p>
             </div>
             <button className="text-sm font-medium text-primary">Edit</button>
@@ -44,11 +51,11 @@ export default function BookingReview() {
              <div className="space-y-3 flex-1">
                 <div className="flex items-center gap-3">
                   <Calendar size={18} className="text-primary" />
-                  <span className="text-sm font-medium text-slate-700">January 20, 2026</span>
+                  <span className="text-sm font-medium text-slate-700">{draft?.date || "January 20, 2026"}</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <Clock size={18} className="text-primary" />
-                  <span className="text-sm font-medium text-slate-700">9:00 AM</span>
+                  <span className="text-sm font-medium text-slate-700">{draft?.time || "9:00 AM"}</span>
                 </div>
              </div>
              <button className="text-sm font-medium text-primary">Edit</button>
@@ -63,7 +70,7 @@ export default function BookingReview() {
           <div className="w-[315px]">
             <Button
               className="w-full h-12 text-base rounded-xl bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/20"
-              onClick={() => setLocation("/booking/curaay-processing")}
+              onClick={handleConfirm}
             >
               Confirm Booking
             </Button>

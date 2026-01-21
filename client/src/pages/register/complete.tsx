@@ -1,19 +1,54 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
 import { Check, Calendar, ArrowRight, CreditCard, Smartphone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
+import { getRegistrationDraft, clearRegistrationDraft, saveUserProfile, saveUserInsurance } from "@/lib/storage";
 
 export default function RegisterComplete() {
   const [location, setLocation] = useLocation();
   const searchParams = new URLSearchParams(window.location.search);
   const type = searchParams.get("type") || "gkv";
   const isGkv = type === "gkv";
+  const [userData, setUserData] = useState({ name: "Max Mustermann", email: "max@example.com" });
 
   useEffect(() => {
-    // Optional auto-redirect
-    // const timer = setTimeout(() => setLocation("/home"), 5000);
-    // return () => clearTimeout(timer);
+    // Move registration draft to permanent storage
+    const draft = getRegistrationDraft();
+    if (draft) {
+      // Save profile
+      if (draft.personalInfo) {
+        saveUserProfile({
+          firstName: draft.personalInfo.firstName,
+          lastName: draft.personalInfo.lastName,
+          dateOfBirth: draft.personalInfo.dateOfBirth,
+          phone: draft.personalInfo.phone,
+          email: draft.email || "",
+          street: draft.address?.street || "",
+          city: draft.address?.city || "",
+          postalCode: draft.address?.postalCode || ""
+        });
+
+        // Update display data
+        setUserData({
+          name: `${draft.personalInfo.firstName} ${draft.personalInfo.lastName}`,
+          email: draft.email || "max@example.com"
+        });
+      }
+
+      // Save insurance
+      if (draft.insuranceType) {
+        saveUserInsurance({
+          type: draft.insuranceType,
+          provider: draft.insuranceProvider || "",
+          memberNumber: draft.insuranceMemberNumber || "",
+          insuranceNumber: draft.insuranceNumber
+        });
+      }
+
+      // Clear registration draft
+      clearRegistrationDraft();
+    }
   }, [setLocation]);
 
   return (
@@ -42,11 +77,11 @@ export default function RegisterComplete() {
         <div className="bg-slate-50 rounded-2xl p-5 border border-slate-100 text-left">
           <div className="flex items-center gap-4 mb-4">
              <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-slate-400 border border-slate-200 font-bold text-lg">
-               MM
+               {userData.name.split(' ').map(n => n[0]).join('').toUpperCase()}
              </div>
              <div>
-               <h3 className="font-bold text-slate-900">Max Mustermann</h3>
-               <p className="text-xs text-slate-500">max@example.com</p>
+               <h3 className="font-bold text-slate-900">{userData.name}</h3>
+               <p className="text-xs text-slate-500">{userData.email}</p>
              </div>
           </div>
           <div className={`text-xs font-bold px-3 py-1.5 rounded-lg inline-flex items-center gap-2 ${

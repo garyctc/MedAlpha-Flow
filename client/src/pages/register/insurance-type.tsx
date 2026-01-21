@@ -4,6 +4,7 @@ import { Shield, ChevronDown, ChevronUp, CreditCard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import SubPageHeader from "@/components/layout/SubPageHeader";
 import { motion, AnimatePresence } from "framer-motion";
+import { saveRegistrationDraft } from "@/lib/storage";
 
 export default function RegisterInsuranceType() {
   const [, setLocation] = useLocation();
@@ -139,10 +140,15 @@ export default function RegisterInsuranceType() {
           </AnimatePresence>
         </div>
 
-        <Button 
+        <Button
           className="w-full h-12 text-base font-medium rounded-xl"
           disabled={!selectedType}
-          onClick={() => setLocation(selectedType === "gkv" ? "/register/gkv-details" : "/register/pkv-details")}
+          onClick={() => {
+            if (selectedType) {
+              saveRegistrationDraft({ insuranceType: selectedType });
+              setLocation(selectedType === "gkv" ? "/register/gkv-details" : "/register/pkv-details");
+            }
+          }}
         >
           Continue
         </Button>

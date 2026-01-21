@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import SubPageHeader from "@/components/layout/SubPageHeader";
+import { saveRegistrationDraft } from "@/lib/storage";
 
 export default function RegisterPersonal() {
   const [, setLocation] = useLocation();
@@ -120,12 +121,28 @@ export default function RegisterPersonal() {
             className="w-full h-12 text-base font-medium rounded-xl mt-4"
             disabled={!isFormValid}
             onClick={() => {
-              // Save address to localStorage
+              // Save address to localStorage (legacy)
               localStorage.setItem("user-address", JSON.stringify({
                 street: formData.street,
                 city: formData.city,
                 postalCode: formData.postalCode
               }));
+
+              // Save to registration draft
+              saveRegistrationDraft({
+                personalInfo: {
+                  firstName: formData.firstName,
+                  lastName: formData.lastName,
+                  dateOfBirth: formData.dob,
+                  phone: formData.phone
+                },
+                address: {
+                  street: formData.street,
+                  city: formData.city,
+                  postalCode: formData.postalCode
+                }
+              });
+
               setLocation("/register/insurance");
             }}
           >

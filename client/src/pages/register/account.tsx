@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import SubPageHeader from "@/components/layout/SubPageHeader";
+import { saveRegistrationDraft } from "@/lib/storage";
 
 export default function RegisterAccount() {
   const [, setLocation] = useLocation();
@@ -36,7 +37,11 @@ export default function RegisterAccount() {
           </div>
         </div>
 
-        <form className="space-y-6" onSubmit={(e) => { e.preventDefault(); setLocation("/register/verify"); }}>
+        <form className="space-y-6" onSubmit={(e) => {
+          e.preventDefault();
+          saveRegistrationDraft({ email });
+          setLocation("/register/verify");
+        }}>
           <div className="space-y-2">
             <Label htmlFor="email">Email address</Label>
             <Input 

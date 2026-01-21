@@ -2,9 +2,20 @@ import { motion } from "framer-motion";
 import { Link, useLocation } from "wouter";
 import { Building, Video, ChevronRight } from "lucide-react";
 import SubPageHeader from "@/components/layout/SubPageHeader";
+import { clearBookingDraft } from "@/lib/storage";
 
 export default function BookingType() {
   const [, setLocation] = useLocation();
+
+  const handleInPersonClick = () => {
+    clearBookingDraft();
+    setLocation("/booking/specialty");
+  };
+
+  const handleVideoClick = () => {
+    clearBookingDraft();
+    setLocation("/teleclinic/simulated");
+  };
 
   return (
     <div className="min-h-screen bg-background pb-20">
@@ -14,7 +25,7 @@ export default function BookingType() {
         {/* In-Person Card */}
         <motion.button
           whileTap={{ scale: 0.98 }}
-          onClick={() => setLocation("/booking/specialty")}
+          onClick={handleInPersonClick}
           className="w-full bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between group hover:border-primary/30 transition-all text-left"
         >
           <div className="flex items-center gap-4">
@@ -32,7 +43,7 @@ export default function BookingType() {
         {/* Telemedicine Card */}
         <motion.button
           whileTap={{ scale: 0.98 }}
-          onClick={() => setLocation("/teleclinic/simulated")}
+          onClick={handleVideoClick}
           className="w-full bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between group hover:border-primary/30 transition-all text-left relative overflow-hidden"
         >
           <div className="flex items-center gap-4 relative z-10">

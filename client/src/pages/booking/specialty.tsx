@@ -3,6 +3,7 @@ import { useLocation } from "wouter";
 import { Stethoscope, User, HeartPulse, Bone, Baby, Search } from "lucide-react";
 import SubPageHeader from "@/components/layout/SubPageHeader";
 import { Input } from "@/components/ui/input";
+import { saveBookingDraft } from "@/lib/storage";
 
 const specialties = [
   { id: "gp", name: "General Practice", icon: Stethoscope, color: "text-blue-500", bg: "bg-blue-50" },
@@ -15,6 +16,11 @@ const specialties = [
 
 export default function SpecialtySelect() {
   const [, setLocation] = useLocation();
+
+  const handleSpecialtyClick = (specialty: string) => {
+    saveBookingDraft({ specialty, type: 'in-person' });
+    setLocation(`/booking/location?specialty=${specialty}`);
+  };
 
   return (
     <div className="min-h-screen bg-background pb-20">
@@ -37,7 +43,7 @@ export default function SpecialtySelect() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.05 }}
               whileTap={{ scale: 0.98 }}
-              onClick={() => setLocation(`/booking/location?specialty=${item.id}`)}
+              onClick={() => handleSpecialtyClick(item.id)}
               className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm flex flex-col items-center justify-center gap-3 hover:border-primary/30 transition-all aspect-square"
             >
               <div className={`w-14 h-14 rounded-full ${item.bg} flex items-center justify-center ${item.color}`}>

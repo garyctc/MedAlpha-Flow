@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import SubPageHeader from "@/components/layout/SubPageHeader";
+import { saveRegistrationDraft } from "@/lib/storage";
 
 export default function RegisterPKVDetails() {
   const [, setLocation] = useLocation();
@@ -129,9 +130,14 @@ export default function RegisterPKVDetails() {
           Not ready yet? You can still use local pharmacies. Complete GesundheitsID setup later in Settings.
         </p>
 
-        <Button 
+        <Button
           className="w-full h-12 text-base font-medium rounded-xl"
-          onClick={() => setLocation("/register/complete?type=pkv")}
+          onClick={() => {
+            if (provider) {
+              saveRegistrationDraft({ insuranceProvider: provider });
+            }
+            setLocation("/register/complete?type=pkv");
+          }}
         >
           Complete Registration
         </Button>
