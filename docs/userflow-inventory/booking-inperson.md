@@ -1,10 +1,10 @@
 # In-Person Booking Flow
 
-Complete appointment booking wizard for in-person clinic visits with Curaay integration.
+Complete appointment booking wizard for in-person clinic visits with Smart Match integration.
 
 ## Flow Summary
 
-Home → Booking Type → Specialty → Location → Doctor → Calendar → Review → Curaay Processing → Success → Home
+Home → Booking Type → Specialty → Location → Doctor → Calendar → Review → Smart Match Processing → Success → Home
 
 ```d2
 direction: down
@@ -121,15 +121,15 @@ tap-confirm: Tap "Confirm Booking" {
   style.fill: "#ADD8E6"
 }
 
-tap-confirm -> curaay-processing
+tap-confirm -> smart-match-processing
 
-# Curaay Integration
-curaay-processing: Curaay Processing {
+# Smart Match Integration
+smart-match-processing: Smart Match Processing {
   shape: document
   style.fill: "#90EE90"
 }
 
-curaay-processing -> processing-webhook
+smart-match-processing -> processing-webhook
 
 processing-webhook: Processing (webhook simulation ~5s) {
   shape: rectangle

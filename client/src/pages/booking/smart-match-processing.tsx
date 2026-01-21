@@ -2,14 +2,14 @@ import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
 import { Loader2, Check, Clock } from "lucide-react";
 
-export default function CuraayProcessing() {
+export default function SmartMatchProcessing() {
   const [, setLocation] = useLocation();
   const [step, setStep] = useState(0);
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     // Check if this is a retry (from refinement)
-    const isRetry = sessionStorage.getItem("curaay-retry") === "true";
+    const isRetry = sessionStorage.getItem("smart-match-retry") === "true";
 
     // Animate progress bar
     const progressTimer = setInterval(() => {
@@ -25,17 +25,17 @@ export default function CuraayProcessing() {
     const decisionTimer = setTimeout(() => {
       if (isRetry) {
         // Second time always succeeds
-        sessionStorage.removeItem("curaay-retry");
-        setLocation("/booking/curaay-success");
+        sessionStorage.removeItem("smart-match-retry");
+        setLocation("/booking/smart-match-success");
       } else {
         const random = Math.random();
         if (random < 0.7) {
           // 70% success
-          setLocation("/booking/curaay-success");
+          setLocation("/booking/smart-match-success");
         } else {
           // 30% refinement
-          sessionStorage.setItem("curaay-retry", "true");
-          setLocation("/booking/curaay-refinement");
+          sessionStorage.setItem("smart-match-retry", "true");
+          setLocation("/booking/smart-match-refinement");
         }
       }
     }, 2500);
@@ -55,9 +55,9 @@ export default function CuraayProcessing() {
 
   return (
     <div className="min-h-screen bg-white flex flex-col items-center justify-center p-5 text-center">
-      {/* Curaay Logo */}
+      {/* MedAlpha Match Logo */}
       <div className="w-20 h-20 bg-purple-600 rounded-full mb-6 flex items-center justify-center shadow-lg">
-        <span className="text-white text-3xl font-bold">C</span>
+        <span className="text-white text-3xl font-bold">M</span>
       </div>
 
       {/* Heading */}
@@ -116,7 +116,7 @@ export default function CuraayProcessing() {
       {/* Cancel Button */}
       <button
         onClick={() => {
-          sessionStorage.removeItem("curaay-retry");
+          sessionStorage.removeItem("smart-match-retry");
           setLocation("/booking/review");
         }}
         className="text-slate-400 font-medium text-sm hover:text-slate-600"

@@ -136,7 +136,7 @@
     "impactIfWrong": ""
   },
   "BKG-008": {
-    "title": "Curaay Processing",
+    "title": "Smart Match Processing",
     "assumptions": [],
     "userScenario": "",
     "pros": [],
@@ -144,7 +144,7 @@
     "impactIfWrong": ""
   },
   "BKG-009": {
-    "title": "Curaay Refinement",
+    "title": "Smart Match Refinement",
     "assumptions": [],
     "userScenario": "",
     "pros": [],
@@ -152,7 +152,7 @@
     "impactIfWrong": ""
   },
   "BKG-010": {
-    "title": "Curaay Success",
+    "title": "Smart Match Success",
     "assumptions": [],
     "userScenario": "",
     "pros": [],

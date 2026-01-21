@@ -118,9 +118,9 @@ export default function AppointmentsPage() {
   const { t } = useTranslation();
   const locale = getLocale();
 
-  // Check for pending Curaay booking on mount
+  // Check for pending Smart Match booking on mount
   useEffect(() => {
-    const bookingData = localStorage.getItem("pending-curaay-booking");
+    const bookingData = localStorage.getItem("pending-smart-match-booking");
     if (bookingData) {
       const booking = JSON.parse(bookingData);
       const bookingDate = booking.dateIso ? formatLocalDate(booking.dateIso, locale) : booking.date;
@@ -133,7 +133,7 @@ export default function AppointmentsPage() {
         badgeColor: "bg-blue-50 text-blue-600",
         doctor: t("appointments.placeholders.doctor"),
         role: t("appointments.placeholders.awaitingConfirmation"),
-        location: "Curaay Health Center",
+        location: "MedAlpha Health Center",
         date: `${bookingDate} • ${bookingTime}`,
         subStatus: "processing",
       });
@@ -151,7 +151,7 @@ export default function AppointmentsPage() {
           badgeColor: "bg-blue-50 text-blue-600",
           doctor: doctorName,
           role: t("specialty.generalPractice"),
-          location: "Curaay Health Center, Downtown Berlin",
+          location: "MedAlpha Health Center, Downtown Berlin",
           date: `${formatLocalDate("2026-01-24", locale)} • ${formatLocalTime("10:00", locale)}`,
           subStatus: undefined
         };
@@ -164,7 +164,7 @@ export default function AppointmentsPage() {
           type: "in-person",
           doctor: doctorName,
           specialty: "General Practice",
-          clinic: "Curaay Health Center, Downtown Berlin",
+          clinic: "MedAlpha Health Center, Downtown Berlin",
           date: "2026-01-24",
           time: "10:00",
           status: "upcoming",
@@ -175,7 +175,7 @@ export default function AppointmentsPage() {
         setConfirmedDoctorName(doctorName);
 
         // Clear from localStorage
-        localStorage.removeItem("pending-curaay-booking");
+        localStorage.removeItem("pending-smart-match-booking");
 
         // Show toast notification
         toast({
@@ -218,9 +218,9 @@ export default function AppointmentsPage() {
         title={t("appointments.push.title")}
         message={t("appointments.push.message", { doctor: confirmedDoctorName })}
         onDismiss={() => setShowPushNotification(false)}
-        onActionPrimary={() => setLocation("/prescriptions")}
+        onActionPrimary={() => setLocation("/booking/type")}
         onActionSecondary={() => setLocation("/pharmacy/map")}
-        primaryLabel={t("appointments.push.primary")}
+        primaryLabel={t("appointments.push.bookAgain")}
         secondaryLabel={t("appointments.push.secondary")}
       />
 
@@ -365,7 +365,7 @@ function AppointmentCard({ data, onClick }: { data: Appointment, onClick: () => 
           </div>
           {isProcessing && (
             <span className="inline-block mt-2 text-[9px] font-bold text-purple-700 bg-purple-100 px-2 py-0.5 rounded-full uppercase tracking-wider">
-              {t("appointments.partner.curaay")}
+              {t("appointments.partner.smartMatch")}
             </span>
           )}
         </div>

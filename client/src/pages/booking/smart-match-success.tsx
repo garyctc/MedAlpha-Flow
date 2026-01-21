@@ -5,14 +5,14 @@ import { Check, MapPin, Calendar, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DURATION_DEFAULT, EASING_DEFAULT, shouldReduceMotion } from "@/lib/motion";
 
-export default function CuraaySuccess() {
+export default function SmartMatchSuccess() {
   const [, setLocation] = useLocation();
   const reduceMotion = shouldReduceMotion();
 
   useEffect(() => {
     // Save pending booking to localStorage for appointments page
     const booking = {
-      id: `CUR-${Date.now()}`,
+      id: `MA-${Date.now()}`,
       status: "processing",
       doctor: "TBD",
       clinic: "TBD",
@@ -22,7 +22,7 @@ export default function CuraaySuccess() {
       time: "10:00 AM",
       createdAt: new Date().toISOString(),
     };
-    localStorage.setItem("pending-curaay-booking", JSON.stringify(booking));
+    localStorage.setItem("pending-smart-match-booking", JSON.stringify(booking));
 
     // Auto-redirect after 3s
     const timer = setTimeout(() => {
@@ -62,7 +62,7 @@ export default function CuraaySuccess() {
           <div className="flex items-start gap-3">
             <MapPin className="text-purple-700 mt-0.5" size={18} />
             <div>
-              <p className="text-sm font-medium text-slate-900">Curaay Health Center</p>
+              <p className="text-sm font-medium text-slate-900">MedAlpha Health Center</p>
               <p className="text-sm text-slate-500">Friedrichstraße 123, 10117 Berlin</p>
             </div>
           </div>
@@ -81,7 +81,7 @@ export default function CuraaySuccess() {
 
           <div className="flex items-center justify-between">
             <span className="inline-block text-[10px] font-bold text-purple-700 bg-purple-50 px-2 py-1 rounded-full uppercase tracking-wider">
-              Powered by Curaay
+              MedAlpha Match
             </span>
             <span className="inline-block text-xs font-semibold text-purple-700 bg-purple-50 px-3 py-1 rounded-full">
               Confirmed

@@ -7,7 +7,7 @@ import { saveBookingDraft } from "@/lib/storage";
 const clinics = [
   {
     id: 1,
-    name: "Curaay Clinic, Downtown",
+    name: "MedAlpha Health Center",
     address: "Friedrichstraße 123, Berlin",
     distance: "1.2 km",
     rating: 4.8,

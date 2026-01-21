@@ -21,10 +21,10 @@ import BookingCalendar from "@/pages/booking/calendar";
 import BookingReview from "@/pages/booking/review";
 import BookingSuccess from "@/pages/booking/success";
 
-// Curaay Integration
-import CuraayProcessing from "@/pages/booking/curaay-processing";
-import CuraayRefinement from "@/pages/booking/curaay-refinement";
-import CuraaySuccess from "@/pages/booking/curaay-success";
+// Smart Match Integration
+import SmartMatchProcessing from "@/pages/booking/smart-match-processing";
+import SmartMatchRefinement from "@/pages/booking/smart-match-refinement";
+import SmartMatchSuccess from "@/pages/booking/smart-match-success";
 
 // Prescription Flow
 import PrescriptionType from "@/pages/prescriptions/type";
@@ -131,10 +131,10 @@ function AppRoutes() {
       <Route path="/booking/review" component={BookingReview} />
       <Route path="/booking/success" component={BookingSuccess} />
 
-      {/* Curaay Integration Simulation */}
-      <Route path="/booking/curaay-processing" component={CuraayProcessing} />
-      <Route path="/booking/curaay-refinement" component={CuraayRefinement} />
-      <Route path="/booking/curaay-success" component={CuraaySuccess} />
+      {/* Smart Match Integration */}
+      <Route path="/booking/smart-match-processing" component={SmartMatchProcessing} />
+      <Route path="/booking/smart-match-refinement" component={SmartMatchRefinement} />
+      <Route path="/booking/smart-match-success" component={SmartMatchSuccess} />
 
       {/* Prescription Routes */}
       <Route path="/prescriptions" component={PrescriptionType} />

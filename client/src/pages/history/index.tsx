@@ -1,14 +1,13 @@
 import { useState } from "react";
 import { useLocation } from "wouter";
 import { motion } from "framer-motion";
-import { Calendar, Pill, Search, Filter, ChevronRight, FileText, Download, Video } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Calendar, Search, Video } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import dmLogo from "@/assets/dm-logo.svg";
 
 export default function HistoryPage() {
   const [, setLocation] = useLocation();
-  const [activeTab, setActiveTab] = useState<"all" | "in-person" | "prescriptions" | "video">("all");
+  const [activeTab, setActiveTab] = useState<"all" | "in-person" | "video">("all");
 
   return (
     <div className="min-h-screen bg-background pb-24">
@@ -34,7 +33,6 @@ export default function HistoryPage() {
           {[
             { id: "all", label: "All" },
             { id: "in-person", label: "In-Person" },
-            { id: "prescriptions", label: "Prescriptions" },
             { id: "video", label: "Video" }
           ].map((tab) => (
             <button
@@ -69,20 +67,6 @@ export default function HistoryPage() {
                 status="Completed"
                 amount="€0.00"
                 onClick={() => {}} 
-              />
-            )}
-
-            {(activeTab === "all" || activeTab === "prescriptions") && (
-              <HistoryCard
-                icon={Pill}
-                iconColor="text-emerald-600"
-                iconBg="bg-emerald-50"
-                title="Metformin 500mg"
-                subtitle="Prescription • 30 tablets"
-                date="Jan 15, 2026"
-                status="Redeemed"
-                amount="€5.00"
-                onClick={() => {}}
               />
             )}
 
@@ -136,33 +120,6 @@ export default function HistoryPage() {
               />
             )}
             
-            {(activeTab === "all" || activeTab === "prescriptions") && (
-              <HistoryCard
-                icon={Pill}
-                iconColor="text-emerald-600"
-                iconBg="bg-emerald-50"
-                title="Amoxicillin 500mg"
-                subtitle="Prescription • 20 tablets"
-                date="Dec 20, 2025"
-                status="Delivered"
-                amount="€5.00"
-                onClick={() => {}}
-              />
-            )}
-
-            {(activeTab === "all" || activeTab === "prescriptions") && (
-              <HistoryCard
-                icon={Pill}
-                iconColor="text-emerald-600"
-                iconBg="bg-emerald-50"
-                title="Vitamin D 1000 IU"
-                subtitle="Prescription • 60 capsules"
-                date="Dec 15, 2025"
-                status="Picked Up"
-                amount="€12.50"
-                onClick={() => {}}
-              />
-            )}
           </div>
         </section>
       </main>

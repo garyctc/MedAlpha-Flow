@@ -3,7 +3,7 @@ id: c3-0
 c3-version: 3
 title: MedAlpha Connect
 goal: Enable patients to book medical appointments and redeem prescriptions through a unified mobile experience, while supporting white-label deployment for retail partners
-summary: Mobile healthcare app with appointment booking (Curaay/Teleclinic) and prescription redemption (Apo Group/Cardlink)
+summary: Mobile healthcare app with appointment booking (Smart Match/Teleclinic) and prescription redemption (Apo Group/Cardlink)
 ---
 
 # MedAlpha Connect
@@ -29,7 +29,7 @@ graph TB
     end
 
     subgraph External["External Systems"]
-        E1[fa:fa-calendar Curaay<br/>Appointments]
+        E1[fa:fa-calendar Smart Match<br/>Appointments]
         E2[fa:fa-video Teleclinic<br/>Telemedicine]
         E3[fa:fa-pills Apo Group<br/>Online Pharmacy]
         E4[fa:fa-credit-card Cardlink<br/>E-Prescription]
@@ -82,7 +82,7 @@ graph TB
 
 | ID | System | Purpose | Connected From | Integration Type |
 |----|--------|---------|----------------|------------------|
-| E1 | Curaay | AI-driven doctor appointment booking | c3-1 (UI), c3-2 (sync) | Mobile: Booking UI, Backend: Webhooks/sync |
+| E1 | Smart Match | AI-driven doctor appointment booking | c3-1 (UI), c3-2 (sync) | Mobile: Booking UI, Backend: Webhooks/sync |
 | E2 | Teleclinic | Telemedicine video consultations | c3-1 only | WebView/redirect (patient uses Teleclinic UI) |
 | E3 | Apo Group | Online pharmacy for prescription redemption | E4, c3-2 | Receives Rx from Cardlink, Backend checks order status |
 | E4 | Cardlink | E-prescription reading via NFC (eGK) | c3-1 only | Mobile NFC SDK (GEDISA/Akquinet) |
@@ -98,8 +98,8 @@ graph TB
 | A3 → c3-2 | Partner SSO to backend | Authentication handled server-side for security |
 | c3-1 → c3-2 | Mobile calls backend | See "Mobile ↔ Backend Data Flows" below |
 | c3-3 ↔ c3-2 | Admin calls backend | CMS data managed via same API |
-| c3-1 → E1 | Mobile to Curaay | Patient books appointments directly in app |
-| c3-2 → E1 | Backend to Curaay | Sync appointment data, receive webhooks |
+| c3-1 → E1 | Mobile to Smart Match | Patient books appointments directly in app |
+| c3-2 → E1 | Backend to Smart Match | Sync appointment data, receive webhooks |
 | c3-1 → E2 | Mobile to Teleclinic | WebView for telemedicine session |
 | E2 → E4 | Teleclinic to Cardlink | Doctor issues e-prescription after consultation |
 | c3-1 → E4 | Mobile to Cardlink | NFC SDK reads eGK to retrieve e-prescriptions |
@@ -116,7 +116,7 @@ graph TB
 | **Auth (SSO)** | c3-1 → c3-2 | Partner SSO handoff (future) |
 | **User/Profile** | c3-1 ↔ c3-2 | CRUD profile, completion validation |
 | **CMS** | c3-1 ← c3-2 | Fetch dynamic home content, offers, FAQ |
-| **Appointments** | c3-1 ↔ c3-2 | Sync/store appointment data from Curaay |
+| **Appointments** | c3-1 ↔ c3-2 | Sync/store appointment data from Smart Match |
 | **Prescriptions** | c3-1 ↔ c3-2 | Track Rx redemption status, order updates |
 | **History** | c3-1 ← c3-2 | Retrieve past appointments, prescriptions, telemedicine |
 | **Push** | c3-1 ← c3-2 | Receive notifications (via FCM/APNs) |

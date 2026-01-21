@@ -59,7 +59,7 @@ export default function PrivacyPolicy() {
               We do not sell your personal data. We only share your data with trusted partners necessary to provide our services:
             </p>
             <ul className="list-disc pl-5 space-y-2">
-              <li><strong>Healthcare Providers:</strong> Doctors and clinics you book appointments with (via Curaay integration).</li>
+              <li><strong>Healthcare Providers:</strong> Doctors and clinics you book appointments with.</li>
               <li><strong>Telemedicine Platforms:</strong> Video consultation providers (e.g., Teleclinic) to facilitate your virtual visits.</li>
               <li><strong>Pharmacies:</strong> Online and local pharmacies (via Apo Group) for prescription fulfillment.</li>
             </ul>

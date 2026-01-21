@@ -29,27 +29,27 @@
         Root --> BKG006["BKG-006 | Review Booking<br>• Doctor Summary<br>• Location Summary<br>• Date & Time Summary<br>• Edit Buttons"]
         Root --> BKG007["BKG-007 | Booking Success<br>• Confirmation Message<br>• Booking Number<br>• Appointment Details"]
 
-        %% Curaay Integration
-        Root --> BKG008["BKG-008 | Curaay Processing<br>• Processing Animation<br>• Status Message<br>• Curaay Badge"]
-        Root --> BKG009["BKG-009 | Curaay Refinement<br>• Refinement Step UI<br>• Doctor Matching Progress"]
-        Root --> BKG010["BKG-010 | Curaay Success<br>• Booking Confirmed<br>• Doctor Assignment<br>• Appointment Details"]
+        %% Smart Match Integration
+        Root --> BKG008["BKG-008 | Smart Match Processing<br>• Processing Animation<br>• Status Message<br>• MedAlpha Match Badge"]
+        Root --> BKG009["BKG-009 | Smart Match Refinement<br>• Refinement Step UI<br>• Doctor Matching Progress"]
+        Root --> BKG010["BKG-010 | Smart Match Success<br>• Booking Confirmed<br>• Doctor Assignment<br>• Appointment Details"]
 
-        %% Prescriptions Flow
-        Root --> RX001["RX-001 | Prescriptions List<br>• Active Prescriptions Cards<br>• Medication Details<br>• Expiration Dates<br>• FAB to Redeem"]
-        Root --> RX002["RX-002 | Redeem Start<br>• Insurance Toggle (GKV/PKV)<br>• Info Banner<br>• Online Pharmacy Card<br>• Local Pharmacy Card"]
-        Root --> RX003["RX-003 | NFC Intro (GKV)<br>• NFC Instructions<br>• Health Card Illustration<br>• Proceed Button"]
-        Root --> RX004["RX-004 | NFC Scan<br>• Scanner UI<br>• Card Placeholder<br>• Scanning Animation"]
-        Root --> RX005["RX-005 | GKV SMS Verify<br>• SMS Code Input<br>• Resend Code Button<br>• Verify Button"]
-        Root --> RX006["RX-006 | PKV Auth<br>• GesundheitsID Login<br>• Authentication Form"]
-        Root --> RX007["RX-007 | PKV Insurer Select<br>• Insurer Search<br>• Insurance Company List<br>• Selection & Proceed"]
-        Root --> RX008["RX-008 | PKV Redirect<br>• Redirect Message<br>• Loading Indicator"]
-        Root --> RX009["RX-009 | PKV Error<br>• Error Message<br>• Retry Button<br>• Support Link"]
-        Root --> RX010["RX-010 | Prescription Detail<br>• Full Medication Info<br>• Dosage Instructions<br>• Expiration<br>• Redeem Button"]
-        Root --> RX011["RX-011 | Prescription List Select<br>• Available Prescriptions<br>• Selection Checkboxes<br>• Proceed Button"]
-        Root --> RX012["RX-012 | Pharmacy Confirm<br>• Selected Pharmacy<br>• Pharmacy Details<br>• Delivery Options"]
-        Root --> RX013["RX-013 | Order Review<br>• Order Summary<br>• Prescription Details<br>• Total Price<br>• Confirm Button"]
-        Root --> RX014["RX-014 | Order Success<br>• Success Confirmation<br>• Order Number<br>• Estimated Delivery"]
-        Root --> RX015["RX-015 | Prescription Receipt<br>• Receipt Details<br>• Download/Print Button"]
+        %% Prescriptions Flow (OUT OF SCOPE - Hidden from UI)
+        %% Root --> RX001["RX-001 | Prescriptions List"]
+        %% Root --> RX002["RX-002 | Redeem Start"]
+        %% Root --> RX003["RX-003 | NFC Intro (GKV)"]
+        %% Root --> RX004["RX-004 | NFC Scan"]
+        %% Root --> RX005["RX-005 | GKV SMS Verify"]
+        %% Root --> RX006["RX-006 | PKV Auth"]
+        %% Root --> RX007["RX-007 | PKV Insurer Select"]
+        %% Root --> RX008["RX-008 | PKV Redirect"]
+        %% Root --> RX009["RX-009 | PKV Error"]
+        %% Root --> RX010["RX-010 | Prescription Detail"]
+        %% Root --> RX011["RX-011 | Prescription List Select"]
+        %% Root --> RX012["RX-012 | Pharmacy Confirm"]
+        %% Root --> RX013["RX-013 | Order Review"]
+        %% Root --> RX014["RX-014 | Order Success"]
+        %% Root --> RX015["RX-015 | Prescription Receipt"]
 
         %% Telehealth Flow
         Root --> TH001["TH-001 | Schedule Type<br>• Teleclinic Badge<br>• Next Available Card<br>• Pick a Time Card"]
@@ -60,7 +60,7 @@
         Root --> TH006["TH-006 | Confirmation<br>• Confirmation Message<br>• Appointment Time<br>• Join Call Button"]
         Root --> TH007["TH-007 | Waiting Room<br>• Wait Message<br>• Estimated Time<br>• Video Preview<br>• Cancel Button"]
         Root --> TH008["TH-008 | Video Call<br>• Doctor Video Feed<br>• Patient Video Feed<br>• Control Buttons<br>• Chat Interface"]
-        Root --> TH009["TH-009 | Telehealth Summary<br>• Consultation Summary<br>• Doctor Notes<br>• Prescription Links<br>• Follow-up Recommendations"]
+        Root --> TH009["TH-009 | Telehealth Summary<br>• Consultation Summary<br>• Doctor Notes<br>• Follow-up Recommendations"]
         Root --> TH010["TH-010 | Teleclinic Simulated<br>• Simulated Interface<br>• Booking Flow"]
 
         %% Pharmacy Search

@@ -58,14 +58,14 @@ BKG-004   Doctor Select
 BKG-005   Calendar
 BKG-006   Review Booking
 BKG-007   Booking Success
-BKG-008   Curaay Processing
-BKG-009   Curaay Refinement
-BKG-010   Curaay Success
+BKG-008   Smart Match Processing
+BKG-009   Smart Match Refinement
+BKG-010   Smart Match Success
 ```
 
 **Context to consider:**
 - Linear wizard vs ability to go back and change
-- Curaay integration is a separate path from direct booking
+- Smart Match integration is a separate path from direct booking
 - Location relevance for in-person vs telemedicine
 
 ### Phase 4: Prescription Flow (15 screens)

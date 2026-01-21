@@ -9,7 +9,7 @@ Functional Overview
 	•	Profile/Settings
 	•	Two main functions:
 	•	Appointment booking (Primary feature – key for the user)
-	•	Direct, binding doctor's appointment booking via the "Curaay" service
+	•	Direct, binding doctor's appointment booking via the "Smart Match" service
 	•	Telemedicine appointment (video consultation; via Teleclinic)
 	•	Prescription redemption (Secondary offering)
 	•	Online: E-prescription (public and private health insurance) redemption at the "Apo Group" online pharmacy via Cardlink
@@ -35,7 +35,7 @@ Funktionsübersicht:
 	•	Profil/Einstellungen
 	•	Zwei Hauptfunktionen:
 	•	Terminbuchung (Hauptfunktion – wichtig für den Nutzer)
-	•	Direkte verbindliche Arztterminbuchung mit dem Dienst „Curaay“
+	•	Direkte verbindliche Arztterminbuchung mit dem Dienst „Smart Match“
 	•	Telemedizintermin (Videosprechstunde; über Teleclinic)
 	•	Rezept-Einlösung (sekundär Angebot)
 	•	Online: eRezept (GKV und PKV) Einlösung bei der „Apo Group“ Online-Apotheke mit Cardlink

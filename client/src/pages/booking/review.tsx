@@ -17,7 +17,7 @@ export default function BookingReview() {
 
   const handleConfirm = () => {
     clearBookingDraft();
-    setLocation("/booking/curaay-processing");
+    setLocation("/booking/smart-match-processing");
   };
 
   return (

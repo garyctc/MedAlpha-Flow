@@ -71,7 +71,7 @@ A smartphone application for "MedAlpha" to be used within MedAlpha retail partne
 
 | Sub-feature | Description | Integration | Connection |
 |-------------|-------------|-------------|------------|
-| Doctor Appointment | Direct, binding appointment booking | **Curaay** | Mobile: Booking UI, Backend: Webhooks/sync |
+| Doctor Appointment | Direct, binding appointment booking | **Smart Match** | Mobile: Booking UI, Backend: Webhooks/sync |
 | Telemedicine | Video consultation with e-prescription capability | **Teleclinic** | Mobile: WebView only |
 
 ### 4. Secondary Feature: Prescription Redemption
@@ -85,7 +85,7 @@ A smartphone application for "MedAlpha" to be used within MedAlpha retail partne
 
 ### 5. History
 - Past prescription redemptions
-- Appointment bookings (synced from Curaay)
+- Appointment bookings (synced from Smart Match)
 - Telemedicine consultations
 - All persisted via Backend API
 
@@ -109,7 +109,7 @@ A smartphone application for "MedAlpha" to be used within MedAlpha retail partne
 
 | ID | Service | Purpose | Mobile (c3-1) | Backend (c3-2) |
 |----|---------|---------|---------------|----------------|
-| E1 | **Curaay** | AI-driven appointment booking | Direct booking UI | Webhooks, data sync |
+| E1 | **Smart Match** | AI-driven appointment booking | Direct booking UI | Webhooks, data sync |
 | E2 | **Teleclinic** | Telemedicine video consultations | WebView (patient uses their UI) | - |
 | E3 | **Apo Group** | Online pharmacy (like DocMorris) | - | Order/delivery status |
 | E4 | **Cardlink** | E-prescription via NFC (eGK) | NFC SDK (GEDISA/Akquinet) | - |
@@ -142,7 +142,7 @@ A smartphone application for "MedAlpha" to be used within MedAlpha retail partne
 | **Auth (SSO)** | c3-1 → c3-2 | Partner SSO handoff (future) |
 | **User/Profile** | c3-1 ↔ c3-2 | CRUD profile, completion validation |
 | **CMS** | c3-1 ← c3-2 | Fetch dynamic content, offers, FAQ |
-| **Appointments** | c3-1 ↔ c3-2 | Sync/store appointment data from Curaay |
+| **Appointments** | c3-1 ↔ c3-2 | Sync/store appointment data from Smart Match |
 | **Prescriptions** | c3-1 ↔ c3-2 | Track Rx redemption status, order updates |
 | **History** | c3-1 ← c3-2 | Retrieve past appointments, prescriptions |
 | **Push** | c3-1 ← c3-2 | Receive notifications via FCM/APNs |
@@ -199,7 +199,7 @@ A smartphone application for "MedAlpha" to be used within MedAlpha retail partne
 ## Open Questions (To Be Clarified)
 
 - [ ] SSO protocol/standard (OIDC, SAML?)
-- [ ] Curaay API documentation and webhook format
+- [ ] Smart Match API documentation and webhook format
 - [ ] Apo Group API for order status tracking
 - [ ] User data storage and GDPR compliance details
 - [ ] Multi-language support requirements (DE, EN?)
@@ -213,8 +213,8 @@ A smartphone application for "MedAlpha" to be used within MedAlpha retail partne
 
 | Container | Tech | Purpose | External Connections |
 |-----------|------|---------|---------------------|
-| **c3-1** Mobile App | React Native | Patient-facing app | Curaay (UI), Teleclinic (WebView), Cardlink (NFC), Maps |
-| **c3-2** Backend API | Bun | Business logic, data | Curaay (sync), Apo Group (status), Push (send) |
+| **c3-1** Mobile App | React Native | Patient-facing app | Smart Match (UI), Teleclinic (WebView), Cardlink (NFC), Maps |
+| **c3-2** Backend API | Bun | Business logic, data | Smart Match (sync), Apo Group (status), Push (send) |
 | **c3-3** Admin Web | React | CMS management | Backend API only |
 
 ---
@@ -224,7 +224,7 @@ A smartphone application for "MedAlpha" to be used within MedAlpha retail partne
 1. ~~Clarify technology stack~~ ✅
 2. ~~Define architecture containers~~ ✅
 3. ~~Map external integration points~~ ✅
-4. Obtain API documentation for Curaay, Apo Group
+4. Obtain API documentation for Smart Match, Apo Group
 5. Evaluate Cardlink SDK options (GEDISA/Akquinet)
 6. Define detailed user stories per feature
 7. Design wireframes/mockups

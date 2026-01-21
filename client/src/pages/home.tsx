@@ -2,7 +2,7 @@ import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { motion } from "framer-motion";
 import { Link } from "wouter";
-import { Bell, Calendar, Pill, ChevronRight, MapPin, ShoppingBag, Sun, Star } from "lucide-react";
+import { Bell, Calendar, ChevronRight, MapPin, ShoppingBag, Star } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import avatarImage from "@assets/generated_images/professional_user_avatar_for_healthcare_app.png";
@@ -24,14 +24,6 @@ function PromoCarousel() {
     },
     {
       id: 2,
-      title: t("home.promo.immune.title"),
-      subtitle: t("home.promo.immune.subtitle"),
-      gradient: "from-amber-500 to-orange-500",
-      icon: Sun,
-      link: "/prescriptions"
-    },
-    {
-      id: 3,
       title: t("home.promo.brands.title"),
       subtitle: t("home.promo.brands.subtitle"),
       gradient: "from-purple-600 to-pink-500",
@@ -119,42 +111,24 @@ export default function Home() {
           <PromoCarousel />
         </motion.div>
 
-        {/* Feature Cards */}
-        <div className="grid grid-cols-2 gap-4">
-          <Link href="/booking/type">
-            <motion.button 
-              whileTap={{ scale: 0.98 }}
-              className="w-full bg-card p-5 rounded-lg shadow-[var(--shadow-soft)] border border-border flex flex-col items-start gap-4 text-left hover:border-primary/20 hover:shadow-[var(--shadow-card)] transition-all group"
-            >
-              <div className="w-12 h-12 bg-accent rounded-xl flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
-                <Calendar size={24} />
-              </div>
-              <div>
-                <span className="block font-bold text-foreground group-hover:text-primary transition-colors">
-                  {t("home.features.book.title")}
-                </span>
-                <span className="text-xs text-muted-foreground mt-1 block">{t("home.features.book.subtitle")}</span>
-              </div>
-            </motion.button>
-          </Link>
-
-          <Link href="/prescriptions">
-            <motion.button 
-              whileTap={{ scale: 0.98 }}
-              className="w-full bg-card p-5 rounded-lg shadow-[var(--shadow-soft)] border border-border flex flex-col items-start gap-4 text-left hover:border-primary/20 hover:shadow-[var(--shadow-card)] transition-all group"
-            >
-              <div className="w-12 h-12 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
-                <Pill size={24} />
-              </div>
-              <div>
-                <span className="block font-bold text-foreground group-hover:text-emerald-700 transition-colors">
-                  {t("home.features.redeem.title")}
-                </span>
-                <span className="text-xs text-muted-foreground mt-1 block">{t("home.features.redeem.subtitle")}</span>
-              </div>
-            </motion.button>
-          </Link>
-        </div>
+        {/* Feature Card */}
+        <Link href="/booking/type">
+          <motion.button
+            whileTap={{ scale: 0.98 }}
+            className="w-full bg-card p-5 rounded-lg shadow-[var(--shadow-soft)] border border-border flex items-center gap-4 text-left hover:border-primary/20 hover:shadow-[var(--shadow-card)] transition-all group"
+          >
+            <div className="w-12 h-12 bg-accent rounded-xl flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+              <Calendar size={24} />
+            </div>
+            <div className="flex-1">
+              <span className="block font-bold text-foreground group-hover:text-primary transition-colors">
+                {t("home.features.book.title")}
+              </span>
+              <span className="text-xs text-muted-foreground mt-1 block">{t("home.features.book.subtitle")}</span>
+            </div>
+            <ChevronRight size={20} className="text-muted-foreground group-hover:text-primary transition-colors" />
+          </motion.button>
+        </Link>
 
         {/* Upcoming Section */}
         <section>
@@ -183,7 +157,7 @@ export default function Home() {
                          <p className="text-sm text-muted-foreground">{t("home.upcoming.subtitle")}</p>
                          <div className="flex items-center gap-1 mt-2 text-xs text-muted-foreground">
                            <MapPin size={12} />
-                           <span>Curaay Clinic, Downtown</span>
+                           <span>MedAlpha Health Center</span>
                          </div>
                        </div>
                        <Button size="icon" variant="ghost" className="text-muted-foreground">
@@ -211,20 +185,7 @@ export default function Home() {
         {/* Recent Activity Mini-List */}
         <section>
            <h3 className="font-bold text-lg text-foreground mb-4">{t("home.sections.recent")}</h3>
-           <div className="bg-card rounded-lg border border-border shadow-[var(--shadow-card)] p-4 space-y-4">
-              <div className="flex items-center gap-4">
-                 <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center text-muted-foreground">
-                    <Pill size={18} />
-                 </div>
-                 <div className="flex-1">
-                    <p className="font-medium text-sm text-foreground">{t("home.recent.prescription.title")}</p>
-                    <p className="text-xs text-muted-foreground">{t("home.recent.prescription.subtitle")}</p>
-                 </div>
-                 <span className="text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full">
-                   {t("common.status.completed")}
-                 </span>
-              </div>
-              <div className="h-px bg-border w-full" />
+           <div className="bg-card rounded-lg border border-border shadow-[var(--shadow-card)] p-4">
               <div className="flex items-center gap-4">
                  <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center text-muted-foreground">
                     <Calendar size={18} />

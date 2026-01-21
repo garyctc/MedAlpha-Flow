@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "wouter";
-import { Star, Video, FileText, Calendar } from "lucide-react";
+import { Star, Video, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function TelehealthSummary() {
@@ -35,31 +35,17 @@ export default function TelehealthSummary() {
           </div>
         </div>
 
-        {/* Action Cards */}
-        <div className="space-y-3">
-          <div className="bg-white p-4 rounded-xl border border-slate-100 flex items-center justify-between shadow-sm">
-             <div className="flex items-center gap-3">
-               <div className="w-10 h-10 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center">
-                 <FileText size={20} />
-               </div>
-               <span className="font-medium text-slate-900">View Prescription</span>
+        {/* Action Card */}
+        <div className="bg-white p-4 rounded-xl border border-slate-100 flex items-center justify-between shadow-sm">
+           <div className="flex items-center gap-3">
+             <div className="w-10 h-10 bg-blue-50 text-primary rounded-full flex items-center justify-center">
+               <Calendar size={20} />
              </div>
-             <Link href="/prescriptions/detail">
-               <Button size="sm" variant="outline" className="border-emerald-200 text-emerald-700 hover:bg-emerald-50">View</Button>
-             </Link>
-          </div>
-          
-          <div className="bg-white p-4 rounded-xl border border-slate-100 flex items-center justify-between shadow-sm">
-             <div className="flex items-center gap-3">
-               <div className="w-10 h-10 bg-blue-50 text-primary rounded-full flex items-center justify-center">
-                 <Calendar size={20} />
-               </div>
-               <span className="font-medium text-slate-900">Book Follow-up</span>
-             </div>
-             <Link href="/telehealth/schedule-type">
-               <Button size="sm" variant="outline" className="border-blue-200 text-primary hover:bg-blue-50">Book</Button>
-             </Link>
-          </div>
+             <span className="font-medium text-slate-900">Book Follow-up</span>
+           </div>
+           <Link href="/telehealth/schedule-type">
+             <Button size="sm" variant="outline" className="border-blue-200 text-primary hover:bg-blue-50">Book</Button>
+           </Link>
         </div>
 
         {/* Rating */}
