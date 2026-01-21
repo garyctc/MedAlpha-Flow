@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useLocation } from "wouter";
 import { motion } from "framer-motion";
-import dmLogo from "@/assets/dm-logo.svg";
+import appLogo from "@/assets/app-logo.svg";
 
 export default function Splash() {
   const [, setLocation] = useLocation();
@@ -22,9 +22,9 @@ export default function Splash() {
         className="flex flex-col items-center"
       >
         <div className="w-32 h-32 flex items-center justify-center mb-6">
-          <img src={dmLogo} alt="DM Logo" className="w-full h-full object-contain" />
+          <img src={appLogo} alt="MedAlpha Connect Logo" className="w-full h-full object-contain" />
         </div>
-        <h1 className="text-3xl font-bold font-display tracking-tight mb-2 text-slate-900">MedAlpha</h1>
+        <h1 className="text-3xl font-bold font-display tracking-tight mb-2 text-slate-900">MedAlpha Connect</h1>
         <p className="text-slate-500 font-medium">Your healthcare companion</p>
       </motion.div>
     </div>

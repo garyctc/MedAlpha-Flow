@@ -3,9 +3,11 @@ import { Link, useLocation } from "wouter";
 import { Building, Video, ChevronRight } from "lucide-react";
 import SubPageHeader from "@/components/layout/SubPageHeader";
 import { clearBookingDraft } from "@/lib/storage";
+import { useTranslation } from "react-i18next";
 
 export default function BookingType() {
   const [, setLocation] = useLocation();
+  const { t } = useTranslation();
 
   const handleInPersonClick = () => {
     clearBookingDraft();
@@ -19,7 +21,7 @@ export default function BookingType() {
 
   return (
     <div className="min-h-screen bg-background pb-20">
-      <SubPageHeader title="Book Appointment" backPath="/home" />
+      <SubPageHeader title={t("booking.type.title")} backPath="/home" />
       
       <main className="p-5 space-y-4">
         {/* In-Person Card */}
@@ -33,8 +35,8 @@ export default function BookingType() {
               <Building size={24} />
             </div>
             <div>
-              <h3 className="font-bold text-slate-900 text-lg">In-Person Visit</h3>
-              <p className="text-slate-500 text-sm mt-1">Book a doctor's appointment at a clinic near you</p>
+              <h3 className="font-bold text-slate-900 text-lg">{t("booking.type.inPerson.title")}</h3>
+              <p className="text-slate-500 text-sm mt-1">{t("booking.type.inPerson.subtitle")}</p>
             </div>
           </div>
           <ChevronRight size={20} className="text-slate-300 group-hover:text-primary transition-colors" />
@@ -51,10 +53,10 @@ export default function BookingType() {
               <Video size={24} />
             </div>
             <div>
-              <h3 className="font-bold text-slate-900 text-lg">Video Consultation</h3>
-              <p className="text-slate-500 text-sm mt-1">Speak with a doctor from home</p>
+              <h3 className="font-bold text-slate-900 text-lg">{t("booking.type.video.title")}</h3>
+              <p className="text-slate-500 text-sm mt-1">{t("booking.type.video.subtitle")}</p>
               <span className="inline-block mt-2 text-[10px] font-bold text-cyan-600 bg-cyan-50 px-2 py-0.5 rounded-full uppercase tracking-wider">
-                  Powered by Teleclinic
+                  {t("booking.type.video.partner")}
               </span>
             </div>
           </div>

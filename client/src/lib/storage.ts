@@ -7,12 +7,15 @@ import type {
   BookingDraft,
   RegistrationDraft,
 } from '@/types/storage';
+import { format, parse } from "date-fns";
+import { enUS } from "date-fns/locale";
 
 // Storage keys
 const KEYS = {
   PROFILE: 'user-profile',
   INSURANCE: 'user-insurance',
   APPOINTMENTS: 'user-appointments',
+  APPOINTMENTS_SCHEMA_V2: 'user-appointments-schema-v2',
   BOOKING_DRAFT: 'booking-draft',
   REGISTRATION_DRAFT: 'registration-draft',
   // Legacy keys for migration
@@ -64,6 +67,8 @@ export function saveUserInsurance(insurance: Partial<UserInsurance>): void {
 // === Appointments Management ===
 
 export function getUserAppointments(): Appointment[] {
+  migrateAppointmentsToIsoV2();
+
   const data = localStorage.getItem(KEYS.APPOINTMENTS);
   if (!data) return [];
 
@@ -99,6 +104,62 @@ export function removeAppointment(id: string): void {
   const appointments = getUserAppointments();
   const filtered = appointments.filter(a => a.id !== id);
   localStorage.setItem(KEYS.APPOINTMENTS, JSON.stringify(filtered));
+}
+
+function migrateAppointmentsToIsoV2(): void {
+  if (localStorage.getItem(KEYS.APPOINTMENTS_SCHEMA_V2) === "1") return;
+
+  const raw = localStorage.getItem(KEYS.APPOINTMENTS);
+  if (!raw) {
+    localStorage.setItem(KEYS.APPOINTMENTS_SCHEMA_V2, "1");
+    return;
+  }
+
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(raw);
+  } catch {
+    return;
+  }
+
+  if (!Array.isArray(parsed)) return;
+
+  const dateFormats = ["MMM d, yyyy", "MMMM d, yyyy", "MMM dd, yyyy", "MMMM dd, yyyy"] as const;
+
+  const migrated = parsed.map((apt) => {
+    if (!apt || typeof apt !== "object") return apt;
+    const next = { ...(apt as any) };
+
+    const date = typeof next.date === "string" ? next.date.trim() : null;
+    if (date && !/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+      for (const fmt of dateFormats) {
+        const dt = parse(date, fmt, new Date(), { locale: enUS });
+        if (!Number.isNaN(dt.getTime())) {
+          next.date = format(dt, "yyyy-MM-dd");
+          break;
+        }
+      }
+    }
+
+    const time = typeof next.time === "string" ? next.time.trim() : null;
+    if (time && !/^\d{2}:\d{2}$/.test(time)) {
+      const dt = /\b(am|pm)\b/i.test(time)
+        ? parse(time, "h:mm a", new Date(), { locale: enUS })
+        : parse(time.padStart(5, "0"), "HH:mm", new Date());
+      if (!Number.isNaN(dt.getTime())) {
+        next.time = format(dt, "HH:mm");
+      }
+    }
+
+    return next;
+  });
+
+  try {
+    localStorage.setItem(KEYS.APPOINTMENTS, JSON.stringify(migrated));
+    localStorage.setItem(KEYS.APPOINTMENTS_SCHEMA_V2, "1");
+  } catch {
+    // ignore write failures
+  }
 }
 
 // === Booking Draft Management ===

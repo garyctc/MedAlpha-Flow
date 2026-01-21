@@ -1,0 +1,382 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "1.0.0",
+  "lastUpdated": "2026-01-16",
+  "description": "Machine-readable design tokens for MedAlpha Connect. Source of truth for AI agents and build tools.",
+  "designVariation": "A - dm Clinical Trust",
+
+  "colors": {
+    "primitives": {
+      "blue": {
+        "10": "#F0F4FA",
+        "20": "#D6E2F5",
+        "30": "#A8C4EA",
+        "40": "#6A9AD8",
+        "50": "#3A75C4",
+        "60": "#1E5BB8",
+        "70": "#0C3D91",
+        "80": "#082B6A",
+        "90": "#051C47"
+      },
+      "gray": {
+        "10": "#F5F7FA",
+        "20": "#E2E8F0",
+        "30": "#CBD5E1",
+        "40": "#94A3B8",
+        "50": "#64748B",
+        "60": "#475569",
+        "70": "#334155",
+        "80": "#1E293B",
+        "90": "#0F172A"
+      },
+      "red": {
+        "10": "#FEF2F2",
+        "20": "#FEE2E2",
+        "30": "#FECACA",
+        "40": "#F87171",
+        "50": "#EF4444",
+        "60": "#DC2626",
+        "70": "#B91C1C",
+        "80": "#991B1B",
+        "90": "#7F1D1D"
+      },
+      "green": {
+        "10": "#F0FDF4",
+        "20": "#DCFCE7",
+        "30": "#BBF7D0",
+        "40": "#86EFAC",
+        "50": "#4ADE80",
+        "60": "#22C55E",
+        "70": "#16A34A",
+        "80": "#15803D",
+        "90": "#166534"
+      },
+      "yellow": {
+        "10": "#FFFBEB",
+        "20": "#FEF3C7",
+        "30": "#FDE68A",
+        "40": "#FACC15",
+        "50": "#EAB308",
+        "60": "#CA8A04",
+        "70": "#A16207",
+        "80": "#854D0E",
+        "90": "#713F12"
+      },
+      "orange": {
+        "10": "#FFF7ED",
+        "20": "#FFEDD5",
+        "30": "#FED7AA",
+        "40": "#FDBA74",
+        "50": "#FB923C",
+        "60": "#F59E0B",
+        "70": "#D97706",
+        "80": "#B45309",
+        "90": "#92400E"
+      }
+    },
+
+    "brand": {
+      "dmBlue": {
+        "value": "#0C3D91",
+        "reference": "blue-70",
+        "usage": "Primary brand color, headers, primary CTAs"
+      },
+      "dmBlueLight": {
+        "value": "#1E5BB8",
+        "reference": "blue-60"
+      },
+      "dmBlueDark": {
+        "value": "#082B6A",
+        "reference": "blue-80"
+      },
+      "dmRed": {
+        "value": "#EE161F",
+        "usage": "Brand accent, alerts, destructive actions"
+      },
+      "dmYellow": {
+        "value": "#FFC603",
+        "usage": "Highlights, badges, attention"
+      }
+    },
+
+    "semantic": {
+      "primary": {
+        "value": "#0C3D91",
+        "reference": "blue-70 (dmBlue)",
+        "usage": "Primary CTAs, headers, navigation, links"
+      },
+      "primaryLight": {
+        "value": "#1E5BB8",
+        "reference": "blue-60"
+      },
+      "primaryDark": {
+        "value": "#082B6A",
+        "reference": "blue-80"
+      },
+      "secondary": {
+        "value": "#EE161F",
+        "reference": "dmRed",
+        "usage": "Brand accent, critical alerts, destructive actions"
+      },
+      "secondaryLight": {
+        "value": "#FF4D4D",
+        "reference": "red-40"
+      },
+      "accent": {
+        "value": "#FFC603",
+        "reference": "dmYellow",
+        "usage": "Highlights, badges, promotions"
+      },
+      "background": {
+        "value": "#F5F7FA",
+        "reference": "gray-10"
+      },
+      "backgroundCard": {
+        "value": "#FFFFFF",
+        "reference": "white"
+      },
+      "foreground": {
+        "value": "#1A1A2E",
+        "usage": "Primary text"
+      },
+      "foregroundSecondary": {
+        "value": "#5A6178",
+        "usage": "Secondary text, labels"
+      },
+      "foregroundMuted": {
+        "value": "#8E94A7",
+        "usage": "Placeholders, disabled text, metadata"
+      },
+      "success": {
+        "value": "#2E7D32",
+        "reference": "green-80",
+        "usage": "Confirmation, completed states, positive feedback"
+      },
+      "warning": {
+        "value": "#F59E0B",
+        "reference": "orange-60",
+        "usage": "Caution states, pending actions"
+      },
+      "error": {
+        "value": "#DC2626",
+        "reference": "red-60",
+        "usage": "Validation errors, failed states, critical alerts"
+      },
+      "border": {
+        "value": "#E2E8F0",
+        "reference": "gray-20"
+      },
+      "ring": {
+        "value": "#0C3D91",
+        "reference": "blue-70",
+        "usage": "Focus ring for accessibility"
+      }
+    }
+  },
+
+  "spacing": {
+    "scale": [4, 8, 12, 16, 20, 24, 32, 48],
+    "unit": "px",
+    "usage": {
+      "4": "Tight gaps, icon padding (xs)",
+      "8": "Default gap, button padding (sm)",
+      "12": "Component vertical spacing",
+      "16": "Card padding, screen padding minimum (md)",
+      "20": "Card padding comfortable",
+      "24": "Section gaps (lg)",
+      "32": "Large section separation (xl)",
+      "48": "Major layout gaps (2xl)"
+    }
+  },
+
+  "borderRadius": {
+    "sm": {
+      "value": "8px",
+      "tailwindClass": "rounded-sm",
+      "usage": "Chips, badges, small elements"
+    },
+    "md": {
+      "value": "12px",
+      "tailwindClass": "rounded-md",
+      "usage": "Input fields, buttons, small cards"
+    },
+    "lg": {
+      "value": "16px",
+      "tailwindClass": "rounded-lg",
+      "usage": "Cards, panels"
+    },
+    "xl": {
+      "value": "20px",
+      "tailwindClass": "rounded-xl",
+      "usage": "Bottom sheets, modals, large cards"
+    },
+    "pill": {
+      "value": "9999px",
+      "tailwindClass": "rounded-full",
+      "usage": "Pill buttons, avatars, toggles"
+    }
+  },
+
+  "shadows": {
+    "card": {
+      "value": "0 2px 8px rgba(12, 61, 145, 0.08)",
+      "usage": "Card elevation, default shadow"
+    },
+    "elevated": {
+      "value": "0 4px 16px rgba(12, 61, 145, 0.12)",
+      "usage": "Modals, bottom sheets, elevated surfaces"
+    },
+    "soft": {
+      "value": "0 1px 3px rgba(12, 61, 145, 0.06)",
+      "usage": "Subtle depth, list items"
+    }
+  },
+
+  "typography": {
+    "fontFamily": {
+      "sans": ["Open Sans", "system-ui", "sans-serif"]
+    },
+    "scale": {
+      "h1": {
+        "fontSize": "1.75rem",
+        "lineHeight": "2.25rem",
+        "fontWeight": "700",
+        "usage": "Page titles"
+      },
+      "h2": {
+        "fontSize": "1.375rem",
+        "lineHeight": "1.875rem",
+        "fontWeight": "600",
+        "usage": "Section headers"
+      },
+      "h3": {
+        "fontSize": "1.125rem",
+        "lineHeight": "1.625rem",
+        "fontWeight": "600",
+        "usage": "Subsections, card titles"
+      },
+      "bodyLg": {
+        "fontSize": "1.125rem",
+        "lineHeight": "1.75rem",
+        "fontWeight": "400",
+        "usage": "Large body text, introductions"
+      },
+      "body": {
+        "fontSize": "1rem",
+        "lineHeight": "1.5rem",
+        "fontWeight": "400",
+        "usage": "Default body text"
+      },
+      "caption": {
+        "fontSize": "0.875rem",
+        "lineHeight": "1.25rem",
+        "fontWeight": "400",
+        "usage": "Labels, metadata, helper text"
+      },
+      "small": {
+        "fontSize": "0.75rem",
+        "lineHeight": "1rem",
+        "fontWeight": "400",
+        "usage": "Fine print, timestamps"
+      }
+    },
+    "german": {
+      "note": "German text tends to be 20-30% longer than English. Design for flexible layouts."
+    }
+  },
+
+  "animation": {
+    "duration": {
+      "fast": "150ms",
+      "default": "200ms",
+      "slow": "300ms"
+    },
+    "easing": {
+      "default": "cubic-bezier(0.4, 0, 0.2, 1)",
+      "note": "Smooth, professional. Not bouncy."
+    }
+  },
+
+  "touchTargets": {
+    "minimum": "44px",
+    "comfortable": "48px",
+    "note": "WCAG 2.1 AA compliant. Helga persona requires comfortable sizing."
+  },
+
+  "accessibility": {
+    "mode": {
+      "standard": {
+        "fontSize": "1rem",
+        "touchTarget": "44px",
+        "contrast": "4.5:1"
+      },
+      "enhanced": {
+        "fontSize": "1.125rem",
+        "touchTarget": "48px",
+        "contrast": "7:1",
+        "description": "For users like Helga who need larger text and touch targets"
+      }
+    },
+    "tokens": {
+      "focusRingWidth": "2px",
+      "focusRingOffset": "2px",
+      "focusRingColor": "#0C3D91",
+      "highContrastBorder": "#1A1A2E",
+      "largeTextScale": "1.125"
+    }
+  },
+
+  "whiteLabel": {
+    "description": "Tokens that can be customized per partner/brand deployment",
+    "customizable": {
+      "colors": {
+        "primary": true,
+        "primaryLight": true,
+        "primaryDark": true,
+        "secondary": true,
+        "accent": true,
+        "note": "Background, foreground, success/warning/error should remain consistent for UX"
+      },
+      "branding": {
+        "appName": true,
+        "logoSplash": true,
+        "logoHeader": true,
+        "faviconUrl": true
+      },
+      "typography": {
+        "fontFamily": true,
+        "note": "Font weights and sizes should remain consistent"
+      },
+      "features": {
+        "telemedicineEnabled": true,
+        "prescriptionEnabled": true,
+        "appointmentBookingEnabled": true,
+        "pharmacySearchEnabled": true,
+        "note": "Feature toggles per partner deployment"
+      }
+    },
+    "fixed": {
+      "spacing": "Spacing scale must remain consistent for layout integrity",
+      "borderRadius": "Radius system maintains visual consistency",
+      "shadows": "Shadow depth hierarchy should not change",
+      "accessibility": "Accessibility tokens are non-negotiable"
+    },
+    "partnerExample": {
+      "partnerId": "example-partner",
+      "overrides": {
+        "primary": "#1E40AF",
+        "secondary": "#7C3AED",
+        "accent": "#F59E0B",
+        "appName": "Partner Health",
+        "logoSplash": "/assets/partners/example/logo-splash.svg",
+        "logoHeader": "/assets/partners/example/logo-header.svg"
+      }
+    }
+  },
+
+  "i18n": {
+    "supportedLocales": ["de", "en"],
+    "defaultLocale": "de",
+    "note": "German primary, English for expats and SSO partners"
+  }
+}

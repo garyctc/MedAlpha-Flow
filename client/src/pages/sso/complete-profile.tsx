@@ -26,7 +26,7 @@ export default function CompleteProfile() {
 
       <main className="p-5 space-y-6">
         <div className="text-sm text-slate-500">
-          <p className="font-medium text-slate-900 mb-1">Welcome from dm!</p>
+          <p className="font-medium text-slate-900 mb-1">Welcome from dm</p>
           <p>We just need a few more details to get you started.</p>
         </div>
 

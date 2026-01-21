@@ -90,7 +90,7 @@ export default function TeleclinicSimulated() {
           >
             <Check className="text-white" size={40} />
           </motion.div>
-          <h2 className="text-2xl font-bold text-slate-900 mb-2">Booking Confirmed!</h2>
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">Booking confirmed</h2>
           <p className="text-slate-600 text-sm">Returning to your appointments...</p>
         </div>
       );

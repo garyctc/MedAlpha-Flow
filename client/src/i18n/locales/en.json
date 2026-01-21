@@ -1,0 +1,190 @@
+{
+  "common": {
+    "buttons": {
+      "confirm": "Confirm",
+      "cancel": "Cancel",
+      "continue": "Continue",
+      "back": "Back",
+      "edit": "Edit",
+      "done": "Done",
+      "retry": "Try again",
+      "close": "Close",
+      "seeAll": "See all"
+    },
+    "status": {
+      "loading": "Loading",
+      "processing": "Processing",
+      "completed": "Completed",
+      "cancelled": "Cancelled",
+      "confirmed": "Confirmed"
+    }
+  },
+  "specialty": {
+    "generalPractice": "General practice"
+  },
+  "nav": {
+    "home": "Home",
+    "appointments": "Appointments",
+    "booking": "Booking",
+    "profile": "Profile",
+    "language": "Language"
+  },
+  "home": {
+    "promo": {
+      "pharmacy": {
+        "title": "Pharmacy products",
+        "subtitle": "Order non-prescription medicines for home delivery."
+      },
+      "immune": {
+        "title": "Boost your immune system",
+        "subtitle": "Vitamins and supplements for everyday health."
+      },
+      "brands": {
+        "title": "Premium brands",
+        "subtitle": "Discover brands like Linola and Ratiopharm."
+      },
+      "cta": "Shop now"
+    },
+    "features": {
+      "book": {
+        "title": "Book appointment",
+        "subtitle": "Schedule a visit"
+      },
+      "redeem": {
+        "title": "Redeem prescription",
+        "subtitle": "Pharmacy pickup"
+      }
+    },
+    "sections": {
+      "upcoming": "Upcoming",
+      "recent": "Recent"
+    },
+    "upcoming": {
+      "subtitle": "General checkup"
+    },
+    "empty": {
+      "title": "No upcoming appointments",
+      "cta": "Book appointment"
+    },
+    "recent": {
+      "prescription": {
+        "title": "Prescription refilled",
+        "subtitle": "Amoxicillin • 2 days ago"
+      },
+      "appointment": {
+        "title": "Appointment booked",
+        "subtitle": "Dr. Smith • 5 days ago"
+      }
+    }
+  },
+  "booking": {
+    "type": {
+      "title": "Book appointment",
+      "inPerson": {
+        "title": "In-person visit",
+        "subtitle": "Book an appointment at a clinic near you."
+      },
+      "video": {
+        "title": "Video consultation",
+        "subtitle": "Speak with a doctor from home.",
+        "partner": "Powered by Teleclinic"
+      }
+    },
+    "review": {
+      "title": "Review booking",
+      "confirm": "Confirm booking"
+    },
+    "success": {
+      "title": "Appointment confirmed",
+      "subtitle": "Your appointment is booked.",
+      "summaryDateTime": "{{date}} at {{time}}",
+      "addToCalendar": "Add to calendar"
+    }
+  },
+  "appointments": {
+    "title": "Appointments",
+    "filters": {
+      "all": "All types",
+      "inPerson": "In-person",
+      "video": "Video"
+    },
+    "type": {
+      "video": "Video"
+    },
+    "badge": {
+      "tomorrow": "Tomorrow"
+    },
+    "placeholders": {
+      "doctor": "To be confirmed",
+      "awaitingConfirmation": "Awaiting confirmation"
+    },
+    "partner": {
+      "curaay": "Powered by Curaay"
+    },
+    "toast": {
+      "confirmed": {
+        "title": "Appointment confirmed",
+        "description": "Your appointment with {{doctor}} is confirmed."
+      }
+    },
+    "push": {
+      "title": "Appointment completed",
+      "message": "How was your visit with {{doctor}}. Redeem a prescription or find a pharmacy.",
+      "primary": "Redeem prescription",
+      "secondary": "Find pharmacy"
+    },
+    "empty": {
+      "noUpcoming": "No upcoming appointments",
+      "noUpcomingWithType": "No upcoming {{type}} appointments",
+      "viewHistory": "View history"
+    },
+    "detail": {
+      "title": "Appointment details",
+      "badgeTomorrowAt": "Tomorrow at {{time}}",
+      "getDirections": "Get directions",
+      "addToCalendar": "Add to calendar",
+      "reschedule": "Reschedule appointment",
+      "bring": {
+        "title": "What to bring",
+        "items": {
+          "healthCard": "Your health card",
+          "records": "Previous medical records, if applicable",
+          "medications": "A list of current medications"
+        }
+      },
+      "cancel": {
+        "action": "Cancel appointment",
+        "confirmTitle": "Cancel appointment",
+        "confirmDescription": "Cancel your appointment with {{doctor}}. This cannot be undone.",
+        "keep": "Keep appointment",
+        "confirm": "Cancel appointment",
+        "toastTitle": "Appointment cancelled",
+        "toastDescription": "Appointment cancelled."
+      }
+    }
+  },
+  "profile": {
+    "title": "Profile",
+    "sections": {
+      "account": "Account",
+      "support": "Support"
+    },
+    "menu": {
+      "personalInfo": "Personal information",
+      "insuranceInfo": "Insurance information",
+      "linkedAccounts": "Linked accounts",
+      "linkedAccountsValue": "{{count}} connected",
+      "notifications": "Notification preferences",
+      "help": "Help and support",
+      "privacyLegal": "Privacy and legal"
+    },
+    "signOut": "Sign out",
+    "language": {
+      "currentLabel": "App language",
+      "helper": "The app displays in your selected language.",
+      "available": "Available",
+      "enLabel": "English",
+      "deLabel": "Deutsch"
+    }
+  }
+}

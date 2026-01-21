@@ -78,7 +78,7 @@ export default function EditProfile() {
 
       toast({
         title: "Profile updated",
-        description: "Your changes have been saved successfully.",
+        description: "Changes saved.",
       });
 
       setLocation("/profile");

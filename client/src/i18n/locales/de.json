@@ -1,0 +1,190 @@
+{
+  "common": {
+    "buttons": {
+      "confirm": "Bestätigen",
+      "cancel": "Abbrechen",
+      "continue": "Weiter",
+      "back": "Zurück",
+      "edit": "Bearbeiten",
+      "done": "Fertig",
+      "retry": "Erneut versuchen",
+      "close": "Schließen",
+      "seeAll": "Alle ansehen"
+    },
+    "status": {
+      "loading": "Lädt",
+      "processing": "Wird verarbeitet",
+      "completed": "Abgeschlossen",
+      "cancelled": "Storniert",
+      "confirmed": "Bestätigt"
+    }
+  },
+  "specialty": {
+    "generalPractice": "Allgemeinmedizin"
+  },
+  "nav": {
+    "home": "Start",
+    "appointments": "Termine",
+    "booking": "Buchung",
+    "profile": "Profil",
+    "language": "Sprache"
+  },
+  "home": {
+    "promo": {
+      "pharmacy": {
+        "title": "Apothekenprodukte",
+        "subtitle": "Bestelle rezeptfreie Medikamente nach Hause."
+      },
+      "immune": {
+        "title": "Immunsystem stärken",
+        "subtitle": "Vitamine und Nahrungsergänzung für den Alltag."
+      },
+      "brands": {
+        "title": "Premium-Marken",
+        "subtitle": "Entdecke Marken wie Linola und Ratiopharm."
+      },
+      "cta": "Jetzt einkaufen"
+    },
+    "features": {
+      "book": {
+        "title": "Termin buchen",
+        "subtitle": "Besuch planen"
+      },
+      "redeem": {
+        "title": "Rezept einlösen",
+        "subtitle": "Abholung in der Apotheke"
+      }
+    },
+    "sections": {
+      "upcoming": "Anstehend",
+      "recent": "Letzte Aktivitäten"
+    },
+    "upcoming": {
+      "subtitle": "Allgemeiner Check-up"
+    },
+    "empty": {
+      "title": "Keine anstehenden Termine",
+      "cta": "Termin buchen"
+    },
+    "recent": {
+      "prescription": {
+        "title": "Rezept eingelöst",
+        "subtitle": "Amoxicillin • vor 2 Tagen"
+      },
+      "appointment": {
+        "title": "Termin gebucht",
+        "subtitle": "Dr. Smith • vor 5 Tagen"
+      }
+    }
+  },
+  "booking": {
+    "type": {
+      "title": "Termin buchen",
+      "inPerson": {
+        "title": "Vor Ort",
+        "subtitle": "Buche einen Termin in einer Praxis in deiner Nähe."
+      },
+      "video": {
+        "title": "Videosprechstunde",
+        "subtitle": "Sprich von zu Hause mit einer Ärztin oder einem Arzt.",
+        "partner": "Powered by Teleclinic"
+      }
+    },
+    "review": {
+      "title": "Buchung prüfen",
+      "confirm": "Buchung bestätigen"
+    },
+    "success": {
+      "title": "Termin bestätigt",
+      "subtitle": "Dein Termin ist gebucht.",
+      "summaryDateTime": "{{date}} um {{time}}",
+      "addToCalendar": "Zum Kalender hinzufügen"
+    }
+  },
+  "appointments": {
+    "title": "Termine",
+    "filters": {
+      "all": "Alle",
+      "inPerson": "Vor Ort",
+      "video": "Video"
+    },
+    "type": {
+      "video": "Video"
+    },
+    "badge": {
+      "tomorrow": "Morgen"
+    },
+    "placeholders": {
+      "doctor": "Wird bestätigt",
+      "awaitingConfirmation": "Wartet auf Bestätigung"
+    },
+    "partner": {
+      "curaay": "Powered by Curaay"
+    },
+    "toast": {
+      "confirmed": {
+        "title": "Termin bestätigt",
+        "description": "Dein Termin mit {{doctor}} ist bestätigt."
+      }
+    },
+    "push": {
+      "title": "Termin abgeschlossen",
+      "message": "Wie war dein Besuch bei {{doctor}}. Rezept einlösen oder Apotheke finden.",
+      "primary": "Rezept einlösen",
+      "secondary": "Apotheke finden"
+    },
+    "empty": {
+      "noUpcoming": "Keine anstehenden Termine",
+      "noUpcomingWithType": "Keine anstehenden {{type}}-Termine",
+      "viewHistory": "Verlauf ansehen"
+    },
+    "detail": {
+      "title": "Termindetails",
+      "badgeTomorrowAt": "Morgen um {{time}}",
+      "getDirections": "Route",
+      "addToCalendar": "Zum Kalender hinzufügen",
+      "reschedule": "Termin verschieben",
+      "bring": {
+        "title": "Bitte mitbringen",
+        "items": {
+          "healthCard": "Gesundheitskarte",
+          "records": "Vorherige Befunde, falls vorhanden",
+          "medications": "Liste der aktuellen Medikamente"
+        }
+      },
+      "cancel": {
+        "action": "Termin stornieren",
+        "confirmTitle": "Termin stornieren",
+        "confirmDescription": "Termin mit {{doctor}} stornieren. Das kann nicht rückgängig gemacht werden.",
+        "keep": "Termin behalten",
+        "confirm": "Termin stornieren",
+        "toastTitle": "Termin storniert",
+        "toastDescription": "Termin storniert."
+      }
+    }
+  },
+  "profile": {
+    "title": "Profil",
+    "sections": {
+      "account": "Konto",
+      "support": "Support"
+    },
+    "menu": {
+      "personalInfo": "Persönliche Daten",
+      "insuranceInfo": "Versicherungsdaten",
+      "linkedAccounts": "Verknüpfte Konten",
+      "linkedAccountsValue": "{{count}} verbunden",
+      "notifications": "Benachrichtigungseinstellungen",
+      "help": "Hilfe und Support",
+      "privacyLegal": "Datenschutz und Rechtliches"
+    },
+    "signOut": "Abmelden",
+    "language": {
+      "currentLabel": "App-Sprache",
+      "helper": "Die App wird in deiner ausgewählten Sprache angezeigt.",
+      "available": "Verfügbar",
+      "enLabel": "English",
+      "deLabel": "Deutsch"
+    }
+  }
+}

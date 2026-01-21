@@ -3,10 +3,17 @@ import { User, MapPin, Calendar, Clock } from "lucide-react";
 import SubPageHeader from "@/components/layout/SubPageHeader";
 import { Button } from "@/components/ui/button";
 import { getBookingDraft, clearBookingDraft } from "@/lib/storage";
+import { useTranslation } from "react-i18next";
+import { formatLocalDate, formatLocalTime, getLocale } from "@/i18n";
 
 export default function BookingReview() {
   const [, setLocation] = useLocation();
   const draft = getBookingDraft();
+  const { t } = useTranslation();
+  const locale = getLocale();
+
+  const fallbackDateIso = "2026-01-20";
+  const fallbackTime24 = "09:00";
 
   const handleConfirm = () => {
     clearBookingDraft();
@@ -15,7 +22,7 @@ export default function BookingReview() {
 
   return (
     <div className="min-h-screen bg-background pb-28">
-      <SubPageHeader title="Review Booking" backPath="/booking/calendar" />
+      <SubPageHeader title={t("booking.review.title")} backPath="/booking/calendar" />
       
       <main className="p-5">
         <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
@@ -25,9 +32,9 @@ export default function BookingReview() {
             <div className="w-12 h-12 bg-slate-200 rounded-full flex-shrink-0"></div>
             <div className="flex-1">
               <p className="font-bold text-slate-900">{draft?.doctor || "Dr. Anna Schmidt"}</p>
-              <p className="text-sm text-slate-500">{draft?.specialty || "General Practice"}</p>
+              <p className="text-sm text-slate-500">{draft?.specialty || t("specialty.generalPractice")}</p>
             </div>
-            <button className="text-sm font-medium text-primary">Edit</button>
+            <button className="text-sm font-medium text-primary">{t("common.buttons.edit")}</button>
           </div>
 
           <div className="h-px bg-slate-100 mx-4"></div>
@@ -41,7 +48,7 @@ export default function BookingReview() {
               <p className="font-bold text-slate-900 text-sm">{draft?.location || "Health Center Berlin"}</p>
               <p className="text-xs text-slate-500 mt-0.5">Friedrichstraße 123, Berlin</p>
             </div>
-            <button className="text-sm font-medium text-primary">Edit</button>
+            <button className="text-sm font-medium text-primary">{t("common.buttons.edit")}</button>
           </div>
 
           <div className="h-px bg-slate-100 mx-4"></div>
@@ -51,14 +58,18 @@ export default function BookingReview() {
              <div className="space-y-3 flex-1">
                 <div className="flex items-center gap-3">
                   <Calendar size={18} className="text-primary" />
-                  <span className="text-sm font-medium text-slate-700">{draft?.date || "January 20, 2026"}</span>
+                  <span className="text-sm font-medium text-slate-700">
+                    {draft?.date || formatLocalDate(fallbackDateIso, locale)}
+                  </span>
                 </div>
                 <div className="flex items-center gap-3">
                   <Clock size={18} className="text-primary" />
-                  <span className="text-sm font-medium text-slate-700">{draft?.time || "9:00 AM"}</span>
+                  <span className="text-sm font-medium text-slate-700">
+                    {draft?.time || formatLocalTime(fallbackTime24, locale)}
+                  </span>
                 </div>
              </div>
-             <button className="text-sm font-medium text-primary">Edit</button>
+             <button className="text-sm font-medium text-primary">{t("common.buttons.edit")}</button>
           </div>
 
         </div>
@@ -72,7 +83,7 @@ export default function BookingReview() {
               className="w-full h-12 text-base rounded-xl bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/20"
               onClick={handleConfirm}
             >
-              Confirm Booking
+              {t("booking.review.confirm")}
             </Button>
           </div>
         </div>

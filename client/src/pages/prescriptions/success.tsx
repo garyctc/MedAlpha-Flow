@@ -3,10 +3,12 @@ import { Link, useLocation } from "wouter";
 import { Check, Package, FileText, Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
+import { DURATION_DEFAULT, DURATION_SLOW, EASING_DEFAULT, shouldReduceMotion } from "@/lib/motion";
 
 export default function OrderSuccess() {
   const [, setLocation] = useLocation();
   const [insuranceType, setInsuranceType] = useState<"gkv" | "pkv">("gkv");
+  const reduceMotion = shouldReduceMotion();
 
   useEffect(() => {
     const saved = localStorage.getItem("user-insurance-type") as "gkv" | "pkv";
@@ -16,9 +18,9 @@ export default function OrderSuccess() {
   return (
     <div className="min-h-screen bg-white flex flex-col items-center justify-center p-6 text-center" data-testid="order-success-screen">
       <motion.div
-        initial={{ scale: 0.8, opacity: 0 }}
+        initial={reduceMotion ? false : { scale: 0.8, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        transition={{ type: "spring", duration: 0.6 }}
+        transition={reduceMotion ? { duration: 0 } : { duration: DURATION_SLOW, ease: EASING_DEFAULT }}
         className="w-24 h-24 bg-green-50 rounded-full flex items-center justify-center mb-6"
       >
         <div className="w-16 h-16 bg-[#2E7D32] rounded-full flex items-center justify-center shadow-lg shadow-green-200">
@@ -27,12 +29,16 @@ export default function OrderSuccess() {
       </motion.div>
 
       <motion.div
-        initial={{ y: 20, opacity: 0 }}
+        initial={reduceMotion ? false : { y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.2 }}
+        transition={
+          reduceMotion
+            ? { duration: 0 }
+            : { duration: DURATION_DEFAULT, ease: EASING_DEFAULT, delay: DURATION_DEFAULT }
+        }
         className="w-full"
       >
-        <h1 className="text-2xl font-bold font-display text-slate-900 mb-2">Order Placed!</h1>
+        <h1 className="text-2xl font-bold font-display text-slate-900 mb-2">Order placed</h1>
         <p className="text-slate-500 mb-8 max-w-[280px] mx-auto">Your prescription has been sent to Apo Group.</p>
 
         {/* Order Details Card */}

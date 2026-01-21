@@ -1,0 +1,9 @@
+<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Generic healthcare/medical logo placeholder -->
+  <rect width="64" height="64" rx="12" fill="#0C3D91"/>
+  <g transform="translate(16, 16)">
+    <!-- Medical cross -->
+    <rect x="13" y="4" width="6" height="24" rx="2" fill="white"/>
+    <rect x="4" y="13" width="24" height="6" rx="2" fill="white"/>
+  </g>
+</svg>

@@ -6,9 +6,14 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import avatarImage from "@assets/generated_images/professional_user_avatar_for_healthcare_app.png";
 import dmLogo from "@/assets/dm-logo.svg";
 import { getUserProfile, getUserInsurance } from "@/lib/storage";
+import { useTranslation } from "react-i18next";
+import { getLocale, type Locale } from "@/i18n";
 
 export default function ProfilePage() {
   const [, setLocation] = useLocation();
+  const { t } = useTranslation();
+  const locale: Locale = getLocale();
+  const languageLabel = locale === "de" ? t("profile.language.deLabel") : t("profile.language.enLabel");
 
   // Get profile data from localStorage
   const profile = getUserProfile();
@@ -41,7 +46,7 @@ export default function ProfilePage() {
           <div className="w-8 h-8 flex items-center justify-center">
             <img src={dmLogo} alt="DM Logo" className="w-full h-full object-contain" />
           </div>
-          <h1 className="font-bold text-xl text-slate-900 font-display">Profile</h1>
+          <h1 className="font-bold text-xl text-slate-900 font-display">{t("profile.title")}</h1>
         </div>
       </header>
       
@@ -58,26 +63,31 @@ export default function ProfilePage() {
         {/* Menu Sections */}
         <div className="space-y-6">
            <section>
-             <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 px-1">Account</h3>
+             <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 px-1">{t("profile.sections.account")}</h3>
              <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
-                <MenuRow icon={User} label="Personal Information" onClick={() => setLocation("/profile/edit")} />
+                <MenuRow icon={User} label={t("profile.menu.personalInfo")} onClick={() => setLocation("/profile/edit")} />
                 <div className="h-px bg-slate-50 mx-4"></div>
-                <MenuRow icon={Shield} label="Insurance Information" onClick={handleInsuranceClick} />
+                <MenuRow icon={Shield} label={t("profile.menu.insuranceInfo")} onClick={handleInsuranceClick} />
                 <div className="h-px bg-slate-50 mx-4"></div>
-                <MenuRow icon={Link2} label="Linked Accounts" value="1 connected" onClick={() => setLocation("/profile/linked-accounts")} />
+                <MenuRow
+                  icon={Link2}
+                  label={t("profile.menu.linkedAccounts")}
+                  value={t("profile.menu.linkedAccountsValue", { count: 1 })}
+                  onClick={() => setLocation("/profile/linked-accounts")}
+                />
                 <div className="h-px bg-slate-50 mx-4"></div>
-                <MenuRow icon={Bell} label="Notification Preferences" onClick={() => {}} />
+                <MenuRow icon={Bell} label={t("profile.menu.notifications")} onClick={() => {}} />
                 <div className="h-px bg-slate-50 mx-4"></div>
-                <MenuRow icon={Globe} label="Language" value="English" onClick={() => setLocation("/profile/language")} />
+                <MenuRow icon={Globe} label={t("nav.language")} value={languageLabel} onClick={() => setLocation("/profile/language")} />
              </div>
            </section>
 
            <section>
-             <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 px-1">Support</h3>
+             <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 px-1">{t("profile.sections.support")}</h3>
              <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
-                <MenuRow icon={HelpCircle} label="Help & Support" onClick={() => setLocation("/profile/support")} />
+                <MenuRow icon={HelpCircle} label={t("profile.menu.help")} onClick={() => setLocation("/profile/support")} />
                 <div className="h-px bg-slate-50 mx-4"></div>
-                <MenuRow icon={Shield} label="Privacy & Legal" onClick={() => setLocation("/profile/legal")} />
+                <MenuRow icon={Shield} label={t("profile.menu.privacyLegal")} onClick={() => setLocation("/profile/legal")} />
              </div>
            </section>
         </div>
@@ -87,7 +97,7 @@ export default function ProfilePage() {
           className="w-full h-12 rounded-xl border-red-100 text-red-500 hover:bg-red-50 hover:text-red-600 flex items-center gap-2"
           onClick={handleSignOut}
         >
-          <LogOut size={18} /> Sign Out
+          <LogOut size={18} /> {t("profile.signOut")}
         </Button>
       </main>
     </div>

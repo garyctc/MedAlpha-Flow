@@ -4,11 +4,6 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
   
@@ -34,45 +29,11 @@
   --color-card: hsl(var(--card));
   --color-card-foreground: hsl(var(--card-foreground));
 
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+
   --font-sans: 'Inter', sans-serif;
   --font-display: 'DM Sans', sans-serif;
-  
-  --radius: 0.75rem; /* 12px default */
-}
-
-:root {
-  /* MedAlpha Blue: #0C3D91 -> HSL 218 85% 31% */
-  /* Background: #F5F7FA -> HSL 210 29% 97% */
-  
-  --background: 210 29% 97%;
-  --foreground: 218 85% 15%; /* Darker blue-black for text */
-
-  --card: 0 0% 100%;
-  --card-foreground: 218 85% 15%;
- 
-  --popover: 0 0% 100%;
-  --popover-foreground: 218 85% 15%;
- 
-  --primary: 218 85% 31%; /* #0C3D91 */
-  --primary-foreground: 0 0% 100%;
- 
-  --secondary: 210 20% 90%;
-  --secondary-foreground: 218 85% 31%;
- 
-  --muted: 210 20% 94%;
-  --muted-foreground: 215 20% 50%;
- 
-  --accent: 218 85% 96%; /* Very light blue for active states */
-  --accent-foreground: 218 85% 31%;
- 
-  --destructive: 0 84.2% 60.2%;
-  --destructive-foreground: 0 0% 98%;
-
-  --border: 214 32% 91%;
-  --input: 214 32% 91%;
-  --ring: 218 85% 31%;
- 
-  --radius: 0.75rem;
 }
 
 body {
@@ -81,7 +42,7 @@ body {
   display: flex;
   justify-content: center;
   min-height: 100vh;
-  background-color: #E2E8F0; /* Outer background */
+  background-color: hsl(var(--border)); /* Outer background */
 }
 
 #root {
@@ -90,7 +51,7 @@ body {
   background-color: hsl(var(--background));
   min-height: 100vh;
   position: relative;
-  box-shadow: 0 0 20px rgba(0,0,0,0.1);
+  box-shadow: var(--shadow-elevated);
   overflow-x: hidden;
 }
 

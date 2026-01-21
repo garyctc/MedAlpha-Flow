@@ -4,6 +4,7 @@ import { Check, Calendar, ArrowRight, CreditCard, Smartphone } from "lucide-reac
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { getRegistrationDraft, clearRegistrationDraft, saveUserProfile, saveUserInsurance } from "@/lib/storage";
+import { DURATION_DEFAULT, DURATION_SLOW, EASING_DEFAULT, shouldReduceMotion } from "@/lib/motion";
 
 export default function RegisterComplete() {
   const [location, setLocation] = useLocation();
@@ -11,6 +12,7 @@ export default function RegisterComplete() {
   const type = searchParams.get("type") || "gkv";
   const isGkv = type === "gkv";
   const [userData, setUserData] = useState({ name: "Max Mustermann", email: "max@example.com" });
+  const reduceMotion = shouldReduceMotion();
 
   useEffect(() => {
     // Move registration draft to permanent storage
@@ -54,22 +56,26 @@ export default function RegisterComplete() {
   return (
     <div className="min-h-screen bg-white p-6 flex flex-col justify-center items-center text-center">
       <motion.div
-        initial={{ scale: 0.8, opacity: 0 }}
+        initial={reduceMotion ? false : { scale: 0.8, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        transition={{ type: "spring", duration: 0.6 }}
+        transition={reduceMotion ? { duration: 0 } : { duration: DURATION_SLOW, ease: EASING_DEFAULT }}
         className="w-24 h-24 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-600 mb-6"
       >
         <Check size={48} strokeWidth={3} />
       </motion.div>
 
       <motion.div
-        initial={{ y: 20, opacity: 0 }}
+        initial={reduceMotion ? false : { y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.2 }}
+        transition={
+          reduceMotion
+            ? { duration: 0 }
+            : { duration: DURATION_DEFAULT, ease: EASING_DEFAULT, delay: DURATION_DEFAULT }
+        }
         className="space-y-8 w-full max-w-sm"
       >
         <div>
-          <h1 className="text-2xl font-bold font-display text-slate-900 mb-2">Welcome to MedAlpha!</h1>
+          <h1 className="text-2xl font-bold font-display text-slate-900 mb-2">Welcome to MedAlpha</h1>
           <p className="text-slate-500">Your account has been created</p>
         </div>
 

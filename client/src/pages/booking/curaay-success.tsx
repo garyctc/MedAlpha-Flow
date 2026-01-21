@@ -3,9 +3,11 @@ import { useLocation } from "wouter";
 import { motion } from "framer-motion";
 import { Check, MapPin, Calendar, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { DURATION_DEFAULT, EASING_DEFAULT, shouldReduceMotion } from "@/lib/motion";
 
 export default function CuraaySuccess() {
   const [, setLocation] = useLocation();
+  const reduceMotion = shouldReduceMotion();
 
   useEffect(() => {
     // Save pending booking to localStorage for appointments page
@@ -14,6 +16,8 @@ export default function CuraaySuccess() {
       status: "processing",
       doctor: "TBD",
       clinic: "TBD",
+      dateIso: "2026-01-24",
+      time24: "10:00",
       date: "January 24, 2026",
       time: "10:00 AM",
       createdAt: new Date().toISOString(),
@@ -32,17 +36,17 @@ export default function CuraaySuccess() {
     <div className="min-h-screen bg-gradient-to-b from-purple-50 to-white flex flex-col items-center justify-center p-5 text-center">
       {/* Success Checkmark */}
       <motion.div
-        initial={{ scale: 0 }}
+        initial={reduceMotion ? false : { scale: 0 }}
         animate={{ scale: 1 }}
-        transition={{ type: "spring", duration: 0.5 }}
+        transition={reduceMotion ? { duration: 0 } : { duration: DURATION_DEFAULT, ease: EASING_DEFAULT }}
         className="w-24 h-24 bg-purple-600 rounded-full mb-6 flex items-center justify-center shadow-lg"
       >
         <Check className="text-white" size={48} />
       </motion.div>
 
       {/* Heading */}
-      <h2 className="text-2xl font-bold text-slate-900 mb-2">Booking Confirmed!</h2>
-      <p className="text-slate-600 text-sm mb-8">Your appointment has been successfully scheduled</p>
+      <h2 className="text-2xl font-bold text-slate-900 mb-2">Booking confirmed</h2>
+      <p className="text-slate-600 text-sm mb-8">Your appointment is scheduled</p>
 
       {/* Booking Details Card */}
       <div className="w-full max-w-sm bg-white rounded-2xl shadow-lg border border-slate-100 p-6 mb-6 text-left">

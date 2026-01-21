@@ -9,6 +9,10 @@ import { useToast } from "@/hooks/use-toast";
 import PushNotificationBanner from "@/components/ui/push-notification-banner";
 import { getUserAppointments, saveAppointment } from "@/lib/storage";
 import type { Appointment as StoredAppointment } from "@/types/storage";
+import { useTranslation } from "react-i18next";
+import { formatLocalDate, formatLocalTime, getLocale, type Locale } from "@/i18n";
+import { format, parse } from "date-fns";
+import { enUS } from "date-fns/locale";
 
 type Appointment = {
   id: string;
@@ -20,31 +24,66 @@ type Appointment = {
   role: string;
   location: string;
   date: string;
-  subStatus?: string; // e.g., "Cancelled", "Completed", "Processing"
+  subStatus?: "cancelled" | "completed" | "processing";
 };
 
-// Convert stored appointments to display format
-function convertStoredAppointments(stored: StoredAppointment[]): Appointment[] {
-  return stored.map(apt => {
-    const statusDisplay = apt.status === 'processing' ? 'processing' :
-      apt.status === 'upcoming' ? 'upcoming' : 'past';
+function parseAnyDate(date: string) {
+  if (/^\\d{4}-\\d{2}-\\d{2}$/.test(date)) {
+    return parse(date, "yyyy-MM-dd", new Date());
+  }
+  const formats = ["MMM d, yyyy", "MMMM d, yyyy", "MMM dd, yyyy", "MMMM dd, yyyy"];
+  for (const fmt of formats) {
+    const dt = parse(date, fmt, new Date(), { locale: enUS });
+    if (!Number.isNaN(dt.getTime())) return dt;
+  }
+  return null;
+}
 
-    let badge = apt.date;
+function formatStoredDate(date: string, locale: Locale) {
+  if (/^\\d{4}-\\d{2}-\\d{2}$/.test(date)) return formatLocalDate(date, locale);
+  const dt = parseAnyDate(date);
+  if (!dt) return date;
+  return locale === "de" ? format(dt, "dd.MM.yyyy") : format(dt, "MMMM d, yyyy");
+}
+
+function formatStoredTime(time: string, locale: Locale) {
+  const normalized = time.trim();
+  const dt =
+    /\\b(am|pm)\\b/i.test(normalized)
+      ? parse(normalized, "h:mm a", new Date(), { locale: enUS })
+      : parse(normalized.padStart(5, "0"), "HH:mm", new Date());
+  if (Number.isNaN(dt.getTime())) return time;
+  const hhmm = format(dt, "HH:mm");
+  return formatLocalTime(hhmm, locale);
+}
+
+// Convert stored appointments to display format
+function convertStoredAppointments(
+  stored: StoredAppointment[],
+  locale: Locale,
+  t: (key: string, options?: any) => string,
+): Appointment[] {
+  return stored.map((apt) => {
+    const statusDisplay = apt.status === "processing" ? "processing" : apt.status === "upcoming" ? "upcoming" : "past";
+
+    let badge = formatStoredDate(apt.date, locale);
     let badgeColor = "bg-slate-100 text-slate-500";
 
-    if (apt.status === 'processing') {
-      badge = 'Processing';
+    if (apt.status === "processing") {
+      badge = t("common.status.processing");
       badgeColor = "bg-blue-50 text-blue-600";
-    } else if (apt.status === 'completed') {
-      badge = 'Completed';
+    } else if (apt.status === "completed") {
+      badge = t("common.status.completed");
       badgeColor = "bg-emerald-50 text-emerald-700";
-    } else if (apt.status === 'cancelled') {
-      badge = 'Cancelled';
+    } else if (apt.status === "cancelled") {
+      badge = t("common.status.cancelled");
       badgeColor = "bg-red-50 text-red-600";
-    } else if (apt.type === 'video') {
-      badge = 'Video';
+    } else if (apt.type === "video") {
+      badge = t("appointments.type.video");
       badgeColor = "bg-blue-50 text-blue-700";
     }
+
+    const dateText = `${formatStoredDate(apt.date, locale)} • ${formatStoredTime(apt.time, locale)}`;
 
     return {
       id: apt.id,
@@ -55,10 +94,15 @@ function convertStoredAppointments(stored: StoredAppointment[]): Appointment[] {
       doctor: apt.doctor,
       role: apt.specialty,
       location: apt.clinic,
-      date: `${apt.date} • ${apt.time}`,
-      subStatus: apt.status === 'completed' ? 'Completed' :
-        apt.status === 'cancelled' ? 'Cancelled' :
-        apt.status === 'processing' ? 'Processing' : undefined
+      date: dateText,
+      subStatus:
+        apt.status === "completed"
+          ? "completed"
+          : apt.status === "cancelled"
+            ? "cancelled"
+            : apt.status === "processing"
+              ? "processing"
+              : undefined,
     };
   });
 }
@@ -71,23 +115,27 @@ export default function AppointmentsPage() {
   const [showPushNotification, setShowPushNotification] = useState(false);
   const [confirmedDoctorName, setConfirmedDoctorName] = useState("");
   const { toast } = useToast();
+  const { t } = useTranslation();
+  const locale = getLocale();
 
   // Check for pending Curaay booking on mount
   useEffect(() => {
     const bookingData = localStorage.getItem("pending-curaay-booking");
     if (bookingData) {
       const booking = JSON.parse(bookingData);
+      const bookingDate = booking.dateIso ? formatLocalDate(booking.dateIso, locale) : booking.date;
+      const bookingTime = booking.time24 ? formatLocalTime(booking.time24, locale) : booking.time;
       setPendingBooking({
         id: booking.id,
         status: "processing",
         type: "in-person",
-        badge: "Processing",
+        badge: t("common.status.processing"),
         badgeColor: "bg-blue-50 text-blue-600",
-        doctor: "TBD",
-        role: "Awaiting confirmation",
+        doctor: t("appointments.placeholders.doctor"),
+        role: t("appointments.placeholders.awaitingConfirmation"),
         location: "Curaay Health Center",
-        date: booking.date,
-        subStatus: "Processing"
+        date: `${bookingDate} • ${bookingTime}`,
+        subStatus: "processing",
       });
 
       // Simulate webhook after 5 seconds
@@ -95,16 +143,16 @@ export default function AppointmentsPage() {
         const doctorName = "Dr. Sarah Johnson";
 
         // Update to confirmed
-        const confirmedAppointment = {
+        const confirmedAppointment: Appointment = {
           id: booking.id,
           status: "upcoming",
           type: "in-person",
-          badge: "Tomorrow",
+          badge: t("appointments.badge.tomorrow"),
           badgeColor: "bg-blue-50 text-blue-600",
           doctor: doctorName,
-          role: "General Practice",
+          role: t("specialty.generalPractice"),
           location: "Curaay Health Center, Downtown Berlin",
-          date: "January 24, 2026 • 10:00 AM",
+          date: `${formatLocalDate("2026-01-24", locale)} • ${formatLocalTime("10:00", locale)}`,
           subStatus: undefined
         };
 
@@ -117,8 +165,8 @@ export default function AppointmentsPage() {
           doctor: doctorName,
           specialty: "General Practice",
           clinic: "Curaay Health Center, Downtown Berlin",
-          date: "January 24, 2026",
-          time: "10:00 AM",
+          date: "2026-01-24",
+          time: "10:00",
           status: "upcoming",
           createdAt: booking.createdAt
         });
@@ -131,8 +179,8 @@ export default function AppointmentsPage() {
 
         // Show toast notification
         toast({
-          title: "Appointment Confirmed!",
-          description: `Your appointment with ${doctorName} has been confirmed.`,
+          title: t("appointments.toast.confirmed.title"),
+          description: t("appointments.toast.confirmed.description", { doctor: doctorName }),
         });
 
         // Simulate "appointment concluded" push notification after 12 more seconds
@@ -145,10 +193,10 @@ export default function AppointmentsPage() {
 
       return () => clearTimeout(webhookTimer);
     }
-  }, [toast]);
+  }, [locale, t, toast]);
 
   // Combine pending booking with stored appointments
-  const storedAppointments = convertStoredAppointments(getUserAppointments());
+  const storedAppointments = convertStoredAppointments(getUserAppointments(), locale, t);
   const allAppointments = pendingBooking
     ? [pendingBooking, ...storedAppointments]
     : storedAppointments;
@@ -167,13 +215,13 @@ export default function AppointmentsPage() {
       {/* Push Notification Banner */}
       <PushNotificationBanner
         show={showPushNotification}
-        title="Appointment Completed"
-        message={`How was your visit with ${confirmedDoctorName}? Would you like to redeem a prescription or find a nearby pharmacy?`}
+        title={t("appointments.push.title")}
+        message={t("appointments.push.message", { doctor: confirmedDoctorName })}
         onDismiss={() => setShowPushNotification(false)}
         onActionPrimary={() => setLocation("/prescriptions")}
         onActionSecondary={() => setLocation("/pharmacy/map")}
-        primaryLabel="Redeem Prescription"
-        secondaryLabel="Find Pharmacy"
+        primaryLabel={t("appointments.push.primary")}
+        secondaryLabel={t("appointments.push.secondary")}
       />
 
       <header className="bg-white border-b border-slate-100 sticky top-0 z-20">
@@ -182,14 +230,14 @@ export default function AppointmentsPage() {
             <div className="w-8 h-8 flex items-center justify-center">
               <img src={dmLogo} alt="DM Logo" className="w-full h-full object-contain" />
             </div>
-            <h1 className="font-bold text-xl text-slate-900 font-display">Appointments</h1>
+            <h1 className="font-bold text-xl text-slate-900 font-display">{t("appointments.title")}</h1>
           </div>
           
           <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
             {[
-              { id: "all", label: "All Types" },
-              { id: "in-person", label: "In-Person" },
-              { id: "video", label: "Video" }
+              { id: "all", label: t("appointments.filters.all") },
+              { id: "in-person", label: t("appointments.filters.inPerson") },
+              { id: "video", label: t("appointments.filters.video") }
             ].map((option) => (
               <button
                 key={option.id}
@@ -226,8 +274,18 @@ export default function AppointmentsPage() {
                <div className="w-12 h-12 bg-slate-50 rounded-full flex items-center justify-center mb-3">
                  <Filter size={20} className="text-slate-300" />
                </div>
-               <p className="text-sm">No upcoming {filterType !== 'all' ? filterType : ''} appointments</p>
-               <Button variant="link" onClick={() => setLocation("/history")} className="mt-2 text-primary">View History</Button>
+               {filterType === "all" ? (
+                 <p className="text-sm">{t("appointments.empty.noUpcoming")}</p>
+               ) : (
+                 <p className="text-sm">
+                   {t("appointments.empty.noUpcomingWithType", {
+                     type: filterType === "in-person" ? t("appointments.filters.inPerson") : t("appointments.filters.video"),
+                   })}
+                 </p>
+               )}
+               <Button variant="link" onClick={() => setLocation("/history")} className="mt-2 text-primary">
+                 {t("appointments.empty.viewHistory")}
+               </Button>
              </div>
           )}
         </div>
@@ -252,6 +310,7 @@ export default function AppointmentsPage() {
 function AppointmentCard({ data, onClick }: { data: Appointment, onClick: () => void }) {
   const isVideo = data.type === "video";
   const isProcessing = data.status === "processing";
+  const { t } = useTranslation();
 
   return (
     <motion.button
@@ -263,18 +322,22 @@ function AppointmentCard({ data, onClick }: { data: Appointment, onClick: () => 
           : "bg-white border-slate-100 hover:border-primary/30"
       }`}
     >
-      <div className="flex justify-between items-start w-full">
+        <div className="flex justify-between items-start w-full">
         <div className="flex gap-2">
-          {data.subStatus === "Processing" && (
+          {data.subStatus === "processing" && (
             <span className="text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider bg-purple-600 text-white flex items-center gap-1 animate-pulse">
-              <Loader2 size={10} className="animate-spin" /> Processing
+              <Loader2 size={10} className="animate-spin" /> {t("common.status.processing")}
             </span>
           )}
-          {data.subStatus === "Completed" && (
-             <span className="text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider bg-emerald-50 text-emerald-700">Completed</span>
+          {data.subStatus === "completed" && (
+             <span className="text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider bg-emerald-50 text-emerald-700">
+               {t("common.status.completed")}
+             </span>
           )}
-          {data.subStatus === "Cancelled" && (
-             <span className="text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider bg-red-50 text-red-600">Cancelled</span>
+          {data.subStatus === "cancelled" && (
+             <span className="text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider bg-red-50 text-red-600">
+               {t("common.status.cancelled")}
+             </span>
           )}
            {!data.subStatus && (
             <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider ${data.badgeColor}`}>{data.badge}</span>
@@ -282,7 +345,7 @@ function AppointmentCard({ data, onClick }: { data: Appointment, onClick: () => 
 
           {isVideo && !isProcessing && (
              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider bg-cyan-50 text-cyan-600 flex items-center gap-1">
-               <Video size={10} /> Video
+               <Video size={10} /> {t("appointments.type.video")}
              </span>
           )}
         </div>
@@ -302,7 +365,7 @@ function AppointmentCard({ data, onClick }: { data: Appointment, onClick: () => 
           </div>
           {isProcessing && (
             <span className="inline-block mt-2 text-[9px] font-bold text-purple-700 bg-purple-100 px-2 py-0.5 rounded-full uppercase tracking-wider">
-              Powered by Curaay
+              {t("appointments.partner.curaay")}
             </span>
           )}
         </div>
