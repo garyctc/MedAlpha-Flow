@@ -15,6 +15,10 @@ export default function EditProfile() {
     email: "max@example.com"
   });
 
+  // Read address from localStorage
+  const addressData = JSON.parse(localStorage.getItem("user-address") || "{}");
+  const hasAddress = addressData.street && addressData.city && addressData.postalCode;
+
   const [errors, setErrors] = useState({
     phone: "",
     firstName: "",
@@ -134,17 +138,56 @@ export default function EditProfile() {
           </div>
            <button className="text-xs text-primary font-medium hover:underline">Managed by dm</button>
         </div>
+
+        <div className="space-y-3">
+          <Label className="text-sm font-medium text-slate-700">Address</Label>
+          {hasAddress ? (
+            <>
+              <div className="relative">
+                <Input
+                  value={addressData.street}
+                  readOnly
+                  className="h-12 rounded-xl bg-slate-50 border-slate-200 text-slate-500 pr-10"
+                />
+                <Lock className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div className="relative">
+                  <Input
+                    value={addressData.city}
+                    readOnly
+                    className="h-12 rounded-xl bg-slate-50 border-slate-200 text-slate-500 pr-10"
+                  />
+                  <Lock className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+                </div>
+                <div className="relative">
+                  <Input
+                    value={addressData.postalCode}
+                    readOnly
+                    className="h-12 rounded-xl bg-slate-50 border-slate-200 text-slate-500 pr-10"
+                  />
+                  <Lock className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+                </div>
+              </div>
+            </>
+          ) : (
+            <div className="h-12 rounded-xl bg-slate-50 border border-slate-200 flex items-center px-4 text-slate-500 text-sm">
+              No address on file
+            </div>
+          )}
+          <button className="text-xs text-primary font-medium hover:underline">Managed by dm</button>
+        </div>
       </main>
 
-      <div className="fixed bottom-0 left-0 right-0 p-5 bg-white border-t border-slate-100 pb-safe z-10">
-        <div className="max-w-[375px] mx-auto space-y-2">
-           <Button 
+      <div className="fixed bottom-0 left-0 right-0 p-5 bg-white border-t border-slate-100 pb-safe z-[60] max-w-[375px] mx-auto">
+        <div className="space-y-2">
+           <Button
             className="w-full h-12 text-base rounded-xl bg-primary hover:bg-primary/90 text-white"
             onClick={handleSave}
            >
              Save
            </Button>
-           <Button 
+           <Button
             variant="ghost"
             className="w-full h-12 text-base rounded-xl text-slate-600"
             onClick={() => setLocation("/profile")}

@@ -18,6 +18,11 @@ import BookingCalendar from "@/pages/booking/calendar";
 import BookingReview from "@/pages/booking/review";
 import BookingSuccess from "@/pages/booking/success";
 
+// Curaay Integration
+import CuraayProcessing from "@/pages/booking/curaay-processing";
+import CuraayRefinement from "@/pages/booking/curaay-refinement";
+import CuraaySuccess from "@/pages/booking/curaay-success";
+
 // Prescription Flow
 import PrescriptionType from "@/pages/prescriptions/type";
 import PrescriptionRedeemStart from "@/pages/prescriptions/redeem-start";
@@ -122,6 +127,11 @@ function AppRoutes() {
       <Route path="/booking/calendar" component={BookingCalendar} />
       <Route path="/booking/review" component={BookingReview} />
       <Route path="/booking/success" component={BookingSuccess} />
+
+      {/* Curaay Integration Simulation */}
+      <Route path="/booking/curaay-processing" component={CuraayProcessing} />
+      <Route path="/booking/curaay-refinement" component={CuraayRefinement} />
+      <Route path="/booking/curaay-success" component={CuraaySuccess} />
 
       {/* Prescription Routes */}
       <Route path="/prescriptions" component={PrescriptionType} />

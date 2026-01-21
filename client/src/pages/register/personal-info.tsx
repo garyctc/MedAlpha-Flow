@@ -11,7 +11,10 @@ export default function RegisterPersonal() {
     firstName: "",
     lastName: "",
     dob: "",
-    phone: ""
+    phone: "",
+    street: "",
+    city: "",
+    postalCode: ""
   });
 
   const isFormValid = Object.values(formData).every(val => val.length > 0);
@@ -79,10 +82,52 @@ export default function RegisterPersonal() {
             <p className="text-xs text-slate-500">We'll send verification codes to this number</p>
           </div>
 
-          <Button 
+          <div className="space-y-2">
+            <Label htmlFor="street">Street address</Label>
+            <Input
+              id="street"
+              placeholder="Musterstraße 123"
+              value={formData.street}
+              onChange={(e) => setFormData({...formData, street: e.target.value})}
+              className="h-12 bg-slate-50 border-slate-200"
+            />
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="city">City</Label>
+              <Input
+                id="city"
+                placeholder="Berlin"
+                value={formData.city}
+                onChange={(e) => setFormData({...formData, city: e.target.value})}
+                className="h-12 bg-slate-50 border-slate-200"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="postalCode">Postal code</Label>
+              <Input
+                id="postalCode"
+                placeholder="10115"
+                value={formData.postalCode}
+                onChange={(e) => setFormData({...formData, postalCode: e.target.value})}
+                className="h-12 bg-slate-50 border-slate-200"
+              />
+            </div>
+          </div>
+
+          <Button
             className="w-full h-12 text-base font-medium rounded-xl mt-4"
             disabled={!isFormValid}
-            onClick={() => setLocation("/register/insurance")}
+            onClick={() => {
+              // Save address to localStorage
+              localStorage.setItem("user-address", JSON.stringify({
+                street: formData.street,
+                city: formData.city,
+                postalCode: formData.postalCode
+              }));
+              setLocation("/register/insurance");
+            }}
           >
             Continue
           </Button>

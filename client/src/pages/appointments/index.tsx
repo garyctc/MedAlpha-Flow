@@ -1,14 +1,16 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
-import { Calendar, Filter, ChevronRight, Plus, MapPin, Clock, Video, CheckCircle2, X } from "lucide-react";
+import { Calendar, Filter, ChevronRight, Plus, MapPin, Clock, Video, CheckCircle2, X, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import dmLogo from "@/assets/dm-logo.svg";
+import { useToast } from "@/hooks/use-toast";
+import PushNotificationBanner from "@/components/ui/push-notification-banner";
 
 type Appointment = {
   id: string;
-  status: "upcoming" | "past";
+  status: "upcoming" | "past" | "processing";
   type: "in-person" | "video";
   badge: string;
   badgeColor: string;
@@ -16,7 +18,7 @@ type Appointment = {
   role: string;
   location: string;
   date: string;
-  subStatus?: string; // e.g., "Cancelled", "Completed"
+  subStatus?: string; // e.g., "Cancelled", "Completed", "Processing"
 };
 
 const SAMPLE_APPOINTMENTS: Appointment[] = [
@@ -95,11 +97,80 @@ export default function AppointmentsPage() {
   const [, setLocation] = useLocation();
   const [activeTab, setActiveTab] = useState<"upcoming" | "past">("upcoming");
   const [filterType, setFilterType] = useState<"all" | "in-person" | "video">("all");
+  const [pendingBooking, setPendingBooking] = useState<Appointment | null>(null);
+  const [showPushNotification, setShowPushNotification] = useState(false);
+  const [confirmedDoctorName, setConfirmedDoctorName] = useState("");
+  const { toast } = useToast();
 
-  const filteredAppointments = SAMPLE_APPOINTMENTS.filter(apt => {
-    // Only show upcoming appointments in this view, as past ones are in History tab
-    if (apt.status !== "upcoming") return false;
-    
+  // Check for pending Curaay booking on mount
+  useEffect(() => {
+    const bookingData = localStorage.getItem("pending-curaay-booking");
+    if (bookingData) {
+      const booking = JSON.parse(bookingData);
+      setPendingBooking({
+        id: booking.id,
+        status: "processing",
+        type: "in-person",
+        badge: "Processing",
+        badgeColor: "bg-blue-50 text-blue-600",
+        doctor: "TBD",
+        role: "Awaiting confirmation",
+        location: "Curaay Health Center",
+        date: booking.date,
+        subStatus: "Processing"
+      });
+
+      // Simulate webhook after 5 seconds
+      const webhookTimer = setTimeout(() => {
+        const doctorName = "Dr. Sarah Johnson";
+
+        // Update to confirmed
+        setPendingBooking({
+          id: booking.id,
+          status: "upcoming",
+          type: "in-person",
+          badge: "Tomorrow",
+          badgeColor: "bg-blue-50 text-blue-600",
+          doctor: doctorName,
+          role: "General Practice",
+          location: "Curaay Health Center, Downtown Berlin",
+          date: "January 24, 2026 • 10:00 AM",
+          subStatus: undefined
+        });
+
+        // Store doctor name for push notification
+        setConfirmedDoctorName(doctorName);
+
+        // Clear from localStorage
+        localStorage.removeItem("pending-curaay-booking");
+
+        // Show toast notification
+        toast({
+          title: "Appointment Confirmed!",
+          description: `Your appointment with ${doctorName} has been confirmed.`,
+        });
+
+        // Simulate "appointment concluded" push notification after 12 more seconds
+        const pushTimer = setTimeout(() => {
+          setShowPushNotification(true);
+        }, 12000);
+
+        return () => clearTimeout(pushTimer);
+      }, 5000);
+
+      return () => clearTimeout(webhookTimer);
+    }
+  }, [toast]);
+
+  // Combine pending booking with sample appointments
+  const allAppointments = pendingBooking
+    ? [pendingBooking, ...SAMPLE_APPOINTMENTS]
+    : SAMPLE_APPOINTMENTS;
+
+  const filteredAppointments = allAppointments.filter(apt => {
+    // Only show upcoming and processing appointments in this view
+    if (apt.status !== "upcoming" && apt.status !== "processing") return false;
+
     // Filter by type
     if (filterType === "all") return true;
     return apt.type === filterType;
@@ -107,6 +178,18 @@ export default function AppointmentsPage() {
 
   return (
     <div className="min-h-screen bg-background pb-24">
+      {/* Push Notification Banner */}
+      <PushNotificationBanner
+        show={showPushNotification}
+        title="Appointment Completed"
+        message={`How was your visit with ${confirmedDoctorName}? Would you like to redeem a prescription or find a nearby pharmacy?`}
+        onDismiss={() => setShowPushNotification(false)}
+        onActionPrimary={() => setLocation("/prescriptions")}
+        onActionSecondary={() => setLocation("/pharmacy/map")}
+        primaryLabel="Redeem Prescription"
+        secondaryLabel="Find Pharmacy"
+      />
+
       <header className="bg-white border-b border-slate-100 sticky top-0 z-20">
         <div className="px-5 py-4 pt-12">
           <div className="flex items-center gap-2 mb-4 min-h-10">
@@ -182,15 +265,25 @@ export default function AppointmentsPage() {
 
 function AppointmentCard({ data, onClick }: { data: Appointment, onClick: () => void }) {
   const isVideo = data.type === "video";
+  const isProcessing = data.status === "processing";
 
   return (
     <motion.button
       whileTap={{ scale: 0.98 }}
       onClick={onClick}
-      className="w-full bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex flex-col gap-3 text-left hover:border-primary/30 transition-all group"
+      className={`w-full p-4 rounded-2xl border shadow-sm flex flex-col gap-3 text-left transition-all group ${
+        isProcessing
+          ? "bg-teal-50 border-teal-200"
+          : "bg-white border-slate-100 hover:border-primary/30"
+      }`}
     >
       <div className="flex justify-between items-start w-full">
         <div className="flex gap-2">
+          {data.subStatus === "Processing" && (
+            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider bg-teal-500 text-white flex items-center gap-1 animate-pulse">
+              <Loader2 size={10} className="animate-spin" /> Processing
+            </span>
+          )}
           {data.subStatus === "Completed" && (
              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider bg-emerald-50 text-emerald-700">Completed</span>
           )}
@@ -200,26 +293,36 @@ function AppointmentCard({ data, onClick }: { data: Appointment, onClick: () => 
            {!data.subStatus && (
             <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider ${data.badgeColor}`}>{data.badge}</span>
           )}
-          
-          {isVideo && (
-             <span className="text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider bg-indigo-50 text-indigo-600 flex items-center gap-1">
+
+          {isVideo && !isProcessing && (
+             <span className="text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider bg-cyan-50 text-cyan-600 flex items-center gap-1">
                <Video size={10} /> Video
              </span>
           )}
         </div>
         <span className="text-xs text-slate-400 font-medium">{data.date}</span>
       </div>
-      
+
+
       <div className="flex justify-between items-center w-full">
-        <div>
-          <h3 className="font-bold text-slate-900 text-lg group-hover:text-primary transition-colors">{data.doctor}</h3>
+        <div className="flex-1">
+          <h3 className={`font-bold text-lg transition-colors ${
+            isProcessing ? "text-teal-900" : "text-slate-900 group-hover:text-primary"
+          }`}>{data.doctor}</h3>
           <p className="text-sm text-slate-500">{data.role}</p>
           <div className="flex items-center gap-1 mt-1 text-xs text-slate-400">
              {isVideo ? <Video size={10} /> : <MapPin size={10} />}
              <span>{data.location}</span>
           </div>
+          {isProcessing && (
+            <span className="inline-block mt-2 text-[9px] font-bold text-teal-600 bg-teal-100 px-2 py-0.5 rounded-full uppercase tracking-wider">
+              Powered by Curaay
+            </span>
+          )}
         </div>
-        <ChevronRight size={20} className="text-slate-300 group-hover:text-primary transition-colors" />
+        <ChevronRight size={20} className={`transition-colors ${
+          isProcessing ? "text-teal-400" : "text-slate-300 group-hover:text-primary"
+        }`} />
       </div>
     </motion.button>
   );

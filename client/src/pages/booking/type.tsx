@@ -36,18 +36,18 @@ export default function BookingType() {
           className="w-full bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between group hover:border-primary/30 transition-all text-left relative overflow-hidden"
         >
           <div className="flex items-center gap-4 relative z-10">
-            <div className="w-12 h-12 bg-purple-50 text-purple-600 rounded-xl flex items-center justify-center shrink-0">
+            <div className="w-12 h-12 bg-cyan-50 text-cyan-600 rounded-xl flex items-center justify-center shrink-0">
               <Video size={24} />
             </div>
             <div>
               <h3 className="font-bold text-slate-900 text-lg">Video Consultation</h3>
               <p className="text-slate-500 text-sm mt-1">Speak with a doctor from home</p>
-              <span className="inline-block mt-2 text-[10px] font-bold text-purple-600 bg-purple-50 px-2 py-0.5 rounded-full uppercase tracking-wider">
+              <span className="inline-block mt-2 text-[10px] font-bold text-cyan-600 bg-cyan-50 px-2 py-0.5 rounded-full uppercase tracking-wider">
                   Powered by Teleclinic
               </span>
             </div>
           </div>
-          <ChevronRight size={20} className="text-slate-300 group-hover:text-purple-600 transition-colors relative z-10" />
+          <ChevronRight size={20} className="text-slate-300 group-hover:text-cyan-600 transition-colors relative z-10" />
         </motion.button>
       </main>
     </div>

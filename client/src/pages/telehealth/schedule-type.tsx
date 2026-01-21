@@ -11,7 +11,7 @@ export default function ScheduleType() {
       <SubPageHeader title="Video Consultation" backPath="/booking/type" />
       
       <div className="px-5 pt-2 flex justify-end">
-        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider bg-slate-100 px-2 py-1 rounded-full">
+        <span className="text-[10px] font-bold text-cyan-600 uppercase tracking-wider bg-cyan-50 px-2 py-1 rounded-full">
            Powered by Teleclinic
         </span>
       </div>

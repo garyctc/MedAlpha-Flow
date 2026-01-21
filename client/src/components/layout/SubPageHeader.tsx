@@ -14,27 +14,14 @@ export default function SubPageHeader({ title, backPath, className, showLogo = f
   const [, setLocation] = useLocation();
 
   const handleBack = () => {
-    // Always try history back first if no specific path overrides it,
-    // or if we want natural browser behavior.
-    // But usually backPath is explicit.
-    // If the user wants "previous screen I was in", standard history.back() is best.
-    // However, sometimes we need to enforce a path if history is empty or external.
-
-    // For this prototype, let's prioritize history.back() if backPath is NOT forced,
-    // OR if the user explicitly requested "previous screen".
-    // Actually, checking the user request: they want to go back to WHERE THEY WERE.
-    // The current implementation prefers `backPath`.
-    // If I change it to prefer history.back() when available, it might solve it.
-
-    // BUT wouter's setLocation pushes new state.
-    // window.history.back() pops.
-
-    if (window.history.length > 1) {
-       window.history.back();
-    } else if (backPath) {
-       setLocation(backPath);
+    // Use backPath if provided (explicit navigation target)
+    // Otherwise fall back to history.back() for natural browser behavior
+    if (backPath) {
+      setLocation(backPath);
+    } else if (window.history.length > 1) {
+      window.history.back();
     } else {
-       setLocation("/home");
+      setLocation("/home");
     }
   };
 

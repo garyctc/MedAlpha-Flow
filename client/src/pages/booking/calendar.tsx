@@ -7,8 +7,8 @@ import { Calendar } from "@/components/ui/calendar";
 
 export default function BookingCalendar() {
   const [, setLocation] = useLocation();
-  const [date, setDate] = useState<Date | undefined>(new Date());
-  const [selectedTime, setSelectedTime] = useState<string | null>("09:00");
+  const [date, setDate] = useState<Date | undefined>(undefined);
+  const [selectedTime, setSelectedTime] = useState<string | null>(null);
 
   const morningSlots = ["09:00 AM", "09:30 AM", "10:00 AM", "10:30 AM"];
   const afternoonSlots = ["11:00 AM", "02:00 PM", "02:30 PM", "03:00 PM"];
@@ -75,15 +75,17 @@ export default function BookingCalendar() {
       </main>
 
       {/* Sticky Bottom Button */}
-      <div className="fixed bottom-0 left-0 right-0 p-5 bg-white border-t border-slate-100 pb-safe z-[60]">
-        <div className="max-w-[375px] mx-auto">
-           <Button 
-            className="w-full h-12 text-base rounded-xl bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/20"
-            disabled={!date || !selectedTime}
-            onClick={() => setLocation("/booking/review")}
-           >
-             Continue
-           </Button>
+      <div className="fixed bottom-[80px] left-0 right-0 z-40 flex justify-center">
+        <div className="max-w-[375px] w-full bg-white border-t border-slate-100 px-5 py-4 flex justify-center">
+          <div className="w-[315px]">
+            <Button
+              className="w-full h-12 text-base rounded-xl bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/20"
+              disabled={!date || !selectedTime}
+              onClick={() => setLocation("/booking/review")}
+            >
+              Continue
+            </Button>
+          </div>
         </div>
       </div>
     </div>

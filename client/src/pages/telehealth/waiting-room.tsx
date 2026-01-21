@@ -28,7 +28,7 @@ export default function WaitingRoom() {
       <div className="flex-1 flex flex-col p-6">
          {/* Partner Badge */}
          <div className="flex justify-center mb-6">
-           <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider bg-slate-50 px-3 py-1 rounded-full">
+           <span className="text-[10px] font-bold text-cyan-600 uppercase tracking-wider bg-cyan-50 px-3 py-1 rounded-full">
              Powered by Teleclinic
            </span>
          </div>
