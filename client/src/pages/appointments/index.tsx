@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Calendar, Filter, ChevronRight, Plus, MapPin, Clock, Video, CheckCircle2, X, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import dmLogo from "@/assets/dm-logo.svg";
+import appLogo from "@/assets/app-logo.svg";
 import { useToast } from "@/hooks/use-toast";
 import PushNotificationBanner from "@/components/ui/push-notification-banner";
 import { getUserAppointments, saveAppointment } from "@/lib/storage";
@@ -28,7 +28,7 @@ type Appointment = {
 };
 
 function parseAnyDate(date: string) {
-  if (/^\\d{4}-\\d{2}-\\d{2}$/.test(date)) {
+  if (/^\d{4}-\d{2}-\d{2}$/.test(date)) {
     return parse(date, "yyyy-MM-dd", new Date());
   }
   const formats = ["MMM d, yyyy", "MMMM d, yyyy", "MMM dd, yyyy", "MMMM dd, yyyy"];
@@ -40,7 +40,7 @@ function parseAnyDate(date: string) {
 }
 
 function formatStoredDate(date: string, locale: Locale) {
-  if (/^\\d{4}-\\d{2}-\\d{2}$/.test(date)) return formatLocalDate(date, locale);
+  if (/^\d{4}-\d{2}-\d{2}$/.test(date)) return formatLocalDate(date, locale);
   const dt = parseAnyDate(date);
   if (!dt) return date;
   return locale === "de" ? format(dt, "dd.MM.yyyy") : format(dt, "MMMM d, yyyy");
@@ -49,7 +49,7 @@ function formatStoredDate(date: string, locale: Locale) {
 function formatStoredTime(time: string, locale: Locale) {
   const normalized = time.trim();
   const dt =
-    /\\b(am|pm)\\b/i.test(normalized)
+    /\b(am|pm)\b/i.test(normalized)
       ? parse(normalized, "h:mm a", new Date(), { locale: enUS })
       : parse(normalized.padStart(5, "0"), "HH:mm", new Date());
   if (Number.isNaN(dt.getTime())) return time;
@@ -228,11 +228,11 @@ export default function AppointmentsPage() {
         <div className="px-5 py-4 pt-12">
           <div className="flex items-center gap-2 mb-4 min-h-10">
             <div className="w-8 h-8 flex items-center justify-center">
-              <img src={dmLogo} alt="DM Logo" className="w-full h-full object-contain" />
+              <img src={appLogo} alt="App Logo" className="w-full h-full object-contain" />
             </div>
             <h1 className="font-bold text-xl text-slate-900 font-display">{t("appointments.title")}</h1>
           </div>
-          
+
           <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
             {[
               { id: "all", label: t("appointments.filters.all") },
@@ -255,7 +255,7 @@ export default function AppointmentsPage() {
           </div>
         </div>
       </header>
-      
+
       <main className="p-5 relative">
 
         {/* Note: Removed tabs for Upcoming/Past as History is now in a separate tab */}
@@ -263,7 +263,7 @@ export default function AppointmentsPage() {
         <div className="space-y-4">
           {filteredAppointments.length > 0 ? (
             filteredAppointments.map((apt) => (
-              <AppointmentCard 
+              <AppointmentCard
                 key={apt.id}
                 data={apt}
                 onClick={() => setLocation("/appointments/detail")}

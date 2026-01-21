@@ -3,7 +3,7 @@ import { useLocation } from "wouter";
 import { motion } from "framer-motion";
 import { Calendar, Search, Video } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import dmLogo from "@/assets/dm-logo.svg";
+import appLogo from "@/assets/app-logo.svg";
 
 export default function HistoryPage() {
   const [, setLocation] = useLocation();
@@ -14,7 +14,7 @@ export default function HistoryPage() {
       <header className="px-5 py-4 pt-12 bg-white border-b border-slate-100 sticky top-0 z-10">
         <div className="flex items-center gap-2 mb-4 min-h-10">
           <div className="w-8 h-8 flex items-center justify-center">
-            <img src={dmLogo} alt="DM Logo" className="w-full h-full object-contain" />
+            <img src={appLogo} alt="App Logo" className="w-full h-full object-contain" />
           </div>
           <h1 className="font-bold text-xl text-slate-900 font-display">History</h1>
         </div>
