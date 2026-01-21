@@ -5,6 +5,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import NotFound from "@/pages/not-found";
 import BottomNav from "@/components/layout/BottomNav";
+import AnnotationPanel from "@/components/annotations/AnnotationPanel";
 import { seedDemoData } from "@/lib/storage";
 
 import Splash from "@/pages/splash";
@@ -227,6 +228,7 @@ function App() {
             <AppRoutes />
             <BottomNav />
           </div>
+          <AnnotationPanel />
           <Toaster />
         </div>
       </Router>

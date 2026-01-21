@@ -1,0 +1,100 @@
+flowchart TB
+    subgraph RX["1. RECEIVE PRESCRIPTION"]
+        RX1[Doctor issues e-prescription]
+        RX2["Touchpoints:
+        - e-Rezept app notification
+        - QR code visible in app
+        - Paper printout with QR
+        - Valid for 28 days"]
+    end
+
+    subgraph CHOOSE["2. CHOOSE PHARMACY"]
+        CH1[Decide where to fill Rx]
+        CH2["Touchpoints:
+        - Local Apotheke (red A sign)
+        - Online pharmacy (DocMorris, Shop Apotheke)
+        - 24hr emergency Notdienst"]
+    end
+
+    subgraph PRESENT["3. PRESENT PRESCRIPTION"]
+        PR1[Submit prescription to pharmacy]
+        PR2["Touchpoints:
+        Option A: Insert eGK in terminal
+        Option B: Show QR from app
+        Option C: Hand over paper printout
+        Option D: Family pickup via app"]
+    end
+
+    subgraph RETRIEVE["4. PHARMACIST RETRIEVES"]
+        RE1[Rx pulled from TI system]
+        RE2["Touchpoints:
+        - Pharmacist reads TI
+        - Verifies patient info
+        - Checks for interactions
+        - Prepares medication"]
+    end
+
+    subgraph COUNSEL["5. COUNSELING"]
+        CL1[Pharmacist explains medication]
+        CL2["Touchpoints:
+        - Legally required counseling
+        - Dosage instructions
+        - Side effects warning
+        - Drug interactions check"]
+    end
+
+    subgraph PAY["6. PAYMENT"]
+        PA1[Pay co-payment Zuzahlung]
+        PA2["Touchpoints:
+        - Co-pay 5-10 EUR per medication
+        - Insurance direct billing
+        - Children under 18: no co-pay
+        - Private: full cost, reimbursed"]
+    end
+
+    subgraph TAKE["7. TAKE MEDICATION"]
+        TA1[Use medication as directed]
+        TA2["Touchpoints:
+        - Follow dosage instructions
+        - Monitor side effects
+        - Return visit if needed
+        - Refill before 28-day expiry"]
+    end
+
+    RX --> CHOOSE --> PRESENT --> RETRIEVE --> COUNSEL --> PAY --> TAKE
+
+    RX1 -.- JTBD_RX["JTBD: When I get a prescription,
+    I want to understand what it is
+    for and how to use it"]
+
+    CH1 -.- JTBD_CH["JTBD: When I need to fill Rx,
+    I want a convenient option
+    so I can save time"]
+
+    PR1 -.- JTBD_PR["JTBD: When I go to the pharmacy,
+    I want an easy way to share
+    my Rx without hassle"]
+
+    RE1 -.- JTBD_RE["JTBD: When I wait at the counter,
+    I want them to find my Rx
+    quickly so I can get my meds"]
+
+    CL1 -.- JTBD_CL["JTBD: When I get new medicine,
+    I want to know how to use it
+    safely and what to expect"]
+
+    PA1 -.- JTBD_PA["JTBD: When I pay, I want to know
+    what is covered so I only pay
+    my fair share"]
+
+    TA1 -.- JTBD_TA["JTBD: When I start taking meds,
+    I want to feel better so I
+    can return to normal life"]
+
+    style JTBD_RX fill:#e8f5e9,stroke:#1b5e20
+    style JTBD_CH fill:#e8f5e9,stroke:#1b5e20
+    style JTBD_PR fill:#e8f5e9,stroke:#1b5e20
+    style JTBD_RE fill:#e8f5e9,stroke:#1b5e20
+    style JTBD_CL fill:#e8f5e9,stroke:#1b5e20
+    style JTBD_PA fill:#e8f5e9,stroke:#1b5e20
+    style JTBD_TA fill:#e8f5e9,stroke:#1b5e20

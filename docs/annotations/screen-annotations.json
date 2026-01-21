@@ -1,0 +1,530 @@
+{
+  "AUTH-001": {
+    "title": "Splash",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "AUTH-002": {
+    "title": "Login",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "REG-001": {
+    "title": "Create Account",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "REG-002": {
+    "title": "Verify Email",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "REG-003": {
+    "title": "Personal Info",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "REG-004": {
+    "title": "Insurance Type",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "REG-005": {
+    "title": "GKV Details",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "REG-006": {
+    "title": "PKV Details",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "REG-007": {
+    "title": "Registration Complete",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "HOME-001": {
+    "title": "Home Dashboard",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "BKG-001": {
+    "title": "Booking Type",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "BKG-002": {
+    "title": "Specialty Select",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "BKG-003": {
+    "title": "Location Select",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "BKG-004": {
+    "title": "Doctor Select",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "BKG-005": {
+    "title": "Calendar",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "BKG-006": {
+    "title": "Review Booking",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "BKG-007": {
+    "title": "Booking Success",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "BKG-008": {
+    "title": "Curaay Processing",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "BKG-009": {
+    "title": "Curaay Refinement",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "BKG-010": {
+    "title": "Curaay Success",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "RX-001": {
+    "title": "Prescriptions List",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "RX-002": {
+    "title": "Redeem Start",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "RX-003": {
+    "title": "NFC Intro (GKV)",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "RX-004": {
+    "title": "NFC Scan",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "RX-005": {
+    "title": "GKV SMS Verify",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "RX-006": {
+    "title": "PKV Auth",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "RX-007": {
+    "title": "PKV Insurer Select",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "RX-008": {
+    "title": "PKV Redirect",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "RX-009": {
+    "title": "PKV Error",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "RX-010": {
+    "title": "Prescription Detail",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "RX-011": {
+    "title": "Prescription List Select",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "RX-012": {
+    "title": "Pharmacy Confirm",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "RX-013": {
+    "title": "Order Review",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "RX-014": {
+    "title": "Order Success",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "RX-015": {
+    "title": "Prescription Receipt",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "TH-001": {
+    "title": "Schedule Type",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "TH-002": {
+    "title": "Symptoms Intro (1/3)",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "TH-003": {
+    "title": "Symptoms Details (2/3)",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "TH-004": {
+    "title": "Symptoms Info (3/3)",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "TH-005": {
+    "title": "Telehealth Review",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "TH-006": {
+    "title": "Confirmation",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "TH-007": {
+    "title": "Waiting Room",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "TH-008": {
+    "title": "Video Call",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "TH-009": {
+    "title": "Telehealth Summary",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "TH-010": {
+    "title": "Teleclinic Simulated",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "PHR-001": {
+    "title": "Pharmacy Map",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "PHR-002": {
+    "title": "Pharmacy List",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "PHR-003": {
+    "title": "Pharmacy Detail",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "APT-001": {
+    "title": "Appointments List",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "APT-002": {
+    "title": "Appointment Detail",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "HIST-001": {
+    "title": "History",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "PRF-001": {
+    "title": "Profile",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "PRF-002": {
+    "title": "Edit Profile",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "PRF-003": {
+    "title": "Linked Accounts",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "PRF-004": {
+    "title": "Insurance Info GKV",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "PRF-005": {
+    "title": "Insurance Info PKV",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "PRF-006": {
+    "title": "Language Selection",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "PRF-007": {
+    "title": "Help & Support",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "PRF-008": {
+    "title": "Privacy & Legal",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "SSO-001": {
+    "title": "SSO Loading",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "SSO-002": {
+    "title": "Complete Profile",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "STATIC-001": {
+    "title": "FAQ",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "STATIC-002": {
+    "title": "Support",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "STATIC-003": {
+    "title": "Privacy Policy",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "STATIC-004": {
+    "title": "Legal Disclosure",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  },
+  "ERR-001": {
+    "title": "404 Not Found",
+    "assumptions": [],
+    "userScenario": "",
+    "pros": [],
+    "cons": [],
+    "impactIfWrong": ""
+  }
+}
