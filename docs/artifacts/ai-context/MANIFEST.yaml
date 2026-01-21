@@ -1,0 +1,78 @@
+# Tag lookup for selective loading.
+# Format is intentionally simple so both humans and agents can parse it fast.
+
+packs:
+  - id: pack.core
+    file: docs/artifacts/ai-context/packs/core.md
+    tags: [core]
+  - id: pack.product
+    file: docs/artifacts/ai-context/packs/product.md
+    tags: [product]
+  - id: pack.research
+    file: docs/artifacts/ai-context/packs/research.md
+    tags: [research]
+
+modules:
+  - id: canonical.copy_guidelines
+    file: docs/artifacts/copy-guidelines.md
+    tags: [copy, tone, microcopy, localization]
+  - id: canonical.visual_artifacts_rules
+    file: docs/artifacts/visual-artifacts-rules.md
+    tags: [visual-artifacts, d2, mermaid, flows, ia]
+  - id: canonical.ia_map
+    file: docs/artifacts/ia-map/IA.md
+    tags: [ia, navigation, routes]
+  - id: source.product_context
+    file: docs/artifacts/ai-context/sources/product-context.md
+    tags: [source, product]
+  - id: source.research_report
+    file: docs/artifacts/ai-context/sources/research_report.md
+    tags: [source, research]
+  - id: source.product_designer_checklist
+    file: docs/artifacts/ai-context/sources/product-designer-checklist.md
+    tags: [source, checklist, design, compliance]
+  - id: source.visual_guidelines
+    file: docs/artifacts/ai-context/sources/visual-guidelines.md
+    tags: [source, visual]
+  - id: source.design_system_rules
+    file: docs/artifacts/ai-context/sources/design-system-rules.md
+    tags: [source, design-system]
+
+  - id: product.vision
+    file: docs/artifacts/ai-context/modules/product/vision.md
+    tags: [product, vision, positioning]
+  - id: product.problem_solution
+    file: docs/artifacts/ai-context/modules/product/problem-solution.md
+    tags: [product, problem, solution]
+  - id: product.personas_summary
+    file: docs/artifacts/ai-context/modules/product/personas-summary.md
+    tags: [product, personas, ux]
+  - id: product.ux_axis
+    file: docs/artifacts/ai-context/modules/product/ux-axis-and-principles.md
+    tags: [ux, principles, accessibility]
+  - id: product.jtbd_metrics
+    file: docs/artifacts/ai-context/modules/product/jtbd-and-metrics.md
+    tags: [product, jtbd, metrics]
+  - id: product.partners
+    file: docs/artifacts/ai-context/modules/product/partner-integrations.md
+    tags: [integrations, partners]
+  - id: product.localization
+    file: docs/artifacts/ai-context/modules/product/localization-strategy.md
+    tags: [i18n, localization]
+
+  - id: research.market_snapshot
+    file: docs/artifacts/ai-context/modules/research/market-and-digital-snapshot.md
+    tags: [research, market]
+  - id: research.personas_detailed
+    file: docs/artifacts/ai-context/modules/research/personas-detailed.md
+    tags: [research, personas]
+  - id: research.recommendations
+    file: docs/artifacts/ai-context/modules/research/recommendations.md
+    tags: [research, recommendations]
+
+  - id: checklist.designer
+    file: docs/artifacts/ai-context/modules/checklists/product-designer-checklist.md
+    tags: [checklist, design, compliance]
+  - id: checklist.compliance
+    file: docs/artifacts/ai-context/modules/checklists/compliance-and-security-touchpoints.md
+    tags: [compliance, privacy, security]
