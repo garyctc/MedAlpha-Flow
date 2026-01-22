@@ -1,5 +1,5 @@
 import { useLocation } from "wouter";
-import { HelpCircle, MessageSquare, ChevronRight } from "lucide-react";
+import { HelpCircle, BookOpen, Info, MessageSquare, ChevronRight } from "lucide-react";
 import SubPageHeader from "@/components/layout/SubPageHeader";
 
 export default function HelpSupport() {
@@ -11,10 +11,22 @@ export default function HelpSupport() {
       
       <main className="p-5">
         <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
-           <MenuRow 
-             icon={HelpCircle} 
-             label="FAQ" 
+           <MenuRow
+             icon={HelpCircle}
+             label="FAQ"
              onClick={() => setLocation("/static/faq")}
+           />
+           <div className="h-px bg-slate-50 mx-4"></div>
+           <MenuRow
+             icon={BookOpen}
+             label="Medical Glossary"
+             onClick={() => setLocation("/static/glossary")}
+           />
+           <div className="h-px bg-slate-50 mx-4"></div>
+           <MenuRow
+             icon={Info}
+             label="About"
+             onClick={() => setLocation("/static/about")}
            />
            <div className="h-px bg-slate-50 mx-4"></div>
            <MenuRow

@@ -177,6 +177,7 @@
       "linkedAccounts": "Verknüpfte Konten",
       "linkedAccountsValue": "{{count}} verbunden",
       "notifications": "Benachrichtigungseinstellungen",
+      "myData": "Meine Daten",
       "help": "Hilfe und Support",
       "privacyLegal": "Datenschutz und Rechtliches"
     },

@@ -3,9 +3,9 @@
 Canonical rules: `docs/artifacts/visual-artifacts-rules.md`
 
 **Created:** 2026-01-21
-**Last Updated:** 2026-01-22 (video consultation hidden, registration simplified, profile fields conditional)
+**Last Updated:** 2026-01-22 (profile menu reorganized: About & Glossary moved to Help & Support)
 **Source of Truth:** `client/src/App.tsx` routes, plus in-page navigation via `useLocation()` and `<Link />`. Planned screens are labeled.
-**Screen Count (v1):** 42 active (39 implemented, 3 planned) — Hides v2 scopes via feature flags: Video Consultation (10), Prescriptions (16), Pharmacy (3); excludes system errors: Not Found (1)
+**Screen Count (v1):** 45 active (42 implemented, 3 planned) — Hides v2 scopes via feature flags: Video Consultation (10), Prescriptions (16), Pharmacy (3); excludes system errors: Not Found (1)
 
 ---
 
@@ -22,7 +22,7 @@ graph TD
     History["⚪ History<br/>SCR-090"]
     Notif["⚪ Notifications<br/>(2 screens)"]
     Profile["🟠 Profile<br/>(8 screens)"]
-    Static["⚪ Static Pages<br/>(FAQ, Privacy, Legal, Support)"]
+    Static["⚪ Static Pages<br/>(7 pages)"]
 
     App --> Auth
     Auth --> Home
@@ -53,9 +53,11 @@ graph TD
   - ⚪ **Notifications**: Alerts & updates (2 screens)
   - ⚪ **History**: Past appointments & activity (1 screen)
   - 🟠 **Profile**: User settings (address hidden, insurance info hidden) (8 screens)
-    - ⚪ **Static Pages**: FAQ, Contact Support, Privacy, Legal (4 screens)
+    - ⚪ **Help & Support**: FAQ, Medical Glossary, About, Contact Support (4 menu items)
+    - ⚪ **Privacy & Legal**: Privacy Policy, Terms of Service, Legal Disclosure (3 menu items)
+    - ⚪ **Static Pages**: 7 total pages (FAQ, Support, Privacy, Legal, Terms, About, Glossary)
 
-**Total: 42 active screens (39 implemented, 3 planned)**
+**Total: 45 active screens (42 implemented, 3 planned)**
 
 **Hidden for v1 (via feature flags):**
 - Video Consultation (Telehealth, Teleclinic) - 9 screens
@@ -202,3 +204,6 @@ graph TD
 | SCR-121 | static-support | `/static/support` | Static. Support |
 | SCR-122 | static-privacy | `/static/privacy` | Static. Privacy Policy |
 | SCR-123 | static-legal | `/static/legal` | Static. Legal Disclosure |
+| SCR-124 | static-terms | `/static/terms` | Static. Terms of Service |
+| SCR-125 | static-about | `/static/about` | Static. About |
+| SCR-126 | static-glossary | `/static/glossary` | Static. Medical Glossary |

@@ -66,11 +66,15 @@ const routeToScreenId: Record<string, string> = {
   "/profile/language": "PRF-006",
   "/profile/support": "PRF-007",
   "/profile/legal": "PRF-008",
+  "/profile/data": "PRF-009",
   "/sso/loading": "SSO-001",
   "/sso/complete-profile": "SSO-002",
   "/static/faq": "STATIC-001",
   "/static/support": "STATIC-002",
   "/static/privacy": "STATIC-004",
+  "/static/terms": "STATIC-005",
+  "/static/glossary": "STATIC-006",
+  "/static/about": "STATIC-007",
   "/static/legal": "STATIC-003",
 };
 

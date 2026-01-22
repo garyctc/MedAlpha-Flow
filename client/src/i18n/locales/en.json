@@ -177,6 +177,7 @@
       "linkedAccounts": "Linked accounts",
       "linkedAccountsValue": "{{count}} connected",
       "notifications": "Notification preferences",
+      "myData": "My Data",
       "help": "Help and support",
       "privacyLegal": "Privacy and legal"
     },

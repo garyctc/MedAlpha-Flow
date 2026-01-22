@@ -11,21 +11,21 @@ export default function PrivacyLegal() {
       
       <main className="p-5">
         <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
-           <MenuRow 
-             icon={Shield} 
-             label="Privacy Policy" 
+           <MenuRow
+             icon={Shield}
+             label="Privacy Policy"
              onClick={() => setLocation("/static/privacy")}
-           />
-           <div className="h-px bg-slate-50 mx-4"></div>
-           <MenuRow 
-             icon={FileText} 
-             label="Legal Disclosure" 
-             onClick={() => setLocation("/static/legal")}
            />
            <div className="h-px bg-slate-50 mx-4"></div>
            <MenuRow
              icon={Check}
              label="Terms of Service"
+             onClick={() => setLocation("/static/terms")}
+           />
+           <div className="h-px bg-slate-50 mx-4"></div>
+           <MenuRow
+             icon={FileText}
+             label="Legal Disclosure"
              onClick={() => setLocation("/static/legal")}
            />
         </div>

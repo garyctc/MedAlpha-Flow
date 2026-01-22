@@ -123,8 +123,8 @@ export default function RegisterAccount() {
               />
               <Label htmlFor="consent-privacy" className="text-sm font-normal cursor-pointer leading-snug pt-0.5">
                 I agree to the{" "}
-                <a href="/static/privacy" target="_blank" rel="noopener noreferrer" className="text-primary font-semibold hover:underline">
-                  Privacy Policy
+                <a href="/static/terms" target="_blank" rel="noopener noreferrer" className="text-primary font-semibold hover:underline">
+                  Terms of Service
                 </a>
               </Label>
             </div>

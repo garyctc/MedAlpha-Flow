@@ -79,6 +79,7 @@ import EditProfile from "@/pages/profile/edit";
 import LinkedAccounts from "@/pages/profile/linked-accounts";
 import InsuranceInfoGKV from "@/pages/profile/insurance-gkv";
 import InsuranceInfoPKV from "@/pages/profile/insurance-pkv";
+import DataPrivacy from "@/pages/profile/data";
 
 // SSO Flow
 import SSOLoading from "@/pages/sso/loading";
@@ -91,6 +92,9 @@ import PrivacyLegal from "@/pages/profile/legal";
 import FAQPage from "@/pages/static/faq";
 import SupportPage from "@/pages/static/support";
 import PrivacyPolicy from "@/pages/static/privacy";
+import TermsOfService from "@/pages/static/terms";
+import MedicalGlossary from "@/pages/static/glossary";
+import AboutPage from "@/pages/static/about";
 import LegalDisclosure from "@/pages/static/legal";
 
 // Appointments Flow
@@ -202,11 +206,15 @@ function AppRoutes() {
       <Route path="/profile/language" component={LanguageSelection} />
       <Route path="/profile/support" component={HelpSupport} />
       <Route path="/profile/legal" component={PrivacyLegal} />
+      <Route path="/profile/data" component={DataPrivacy} />
 
       {/* Static Routes */}
       <Route path="/static/faq" component={FAQPage} />
       <Route path="/static/support" component={SupportPage} />
       <Route path="/static/privacy" component={PrivacyPolicy} />
+      <Route path="/static/terms" component={TermsOfService} />
+      <Route path="/static/glossary" component={MedicalGlossary} />
+      <Route path="/static/about" component={AboutPage} />
       <Route path="/static/legal" component={LegalDisclosure} />
 
       {/* Appointment Routes */}

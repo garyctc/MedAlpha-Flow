@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
-import { User, Shield, HelpCircle, LogOut, ChevronRight, CreditCard, Bell, FileText, Globe, Link2 } from "lucide-react";
+import { User, Shield, HelpCircle, LogOut, ChevronRight, CreditCard, Bell, FileText, Globe, Link2, Database } from "lucide-react";
 import SubPageHeader from "@/components/layout/SubPageHeader";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -121,6 +121,8 @@ export default function ProfilePage() {
                 />
                 <div className="h-px bg-slate-50 mx-4"></div>
                 <MenuRow icon={Bell} label={t("profile.menu.notifications")} onClick={handleNotificationsClick} />
+                <div className="h-px bg-slate-50 mx-4"></div>
+                <MenuRow icon={Database} label={t("profile.menu.myData", { defaultValue: "My Data" })} onClick={() => setLocation("/profile/data")} />
                 <div className="h-px bg-slate-50 mx-4"></div>
                 <MenuRow icon={Globe} label={t("nav.language")} value={languageLabel} onClick={() => setLocation("/profile/language")} />
              </div>

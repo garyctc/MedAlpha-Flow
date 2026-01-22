@@ -1270,6 +1270,32 @@
     ],
     "impactIfWrong": "If terms and legal disclosure should be separate documents, the shared destination may cause compliance issues — would need distinct pages."
   },
+  "PRF-009": {
+    "title": "My Data (GDPR)",
+    "assumptions": [
+      "GDPR Articles 15-20 require data access, portability, and erasure UI",
+      "Users rarely use data export/deletion until leaving platform",
+      "Disabled buttons with 'coming soon' toasts acceptable for prototype",
+      "Data categories list is informational, not editable in V1",
+      "Real export/delete implementation deferred to V2+"
+    ],
+    "userScenario": "When I want to understand what data MedAlpha stores about me or export/delete it, I want a dedicated page, so I can exercise my GDPR rights.",
+    "pros": [
+      "Dedicated page signals GDPR compliance commitment",
+      "Clear data categories (Personal, Insurance, Appointments, Prescriptions, Settings)",
+      "GDPR rights explained in plain language (Articles 15, 17, 20)",
+      "Export/Delete buttons show future functionality",
+      "Contact email for manual requests (interim solution)"
+    ],
+    "cons": [
+      "Export and delete buttons are disabled — no actual functionality in prototype",
+      "'Coming soon' and 'Contact support' toasts may frustrate users",
+      "No real data export format/structure defined",
+      "No deletion confirmation flow or grace period",
+      "No anonymization option separate from full deletion"
+    ],
+    "impactIfWrong": "If export/deletion unavailable in production, violates GDPR Articles 15, 17, 20 — regulatory fines and user distrust — must implement before launch."
+  },
   "SSO-001": {
     "title": "SSO Loading",
     "assumptions": [
@@ -1401,6 +1427,78 @@
       "No language toggle for German/English versions"
     ],
     "impactIfWrong": "If privacy policy doesn't match actual data practices, it creates legal liability — would need legal review and accurate content."
+  },
+  "STATIC-005": {
+    "title": "Terms of Service",
+    "assumptions": [
+      "Users need to understand rights and responsibilities before account creation",
+      "Medical disclaimer is legally required for healthcare apps",
+      "German jurisdiction applies to liability and disputes",
+      "Long documents benefit from scroll-to-top navigation"
+    ],
+    "userScenario": "When I'm creating an account, I want to review the terms, so I understand what I'm agreeing to and what rights I have.",
+    "pros": [
+      "Clear sections cover acceptance, responsibilities, service description",
+      "Medical disclaimer and liability limits protect both parties",
+      "Termination and modification clauses set expectations",
+      "German jurisdiction aligns with GDPR enforcement",
+      "Scroll-to-top button aids navigation on long page"
+    ],
+    "cons": [
+      "Long legal document may deter users from reading",
+      "No plain-language summary for non-lawyers",
+      "No consent tracking or checkbox for acknowledgment"
+    ],
+    "impactIfWrong": "If terms are missing or unclear, it creates legal liability — would need legal review and make terms more accessible."
+  },
+  "STATIC-006": {
+    "title": "Medical Glossary",
+    "assumptions": [
+      "Users encounter unfamiliar German medical/insurance terms throughout the app",
+      "Search helps users quickly find definitions without scrolling",
+      "Bilingual glossary (German + English) serves international users",
+      "Accordion UI keeps definitions collapsed to reduce cognitive load",
+      "15 core terms cover insurance, digital health, and healthcare essentials"
+    ],
+    "userScenario": "When I encounter an unfamiliar German term like 'Zuzahlung' or 'DiGA', I want to look it up in the glossary, so I understand the concept without leaving the app.",
+    "pros": [
+      "Search filter enables quick lookups (not scrolling 15 terms)",
+      "Bilingual format supports German speakers learning English and vice versa",
+      "Accordion keeps UI clean; definitions appear on demand",
+      "Grouped by category (Insurance, Digital Health, Healthcare) aids discovery",
+      "Reduces in-app support questions about terminology"
+    ],
+    "cons": [
+      "Limited to 15 terms — may not cover every term users encounter",
+      "Search is basic substring matching (no fuzzy matching)",
+      "No pronunciation guide for terms like 'gematik'",
+      "Requires maintenance if terminology changes"
+    ],
+    "impactIfWrong": "If terms are missing or definitions are wrong, users may make errors in insurance selection or prescription redemption — would need to prioritize most common/critical terms."
+  },
+  "STATIC-007": {
+    "title": "About Page",
+    "assumptions": [
+      "Users want to verify app legitimacy via certification labels (CE mark, DiGA)",
+      "DiGA certification pending in prototype; placeholder ID acceptable",
+      "MDR Class I classification shows medical device compliance",
+      "Version number and company info build trust",
+      "BfArM number pending until DiGA approval received"
+    ],
+    "userScenario": "When I want to verify MedAlpha is a legitimate medical app, I want to see certification details and company info, so I can trust it with my health data.",
+    "pros": [
+      "Certification labels (CE mark with Badge icon, MDR Class I) satisfy regulatory transparency",
+      "DiGA ID placeholder and BfArM pending status show honesty about approval stage",
+      "Company info and 'Built with' credit build brand trust",
+      "Legal links provide path to full compliance documentation"
+    ],
+    "cons": [
+      "Placeholder DiGA ID (DiGA-2024-XXXXXX) may confuse users expecting real number",
+      "Pending BfArM status may reduce user confidence",
+      "No links to actual certification documents for verification",
+      "No audit trail or third-party verification visible"
+    ],
+    "impactIfWrong": "If certification info is missing or wrong, DiGA marketing is prohibited and users may question legitimacy — would need real certification numbers before launch."
   },
   "ERR-001": {
     "title": "404 Error Page",
