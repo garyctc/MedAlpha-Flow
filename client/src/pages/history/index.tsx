@@ -9,6 +9,7 @@ import { branding } from "@/config/branding";
 import { getUserAppointments } from "@/lib/storage";
 import type { Appointment } from "@/types/storage";
 import { formatLocalDate, getLocale } from "@/i18n";
+import { FEATURES } from "@/lib/features";
 
 export default function HistoryPage() {
   const [, setLocation] = useLocation();
@@ -86,26 +87,28 @@ export default function HistoryPage() {
           />
         </div>
 
-        {/* Filter Tabs */}
-        <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
-          {[
-            { id: "all", label: "All" },
-            { id: "in-person", label: "In-Person" },
-            { id: "video", label: "Video" }
-          ].map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id as any)}
-              className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors whitespace-nowrap ${
-                activeTab === tab.id
-                  ? "bg-slate-900 text-white border-slate-900"
-                  : "bg-white text-slate-600 border-slate-200 hover:border-slate-300"
-              }`}
-            >
-              {tab.label}
-            </button>
-          ))}
-        </div>
+        {/* Filter Tabs - Hidden in V1 */}
+        {FEATURES.videoConsultationEnabled && (
+          <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
+            {[
+              { id: "all", label: "All" },
+              { id: "in-person", label: "In-Person" },
+              { id: "video", label: "Video" }
+            ].map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id as any)}
+                className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors whitespace-nowrap ${
+                  activeTab === tab.id
+                    ? "bg-slate-900 text-white border-slate-900"
+                    : "bg-white text-slate-600 border-slate-200 hover:border-slate-300"
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+        )}
       </header>
 
       <main className="p-5 space-y-6">
@@ -147,11 +150,11 @@ export default function HistoryPage() {
                 {appointments.map((apt) => (
                   <HistoryCard
                     key={apt.id}
-                    icon={apt.type === 'video' ? Video : Calendar}
-                    iconColor={apt.status === 'cancelled' ? "text-red-600" : apt.type === 'video' ? "text-indigo-600" : "text-blue-600"}
-                    iconBg={apt.status === 'cancelled' ? "bg-red-50" : apt.type === 'video' ? "bg-indigo-50" : "bg-blue-50"}
+                    icon={FEATURES.videoConsultationEnabled && apt.type === 'video' ? Video : Calendar}
+                    iconColor={apt.status === 'cancelled' ? "text-red-600" : (FEATURES.videoConsultationEnabled && apt.type === 'video' ? "text-indigo-600" : "text-blue-600")}
+                    iconBg={apt.status === 'cancelled' ? "bg-red-50" : (FEATURES.videoConsultationEnabled && apt.type === 'video' ? "bg-indigo-50" : "bg-blue-50")}
                     title={apt.doctor}
-                    subtitle={`${apt.specialty} • ${apt.type === 'video' ? 'Video' : 'In-Person'}`}
+                    subtitle={FEATURES.videoConsultationEnabled ? `${apt.specialty} • ${apt.type === 'video' ? 'Video' : 'In-Person'}` : apt.specialty}
                     date={formatLocalDate(apt.date, locale)}
                     status={apt.status === 'cancelled' ? 'Cancelled' : 'Completed'}
                     statusColor={apt.status === 'cancelled' ? "text-red-600" : "text-emerald-600"}

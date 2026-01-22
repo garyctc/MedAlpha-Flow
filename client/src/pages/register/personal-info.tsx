@@ -13,10 +13,7 @@ export default function RegisterPersonal() {
     firstName: "",
     lastName: "",
     dob: "",
-    phone: "",
-    street: "",
-    city: "",
-    postalCode: ""
+    phone: ""
   });
 
   const isFormValid = Object.values(formData).every(val => val.length > 0);
@@ -27,9 +24,9 @@ export default function RegisterPersonal() {
       
       <div className="px-5 py-4">
         <div className="flex items-center gap-2 text-sm font-medium text-slate-500 mb-6">
-          <span className="text-primary">Step 2</span> of 5
+          <span className="text-primary">Step 2</span> of 3
           <div className="flex-1 h-1 bg-slate-100 rounded-full">
-            <div className="w-2/5 h-full bg-primary rounded-full"></div>
+            <div className="w-2/3 h-full bg-primary rounded-full"></div>
           </div>
         </div>
 
@@ -84,40 +81,6 @@ export default function RegisterPersonal() {
             <p className="text-xs text-slate-500">We'll send verification codes to this number</p>
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="street">Street address</Label>
-            <Input
-              id="street"
-              placeholder="Musterstraße 123"
-              value={formData.street}
-              onChange={(e) => setFormData({...formData, street: e.target.value})}
-              className="h-12 bg-slate-50 border-slate-200"
-            />
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="city">City</Label>
-              <Input
-                id="city"
-                placeholder="Berlin"
-                value={formData.city}
-                onChange={(e) => setFormData({...formData, city: e.target.value})}
-                className="h-12 bg-slate-50 border-slate-200"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="postalCode">Postal code</Label>
-              <Input
-                id="postalCode"
-                placeholder="10115"
-                value={formData.postalCode}
-                onChange={(e) => setFormData({...formData, postalCode: e.target.value})}
-                className="h-12 bg-slate-50 border-slate-200"
-              />
-            </div>
-          </div>
-
           <Button
             className="w-full h-12 text-base font-medium rounded-xl mt-4"
             disabled={!isFormValid || isLoading}
@@ -131,15 +94,10 @@ export default function RegisterPersonal() {
                     lastName: formData.lastName,
                     dateOfBirth: formData.dob,
                     phone: formData.phone
-                  },
-                  address: {
-                    street: formData.street,
-                    city: formData.city,
-                    postalCode: formData.postalCode
                   }
                 });
                 setIsLoading(false);
-                setLocation("/register/insurance");
+                setLocation("/register/complete");
               }, 400);
             }}
           >

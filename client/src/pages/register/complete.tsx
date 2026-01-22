@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
-import { Check, Calendar, CreditCard, Smartphone } from "lucide-react";
+import { Check, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { getRegistrationDraft, clearRegistrationDraft, saveUserProfile, saveUserInsurance, saveAuthState, clearBookingDraft, saveBookingDraft } from "@/lib/storage";
@@ -10,9 +10,6 @@ import { branding } from "@/config/branding";
 
 export default function RegisterComplete() {
   const [, setLocation] = useLocation();
-  const searchParams = new URLSearchParams(window.location.search);
-  const type = searchParams.get("type") || "gkv";
-  const isGkv = type === "gkv";
   const [userData, setUserData] = useState({ name: "", email: "" });
   const reduceMotion = shouldReduceMotion();
 
@@ -89,7 +86,7 @@ export default function RegisterComplete() {
 
         {/* User Card */}
         <div className="bg-slate-50 rounded-2xl p-5 border border-slate-100 text-left">
-          <div className="flex items-center gap-4 mb-4">
+          <div className="flex items-center gap-4">
              <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-slate-400 border border-slate-200 font-bold text-lg">
                {userData.name.split(' ').map(n => n[0]).join('').toUpperCase()}
              </div>
@@ -98,33 +95,17 @@ export default function RegisterComplete() {
                <p className="text-xs text-slate-500">{userData.email}</p>
              </div>
           </div>
-          <div className={`text-xs font-bold px-3 py-1.5 rounded-lg inline-flex items-center gap-2 ${
-            isGkv ? "bg-blue-100 text-blue-700" : "bg-purple-100 text-purple-700"
-          }`}>
-            <div className={`w-2 h-2 rounded-full ${isGkv ? "bg-blue-600" : "bg-purple-600"}`} />
-            {isGkv ? "Public Insurance (GKV)" : "Private Insurance (PKV)"}
-          </div>
         </div>
 
         {/* Next Steps */}
         <div className="space-y-3">
           <h3 className="text-sm font-bold text-slate-900 text-left">What's next?</h3>
-          
+
           <div className="flex items-center gap-3 text-left text-sm text-slate-600 bg-white border border-slate-100 p-3 rounded-xl">
             <div className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center shrink-0">
                <Calendar size={16} />
             </div>
             Book your first appointment
-          </div>
-
-          <div className="flex items-center gap-3 text-left text-sm text-slate-600 bg-white border border-slate-100 p-3 rounded-xl">
-             <div className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center shrink-0">
-               {isGkv ? <CreditCard size={16} /> : <Smartphone size={16} />}
-             </div>
-             {isGkv 
-               ? "Have your health card ready to redeem prescriptions"
-               : "Set up GesundheitsID in your insurer's app"
-             }
           </div>
         </div>
 
