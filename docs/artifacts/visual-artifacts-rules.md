@@ -59,17 +59,8 @@ If you are generating or updating a visual artifact:
 ## D2 User Flows
 
 **File naming:**
-- Pattern: `FLOW[YYMMDD]-[CR##-##]-[slug].md` (baseline slices use `CR##-00`)
-- Example (CR-tied): `FLOW251216-CR03-01-scan-camera-capture.md`
-- Location (CR): `<project_root>/docs/change-requests/<cr-group>/<CR##-##>/`
 - Location (registry): `<project_root>/docs/artifacts/userflows/FLOWS.md`
 - Collision rule: if filename exists same day, append `-v2`, `-v3`, etc. before extension
-
-**Slug derivation (CR mode):**
-- Extract first 2-3 words from feature name (before " - CR##-##" in frontmatter title)
-- Convert to kebab-case
-- Example: "Scan Results - Analyze and log - CR03-02" → `FLOW251217-CR03-02-scan-results.md`
-- CRITICAL: Use same slug as wireframe for same CR (consistency across artifact types)
 
 **File structure:**
 
@@ -77,17 +68,14 @@ Markdown file with YAML frontmatter, User Story, Acceptance Criteria, and embedd
 
 ```markdown
 ---
-slice_id: CR##-##
-title: Feature name - CR##-##
 summary: One sentence on goal
 touches: [SCR-### Screen, SCR-### Screen]
-depends_on: [CR##-##]
 created: YYYY-MM-DD
 updated: YYYY-MM-DD
 last_updated_by: username
 ---
 
-# Feature name - CR##-##
+# Feature name
 
 **User Story:** As a [persona], I want to [goal], so that [benefit].
 

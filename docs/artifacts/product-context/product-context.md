@@ -5,21 +5,21 @@
 **See also:**
 - Visual design rationale: `visual-guidelines.md`
 - Copy & tone: `copy-guidelines.md`
-- Design tokens: `design-tokens.json`
-- Implementation patterns: `design-system-rules.md`
+- Design tokens: 
+- Implementation patterns: 
 
 ---
 
 ## Product Vision
 
-A trusted, accessible healthcare companion for dm-drogerie markt customers across Europe. Enables appointment booking, telemedicine consultations, and prescription redemption through a single, intuitive mobile experience that works for everyone, from digital natives to seniors managing chronic conditions.
+A trusted, accessible healthcare companion for MedAlpha Connect customers across Europe. Enables appointment booking, telemedicine consultations, and prescription redemption through a single, intuitive mobile experience that works for everyone, from digital natives to seniors managing chronic conditions.
 
 ---
 
 ## Summary
 
-- German-first healthcare app with 14+ language support (reflecting dm's European footprint)
-- Extends dm brand into healthcare services via partner integrations (Curaay, Teleclinic, Cardlink/Apo Group)
+- German-first healthcare app with 14+ language support (reflecting MedAlpha Connect's European footprint)
+- Extends MedAlpha Connect brand into healthcare services via partner integrations (Curaay, Teleclinic, Cardlink/Apo Group)
 - Primary UX axis: Balance of **Trust + Clarity + Efficiency + Accessibility**
 - Co-branded partner experience ("powered by Teleclinic")
 - White-label architecture: Built for multi-brand deployment, not yet implemented
@@ -29,7 +29,7 @@ A trusted, accessible healthcare companion for dm-drogerie markt customers acros
 
 ## Problem
 
-dm customers need healthcare services but face fragmented experiences:
+MedAlpha Connect customers need healthcare services but face fragmented experiences: 
 
 - **Appointment booking** requires calling clinics, waiting on hold, navigating complex scheduling
 - **E-prescription redemption** is confusing, especially for older users unfamiliar with NFC/gematik
@@ -51,12 +51,12 @@ dm customers need healthcare services but face fragmented experiences:
 
 ## Solution
 
-A unified dm healthcare app that:
+A unified MedAlpha Connect healthcare app that:
 
 1. **Consolidates** appointment booking, telemedicine, and prescription services in one place
-2. **Leverages dm trust** to enter healthcare with credibility
+2. **Leverages MedAlpha Connect trust** to enter healthcare with credibility
 3. **Prioritizes accessibility** so all ages and digital skill levels can use it
-4. **Integrates seamlessly** with existing dm ecosystem (loyalty, stores, Click & Collect)
+4. **Integrates seamlessly** with existing MedAlpha Connect ecosystem (loyalty, stores, Click & Collect)
 
 ---
 
@@ -73,7 +73,7 @@ A unified dm healthcare app that:
 | **Teleclinic** | Strong telemedicine, quick consultations | Telemedicine only, no booking/pharmacy | Full healthcare journey |
 | **Shop Apotheke** | Prescription delivery, large inventory | No appointments, no telemedicine | Complete healthcare, not just pharmacy |
 
-**Competitive gaps MedAlpha fills:**
+**Competitive gaps MedAlpha Connect fills:**
 
 1. **No app combines** booking + telemedicine + prescription + pharmacy in one experience
 2. **Insurance apps** are member-only, MedAlpha is universal
@@ -88,7 +88,7 @@ A unified dm healthcare app that:
 ## Target Users
 
 **Primary audience:**
-- dm customers across all ages who want convenient, trustworthy healthcare services
+- MedAlpha Connect customers across all ages who want convenient, trustworthy healthcare services 
 
 **Five key personas:**
 
@@ -126,7 +126,7 @@ A unified dm healthcare app that:
 
 ## Primary UX Axis
 
-MedAlpha balances four principles equally:
+MedAlpha Connect balances four principles equally:
 
 | Principle | Expression |
 |-----------|------------|
@@ -183,7 +183,6 @@ MedAlpha balances four principles equally:
 
 | Differentiator | Implementation |
 |----------------|----------------|
-| **dm brand trust** | 12.5M existing app users, 27.5% market share, established retail relationship |
 | **Complete healthcare journey** | Booking → Consultation → Prescription → Delivery in one app |
 | **Universal accessibility** | Works for Helga (68) and Elena (23) equally well |
 | **Co-branded quality** | "Powered by Teleclinic" signals professional healthcare partners |
@@ -328,7 +327,7 @@ When testing features, evaluate against all five personas:
 
 ### Co-Branded Experience
 
-Partners are visible but MedAlpha owns the experience:
+Partners are visible but MedAlpha Connect owns the experience:
 
 ```
 ┌─────────────────────────────────────┐
@@ -361,8 +360,8 @@ Partners are visible but MedAlpha owns the experience:
 | Tier | Languages | Coverage |
 |------|-----------|----------|
 | **Tier 1 (Launch)** | German, English | Germany + expats |
-| **Tier 2 (Near-term)** | Turkish, Polish, Romanian | Large immigrant populations |
-| **Tier 3 (Expansion)** | Bulgarian, Croatian, Serbian, Hungarian, Czech, Slovak, Slovenian, Italian, Spanish, Portuguese | dm's European footprint |
+| **Tier 2 (Potential Near-term)** | Turkish, Polish, Romanian | Large immigrant populations |
+| **Tier 3 (Potential Expansion)** | Bulgarian, Croatian, Serbian, Hungarian, Czech, Slovak, Slovenian, Italian, Spanish, Portuguese | European footprint |
 
 ### Localization Considerations
 
@@ -378,7 +377,7 @@ Partners are visible but MedAlpha owns the experience:
 
 - **Family accounts** (book for dependents)
 - **Health records integration** (ePA - elektronische Patientenakte)
-- **dm loyalty integration** (Payback points for health services)
+- **Loyalty integration** (Payback points for health services)
 - **Wearable integration** (Apple Health, Google Fit)
 - **Medication reminders**
 - **White-label deployment** for partners

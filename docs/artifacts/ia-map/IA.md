@@ -2,202 +2,162 @@
 
 Canonical rules: `docs/artifacts/visual-artifacts-rules.md`
 
-**Created:** 2026-01-21  
-**Last Updated:** 2026-01-21  
-**Source of Truth:** `client/src/App.tsx` routes, plus in-page navigation via `useLocation()` and `<Link />`. Planned screens are labeled.  
-**Screen Count:** 72 (67 implemented, 5 planned)  
+**Created:** 2026-01-21
+**Last Updated:** 2026-01-22
+**Source of Truth:** `client/src/App.tsx` routes, plus in-page navigation via `useLocation()` and `<Link />`. Planned screens are labeled.
+**Screen Count (v1):** 52 (49 implemented, 3 planned) — Excludes v2 scopes: Prescriptions (16), Pharmacy (3); excludes system errors: Not Found (1)
 
-## Global Navigation (High Level)
+---
+
+## Visual Maps
+
+### App Map (Hierarchy)
 
 ```mermaid
 graph TD
-  %% Class palette (domain colors)
+    App["📱 App<br/>(Mobile)"]
+    Auth["🔵 Auth Domain<br/>(14 screens)"]
+    Home["🟣 Home<br/>SCR-003"]
+    InPerson["🟪 In-Person Visit<br/>(13 screens)"]
+    Video["🌸 Video Consultation<br/>(9 screens)"]
+    History["⚪ History<br/>SCR-090"]
+    Notif["⚪ Notifications<br/>(2 screens)"]
+    Profile["🟠 Profile<br/>(8 screens)"]
+    Static["⚪ Static Pages<br/>(FAQ, Privacy, Legal, Support)"]
+
+    App --> Auth
+    Auth --> Home
+    Home --> InPerson
+    Home --> Video
+    Home --> History
+    Home --> Notif
+    Home --> Profile
+    Profile --> Static
+
+    classDef auth fill:#E0F2FE,stroke:#0284C7,color:#0C4A6E
+    classDef hub fill:#EEF2FF,stroke:#6366F1,color:#312E81
+    classDef inperson fill:#F3E8FF,stroke:#A855F7,color:#581C87
+    classDef video fill:#FCE7F3,stroke:#DB2777,color:#831843
+    classDef profile fill:#FFFBEB,stroke:#F59E0B,color:#92400E
+    classDef system fill:#F1F5F9,stroke:#64748B,color:#0F172A
+
+    class App system
+    class Auth auth
+    class Home hub
+    class InPerson inperson
+    class Video video
+    class Profile profile
+    class History,Notif,Static system
+```
+
+**v1 Structure**
+- 🔵 **Auth Domain**: Splash, Login, Register, SSO, Password Reset (14 screens: 11 implemented, 3 planned)
+- 🟣 **Home**: Central entry point to all features (1 screen)
+  - 🟪 **In-Person Visit**: Booking, Curaay (processing/refinement/success), Appointments, Teleclinic (13 screens)
+  - 🌸 **Video Consultation**: Telehealth (9 screens)
+  - ⚪ **Notifications**: Alerts & updates (2 screens)
+  - ⚪ **History**: Past appointments & activity (1 screen)
+  - 🟠 **Profile**: User settings & account (8 screens)
+    - ⚪ **Static Pages**: FAQ, Privacy, Legal, Support (4 screens)
+
+**Total: 52 screens (49 implemented, 3 planned)**
+
+**Out of v1 Scope (v2+ roadmap):**
+- Prescriptions (RX) - 16 screens
+- Pharmacy - 3 screens
+- Total v2 deferred: 19 screens
+
+Detailed flows: see `docs/artifacts/userflows/FLOWS.md`.
+
+---
+
+### Navigation Map (Behavioral)
+
+```mermaid
+graph TD
+  %% Class palette
   classDef system fill:#F1F5F9,stroke:#64748B,color:#0F172A;
   classDef auth fill:#E0F2FE,stroke:#0284C7,color:#0C4A6E;
   classDef hub fill:#EEF2FF,stroke:#6366F1,color:#312E81;
-  classDef appt fill:#DBEAFE,stroke:#2563EB,color:#1E3A8A;
-  classDef booking fill:#F3E8FF,stroke:#A855F7,color:#581C87;
-  classDef teleclinic fill:#FCE7F3,stroke:#DB2777,color:#831843;
-  classDef rx fill:#ECFDF5,stroke:#10B981,color:#065F46;
-  classDef pharmacy fill:#F0FDFA,stroke:#14B8A6,color:#134E4A;
+  classDef inperson fill:#F3E8FF,stroke:#A855F7,color:#581C87;
+  classDef video fill:#FCE7F3,stroke:#DB2777,color:#831843;
   classDef profile fill:#FFFBEB,stroke:#F59E0B,color:#92400E;
 
-  subgraph SYS[App Shell]
-    app-shell["App Shell (Mobile)"]
-    bottom-nav["Bottom Nav (persistent except Splash, Login, Teleclinic)"]
-  end
-
-  subgraph AUTH[Auth and Registration]
+  subgraph AUTH[Auth & Registration]
     auth-splash["SCR-001 Splash"]
     auth-login["SCR-002 Login"]
-    auth-forgot-password["SCR-004 Forgot Password (planned)"]
-    auth-reset-password["SCR-005 Reset Password (planned)"]
-    auth-reset-password-success["SCR-006 Reset Password Success (planned)"]
-    reg-account["SCR-010 Register. Account"]
-    sso-loading["SCR-110 SSO. Loading"]
-    sso-complete-profile["SCR-111 SSO. Complete Profile"]
+    reg-account["SCR-010 Register"]
+    sso-loading["SCR-110 SSO Loading"]
   end
 
-  subgraph HUB[Home]
+  subgraph HOME[Home]
     hub-home["SCR-003 Home"]
   end
 
-  subgraph PRIMARY[Primary Tabs]
+  subgraph INPERSON[In-Person Visit]
+    booking-type["SCR-020 Booking Type"]
+    booking-calendar["SCR-024 Calendar"]
+    booking-review["SCR-025 Review"]
+    curaay-proc["SCR-026 Curaay Process"]
+    curaay-refine["SCR-027 Curaay Refine"]
+    curaay-success["SCR-028 Curaay Success"]
     appt-list["SCR-080 Appointments"]
-    rx-hub["SCR-050 Prescriptions. Hub"]
-    history["SCR-090 History"]
-    profile["SCR-100 Profile"]
-  end
-
-  subgraph ENTRY[Common Entry Points]
-    booking-type["SCR-020 Booking. Type"]
-    pharmacy-map["SCR-070 Pharmacy. Map"]
-    teleclinic-simulated["SCR-030 Teleclinic. Simulated"]
     appt-detail["SCR-081 Appointment Detail"]
-    profile-privacy-legal["SCR-107 Profile. Privacy and Legal"]
-    notifications-list["SCR-007 Notifications (planned)"]
-    notifications-detail["SCR-008 Notification Detail (planned)"]
   end
 
-  app-shell o--> bottom-nav
-  app-shell ==> auth-splash ==> auth-login ==> hub-home
+  subgraph VIDEO[Video Consultation]
+    telehealth-schedule["SCR-040 Schedule Type"]
+    telehealth-confirm["SCR-045 Confirmation"]
+    teleclinic["SCR-030 Teleclinic"]
+  end
 
+  subgraph PROFILE[Profile & SSO]
+    profile["SCR-100 Profile"]
+    profile-edit["SCR-101 Edit"]
+    profile-legal["SCR-107 Legal"]
+  end
+
+  subgraph AUX[Auxiliary]
+    history["SCR-090 History"]
+    notifications["SCR-007 Notifications"]
+    static["SCR-120+ Static Pages"]
+  end
+
+  %% Auth flow
+  auth-splash ==> auth-login
   auth-login -.-> reg-account
-  auth-login -.-> auth-forgot-password
-  auth-forgot-password -.-> auth-reset-password
-  auth-reset-password -.-> auth-reset-password-success
-  auth-reset-password-success -.-> auth-login
-  auth-login -.-> sso-loading ==> sso-complete-profile ==> profile-privacy-legal
-  sso-loading -.-> auth-login
+  auth-login -.-> sso-loading
+  auth-login ==> hub-home
 
-  bottom-nav ==> hub-home
-  bottom-nav ==> appt-list
-  bottom-nav -.-> rx-hub
-  bottom-nav ==> history
-  bottom-nav ==> profile
-
+  %% Home entry point
   hub-home ==> booking-type
-  hub-home ==> teleclinic-simulated
-  hub-home ==> pharmacy-map
-  hub-home -.-> rx-hub
-  hub-home ==> appt-list
-  hub-home ==> appt-detail
+  hub-home ==> telehealth-schedule
+  hub-home ==> history
+  hub-home ==> notifications
+  hub-home ==> profile
+  hub-home ==> static
 
-  appt-list ==> appt-detail
+  %% In-person flow
+  booking-type --> booking-calendar --> booking-review --> curaay-proc
+  curaay-proc --> curaay-success
+  curaay-proc -.-> curaay-refine --> curaay-proc
+  curaay-success --> appt-list --> appt-detail
 
-  hub-home -.-> notifications-list
-  notifications-list ==> notifications-detail
-  notifications-detail -.-> notifications-list
+  %% Video flow
+  telehealth-schedule --> telehealth-confirm
+  teleclinic --> telehealth-confirm
 
-  class app-shell,bottom-nav system;
-  class auth-splash,auth-login,auth-forgot-password,auth-reset-password,auth-reset-password-success,reg-account,sso-loading,sso-complete-profile auth;
-  class hub-home hub;
-  class appt-list,appt-detail appt;
-  class booking-type booking;
-  class teleclinic-simulated teleclinic;
-  class rx-hub rx;
-  class pharmacy-map pharmacy;
-  class history,notifications-list,notifications-detail system;
-  class profile,profile-privacy-legal profile;
+  %% Profile flow
+  profile ==> profile-edit
+  profile ==> profile-legal
+
+  class AUTH auth
+  class HOME hub
+  class INPERSON inperson
+  class VIDEO video
+  class PROFILE profile
+  class AUX system
 ```
-
-## Profile and Static Pages
-
-```mermaid
-graph TD
-  %% Class palette (domain colors)
-  classDef auth fill:#E0F2FE,stroke:#0284C7,color:#0C4A6E;
-  classDef profile fill:#FFFBEB,stroke:#F59E0B,color:#92400E;
-  classDef static fill:#F8FAFC,stroke:#94A3B8,color:#334155;
-
-  subgraph PROFILE[Profile]
-  profile["SCR-100 Profile"]
-  profile-edit["SCR-101 Profile. Edit"]
-  profile-linked-accounts["SCR-102 Profile. Linked Accounts"]
-  profile-insurance-gkv["SCR-103 Profile. Insurance (GKV)"]
-  profile-insurance-pkv["SCR-104 Profile. Insurance (PKV)"]
-  profile-language["SCR-105 Profile. Language"]
-  profile-support["SCR-106 Profile. Help and Support"]
-  profile-privacy-legal["SCR-107 Profile. Privacy and Legal"]
-  auth-login["SCR-002 Login"]
-  end
-
-  subgraph STATIC[Static Pages]
-  static-faq["SCR-120 Static. FAQ"]
-  static-support["SCR-121 Static. Support"]
-  static-privacy["SCR-122 Static. Privacy Policy"]
-  static-legal["SCR-123 Static. Legal Disclosure"]
-  end
-
-  profile ==> profile-edit ==> profile
-  profile ==> profile-linked-accounts
-  profile ==> profile-language ==> profile
-  profile ==> profile-support
-  profile ==> profile-privacy-legal
-
-  profile -.-> profile-insurance-gkv ==> profile
-  profile -.-> profile-insurance-pkv ==> profile
-
-  profile-support ==> static-faq
-  profile-support ==> static-support
-  static-support -.-> profile-support
-
-  profile-privacy-legal ==> static-privacy
-  profile-privacy-legal ==> static-legal
-
-  profile ==> auth-login
-
-  class profile,profile-edit,profile-linked-accounts,profile-insurance-gkv,profile-insurance-pkv,profile-language,profile-support,profile-privacy-legal profile;
-  class static-faq,static-support,static-privacy,static-legal static;
-  class auth-login auth;
-```
-
-## Appointments
-
-```mermaid
-graph TD
-  %% Class palette (domain colors)
-  classDef system fill:#F1F5F9,stroke:#64748B,color:#0F172A;
-  classDef appt fill:#DBEAFE,stroke:#2563EB,color:#1E3A8A;
-  classDef booking fill:#F3E8FF,stroke:#A855F7,color:#581C87;
-  classDef rx fill:#ECFDF5,stroke:#10B981,color:#065F46;
-  classDef pharmacy fill:#F0FDFA,stroke:#14B8A6,color:#134E4A;
-
-  subgraph APPT[Appointments]
-  appt-list["SCR-080 Appointments"]
-  appt-detail["SCR-081 Appointment Detail"]
-  end
-
-  subgraph BOOKING[Booking]
-  booking-type["SCR-020 Booking. Type"]
-  booking-calendar["SCR-024 Booking. Calendar"]
-  end
-
-  subgraph RELATED[Related Surfaces]
-  pharmacy-map["SCR-070 Pharmacy. Map"]
-  history["SCR-090 History"]
-  rx-hub["SCR-050 Prescriptions. Hub"]
-  end
-
-  appt-list ==> appt-detail
-  appt-detail ==> appt-list
-  appt-detail -.-> booking-calendar
-
-  appt-list ==> booking-type
-  appt-list ==> pharmacy-map
-  appt-list ==> history
-  appt-list -.-> rx-hub
-
-  class appt-list,appt-detail appt;
-  class booking-type,booking-calendar booking;
-  class pharmacy-map pharmacy;
-  class rx-hub rx;
-  class history system;
-```
-
-## Detailed Flows
-
-Domain flows are in `docs/artifacts/userflows/IA-FLOWS.md`.
 
 ## Screen Index (SCR-### ↔ Node ID ↔ Route)
 
@@ -209,8 +169,8 @@ Domain flows are in `docs/artifacts/userflows/IA-FLOWS.md`.
 | SCR-004 | auth-forgot-password | `/forgot-password` | Forgot Password (planned) |
 | SCR-005 | auth-reset-password | `/reset-password` | Reset Password (planned) |
 | SCR-006 | auth-reset-password-success | `/reset-password/success` | Reset Password Success (planned) |
-| SCR-007 | notifications-list | `/notifications` | Notifications (planned) |
-| SCR-008 | notifications-detail | `/notifications/detail` | Notification Detail (planned) |
+| SCR-007 | notifications-list | `/notifications` | Notifications |
+| SCR-008 | notifications-detail | `/notifications/:id` | Notification Detail |
 | SCR-010 | reg-account | `/register` | Register. Account |
 | SCR-011 | reg-verify-email | `/register/verify` | Register. Verify Email |
 | SCR-012 | reg-personal-info | `/register/personal` | Register. Personal Info |
@@ -238,25 +198,6 @@ Domain flows are in `docs/artifacts/userflows/IA-FLOWS.md`.
 | SCR-046 | telehealth-waiting-room | `/telehealth/waiting-room` | Telehealth. Waiting Room |
 | SCR-047 | telehealth-call | `/telehealth/call` | Telehealth. Call |
 | SCR-048 | telehealth-summary | `/telehealth/summary` | Telehealth. Summary |
-| SCR-050 | rx-hub | `/prescriptions`, `/prescriptions/type` | Prescriptions. Hub |
-| SCR-051 | rx-redeem | `/prescriptions/redeem` | Prescriptions. Redeem QR (unused in-app) |
-| SCR-052 | rx-redeem-start | `/prescriptions/redeem-start` | Prescriptions. New Prescription |
-| SCR-053 | rx-nfc-intro | `/prescriptions/nfc-intro` | Prescriptions. NFC Intro (GKV) |
-| SCR-054 | rx-nfc-scan | `/prescriptions/nfc-scan` | Prescriptions. NFC Scan (GKV) |
-| SCR-055 | rx-gkv-sms-verify | `/prescriptions/gkv-sms-verify` | Prescriptions. GKV SMS Verify |
-| SCR-056 | rx-pkv-auth | `/prescriptions/pkv-auth` | Prescriptions. PKV Auth |
-| SCR-057 | rx-pkv-insurer-select | `/prescriptions/pkv-insurer-select` | Prescriptions. PKV Insurer Select |
-| SCR-058 | rx-pkv-redirect | `/prescriptions/pkv-redirect` | Prescriptions. PKV Redirect |
-| SCR-059 | rx-pkv-error | `/prescriptions/pkv-error` | Prescriptions. PKV Error |
-| SCR-060 | rx-list | `/prescriptions/list` | Prescriptions. List |
-| SCR-061 | rx-detail | `/prescriptions/detail` | Prescriptions. Detail |
-| SCR-062 | rx-pharmacy-confirm | `/prescriptions/pharmacy` | Prescriptions. Pharmacy Confirm |
-| SCR-063 | rx-order-review | `/prescriptions/review` | Prescriptions. Order Review |
-| SCR-064 | rx-order-success | `/prescriptions/success` | Prescriptions. Order Success |
-| SCR-065 | rx-receipt | `/prescriptions/receipt` | Prescriptions. Reimbursement Receipt |
-| SCR-070 | pharmacy-map | `/pharmacy/map` | Pharmacy. Map |
-| SCR-071 | pharmacy-list | `/pharmacy/list` | Pharmacy. List |
-| SCR-072 | pharmacy-detail | `/pharmacy/detail` | Pharmacy. Detail |
 | SCR-080 | appt-list | `/appointments` | Appointments |
 | SCR-081 | appt-detail | `/appointments/detail` | Appointment Detail |
 | SCR-090 | history | `/history` | History |
@@ -274,4 +215,3 @@ Domain flows are in `docs/artifacts/userflows/IA-FLOWS.md`.
 | SCR-121 | static-support | `/static/support` | Static. Support |
 | SCR-122 | static-privacy | `/static/privacy` | Static. Privacy Policy |
 | SCR-123 | static-legal | `/static/legal` | Static. Legal Disclosure |
-| SCR-130 | not-found | `*` | Not Found |

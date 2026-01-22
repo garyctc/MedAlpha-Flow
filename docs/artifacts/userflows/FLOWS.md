@@ -1,9 +1,9 @@
-# IA-FLOWS (Mermaid. Exception)
+# FLOWS (Mermaid. Exception)
 
 Canonical rules: `docs/artifacts/visual-artifacts-rules.md`
 
-**Created:** 2026-01-21  
-**Last Updated:** 2026-01-21  
+**Created:** 2026-01-21
+**Last Updated:** 2026-01-22  
 **Source of Truth:** `client/src/App.tsx` routes, plus in-page navigation via `useLocation()` and `<Link />`  
 
 Exception: this is Mermaid navigation flows for the client app. Not D2 user flows.
@@ -117,9 +117,7 @@ graph TD
 graph TD
   %% Class palette (domain colors)
   classDef hub fill:#EEF2FF,stroke:#6366F1,color:#312E81;
-  classDef booking fill:#F3E8FF,stroke:#A855F7,color:#581C87;
   classDef telehealth fill:#ECFEFF,stroke:#06B6D4,color:#155E75;
-  classDef rx fill:#ECFDF5,stroke:#10B981,color:#065F46;
 
   subgraph TH[Telehealth]
     telehealth-schedule-type["SCR-040 Telehealth. Schedule Type"]
@@ -133,10 +131,8 @@ graph TD
     telehealth-summary["SCR-048 Telehealth. Summary"]
   end
 
-  subgraph LINKS[Cross-Links]
+  subgraph EXIT[Exit]
     hub-home["SCR-003 Home"]
-    booking-calendar["SCR-024 Booking. Calendar"]
-    rx-detail["SCR-061 Prescriptions. Detail"]
   end
 
   telehealth-schedule-type ==> telehealth-symptoms-intro ==> telehealth-symptoms-details ==> telehealth-symptoms-info ==> telehealth-review ==> telehealth-confirmation
@@ -144,100 +140,17 @@ graph TD
 
   telehealth-summary ==> hub-home
   telehealth-summary -.-> telehealth-schedule-type
-  telehealth-summary -.-> rx-detail
-
-  telehealth-schedule-type -.-> booking-calendar
   telehealth-waiting-room -.-> hub-home
 
   class telehealth-schedule-type,telehealth-symptoms-intro,telehealth-symptoms-details,telehealth-symptoms-info,telehealth-review,telehealth-confirmation,telehealth-waiting-room,telehealth-call,telehealth-summary telehealth;
   class hub-home hub;
-  class booking-calendar booking;
-  class rx-detail rx;
 ```
 
-## Prescriptions Flow
+---
 
-```mermaid
-graph TD
-  %% Class palette (domain colors)
-  classDef system fill:#F1F5F9,stroke:#64748B,color:#0F172A;
-  classDef hub fill:#EEF2FF,stroke:#6366F1,color:#312E81;
-  classDef rx fill:#ECFDF5,stroke:#10B981,color:#065F46;
-  classDef pharmacy fill:#F0FDFA,stroke:#14B8A6,color:#134E4A;
+## v2+ Roadmap (Out of Scope)
 
-  subgraph RX[Prescriptions]
-    rx-hub["SCR-050 Prescriptions. Hub"]
-    rx-redeem["SCR-051 Prescriptions. Redeem QR (unused in-app)"]
-    rx-redeem-start["SCR-052 Prescriptions. New Prescription"]
-    rx-list["SCR-060 Prescriptions. List"]
-    rx-detail["SCR-061 Prescriptions. Detail"]
-    rx-pharmacy-confirm["SCR-062 Prescriptions. Pharmacy Confirm"]
-    rx-order-review["SCR-063 Prescriptions. Order Review"]
-    rx-order-success["SCR-064 Prescriptions. Order Success"]
-    rx-receipt["SCR-065 Prescriptions. Reimbursement Receipt"]
-  end
+- **Prescriptions Flow** (SCR-050-065) - In-app RX management with GKV/PKV paths
+- **Pharmacy Search Flow** (SCR-070-072) - Location search & pharmacy details
 
-  subgraph GKV[GKV]
-    rx-nfc-intro["SCR-053 Prescriptions. NFC Intro (GKV)"]
-    rx-nfc-scan["SCR-054 Prescriptions. NFC Scan (GKV)"]
-    rx-gkv-sms-verify["SCR-055 Prescriptions. GKV SMS Verify"]
-  end
-
-  subgraph PKV[PKV]
-    rx-pkv-auth["SCR-056 Prescriptions. PKV Auth"]
-    rx-pkv-insurer-select["SCR-057 Prescriptions. PKV Insurer Select"]
-    rx-pkv-redirect["SCR-058 Prescriptions. PKV Redirect"]
-    rx-pkv-error["SCR-059 Prescriptions. PKV Error"]
-  end
-
-  subgraph LINKS[Cross-Links]
-    pharmacy-map["SCR-070 Pharmacy. Map"]
-    hub-home["SCR-003 Home"]
-    history["SCR-090 History"]
-  end
-
-  rx-hub ==> rx-redeem-start
-  rx-hub ==> rx-detail
-  rx-hub -.-> rx-redeem
-
-  rx-redeem-start ==> rx-nfc-intro ==> rx-nfc-scan ==> rx-gkv-sms-verify ==> rx-list
-  rx-redeem-start ==> rx-pkv-auth ==> rx-pkv-insurer-select ==> rx-pkv-redirect ==> rx-list
-  rx-pkv-redirect -.-> rx-pkv-error
-  rx-pkv-error ==> rx-pkv-auth
-
-  rx-list ==> rx-detail ==> rx-pharmacy-confirm ==> rx-order-review ==> rx-order-success ==> rx-receipt
-  rx-order-success ==> hub-home
-  rx-receipt -.-> history
-
-  rx-redeem-start ==> pharmacy-map
-  rx-pkv-error ==> pharmacy-map
-
-  class rx-hub,rx-redeem,rx-redeem-start,rx-nfc-intro,rx-nfc-scan,rx-gkv-sms-verify,rx-pkv-auth,rx-pkv-insurer-select,rx-pkv-redirect,rx-pkv-error,rx-list,rx-detail,rx-pharmacy-confirm,rx-order-review,rx-order-success,rx-receipt rx;
-  class pharmacy-map pharmacy;
-  class hub-home hub;
-  class history system;
-```
-
-## Pharmacy Search Flow
-
-```mermaid
-graph TD
-  %% Class palette (domain colors)
-  classDef hub fill:#EEF2FF,stroke:#6366F1,color:#312E81;
-  classDef pharmacy fill:#F0FDFA,stroke:#14B8A6,color:#134E4A;
-
-  subgraph PHARMACY[Pharmacy]
-    pharmacy-map["SCR-070 Pharmacy. Map"]
-    pharmacy-list["SCR-071 Pharmacy. List"]
-    pharmacy-detail["SCR-072 Pharmacy. Detail"]
-  end
-
-  hub-home["SCR-003 Home"]
-
-  pharmacy-map ==> pharmacy-detail
-  pharmacy-map ==> pharmacy-list ==> pharmacy-detail
-  pharmacy-map -.-> hub-home
-
-  class pharmacy-map,pharmacy-list,pharmacy-detail pharmacy;
-  class hub-home hub;
-```
+See archived branches or v2 planning docs for detailed flows.
