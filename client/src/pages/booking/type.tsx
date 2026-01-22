@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Link, useLocation } from "wouter";
 import { Building, Video, ChevronRight } from "lucide-react";
 import SubPageHeader from "@/components/layout/SubPageHeader";
-import { clearBookingDraft } from "@/lib/storage";
+import { clearBookingDraft, saveBookingDraft } from "@/lib/storage";
 import { useTranslation } from "react-i18next";
 
 export default function BookingType() {
@@ -11,11 +11,13 @@ export default function BookingType() {
 
   const handleInPersonClick = () => {
     clearBookingDraft();
+    saveBookingDraft({ type: 'in-person' });
     setLocation("/booking/specialty");
   };
 
   const handleVideoClick = () => {
     clearBookingDraft();
+    saveBookingDraft({ type: 'video' });
     setLocation("/teleclinic/simulated");
   };
 

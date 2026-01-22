@@ -1,27 +1,45 @@
 import { useState } from "react";
 import { useLocation, Link } from "wouter";
-import { Eye, EyeOff, CheckCircle2 } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import appLogo from "@/assets/app-logo.svg";
 import { branding } from "@/config/branding";
+import { saveAuthState, seedDemoData } from "@/lib/storage";
+import { showError } from "@/lib/toast-helpers";
 import { useSSOProviders } from "@/hooks/use-sso-providers";
+
+// Demo credentials
+const DEMO_EMAIL = "alex@example.com";
+const DEMO_PASSWORD = "password123";
 
 export default function Login() {
   const [, setLocation] = useLocation();
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState(DEMO_EMAIL);
+  const [password, setPassword] = useState(DEMO_PASSWORD);
   const { providers } = useSSOProviders();
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+
     setTimeout(() => {
-      setLoading(false);
-      setLocation("/home");
+      // Validate demo credentials
+      if (email === DEMO_EMAIL && password === DEMO_PASSWORD) {
+        // Save auth state
+        saveAuthState({ isLoggedIn: true, userId: "demo-user" });
+        // Seed demo data if not exists
+        seedDemoData();
+        setLoading(false);
+        setLocation("/home");
+      } else {
+        setLoading(false);
+        showError("Invalid email or password");
+      }
     }, 800);
   };
 
@@ -38,18 +56,23 @@ export default function Login() {
           </div>
           <h1 className="text-2xl font-bold font-display text-slate-900 mb-2">Welcome Back</h1>
           <p className="text-slate-500">Sign in to manage your health</p>
+          <div className="mt-3 inline-flex items-center gap-1.5 text-xs font-medium text-amber-700 bg-amber-50 px-3 py-1.5 rounded-full border border-amber-200">
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+            Demo Mode - credentials pre-filled
+          </div>
         </div>
 
         <form onSubmit={handleLogin} className="space-y-6">
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
-            <Input 
-              id="email" 
-              type="email" 
-              placeholder="name@example.com" 
+            <Input
+              id="email"
+              type="email"
+              placeholder="name@example.com"
               className="h-12 bg-slate-50 border-slate-200 focus:bg-white transition-all"
-              required 
-              defaultValue="alex@example.com"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
 
@@ -61,7 +84,8 @@ export default function Login() {
                 type={showPassword ? "text" : "password"}
                 className="h-12 bg-slate-50 border-slate-200 focus:bg-white transition-all pr-10"
                 required
-                defaultValue="password123"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
               <button
                 type="button"
@@ -115,11 +139,6 @@ export default function Login() {
              ))}
           </div>
 
-          <div className="text-center">
-            <button type="button" className="text-sm text-slate-400 hover:text-slate-600 font-medium" onClick={() => {}}>
-              More partner options
-            </button>
-          </div>
         </form>
 
         <div className="mt-8 text-center text-sm text-slate-500">

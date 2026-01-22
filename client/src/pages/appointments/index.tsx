@@ -3,13 +3,14 @@ import { useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { Calendar, Filter, ChevronRight, Plus, MapPin, Clock, Video, CheckCircle2, X, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import appLogo from "@/assets/app-logo.svg";
 import { branding } from "@/config/branding";
 import { useToast } from "@/hooks/use-toast";
 import PushNotificationBanner from "@/components/ui/push-notification-banner";
-import { FEATURES } from "@/lib/features";
-import { getUserAppointments, saveAppointment } from "@/lib/storage";
+import { getUserAppointments, saveAppointment, updateAppointment } from "@/lib/storage";
+import { showSuccess } from "@/lib/toast-helpers";
 import type { Appointment as StoredAppointment } from "@/types/storage";
 import { useTranslation } from "react-i18next";
 import { formatLocalDate, formatLocalTime, getLocale, type Locale } from "@/i18n";
@@ -30,7 +31,7 @@ type Appointment = {
 };
 
 function parseAnyDate(date: string) {
-  if (/^\\d{4}-\\d{2}-\\d{2}$/.test(date)) {
+  if (/^\d{4}-\d{2}-\d{2}$/.test(date)) {
     return parse(date, "yyyy-MM-dd", new Date());
   }
   const formats = ["MMM d, yyyy", "MMMM d, yyyy", "MMM dd, yyyy", "MMMM dd, yyyy"];
@@ -42,7 +43,7 @@ function parseAnyDate(date: string) {
 }
 
 function formatStoredDate(date: string, locale: Locale) {
-  if (/^\\d{4}-\\d{2}-\\d{2}$/.test(date)) return formatLocalDate(date, locale);
+  if (/^\d{4}-\d{2}-\d{2}$/.test(date)) return formatLocalDate(date, locale);
   const dt = parseAnyDate(date);
   if (!dt) return date;
   return locale === "de" ? format(dt, "dd.MM.yyyy") : format(dt, "MMMM d, yyyy");
@@ -51,7 +52,7 @@ function formatStoredDate(date: string, locale: Locale) {
 function formatStoredTime(time: string, locale: Locale) {
   const normalized = time.trim();
   const dt =
-    /\\b(am|pm)\\b/i.test(normalized)
+    /\b(am|pm)\b/i.test(normalized)
       ? parse(normalized, "h:mm a", new Date(), { locale: enUS })
       : parse(normalized.padStart(5, "0"), "HH:mm", new Date());
   if (Number.isNaN(dt.getTime())) return time;
@@ -116,13 +117,25 @@ export default function AppointmentsPage() {
   const [pendingBooking, setPendingBooking] = useState<Appointment | null>(null);
   const [showPushNotification, setShowPushNotification] = useState(false);
   const [confirmedDoctorName, setConfirmedDoctorName] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const [storedAppointments, setStoredAppointments] = useState<Appointment[]>([]);
   const { toast } = useToast();
   const { t } = useTranslation();
   const locale = getLocale();
 
-  // Check for pending Curaay booking on mount
+  // Load appointments from localStorage
   useEffect(() => {
-    const bookingData = localStorage.getItem("pending-curaay-booking");
+    const timer = setTimeout(() => {
+      const appointments = convertStoredAppointments(getUserAppointments(), locale, t);
+      setStoredAppointments(appointments);
+      setIsLoading(false);
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [locale, t]);
+
+  // Check for pending Smart Match booking on mount
+  useEffect(() => {
+    const bookingData = localStorage.getItem("pending-smart-match-booking");
     if (bookingData) {
       const booking = JSON.parse(bookingData);
       const bookingDate = booking.dateIso ? formatLocalDate(booking.dateIso, locale) : booking.date;
@@ -135,7 +148,7 @@ export default function AppointmentsPage() {
         badgeColor: "bg-blue-50 text-blue-600",
         doctor: t("appointments.placeholders.doctor"),
         role: t("appointments.placeholders.awaitingConfirmation"),
-        location: "Curaay Health Center",
+        location: "MedAlpha Health Center",
         date: `${bookingDate} • ${bookingTime}`,
         subStatus: "processing",
       });
@@ -153,7 +166,7 @@ export default function AppointmentsPage() {
           badgeColor: "bg-blue-50 text-blue-600",
           doctor: doctorName,
           role: t("specialty.generalPractice"),
-          location: "Curaay Health Center, Downtown Berlin",
+          location: "MedAlpha Health Center, Downtown Berlin",
           date: `${formatLocalDate("2026-01-24", locale)} • ${formatLocalTime("10:00", locale)}`,
           subStatus: undefined
         };
@@ -166,7 +179,7 @@ export default function AppointmentsPage() {
           type: "in-person",
           doctor: doctorName,
           specialty: "General Practice",
-          clinic: "Curaay Health Center, Downtown Berlin",
+          clinic: "MedAlpha Health Center, Downtown Berlin",
           date: "2026-01-24",
           time: "10:00",
           status: "upcoming",
@@ -177,7 +190,7 @@ export default function AppointmentsPage() {
         setConfirmedDoctorName(doctorName);
 
         // Clear from localStorage
-        localStorage.removeItem("pending-curaay-booking");
+        localStorage.removeItem("pending-smart-match-booking");
 
         // Show toast notification
         toast({
@@ -198,7 +211,6 @@ export default function AppointmentsPage() {
   }, [locale, t, toast]);
 
   // Combine pending booking with stored appointments
-  const storedAppointments = convertStoredAppointments(getUserAppointments(), locale, t);
   const allAppointments = pendingBooking
     ? [pendingBooking, ...storedAppointments]
     : storedAppointments;
@@ -220,9 +232,9 @@ export default function AppointmentsPage() {
         title={t("appointments.push.title")}
         message={t("appointments.push.message", { doctor: confirmedDoctorName })}
         onDismiss={() => setShowPushNotification(false)}
-        onActionPrimary={FEATURES.prescriptionEnabled ? () => setLocation("/prescriptions") : undefined}
+        onActionPrimary={() => setLocation("/booking/type")}
         onActionSecondary={() => setLocation("/pharmacy/map")}
-        primaryLabel={FEATURES.prescriptionEnabled ? t("appointments.push.primary") : undefined}
+        primaryLabel={t("appointments.push.bookAgain")}
         secondaryLabel={t("appointments.push.secondary")}
       />
 
@@ -234,7 +246,7 @@ export default function AppointmentsPage() {
             </div>
             <h1 className="font-bold text-xl text-slate-900 font-display">{t("appointments.title")}</h1>
           </div>
-          
+
           <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
             {[
               { id: "all", label: t("appointments.filters.all") },
@@ -257,18 +269,36 @@ export default function AppointmentsPage() {
           </div>
         </div>
       </header>
-      
+
       <main className="p-5 relative">
 
         {/* Note: Removed tabs for Upcoming/Past as History is now in a separate tab */}
 
         <div className="space-y-4">
-          {filteredAppointments.length > 0 ? (
+          {isLoading ? (
+            // Loading Skeleton
+            Array.from({ length: 3 }).map((_, i) => (
+              <div key={i} className="w-full p-4 rounded-2xl border border-slate-100 shadow-sm bg-white">
+                <div className="flex justify-between items-start mb-3">
+                  <Skeleton className="h-5 w-24 rounded-full" />
+                  <Skeleton className="h-4 w-32" />
+                </div>
+                <div className="flex justify-between items-center">
+                  <div className="flex-1 space-y-2">
+                    <Skeleton className="h-5 w-40" />
+                    <Skeleton className="h-4 w-28" />
+                    <Skeleton className="h-3 w-48" />
+                  </div>
+                  <Skeleton className="h-5 w-5 rounded" />
+                </div>
+              </div>
+            ))
+          ) : filteredAppointments.length > 0 ? (
             filteredAppointments.map((apt) => (
-              <AppointmentCard 
+              <AppointmentCard
                 key={apt.id}
                 data={apt}
-                onClick={() => setLocation("/appointments/detail")}
+                onClick={() => setLocation(`/appointments/${apt.id}`)}
               />
             ))
           ) : (
@@ -367,7 +397,7 @@ function AppointmentCard({ data, onClick }: { data: Appointment, onClick: () => 
           </div>
           {isProcessing && (
             <span className="inline-block mt-2 text-[9px] font-bold text-purple-700 bg-purple-100 px-2 py-0.5 rounded-full uppercase tracking-wider">
-              {t("appointments.partner.curaay")}
+              {t("appointments.partner.smartMatch")}
             </span>
           )}
         </div>

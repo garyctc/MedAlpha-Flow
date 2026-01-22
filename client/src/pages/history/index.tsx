@@ -1,16 +1,69 @@
-import { useState } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useLocation } from "wouter";
 import { motion } from "framer-motion";
-import { Calendar, Pill, Search, Filter, ChevronRight, FileText, Download, Video } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Calendar, Search, Video, Clock } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { Skeleton } from "@/components/ui/skeleton";
 import appLogo from "@/assets/app-logo.svg";
 import { branding } from "@/config/branding";
-import { FEATURES } from "@/lib/features";
+import { getUserAppointments } from "@/lib/storage";
+import type { Appointment } from "@/types/storage";
+import { formatLocalDate, getLocale } from "@/i18n";
 
 export default function HistoryPage() {
   const [, setLocation] = useLocation();
-  const [activeTab, setActiveTab] = useState<"all" | "in-person" | "prescriptions" | "video">("all");
+  const [activeTab, setActiveTab] = useState<"all" | "in-person" | "video">("all");
+  const [isLoading, setIsLoading] = useState(true);
+  const [history, setHistory] = useState<Appointment[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const locale = getLocale();
+
+  // Load history from localStorage
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const all = getUserAppointments();
+      const past = all.filter(a => a.status === 'completed' || a.status === 'cancelled');
+      setHistory(past);
+      setIsLoading(false);
+    }, 500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Filter history by search and type
+  const filteredHistory = useMemo(() => {
+    let results = history;
+
+    // Filter by search query
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase();
+      results = results.filter(h =>
+        h.doctor.toLowerCase().includes(q) ||
+        h.specialty.toLowerCase().includes(q) ||
+        h.clinic.toLowerCase().includes(q)
+      );
+    }
+
+    // Filter by type
+    if (activeTab !== "all") {
+      results = results.filter(h => h.type === activeTab);
+    }
+
+    return results;
+  }, [history, searchQuery, activeTab]);
+
+  // Group by month
+  const groupedHistory = useMemo(() => {
+    const groups: { [key: string]: Appointment[] } = {};
+    filteredHistory.forEach(apt => {
+      const date = new Date(apt.date);
+      const monthYear = date.toLocaleString(locale === 'de' ? 'de-DE' : 'en-US', { month: 'long', year: 'numeric' });
+      if (!groups[monthYear]) {
+        groups[monthYear] = [];
+      }
+      groups[monthYear].push(apt);
+    });
+    return groups;
+  }, [filteredHistory, locale]);
 
   return (
     <div className="min-h-screen bg-background pb-24">
@@ -25,8 +78,10 @@ export default function HistoryPage() {
         {/* Search */}
         <div className="relative mb-4">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-          <Input 
-            placeholder="Search history..." 
+          <Input
+            placeholder="Search history..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-10 bg-slate-50 border-slate-200 focus:bg-white transition-colors"
           />
         </div>
@@ -36,7 +91,6 @@ export default function HistoryPage() {
           {[
             { id: "all", label: "All" },
             { id: "in-person", label: "In-Person" },
-            ...(FEATURES.prescriptionEnabled ? [{ id: "prescriptions", label: "Prescriptions" }] : []),
             { id: "video", label: "Video" }
           ].map((tab) => (
             <button
@@ -55,118 +109,60 @@ export default function HistoryPage() {
       </header>
 
       <main className="p-5 space-y-6">
-        {/* January 2026 */}
-        <section>
-          <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">January 2026</h3>
+        {isLoading ? (
+          // Loading Skeleton
           <div className="space-y-4">
-            
-            {(activeTab === "all" || activeTab === "in-person") && (
-              <HistoryCard
-                icon={Calendar}
-                iconColor="text-blue-600"
-                iconBg="bg-blue-50"
-                title="Dr. Müller"
-                subtitle="General Practice • In-Person"
-                date="Jan 15, 2026"
-                status="Completed"
-                amount="€0.00"
-                onClick={() => {}} 
-              />
-            )}
-
-            {FEATURES.prescriptionEnabled && (activeTab === "all" || activeTab === "prescriptions") && (
-              <HistoryCard
-                icon={Pill}
-                iconColor="text-emerald-600"
-                iconBg="bg-emerald-50"
-                title="Metformin 500mg"
-                subtitle="Prescription • 30 tablets"
-                date="Jan 15, 2026"
-                status="Redeemed"
-                amount="€5.00"
-                onClick={() => {}}
-              />
-            )}
-
-            {(activeTab === "all" || activeTab === "video") && (
-              <HistoryCard
-                icon={Video}
-                iconColor="text-indigo-600"
-                iconBg="bg-indigo-50"
-                title="Dr. Weber"
-                subtitle="Dermatology • Video"
-                date="Jan 10, 2026"
-                status="Completed"
-                amount="€0.00"
-                onClick={() => {}}
-              />
-            )}
-            
-             {(activeTab === "all" || activeTab === "in-person") && (
-              <HistoryCard
-                icon={Calendar}
-                iconColor="text-red-600"
-                iconBg="bg-red-50"
-                title="Dr. Koch"
-                subtitle="Orthopedics • In-Person"
-                date="Jan 5, 2026"
-                status="Cancelled"
-                statusColor="text-red-600"
-                amount="€0.00"
-                onClick={() => {}}
-              />
-            )}
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div key={i} className="w-full bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4">
+                <Skeleton className="w-12 h-12 rounded-full flex-shrink-0" />
+                <div className="flex-1 space-y-2">
+                  <div className="flex justify-between">
+                    <Skeleton className="h-4 w-24" />
+                    <Skeleton className="h-4 w-12" />
+                  </div>
+                  <Skeleton className="h-3 w-40" />
+                  <div className="flex justify-between">
+                    <Skeleton className="h-3 w-20" />
+                    <Skeleton className="h-3 w-16" />
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
-        </section>
-
-        {/* December 2025 */}
-        <section>
-          <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">December 2025</h3>
-          <div className="space-y-4">
-            {(activeTab === "all" || activeTab === "video") && (
-              <HistoryCard
-                icon={Video}
-                iconColor="text-red-600"
-                iconBg="bg-red-50"
-                title="Dr. Weber"
-                subtitle="Dermatology • Video"
-                date="Jan 3, 2026"
-                status="Cancelled"
-                statusColor="text-red-600"
-                amount="€0.00"
-                onClick={() => {}}
-              />
-            )}
-            
-            {FEATURES.prescriptionEnabled && (activeTab === "all" || activeTab === "prescriptions") && (
-              <HistoryCard
-                icon={Pill}
-                iconColor="text-emerald-600"
-                iconBg="bg-emerald-50"
-                title="Amoxicillin 500mg"
-                subtitle="Prescription • 20 tablets"
-                date="Dec 20, 2025"
-                status="Delivered"
-                amount="€5.00"
-                onClick={() => {}}
-              />
-            )}
-
-            {FEATURES.prescriptionEnabled && (activeTab === "all" || activeTab === "prescriptions") && (
-              <HistoryCard
-                icon={Pill}
-                iconColor="text-emerald-600"
-                iconBg="bg-emerald-50"
-                title="Vitamin D 1000 IU"
-                subtitle="Prescription • 60 capsules"
-                date="Dec 15, 2025"
-                status="Picked Up"
-                amount="€12.50"
-                onClick={() => {}}
-              />
-            )}
+        ) : filteredHistory.length === 0 ? (
+          // Empty State
+          <div className="flex flex-col items-center justify-center py-12 text-center">
+            <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4">
+              <Clock size={28} className="text-slate-400" />
+            </div>
+            <h3 className="font-bold text-slate-900 mb-1">No past appointments</h3>
+            <p className="text-sm text-slate-500">Your appointment history will appear here</p>
           </div>
-        </section>
+        ) : (
+          // Grouped History
+          Object.entries(groupedHistory).map(([monthYear, appointments]) => (
+            <section key={monthYear}>
+              <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">{monthYear}</h3>
+              <div className="space-y-4">
+                {appointments.map((apt) => (
+                  <HistoryCard
+                    key={apt.id}
+                    icon={apt.type === 'video' ? Video : Calendar}
+                    iconColor={apt.status === 'cancelled' ? "text-red-600" : apt.type === 'video' ? "text-indigo-600" : "text-blue-600"}
+                    iconBg={apt.status === 'cancelled' ? "bg-red-50" : apt.type === 'video' ? "bg-indigo-50" : "bg-blue-50"}
+                    title={apt.doctor}
+                    subtitle={`${apt.specialty} • ${apt.type === 'video' ? 'Video' : 'In-Person'}`}
+                    date={formatLocalDate(apt.date, locale)}
+                    status={apt.status === 'cancelled' ? 'Cancelled' : 'Completed'}
+                    statusColor={apt.status === 'cancelled' ? "text-red-600" : "text-emerald-600"}
+                    amount="€0.00"
+                    onClick={() => setLocation(`/appointments/${apt.id}`)}
+                  />
+                ))}
+              </div>
+            </section>
+          ))
+        )}
       </main>
     </div>
   );

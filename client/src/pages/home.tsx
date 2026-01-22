@@ -1,14 +1,17 @@
 import * as React from "react";
+import { useState, useEffect } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { motion } from "framer-motion";
 import { Link } from "wouter";
-import { Bell, Calendar, Pill, ChevronLeft, ChevronRight, MapPin, Building, Video } from "lucide-react";
+import { Bell, Calendar, ChevronLeft, ChevronRight, MapPin } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
 import { formatLocalDayNumber, formatLocalMonthShort, formatLocalTime, getLocale } from "@/i18n";
-import { FEATURES } from "@/lib/features";
+import { getUserProfile, getUserAppointments } from "@/lib/storage";
+import { LoadingSkeleton } from "@/components/ui/loading-skeleton";
 import { useNotifications } from "@/contexts/NotificationsContext";
+import type { UserProfile, Appointment } from "@/types/storage";
 
 function stableHash(input: string): number {
   let hash = 0;
@@ -137,17 +140,37 @@ import appLogo from "@/assets/app-logo.svg";
 import { branding } from "@/config/branding";
 
 export default function Home() {
-  // Toggle this to see empty state
-  const hasAppointments = true; 
   const { t } = useTranslation();
   const locale = getLocale();
+  const [isLoading, setIsLoading] = useState(true);
+  const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [upcomingAppointment, setUpcomingAppointment] = useState<Appointment | null>(null);
   const { unreadCount, promos } = useNotifications();
 
-  const upcomingDateIso = "2026-01-24";
-  const upcomingTime24 = "10:00";
-  const upcomingMonth = formatLocalMonthShort(upcomingDateIso, locale);
-  const upcomingDay = formatLocalDayNumber(upcomingDateIso, locale);
-  const upcomingTime = formatLocalTime(upcomingTime24, locale);
+  useEffect(() => {
+    // Simulate loading delay for realism
+    const timer = setTimeout(() => {
+      const userProfile = getUserProfile();
+      const appointments = getUserAppointments();
+      // Find first upcoming appointment
+      const upcoming = appointments.find(a => a.status === 'upcoming');
+
+      setProfile(userProfile);
+      setUpcomingAppointment(upcoming || null);
+      setIsLoading(false);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  const hasAppointments = !!upcomingAppointment;
+
+  // Format dates for upcoming appointment
+  const upcomingDateIso = upcomingAppointment?.date || "";
+  const upcomingTime24 = upcomingAppointment?.time || "";
+  const upcomingMonth = upcomingDateIso ? formatLocalMonthShort(upcomingDateIso, locale) : "";
+  const upcomingDay = upcomingDateIso ? formatLocalDayNumber(upcomingDateIso, locale) : "";
+  const upcomingTime = upcomingTime24 ? formatLocalTime(upcomingTime24, locale) : "";
 
   return (
     <div className="min-h-screen bg-background pb-24" data-testid="home-screen">
@@ -200,73 +223,28 @@ export default function Home() {
       </div>
 
       <main className="px-5 py-6 space-y-8">
-        {/* Health Services */}
-        <section className="space-y-4">
-          <h2 className="font-bold text-lg text-foreground">{t("home.sections.healthServices")}</h2>
-          <div className={FEATURES.prescriptionEnabled ? "grid grid-cols-3 gap-4" : "grid grid-cols-2 gap-4"}>
-          {/* In-Person Appointment (Curaay) */}
-          <Link href="/booking/specialty" className="h-full">
-            <motion.button
-              whileTap={{ scale: 0.98 }}
-              className="w-full h-full bg-card p-5 rounded-lg shadow-[var(--shadow-card)] border border-border flex flex-col items-start gap-4 text-left hover:border-purple-200 hover:shadow-lg transition-all group"
-            >
-              <div className="w-12 h-12 bg-purple-50 rounded-xl flex items-center justify-center text-purple-600 group-hover:bg-purple-600 group-hover:text-white transition-colors">
-                <Building size={24} />
-              </div>
-              <div>
-                <span className="block font-bold text-foreground group-hover:text-purple-600 transition-colors">
-                  {t("booking.type.inPerson.title")}
-                </span>
-                <span className="text-xs text-muted-foreground mt-1 block">{t("booking.type.inPerson.subtitle")}</span>
-                <span className="text-[10px] text-muted-foreground uppercase tracking-wide mt-2 block">
-                  Powered by Curaay
-                </span>
-              </div>
-            </motion.button>
-          </Link>
-
-          {/* Video Consultation (Teleclinic) */}
-          <Link href="/teleclinic/simulated" className="h-full">
-            <motion.button
-              whileTap={{ scale: 0.98 }}
-              className="w-full h-full bg-card p-5 rounded-lg shadow-[var(--shadow-card)] border border-border flex flex-col items-start gap-4 text-left hover:border-cyan-200 hover:shadow-lg transition-all group"
-            >
-              <div className="w-12 h-12 bg-cyan-50 rounded-xl flex items-center justify-center text-cyan-600 group-hover:bg-cyan-600 group-hover:text-white transition-colors">
-                <Video size={24} />
-              </div>
-              <div>
-                <span className="block font-bold text-foreground group-hover:text-cyan-600 transition-colors">
-                  {t("booking.type.video.title")}
-                </span>
-                <span className="text-xs text-muted-foreground mt-1 block">{t("booking.type.video.subtitle")}</span>
-                <span className="text-[10px] text-muted-foreground uppercase tracking-wide mt-2 block">
-                  {t("booking.type.video.partner")}
-                </span>
-              </div>
-            </motion.button>
-          </Link>
-
-          {/* Prescription (conditional) */}
-          {FEATURES.prescriptionEnabled && (
-            <Link href="/prescriptions" className="h-full">
-              <motion.button
-                whileTap={{ scale: 0.98 }}
-                className="w-full h-full bg-card p-5 rounded-lg shadow-[var(--shadow-card)] border border-border flex flex-col items-start gap-4 text-left hover:border-emerald-200 hover:shadow-lg transition-all group"
-              >
-                <div className="w-12 h-12 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
-                  <Pill size={24} />
-                </div>
-                <div>
-                  <span className="block font-bold text-foreground group-hover:text-emerald-600 transition-colors">
-                    {t("home.features.redeem.title")}
-                  </span>
-                  <span className="text-xs text-muted-foreground mt-1 block">{t("home.features.redeem.subtitle")}</span>
-                </div>
-              </motion.button>
-            </Link>
-          )}
-          </div>
-        </section>
+        {isLoading ? (
+          <LoadingSkeleton variant="page" />
+        ) : (
+        <>
+        {/* Feature Card */}
+        <Link href="/booking/type">
+          <motion.button
+            whileTap={{ scale: 0.98 }}
+            className="w-full bg-card p-5 rounded-lg shadow-[var(--shadow-soft)] border border-border flex items-center gap-4 text-left hover:border-primary/20 hover:shadow-[var(--shadow-card)] transition-all group"
+          >
+            <div className="w-12 h-12 bg-accent rounded-xl flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+              <Calendar size={24} />
+            </div>
+            <div className="flex-1">
+              <span className="block font-bold text-foreground group-hover:text-primary transition-colors">
+                {t("home.features.book.title")}
+              </span>
+              <span className="text-xs text-muted-foreground mt-1 block">{t("home.features.book.subtitle")}</span>
+            </div>
+            <ChevronRight size={20} className="text-muted-foreground group-hover:text-primary transition-colors" />
+          </motion.button>
+        </Link>
 
         {/* Upcoming Section */}
         <section>
@@ -278,8 +256,8 @@ export default function Home() {
               </Link>
             )}
           </div>
-          
-          {hasAppointments ? (
+
+          {hasAppointments && upcomingAppointment ? (
             <Link href="/appointments/detail">
             <Card className="border-none shadow-[var(--shadow-card)] overflow-hidden cursor-pointer hover:scale-[1.01] transition-transform">
                <CardContent className="p-0">
@@ -291,11 +269,11 @@ export default function Home() {
                     </div>
                     <div className="p-4 flex-1 flex justify-between items-center">
                        <div>
-                         <h4 className="font-bold text-foreground">Dr. Sarah Johnson</h4>
-                         <p className="text-sm text-muted-foreground">{t("home.upcoming.subtitle")}</p>
+                         <h4 className="font-bold text-foreground">{upcomingAppointment.doctor}</h4>
+                         <p className="text-sm text-muted-foreground">{upcomingAppointment.specialty}</p>
                          <div className="flex items-center gap-1 mt-2 text-xs text-muted-foreground">
                            <MapPin size={12} />
-                           <span>Curaay Clinic, Downtown</span>
+                           <span>{upcomingAppointment.clinic || t("home.upcoming.subtitle")}</span>
                          </div>
                        </div>
                        <Button size="icon" variant="ghost" className="text-muted-foreground">
@@ -323,24 +301,7 @@ export default function Home() {
         {/* Recent Activity Mini-List */}
         <section>
            <h3 className="font-bold text-lg text-foreground mb-4">{t("home.sections.recent")}</h3>
-           <div className="bg-card rounded-lg border border-border shadow-[var(--shadow-card)] p-4 space-y-4">
-              {FEATURES.prescriptionEnabled && (
-                <>
-                  <div className="flex items-center gap-4">
-                     <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center text-muted-foreground">
-                        <Pill size={18} />
-                     </div>
-                     <div className="flex-1">
-                        <p className="font-medium text-sm text-foreground">{t("home.recent.prescription.title")}</p>
-                        <p className="text-xs text-muted-foreground">{t("home.recent.prescription.subtitle")}</p>
-                     </div>
-                     <span className="text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full">
-                       {t("common.status.completed")}
-                     </span>
-                  </div>
-                  <div className="h-px bg-border w-full" />
-                </>
-              )}
+           <div className="bg-card rounded-lg border border-border shadow-[var(--shadow-card)] p-4">
               <div className="flex items-center gap-4">
                  <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center text-muted-foreground">
                     <Calendar size={18} />
@@ -355,6 +316,8 @@ export default function Home() {
               </div>
            </div>
         </section>
+        </>
+        )}
       </main>
     </div>
   );

@@ -1,9 +1,29 @@
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "wouter";
-import { Star, Video, FileText, Calendar } from "lucide-react";
+import { Star, Video, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { getUserAppointments, updateAppointment } from "@/lib/storage";
+import { format } from "date-fns";
 
 export default function TelehealthSummary() {
+  const [consultDate, setConsultDate] = useState("January 19, 2026");
+  const [rating, setRating] = useState(0);
+
+  useEffect(() => {
+    // Find the most recent video appointment and mark it as completed
+    const appointments = getUserAppointments();
+    const videoAppt = appointments.find(a => a.type === "video" && a.status === "upcoming");
+    if (videoAppt) {
+      updateAppointment(videoAppt.id, { status: "completed" });
+      try {
+        setConsultDate(format(new Date(), "MMMM d, yyyy"));
+      } catch {
+        setConsultDate("Today");
+      }
+    }
+  }, []);
+
   return (
     <div className="min-h-screen bg-background pb-20">
       <header className="px-5 py-4 pt-12 text-center bg-white border-b border-slate-100">
@@ -17,7 +37,7 @@ export default function TelehealthSummary() {
             <Video size={32} />
           </div>
           <h2 className="text-xl font-bold text-slate-900 mb-1">Dr. Müller</h2>
-          <p className="text-slate-500 text-sm mb-4">January 19, 2026 • 12 mins</p>
+          <p className="text-slate-500 text-sm mb-4">{consultDate} • 12 mins</p>
           
           <div className="h-px bg-slate-100 w-full my-4"></div>
           
@@ -35,31 +55,17 @@ export default function TelehealthSummary() {
           </div>
         </div>
 
-        {/* Action Cards */}
-        <div className="space-y-3">
-          <div className="bg-white p-4 rounded-xl border border-slate-100 flex items-center justify-between shadow-sm">
-             <div className="flex items-center gap-3">
-               <div className="w-10 h-10 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center">
-                 <FileText size={20} />
-               </div>
-               <span className="font-medium text-slate-900">View Prescription</span>
+        {/* Action Card */}
+        <div className="bg-white p-4 rounded-xl border border-slate-100 flex items-center justify-between shadow-sm">
+           <div className="flex items-center gap-3">
+             <div className="w-10 h-10 bg-blue-50 text-primary rounded-full flex items-center justify-center">
+               <Calendar size={20} />
              </div>
-             <Link href="/prescriptions/detail">
-               <Button size="sm" variant="outline" className="border-emerald-200 text-emerald-700 hover:bg-emerald-50">View</Button>
-             </Link>
-          </div>
-          
-          <div className="bg-white p-4 rounded-xl border border-slate-100 flex items-center justify-between shadow-sm">
-             <div className="flex items-center gap-3">
-               <div className="w-10 h-10 bg-blue-50 text-primary rounded-full flex items-center justify-center">
-                 <Calendar size={20} />
-               </div>
-               <span className="font-medium text-slate-900">Book Follow-up</span>
-             </div>
-             <Link href="/telehealth/schedule-type">
-               <Button size="sm" variant="outline" className="border-blue-200 text-primary hover:bg-blue-50">Book</Button>
-             </Link>
-          </div>
+             <span className="font-medium text-slate-900">Book Follow-up</span>
+           </div>
+           <Link href="/telehealth/schedule-type">
+             <Button size="sm" variant="outline" className="border-blue-200 text-primary hover:bg-blue-50">Book</Button>
+           </Link>
         </div>
 
         {/* Rating */}
@@ -67,7 +73,12 @@ export default function TelehealthSummary() {
           <p className="text-sm font-medium text-slate-700 mb-3">Rate Your Consultation</p>
           <div className="flex justify-center gap-2">
             {[1, 2, 3, 4, 5].map((star) => (
-              <Star key={star} size={28} className="text-amber-400 fill-current cursor-pointer hover:scale-110 transition-transform" />
+              <Star
+                key={star}
+                size={28}
+                className={`cursor-pointer hover:scale-110 transition-transform ${star <= rating ? "text-amber-400 fill-current" : "text-slate-300"}`}
+                onClick={() => setRating(star)}
+              />
             ))}
           </div>
         </div>

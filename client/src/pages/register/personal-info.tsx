@@ -8,6 +8,7 @@ import { saveRegistrationDraft } from "@/lib/storage";
 
 export default function RegisterPersonal() {
   const [, setLocation] = useLocation();
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -119,34 +120,30 @@ export default function RegisterPersonal() {
 
           <Button
             className="w-full h-12 text-base font-medium rounded-xl mt-4"
-            disabled={!isFormValid}
+            disabled={!isFormValid || isLoading}
             onClick={() => {
-              // Save address to localStorage (legacy)
-              localStorage.setItem("user-address", JSON.stringify({
-                street: formData.street,
-                city: formData.city,
-                postalCode: formData.postalCode
-              }));
-
-              // Save to registration draft
-              saveRegistrationDraft({
-                personalInfo: {
-                  firstName: formData.firstName,
-                  lastName: formData.lastName,
-                  dateOfBirth: formData.dob,
-                  phone: formData.phone
-                },
-                address: {
-                  street: formData.street,
-                  city: formData.city,
-                  postalCode: formData.postalCode
-                }
-              });
-
-              setLocation("/register/insurance");
+              setIsLoading(true);
+              setTimeout(() => {
+                // Save to registration draft
+                saveRegistrationDraft({
+                  personalInfo: {
+                    firstName: formData.firstName,
+                    lastName: formData.lastName,
+                    dateOfBirth: formData.dob,
+                    phone: formData.phone
+                  },
+                  address: {
+                    street: formData.street,
+                    city: formData.city,
+                    postalCode: formData.postalCode
+                  }
+                });
+                setIsLoading(false);
+                setLocation("/register/insurance");
+              }, 400);
             }}
           >
-            Continue
+            {isLoading ? "Saving..." : "Continue"}
           </Button>
         </div>
       </div>

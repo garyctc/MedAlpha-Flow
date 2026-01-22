@@ -1,8 +1,9 @@
-import { useState } from "react";
-import { useLocation } from "wouter";
-import { Calendar, Clock, MapPin, Star, Navigation, CalendarPlus, Info } from "lucide-react";
+import { useState, useEffect } from "react";
+import { useLocation, useParams } from "wouter";
+import { Calendar, Clock, MapPin, Star, Navigation, CalendarPlus, Info, AlertCircle } from "lucide-react";
 import SubPageHeader from "@/components/layout/SubPageHeader";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -17,41 +18,128 @@ import { useToast } from "@/hooks/use-toast";
 import { useTranslation } from "react-i18next";
 import { formatLocalDate, formatLocalTime, getLocale } from "@/i18n";
 import type { Locale } from "@/i18n";
+import { getUserAppointments, updateAppointment } from "@/lib/storage";
+import type { Appointment } from "@/types/storage";
+import { showSuccess } from "@/lib/toast-helpers";
 
 export default function AppointmentDetail() {
   const [, setLocation] = useLocation();
+  const params = useParams<{ id: string }>();
   const [showCancelDialog, setShowCancelDialog] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [appointment, setAppointment] = useState<Appointment | null>(null);
   const { toast } = useToast();
   const { t } = useTranslation();
   const locale: Locale = getLocale();
 
-  const doctorName = "Dr. Anna Schmidt";
-  const specialty = t("specialty.generalPractice");
-  const clinicName = "Health Center Berlin";
+  // Load appointment by ID
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const all = getUserAppointments();
+      const found = all.find(a => a.id === params.id);
+      setAppointment(found || null);
+      setIsLoading(false);
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [params.id]);
+
+  // Use appointment data or fallback
+  const doctorName = appointment?.doctor || "Unknown Doctor";
+  const specialty = appointment?.specialty || t("specialty.generalPractice");
+  const clinicName = appointment?.clinic || "Unknown Clinic";
   const clinicAddress = "Friedrichstraße 123, Berlin";
   const rating = "4.8";
-  const dateIso = "2026-01-20";
-  const time24 = "09:00";
-  const dateLabel = formatLocalDate(dateIso, locale);
-  const timeLabel = formatLocalTime(time24, locale);
+  const dateIso = appointment?.date || "";
+  const time24 = appointment?.time || "";
+  const dateLabel = dateIso ? formatLocalDate(dateIso, locale) : "";
+  const timeLabel = time24 ? formatLocalTime(time24, locale) : "";
 
   const handleCancel = () => {
+    if (appointment) {
+      updateAppointment(appointment.id, {
+        status: 'cancelled',
+        cancelledAt: new Date().toISOString()
+      });
+    }
     setShowCancelDialog(false);
-    toast({
-      title: t("appointments.detail.cancel.toastTitle"),
-      description: t("appointments.detail.cancel.toastDescription"),
-    });
-    setTimeout(() => setLocation("/appointments"), 1500);
+    showSuccess(t("appointments.detail.cancel.toastTitle"));
+    setLocation("/appointments");
   };
+
+  const handleAddToCalendar = () => {
+    showSuccess(t("appointments.detail.addedToCalendar", { defaultValue: "Added to calendar" }));
+  };
+
+  const handleGetDirections = () => {
+    const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(clinicName + ", " + clinicAddress)}`;
+    window.open(url, '_blank');
+  };
+
+  // Loading state
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background pb-20">
+        <SubPageHeader title={t("appointments.detail.title")} backPath="/appointments" />
+        <main className="p-5 space-y-6">
+          <div className="flex justify-center">
+            <Skeleton className="h-6 w-40 rounded-full" />
+          </div>
+          <div className="bg-card rounded-lg border border-border overflow-hidden">
+            <div className="p-5 flex items-center gap-4">
+              <Skeleton className="w-14 h-14 rounded-full" />
+              <div className="flex-1 space-y-2">
+                <Skeleton className="h-5 w-32" />
+                <Skeleton className="h-4 w-24" />
+              </div>
+            </div>
+            <div className="h-px bg-border mx-5"></div>
+            <div className="p-5 space-y-3">
+              <div className="flex items-start gap-3">
+                <Skeleton className="w-8 h-8 rounded-full" />
+                <div className="flex-1 space-y-2">
+                  <Skeleton className="h-4 w-40" />
+                  <Skeleton className="h-3 w-48" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    );
+  }
+
+  // Not found state
+  if (!appointment) {
+    return (
+      <div className="min-h-screen bg-background pb-20">
+        <SubPageHeader title={t("appointments.detail.title")} backPath="/appointments" />
+        <main className="p-5">
+          <div className="flex flex-col items-center justify-center py-12 text-center">
+            <div className="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mb-4">
+              <AlertCircle size={32} className="text-red-500" />
+            </div>
+            <h2 className="text-lg font-bold text-slate-900 mb-2">Appointment Not Found</h2>
+            <p className="text-sm text-slate-500 mb-6">This appointment may have been cancelled or doesn't exist.</p>
+            <Button onClick={() => setLocation("/appointments")} className="bg-primary">
+              Back to Appointments
+            </Button>
+          </div>
+        </main>
+      </div>
+    );
+  }
+
+  // Get initials for avatar
+  const initials = doctorName.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
 
   return (
     <div className="min-h-screen bg-background pb-20">
       <SubPageHeader title={t("appointments.detail.title")} backPath="/appointments" />
-      
+
       <main className="p-5 space-y-6">
         <div className="flex justify-center">
            <span className="text-xs font-bold text-primary bg-accent px-3 py-1 rounded-full border border-border flex items-center gap-1">
-             <Clock size={12} /> {t("appointments.detail.badgeTomorrowAt", { time: timeLabel })}
+             <Clock size={12} /> {timeLabel}
            </span>
         </div>
 
@@ -60,7 +148,7 @@ export default function AppointmentDetail() {
            {/* Doctor */}
            <div className="p-5 flex items-center gap-4">
               <div className="w-14 h-14 bg-muted rounded-full flex items-center justify-center text-muted-foreground font-bold text-xl">
-                 AS
+                 {initials}
               </div>
               <div className="flex-1">
                  <h2 className="text-lg font-bold text-foreground">{doctorName}</h2>
@@ -83,7 +171,7 @@ export default function AppointmentDetail() {
                  <div>
                     <h3 className="font-bold text-foreground text-sm">{clinicName}</h3>
                     <p className="text-muted-foreground text-sm">{clinicAddress}</p>
-                    <button className="text-primary text-xs font-bold mt-1 flex items-center gap-1">
+                    <button onClick={handleGetDirections} className="text-primary text-xs font-bold mt-1 flex items-center gap-1">
                        <Navigation size={10} /> {t("appointments.detail.getDirections")}
                     </button>
                  </div>
@@ -106,7 +194,7 @@ export default function AppointmentDetail() {
                  </div>
                  <div className="flex-1 flex justify-between items-center">
                     <span className="font-medium text-foreground text-sm">{timeLabel}</span>
-                    <button className="text-primary text-xs font-bold flex items-center gap-1">
+                    <button onClick={handleAddToCalendar} className="text-primary text-xs font-bold flex items-center gap-1">
                        <CalendarPlus size={12} /> {t("appointments.detail.addToCalendar")}
                     </button>
                  </div>

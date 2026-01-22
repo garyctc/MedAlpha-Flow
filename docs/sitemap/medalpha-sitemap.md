@@ -1,0 +1,100 @@
+# MedAlpha Connect Sitemap
+
+```mermaid    
+    graph TD
+        Root[MedAlpha Connect]
+
+        %% Authentication
+        Root --> AUTH001["AUTH-001 | Splash<br>• App Logo<br>• Brand Tagline<br>• Auto-redirect to Login"]
+        Root --> AUTH002["AUTH-002 | Login<br>• Email Input<br>• Password Input<br>• Forgot Password Link<br>• SSO Options (dm, PAYBACK)<br>• Registration Link"]
+
+        %% Registration Flow (5 steps)
+        Root --> REG001["REG-001 | Create Account<br>• Progress Indicator (1/5)<br>• Email Input<br>• Password Input<br>• Password Strength Checklist"]
+        Root --> REG002["REG-002 | Verify Email<br>• Progress Indicator (2/5)<br>• Verification Code Input<br>• Resend Code Button"]
+        Root --> REG003["REG-003 | Personal Info<br>• Progress Indicator (3/5)<br>• First Name Input<br>• Last Name Input<br>• Date of Birth Input"]
+        Root --> REG004["REG-004 | Insurance Type<br>• Progress Indicator (4/5)<br>• GKV Selection Card<br>• PKV Selection Card"]
+        Root --> REG005["REG-005 | GKV Details<br>• Insurance Number Input<br>• Insurance Company Dropdown<br>• Member Name Field"]
+        Root --> REG006["REG-006 | PKV Details<br>• Provider Selection<br>• Policy Number Input<br>• Insured Person Details"]
+        Root --> REG007["REG-007 | Registration Complete<br>• Success Confirmation<br>• Welcome Message<br>• Link to Home"]
+
+        %% Home & Dashboard
+        Root --> HOME001["HOME-001 | Home Dashboard<br>• Header with Logo & Notifications<br>• Promo Carousel<br>• Feature Cards Grid<br>• Upcoming Appointments<br>• Recent Activity List"]
+
+        %% Booking Flow (In-Person Appointments)
+        Root --> BKG001["BKG-001 | Booking Type<br>• In-Person Card<br>• Telemedicine Card<br>• Teleclinic Badge"]
+        Root --> BKG002["BKG-002 | Specialty Select<br>• Search Input<br>• Specialty Cards Grid<br>• General Practice<br>• Dermatology<br>• Cardiology<br>• Orthopedics<br>• Gynecology<br>• Pediatrics"]
+        Root --> BKG003["BKG-003 | Location Select<br>• Search Location Input<br>• Location Cards List<br>• Distance & Ratings"]
+        Root --> BKG004["BKG-004 | Doctor Select<br>• Filter Chips<br>• Doctor Cards List<br>• Availability & Ratings"]
+        Root --> BKG005["BKG-005 | Calendar<br>• Date Picker<br>• Morning Time Slots<br>• Afternoon Time Slots"]
+        Root --> BKG006["BKG-006 | Review Booking<br>• Doctor Summary<br>• Location Summary<br>• Date & Time Summary<br>• Edit Buttons"]
+        Root --> BKG007["BKG-007 | Booking Success<br>• Confirmation Message<br>• Booking Number<br>• Appointment Details"]
+
+        %% Smart Match Integration
+        Root --> BKG008["BKG-008 | Smart Match Processing<br>• Processing Animation<br>• Status Message<br>• MedAlpha Match Badge"]
+        Root --> BKG009["BKG-009 | Smart Match Refinement<br>• Refinement Step UI<br>• Doctor Matching Progress"]
+        Root --> BKG010["BKG-010 | Smart Match Success<br>• Booking Confirmed<br>• Doctor Assignment<br>• Appointment Details"]
+
+        %% Prescriptions Flow (OUT OF SCOPE - Hidden from UI)
+        %% Root --> RX001["RX-001 | Prescriptions List"]
+        %% Root --> RX002["RX-002 | Redeem Start"]
+        %% Root --> RX003["RX-003 | NFC Intro (GKV)"]
+        %% Root --> RX004["RX-004 | NFC Scan"]
+        %% Root --> RX005["RX-005 | GKV SMS Verify"]
+        %% Root --> RX006["RX-006 | PKV Auth"]
+        %% Root --> RX007["RX-007 | PKV Insurer Select"]
+        %% Root --> RX008["RX-008 | PKV Redirect"]
+        %% Root --> RX009["RX-009 | PKV Error"]
+        %% Root --> RX010["RX-010 | Prescription Detail"]
+        %% Root --> RX011["RX-011 | Prescription List Select"]
+        %% Root --> RX012["RX-012 | Pharmacy Confirm"]
+        %% Root --> RX013["RX-013 | Order Review"]
+        %% Root --> RX014["RX-014 | Order Success"]
+        %% Root --> RX015["RX-015 | Prescription Receipt"]
+
+        %% Telehealth Flow
+        Root --> TH001["TH-001 | Schedule Type<br>• Teleclinic Badge<br>• Next Available Card<br>• Pick a Time Card"]
+        Root --> TH002["TH-002 | Symptoms Intro (1/3)<br>• Progress Bar<br>• Main Concern Question<br>• Symptom Selection Cards"]
+        Root --> TH003["TH-003 | Symptoms Details (2/3)<br>• Progress Bar<br>• Symptom Detail Form<br>• Next Button"]
+        Root --> TH004["TH-004 | Symptoms Info (3/3)<br>• Progress Bar<br>• Health Information Form<br>• Submit Button"]
+        Root --> TH005["TH-005 | Telehealth Review<br>• Consultation Summary<br>• Symptoms Overview<br>• Confirm Button"]
+        Root --> TH006["TH-006 | Confirmation<br>• Confirmation Message<br>• Appointment Time<br>• Join Call Button"]
+        Root --> TH007["TH-007 | Waiting Room<br>• Wait Message<br>• Estimated Time<br>• Video Preview<br>• Cancel Button"]
+        Root --> TH008["TH-008 | Video Call<br>• Doctor Video Feed<br>• Patient Video Feed<br>• Control Buttons<br>• Chat Interface"]
+        Root --> TH009["TH-009 | Telehealth Summary<br>• Consultation Summary<br>• Doctor Notes<br>• Follow-up Recommendations"]
+        Root --> TH010["TH-010 | Teleclinic Simulated<br>• Simulated Interface<br>• Booking Flow"]
+
+        %% Pharmacy Search
+        Root --> PHR001["PHR-001 | Pharmacy Map<br>• Search Input<br>• Map with Pins<br>• User Location<br>• Bottom Sheet Preview"]
+        Root --> PHR002["PHR-002 | Pharmacy List<br>• Search/Filter<br>• Pharmacy Cards<br>• Distance & Ratings"]
+        Root --> PHR003["PHR-003 | Pharmacy Detail<br>• Full Details<br>• Hours & Contact<br>• Services<br>• Reviews<br>• Order Button"]
+
+        %% Appointments
+        Root --> APT001["APT-001 | Appointments List<br>• Filter Tabs<br>• Appointment Cards<br>• Status Badges<br>• Push Notification Banner<br>• FAB to Book"]
+        Root --> APT002["APT-002 | Appointment Detail<br>• Full Details<br>• Doctor Info<br>• Location<br>• Reschedule Button<br>• Cancel Button"]
+
+        %% History
+        Root --> HIST001["HIST-001 | History<br>• Search Input<br>• Filter Tabs<br>• Grouped by Month<br>• History Cards<br>• Status Badges"]
+
+        %% Profile
+        Root --> PRF001["PRF-001 | Profile<br>• User Avatar & Info<br>• Account Section Menu<br>• Support Section Menu<br>• Sign Out Button"]
+        Root --> PRF002["PRF-002 | Edit Profile<br>• Locked Fields (Name, Email)<br>• Phone Number Input<br>• Address Section<br>• Save/Cancel Buttons"]
+        Root --> PRF003["PRF-003 | Linked Accounts<br>• Linked Accounts List<br>• Connect New Account<br>• Remove Account Options"]
+        Root --> PRF004["PRF-004 | Insurance Info GKV<br>• Insurance Company<br>• Insurance Number<br>• Member Name<br>• Coverage Info"]
+        Root --> PRF005["PRF-005 | Insurance Info PKV<br>• Insurance Company<br>• Policy Number<br>• Insured Person<br>• Coverage Info"]
+        Root --> PRF006["PRF-006 | Language Selection<br>• Language Options<br>• Selection Radio Buttons<br>• Save Button"]
+        Root --> PRF007["PRF-007 | Help & Support<br>• FAQ Section<br>• Contact Form<br>• Phone/Email Support<br>• Chat Support"]
+        Root --> PRF008["PRF-008 | Privacy & Legal<br>• Privacy Policy Link<br>• Legal Disclosure Link<br>• Terms of Service<br>• Impressum"]
+
+        %% SSO
+        Root --> SSO001["SSO-001 | SSO Loading<br>• Loading Spinner<br>• Authenticating Message<br>• Partner Logo"]
+        Root --> SSO002["SSO-002 | Complete Profile<br>• Profile Completion Form<br>• Insurance Selection<br>• Complete Button"]
+
+        %% Static Pages
+        Root --> STATIC001["STATIC-001 | FAQ<br>• FAQ Accordion<br>• Search Input"]
+        Root --> STATIC002["STATIC-002 | Support<br>• Contact Information<br>• Support Form<br>• Chat Widget"]
+        Root --> STATIC003["STATIC-003 | Privacy Policy<br>• Full Policy Text<br>• Data Rights Sections"]
+        Root --> STATIC004["STATIC-004 | Legal Disclosure<br>• Company Information<br>• Contact Details<br>• Liability Info"]
+
+        %% Error Handling
+        Root --> ERR001["ERR-001 | 404 Not Found<br>• Error Message<br>• Return Home Button"]
+```

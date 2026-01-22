@@ -1,9 +1,10 @@
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useLocation } from "wouter";
 import { Stethoscope, User, HeartPulse, Bone, Baby, Search } from "lucide-react";
 import SubPageHeader from "@/components/layout/SubPageHeader";
 import { Input } from "@/components/ui/input";
-import { saveBookingDraft } from "@/lib/storage";
+import { saveBookingDraft, getBookingDraft } from "@/lib/storage";
 
 const specialties = [
   { id: "gp", name: "General Practice", icon: Stethoscope, color: "text-blue-500", bg: "bg-blue-50" },
@@ -16,9 +17,17 @@ const specialties = [
 
 export default function SpecialtySelect() {
   const [, setLocation] = useLocation();
+  const [selectedSpecialty, setSelectedSpecialty] = useState<string | null>(null);
+
+  useEffect(() => {
+    const draft = getBookingDraft();
+    if (draft?.specialty) {
+      setSelectedSpecialty(draft.specialty);
+    }
+  }, []);
 
   const handleSpecialtyClick = (specialty: string) => {
-    saveBookingDraft({ specialty, type: 'in-person' });
+    saveBookingDraft({ specialty });
     setLocation(`/booking/location?specialty=${specialty}`);
   };
 
@@ -44,7 +53,9 @@ export default function SpecialtySelect() {
               transition={{ delay: index * 0.05 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => handleSpecialtyClick(item.id)}
-              className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm flex flex-col items-center justify-center gap-3 hover:border-primary/30 transition-all aspect-square"
+              className={`bg-white p-5 rounded-2xl border shadow-sm flex flex-col items-center justify-center gap-3 hover:border-primary/30 transition-all aspect-square ${
+                selectedSpecialty === item.id ? 'border-primary ring-2 ring-primary/20' : 'border-slate-100'
+              }`}
             >
               <div className={`w-14 h-14 rounded-full ${item.bg} flex items-center justify-center ${item.color}`}>
                 <item.icon size={28} />

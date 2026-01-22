@@ -1,20 +1,16 @@
 import { Link, useLocation } from "wouter";
-import { Home, Calendar, Pill, Clock, User } from "lucide-react";
+import { Home, Calendar, Clock, User } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { FEATURES } from "@/lib/features";
 
 export default function BottomNav() {
   const [location] = useLocation();
 
-  const allTabs = [
+  const tabs = [
     { name: "Home", icon: Home, path: "/home" },
     { name: "Appointments", icon: Calendar, path: "/appointments" },
-    { name: "Prescriptions", icon: Pill, path: "/prescriptions", feature: "prescriptionEnabled" as const },
     { name: "History", icon: Clock, path: "/history" },
     { name: "Profile", icon: User, path: "/profile" },
   ];
-
-  const tabs = allTabs.filter(tab => !tab.feature || FEATURES[tab.feature]);
 
   // Don't show on splash, login, or teleclinic (simulates external browser)
   if (
@@ -27,7 +23,7 @@ export default function BottomNav() {
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-slate-200 h-[80px] pb-safe max-w-[375px] mx-auto">
-      <div className={cn("grid items-center h-14 w-full", tabs.length === 4 ? "grid-cols-4" : "grid-cols-5")}>
+      <div className="grid grid-cols-4 items-center h-14 w-full">
         {tabs.map((tab) => {
           const isActive = location === tab.path || location.startsWith(tab.path + "/"); // Simple active check
           return (

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { motion } from "framer-motion";
 import SubPageHeader from "@/components/layout/SubPageHeader";
@@ -6,11 +6,32 @@ import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
+import { getBookingDraft, saveBookingDraft } from "@/lib/storage";
 
 export default function SymptomsDetails() {
   const [, setLocation] = useLocation();
   const [duration, setDuration] = useState("1-3");
   const [painLevel, setPainLevel] = useState([5]);
+
+  useEffect(() => {
+    const draft = getBookingDraft();
+    if (draft?.symptomDuration) {
+      setDuration(draft.symptomDuration);
+    }
+    if (draft?.painLevel !== undefined) {
+      setPainLevel([draft.painLevel]);
+    }
+  }, []);
+
+  const handleDurationChange = (value: string) => {
+    setDuration(value);
+    saveBookingDraft({ symptomDuration: value });
+  };
+
+  const handlePainLevelChange = (value: number[]) => {
+    setPainLevel(value);
+    saveBookingDraft({ painLevel: value[0] });
+  };
 
   return (
     <div className="min-h-screen bg-background pb-28">
@@ -25,7 +46,7 @@ export default function SymptomsDetails() {
            <span className="text-xs font-bold text-primary uppercase tracking-wider mb-2 block">Step 2 of 3</span>
            <h2 className="text-xl font-bold text-slate-900 mb-4 font-display">How long have you had these symptoms?</h2>
            
-           <RadioGroup value={duration} onValueChange={setDuration} className="space-y-3">
+           <RadioGroup value={duration} onValueChange={handleDurationChange} className="space-y-3">
              {[
                { id: "<24", label: "Less than 24 hours" },
                { id: "1-3", label: "1-3 days" },
@@ -44,11 +65,11 @@ export default function SymptomsDetails() {
            <h2 className="text-xl font-bold text-slate-900 mb-6 font-display">Rate your discomfort (1-10)</h2>
            <div className="bg-white p-6 rounded-2xl border border-slate-200">
              <div className="text-center text-4xl font-bold text-primary mb-6">{painLevel[0]}</div>
-             <Slider 
-               value={painLevel} 
-               onValueChange={setPainLevel} 
-               max={10} 
-               step={1} 
+             <Slider
+               value={painLevel}
+               onValueChange={handlePainLevelChange}
+               max={10}
+               step={1}
                className="mb-2"
              />
              <div className="flex justify-between text-xs text-slate-400 font-bold uppercase mt-4">

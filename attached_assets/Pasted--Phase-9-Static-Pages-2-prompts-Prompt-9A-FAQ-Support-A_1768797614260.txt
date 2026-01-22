@@ -60,7 +60,7 @@ Screen ST-03 - Privacy Policy:
   - Bullet points about service provision, improvement, legal requirements
 
   Section: "Data Sharing"
-  - Information about healthcare partners (Curaay, Teleclinic, Apo Group)
+  - Information about healthcare partners (Teleclinic, Apo Group)
 
   Section: "Your Rights"
   - GDPR rights: access, rectification, deletion, portability

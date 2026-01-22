@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { motion } from "framer-motion";
 import SubPageHeader from "@/components/layout/SubPageHeader";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { getBookingDraft, saveBookingDraft } from "@/lib/storage";
 
 const symptoms = [
   "Cold/Flu symptoms",
@@ -18,12 +19,19 @@ export default function SymptomsIntro() {
   const [, setLocation] = useLocation();
   const [selected, setSelected] = useState<string[]>([]);
 
-  const toggleSymptom = (symptom: string) => {
-    if (selected.includes(symptom)) {
-      setSelected(selected.filter(s => s !== symptom));
-    } else {
-      setSelected([...selected, symptom]);
+  useEffect(() => {
+    const draft = getBookingDraft();
+    if (draft?.symptoms) {
+      setSelected(draft.symptoms);
     }
+  }, []);
+
+  const toggleSymptom = (symptom: string) => {
+    const newSelected = selected.includes(symptom)
+      ? selected.filter(s => s !== symptom)
+      : [...selected, symptom];
+    setSelected(newSelected);
+    saveBookingDraft({ symptoms: newSelected, type: 'video' });
   };
 
   return (

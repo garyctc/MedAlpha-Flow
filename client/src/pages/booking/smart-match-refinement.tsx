@@ -10,7 +10,7 @@ type RefinementScenario = {
   options: string[];
 };
 
-export default function CuraayRefinement() {
+export default function SmartMatchRefinement() {
   const [, setLocation] = useLocation();
   const [selectedOption, setSelectedOption] = useState("");
 
@@ -39,7 +39,7 @@ export default function CuraayRefinement() {
 
   const handleSubmit = () => {
     if (selectedOption) {
-      setLocation("/booking/curaay-processing");
+      setLocation("/booking/smart-match-processing");
     }
   };
 
@@ -104,7 +104,7 @@ export default function CuraayRefinement() {
         {/* Cancel */}
         <button
           onClick={() => {
-            sessionStorage.removeItem("curaay-retry");
+            sessionStorage.removeItem("smart-match-retry");
             setLocation("/booking/review");
           }}
           className="w-full text-slate-500 text-sm font-medium hover:text-slate-700"

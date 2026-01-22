@@ -1,20 +1,50 @@
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Link } from "wouter";
-import { Check, Calendar, Download } from "lucide-react";
+import { Link, useLocation } from "wouter";
+import { Check, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DURATION_DEFAULT, DURATION_SLOW, EASING_DEFAULT, shouldReduceMotion } from "@/lib/motion";
 import { useTranslation } from "react-i18next";
 import { formatLocalDate, formatLocalTime, getLocale } from "@/i18n";
+import { getUserAppointments, clearBookingDraft } from "@/lib/storage";
+import type { Appointment } from "@/types/storage";
 
 export default function BookingSuccess() {
+  const [, setLocation] = useLocation();
   const reduceMotion = shouldReduceMotion();
   const { t } = useTranslation();
   const locale = getLocale();
 
-  const doctorName = "Dr. Anna Schmidt";
-  const clinicName = "Health Center Berlin";
-  const dateIso = "2026-01-20";
-  const time24 = "09:00";
+  const [appointment, setAppointment] = useState<Appointment | null>(null);
+
+  useEffect(() => {
+    // Clear any remaining draft
+    clearBookingDraft();
+
+    // Load the last booked appointment from sessionStorage
+    const lastBookedId = sessionStorage.getItem('last-booked-appointment');
+    if (lastBookedId) {
+      const appointments = getUserAppointments();
+      const booked = appointments.find(a => a.id === lastBookedId);
+      if (booked) {
+        setAppointment(booked);
+      }
+      sessionStorage.removeItem('last-booked-appointment');
+    } else {
+      // Fallback: get the most recent upcoming appointment
+      const appointments = getUserAppointments();
+      const recent = appointments.find(a => a.status === 'upcoming');
+      if (recent) {
+        setAppointment(recent);
+      }
+    }
+  }, []);
+
+  // Use appointment data or fallback
+  const doctorName = appointment?.doctor || "Dr. Anna Schmidt";
+  const clinicName = appointment?.clinic || "Health Center Berlin";
+  const dateIso = appointment?.date || "2026-01-20";
+  const time24 = appointment?.time || "09:00";
   const dateLabel = formatLocalDate(dateIso, locale);
   const timeLabel = formatLocalTime(time24, locale);
 

@@ -3,10 +3,34 @@ import { useLocation } from "wouter";
 import { Check, Clock, Bell } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DURATION_DEFAULT, DURATION_SLOW, EASING_DEFAULT, shouldReduceMotion } from "@/lib/motion";
+import { saveAppointment, getBookingDraft, clearBookingDraft } from "@/lib/storage";
+import { format } from "date-fns";
 
 export default function TelehealthConfirmation() {
   const [, setLocation] = useLocation();
   const reduceMotion = shouldReduceMotion();
+
+  const handleJoinWaitingRoom = () => {
+    const draft = getBookingDraft();
+    const today = format(new Date(), "yyyy-MM-dd");
+    const now = format(new Date(), "HH:mm");
+
+    // Save video appointment
+    saveAppointment({
+      id: `VID-${Date.now()}`,
+      type: "video",
+      doctor: "Dr. Müller",
+      specialty: draft?.symptoms?.[0] || "General Consultation",
+      clinic: "Teleclinic",
+      date: today,
+      time: now,
+      status: "upcoming",
+      createdAt: new Date().toISOString()
+    });
+
+    clearBookingDraft();
+    setLocation("/telehealth/waiting-room");
+  };
 
   return (
     <div className="min-h-screen bg-white flex flex-col items-center justify-center p-6 text-center" data-testid="telehealth-success-screen">
@@ -46,9 +70,9 @@ export default function TelehealthConfirmation() {
         </div>
 
         <div className="space-y-3 w-full">
-           <Button 
+           <Button
              className="w-full h-12 rounded-xl text-base bg-primary hover:bg-primary/90"
-             onClick={() => setLocation("/telehealth/waiting-room")}
+             onClick={handleJoinWaitingRoom}
            >
              Join Waiting Room
            </Button>

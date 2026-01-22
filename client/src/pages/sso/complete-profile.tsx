@@ -1,13 +1,30 @@
 import { useState } from "react";
 import { useLocation } from "wouter";
-import { Lock, ChevronDown, Calendar as CalendarIcon } from "lucide-react";
+import { Lock, ChevronDown, Calendar as CalendarIcon, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { saveUserProfile, saveUserInsurance, saveAuthState } from "@/lib/storage";
+import { showSuccess } from "@/lib/toast-helpers";
 import { useSSOProviders } from "@/hooks/use-sso-providers";
+
+// SSO data that would come from dm
+const SSO_DATA = {
+  firstName: "Max",
+  lastName: "Mustermann",
+  email: "max@example.com"
+};
+
+const INSURANCE_MAP: Record<string, { type: 'gkv' | 'pkv'; provider: string }> = {
+  tk: { type: 'gkv', provider: 'Techniker Krankenkasse (TK)' },
+  aok: { type: 'gkv', provider: 'AOK' },
+  barmer: { type: 'gkv', provider: 'Barmer' },
+  pkv: { type: 'pkv', provider: 'Private Insurance' }
+};
 
 export default function CompleteProfile() {
   const [, setLocation] = useLocation();
+  const [isSaving, setIsSaving] = useState(false);
   const { providers, getSSOProvider } = useSSOProviders();
   const [formData, setFormData] = useState({
     phone: "",
@@ -20,9 +37,38 @@ export default function CompleteProfile() {
   const providerId = searchParams.get('provider') || providers[0]?.id;
   const provider = getSSOProvider(providerId || '');
 
-  const handleContinue = () => {
-    // Navigate to Terms & Conditions / Legal
-    setLocation("/profile/legal");
+  const handleContinue = async () => {
+    setIsSaving(true);
+    await new Promise(r => setTimeout(r, 500));
+
+    // Save profile from SSO + form data
+    saveUserProfile({
+      firstName: SSO_DATA.firstName,
+      lastName: SSO_DATA.lastName,
+      email: SSO_DATA.email,
+      phone: formData.phone,
+      dateOfBirth: formData.dob,
+      street: "",
+      city: "",
+      postalCode: ""
+    });
+
+    // Save insurance if selected
+    if (formData.insurance && INSURANCE_MAP[formData.insurance]) {
+      const ins = INSURANCE_MAP[formData.insurance];
+      saveUserInsurance({
+        type: ins.type,
+        provider: ins.provider,
+        memberNumber: ""
+      });
+    }
+
+    // Mark as fully logged in
+    saveAuthState({ isLoggedIn: true, userId: "sso-user" });
+
+    setIsSaving(false);
+    showSuccess("Profile created successfully");
+    setLocation("/home");
   };
 
   return (
@@ -121,11 +167,19 @@ export default function CompleteProfile() {
           </div>
         </div>
 
-        <Button 
+        <Button
           className="w-full h-12 text-base font-medium bg-primary hover:bg-primary/90 rounded-xl shadow-lg shadow-primary/20 mt-8"
           onClick={handleContinue}
+          disabled={isSaving}
         >
-          Continue
+          {isSaving ? (
+            <>
+              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+              Saving...
+            </>
+          ) : (
+            "Continue"
+          )}
         </Button>
       </main>
     </div>

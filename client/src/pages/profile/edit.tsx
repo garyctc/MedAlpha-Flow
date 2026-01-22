@@ -1,12 +1,23 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useLocation } from "wouter";
-import { Lock, AlertCircle } from "lucide-react";
+import { Lock, AlertCircle, Loader2 } from "lucide-react";
 import SubPageHeader from "@/components/layout/SubPageHeader";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { useToast } from "@/hooks/use-toast";
 import { getUserProfile, saveUserProfile } from "@/lib/storage";
+import { showSuccess } from "@/lib/toast-helpers";
 import { usePrimarySSOProvider } from "@/hooks/use-sso-providers";
 
 export default function EditProfile() {
@@ -16,15 +27,44 @@ export default function EditProfile() {
 
   // Initialize from localStorage
   const profile = getUserProfile();
-  const [formData, setFormData] = useState({
-    firstName: profile?.firstName || "Max",
-    lastName: profile?.lastName || "Mustermann",
-    phone: profile?.phone || "+49 151 12345678",
-    email: profile?.email || "max@example.com",
-    dateOfBirth: profile?.dateOfBirth || "1990-03-15"
+  const initialFormData = useRef({
+    firstName: profile?.firstName || "",
+    lastName: profile?.lastName || "",
+    phone: profile?.phone || "",
+    email: profile?.email || "",
+    dateOfBirth: profile?.dateOfBirth || ""
   });
 
+  const [formData, setFormData] = useState(initialFormData.current);
+  const [isDirty, setIsDirty] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [showDiscardDialog, setShowDiscardDialog] = useState(false);
+  const [pendingNavigation, setPendingNavigation] = useState<string | null>(null);
+
   const hasAddress = profile?.street && profile?.city && profile?.postalCode;
+
+  // Track dirty state
+  const handleFieldChange = (field: string, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+    setIsDirty(true);
+  };
+
+  // Handle back navigation with unsaved changes check
+  const handleBack = () => {
+    if (isDirty) {
+      setPendingNavigation("/profile");
+      setShowDiscardDialog(true);
+    } else {
+      setLocation("/profile");
+    }
+  };
+
+  const handleDiscardChanges = () => {
+    setShowDiscardDialog(false);
+    if (pendingNavigation) {
+      setLocation(pendingNavigation);
+    }
+  };
 
   const [errors, setErrors] = useState({
     phone: "",
@@ -64,8 +104,11 @@ export default function EditProfile() {
     return isValid;
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (validate()) {
+      setIsSaving(true);
+      await new Promise(r => setTimeout(r, 500)); // Simulate API
+
       // Save to localStorage
       saveUserProfile({
         firstName: formData.firstName,
@@ -78,11 +121,9 @@ export default function EditProfile() {
         postalCode: profile?.postalCode || ""
       });
 
-      toast({
-        title: "Profile updated",
-        description: "Changes saved.",
-      });
-
+      setIsSaving(false);
+      setIsDirty(false);
+      showSuccess("Profile updated");
       setLocation("/profile");
     }
   };
@@ -136,10 +177,10 @@ export default function EditProfile() {
         <div className="space-y-3">
           <Label htmlFor="phone" className="text-sm font-medium text-slate-700">Phone Number</Label>
           <div className="relative">
-            <Input 
+            <Input
               id="phone"
               value={formData.phone}
-              onChange={(e) => setFormData({...formData, phone: e.target.value})}
+              onChange={(e) => handleFieldChange("phone", e.target.value)}
               className={`h-12 rounded-xl bg-white pr-10 ${errors.phone ? "border-red-500 focus-visible:ring-red-500" : "border-slate-200"}`}
               placeholder="+49 151 12345678"
             />
@@ -207,18 +248,46 @@ export default function EditProfile() {
            <Button
             className="w-full h-12 text-base rounded-xl bg-primary hover:bg-primary/90 text-white"
             onClick={handleSave}
+            disabled={isSaving}
            >
-             Save
+             {isSaving ? (
+               <>
+                 <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                 Saving...
+               </>
+             ) : (
+               "Save"
+             )}
            </Button>
            <Button
             variant="ghost"
             className="w-full h-12 text-base rounded-xl text-slate-600"
-            onClick={() => setLocation("/profile")}
+            onClick={handleBack}
            >
              Cancel
            </Button>
         </div>
       </div>
+
+      <AlertDialog open={showDiscardDialog} onOpenChange={setShowDiscardDialog}>
+        <AlertDialogContent className="w-[90%] rounded-xl">
+          <AlertDialogHeader>
+            <AlertDialogTitle>Discard changes?</AlertDialogTitle>
+            <AlertDialogDescription>
+              You have unsaved changes. Are you sure you want to leave without saving?
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel className="rounded-md border-border">Keep editing</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDiscardChanges}
+              className="bg-destructive hover:bg-destructive/90 text-destructive-foreground rounded-md"
+            >
+              Discard
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

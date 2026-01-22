@@ -1,0 +1,109 @@
+    flowchart TB
+        subgraph TRIGGER["1. TRIGGER"]
+            T1[Patient feels unwell/needs medical care]
+        end
+
+        subgraph FIND["2. FIND DOCTOR"]
+            F1[Search for available provider]
+            F2["Touchpoints:
+            - Doctolib / Jameda / Doctena
+            - 116117.de portal
+            - Google Maps
+            - Ask friends/family"]
+        end
+
+        subgraph BOOK["3. BOOK APPOINTMENT"]
+            B1[Secure time slot with provider]
+            B2["Touchpoints:
+            - Phone call to practice
+            - Online booking platform
+            - 116117 hotline
+            - eTerminservice website
+            - Walk-in (rare)"]
+        end
+
+        subgraph PREPARE["4. PREPARE"]
+            P1[Gather documents for visit]
+            P2["Touchpoints:
+            - Locate eGK (insurance card)
+            - Note appointment time/address
+            - Referral letter if needed
+            - List of symptoms/questions"]
+        end
+
+        subgraph CHECKIN["5. CHECK-IN"]
+            C1[Arrive & register at practice]
+            C2["Touchpoints:
+            - Reception desk
+            - Insert eGK in card reader
+            - Verify personal data
+            - Confirm quarterly visit"]
+        end
+
+        subgraph WAIT["6. WAIT"]
+            W1[Wait for name to be called]
+            W2["Touchpoints:
+            - Waiting room
+            - 15-60 min typical
+            - Digital queue display (rare)"]
+        end
+
+        subgraph CONSULT["7. CONSULTATION"]
+            CO1[Meet with doctor for examination]
+            CO2["Touchpoints:
+            - Physical examination
+            - Discussion of symptoms
+            - Diagnosis
+            - Treatment plan"]
+        end
+
+        subgraph RECEIVE["8. RECEIVE PRESCRIPTION"]
+            R1[Get prescription if needed]
+            R2["Touchpoints:
+            - e-Rezept stored in TI
+            - QR code in app
+            - Paper printout option
+            - Sick note (Krankmeldung)"]
+        end
+
+        TRIGGER --> FIND --> BOOK --> PREPARE --> CHECKIN --> WAIT --> CONSULT --> RECEIVE
+
+        T1 -.- JTBD1["JTBD: When I feel sick, I want to
+        get better quickly so I can
+        return to my normal life"]
+
+        F1 -.- JTBD2["JTBD: When I need a doctor, I want
+        to find one who is nearby and
+        available so I can get seen soon"]
+
+        B1 -.- JTBD3["JTBD: When I find a doctor, I want
+        to book quickly so I don't have
+        to wait weeks for care"]
+
+        P1 -.- JTBD4["JTBD: When I have an appointment,
+        I want to be prepared so the
+        visit goes smoothly"]
+
+        C1 -.- JTBD5["JTBD: When I arrive at the practice,
+        I want to confirm my appointment
+        so I know I'm in the system"]
+
+        W1 -.- JTBD6["JTBD: When I wait, I want to know
+        roughly how long so I can relax"]
+
+        CO1 -.- JTBD7["JTBD: When I see the doctor, I want
+        to be heard and get a clear
+        diagnosis and treatment plan"]
+
+        R1 -.- JTBD8["JTBD: When I need medicine, I want
+        a clear prescription so I can
+        get treated properly"]
+
+        style JTBD1 fill:#e1f5fe,stroke:#01579b
+        style JTBD2 fill:#e1f5fe,stroke:#01579b
+        style JTBD3 fill:#e1f5fe,stroke:#01579b
+        style JTBD4 fill:#e1f5fe,stroke:#01579b
+        style JTBD5 fill:#e1f5fe,stroke:#01579b
+        style JTBD6 fill:#e1f5fe,stroke:#01579b
+        style JTBD7 fill:#e1f5fe,stroke:#01579b
+        style JTBD8 fill:#e1f5fe,stroke:#01579b

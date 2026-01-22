@@ -16,6 +16,7 @@ export default function RegisterPKVDetails() {
     checkin: false
   });
   const [provider, setProvider] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   return (
     <div className="min-h-screen bg-white pb-6">
@@ -132,14 +133,19 @@ export default function RegisterPKVDetails() {
 
         <Button
           className="w-full h-12 text-base font-medium rounded-xl"
+          disabled={isLoading}
           onClick={() => {
-            if (provider) {
-              saveRegistrationDraft({ insuranceProvider: provider });
-            }
-            setLocation("/register/complete?type=pkv");
+            setIsLoading(true);
+            setTimeout(() => {
+              if (provider) {
+                saveRegistrationDraft({ insuranceProvider: provider });
+              }
+              setIsLoading(false);
+              setLocation("/register/complete?type=pkv");
+            }, 500);
           }}
         >
-          Complete Registration
+          {isLoading ? "Completing..." : "Complete Registration"}
         </Button>
       </div>
     </div>

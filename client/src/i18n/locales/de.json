@@ -121,7 +121,7 @@
       "awaitingConfirmation": "Wartet auf Bestätigung"
     },
     "partner": {
-      "curaay": "Powered by Curaay"
+      "smartMatch": "MedAlpha Match"
     },
     "toast": {
       "confirmed": {
@@ -131,8 +131,8 @@
     },
     "push": {
       "title": "Termin abgeschlossen",
-      "message": "Wie war Ihr Besuch bei {{doctor}}. Rezept einlösen oder Apotheke finden.",
-      "primary": "Rezept einlösen",
+      "message": "Wie war dein Besuch bei {{doctor}}? Weiteren Termin buchen oder Apotheke finden.",
+      "bookAgain": "Erneut buchen",
       "secondary": "Apotheke finden"
     },
     "empty": {

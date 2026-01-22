@@ -1,0 +1,38 @@
+flowchart TB
+    subgraph DIGITAL["DIGITAL CHANNELS"]
+        D1[Doctolib]
+        D2[Jameda]
+        D3[Doctena]
+        D4[116117.de / eTerminservice]
+        D5[e-Rezept App]
+        D6[Online Pharmacies]
+    end
+
+    subgraph PHYSICAL["PHYSICAL TOUCHPOINTS"]
+        P1[Doctor Practice]
+        P2[Local Apotheke]
+        P3[Hospital]
+        P4[Emergency Notdienst]
+    end
+
+    subgraph INFRASTRUCTURE["BACKEND SYSTEMS"]
+        I1[Telematik Infrastruktur TI]
+        I2[Kassenaerztliche Vereinigung KV]
+        I3[Health Insurance Provider]
+    end
+
+    subgraph ARTIFACTS["KEY ARTIFACTS"]
+        A1[eGK Gesundheitskarte]
+        A2[e-Rezept QR Code]
+        A3[Referral Letter Ueberweisung]
+        A4[Sick Note Krankmeldung]
+    end
+
+    D1 & D2 & D3 & D4 --> P1
+    D5 --> P2
+    D6 --> P2
+    P1 --> I1
+    P2 --> I1
+    I1 --> I3
+    A1 --> P1 & P2
+    A2 --> P2
