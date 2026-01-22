@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { useLocation } from "wouter";
 import { MapPin, Star, Navigation } from "lucide-react";
 import SubPageHeader from "@/components/layout/SubPageHeader";
-import { Skeleton } from "@/components/ui/skeleton";
+import { LoadingSkeleton } from "@/components/ui/loading-skeleton";
 import { saveBookingDraft, getBookingDraft } from "@/lib/storage";
 
 const clinics = [
@@ -76,16 +76,7 @@ export default function LocationSelect() {
           </h2>
           <div className="space-y-3">
             {isLoading ? (
-              Array.from({ length: 3 }).map((_, i) => (
-                <div key={i} className="w-full bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
-                  <Skeleton className="h-5 w-3/4 mb-2" />
-                  <Skeleton className="h-4 w-full mb-3" />
-                  <div className="flex gap-2">
-                    <Skeleton className="h-5 w-16" />
-                    <Skeleton className="h-5 w-20" />
-                  </div>
-                </div>
-              ))
+              <LoadingSkeleton variant="card" count={3} />
             ) : (
             clinics.map((clinic, index) => (
               <motion.button

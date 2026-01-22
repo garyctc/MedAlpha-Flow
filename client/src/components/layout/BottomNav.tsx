@@ -22,26 +22,26 @@ export default function BottomNav() {
     return null;
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-slate-200 h-[80px] pb-safe max-w-[375px] mx-auto">
-      <div className="grid grid-cols-4 items-center h-14 w-full">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-border shadow-[0_-1px_3px_rgba(0,0,0,0.04)] max-w-[375px] mx-auto safe-area-bottom">
+      <div className="grid grid-cols-4 items-center pt-3 pb-2 w-full">
         {tabs.map((tab) => {
-          const isActive = location === tab.path || location.startsWith(tab.path + "/"); // Simple active check
+          const isActive = location === tab.path || location.startsWith(tab.path + "/");
           return (
-            <Link 
-              key={tab.name} 
-              href={tab.path} 
-              className="flex flex-col items-center justify-center w-full h-full space-y-1"
+            <Link
+              key={tab.name}
+              href={tab.path}
+              className="flex flex-col items-center justify-center w-full gap-1"
             >
               <tab.icon
-                size={22}
+                size={24}
                 className={cn(
                   "transition-colors duration-200",
-                  isActive ? "text-primary fill-current" : "text-slate-400 stroke-[1.5px]"
+                  isActive ? "text-primary" : "text-[hsl(226_12%_50%)]"
                 )}
               />
               <span className={cn(
-                "text-[9px] font-medium transition-colors duration-200",
-                 isActive ? "text-primary" : "text-slate-400"
+                "text-xs font-medium transition-colors duration-200",
+                 isActive ? "text-primary" : "text-[hsl(226_12%_50%)]"
               )}>
                 {tab.name}
               </span>

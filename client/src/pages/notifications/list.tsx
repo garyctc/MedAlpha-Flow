@@ -3,6 +3,7 @@ import { Link } from "wouter";
 import { format } from "date-fns";
 import { ChevronRight } from "lucide-react";
 import SubPageHeader from "@/components/layout/SubPageHeader";
+import { PageContent } from "@/components/layout/PageContainer";
 import { useNotifications } from "@/contexts/NotificationsContext";
 import { cn } from "@/lib/utils";
 
@@ -112,9 +113,10 @@ export default function NotificationsList() {
   };
 
   return (
-    <div className="min-h-screen bg-background pb-10">
+    <div className="min-h-screen bg-primary">
       <SubPageHeader title="Notifications" />
 
+      <PageContent>
       <main className="p-5 space-y-4">
         <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar" role="tablist" aria-label="Notification filters">
           {[
@@ -152,6 +154,7 @@ export default function NotificationsList() {
           <NotificationsTab value={activeTab} />
         </div>
       </main>
+      </PageContent>
     </div>
   );
 }

@@ -3,10 +3,10 @@ import { useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { Calendar, Filter, ChevronRight, Plus, MapPin, Clock, Video, CheckCircle2, X, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
+import { LoadingSkeleton } from "@/components/ui/loading-skeleton";
 import { cn } from "@/lib/utils";
-import appLogo from "@/assets/app-logo.svg";
-import { branding } from "@/config/branding";
+import MainHeader from "@/components/layout/MainHeader";
+import { PageContent } from "@/components/layout/PageContainer";
 import { useToast } from "@/hooks/use-toast";
 import PushNotificationBanner from "@/components/ui/push-notification-banner";
 import { getUserAppointments, saveAppointment, updateAppointment } from "@/lib/storage";
@@ -225,7 +225,7 @@ export default function AppointmentsPage() {
   });
 
   return (
-    <div className="min-h-screen bg-background pb-24">
+    <div className="min-h-screen bg-primary">
       {/* Push Notification Banner */}
       <PushNotificationBanner
         show={showPushNotification}
@@ -238,15 +238,11 @@ export default function AppointmentsPage() {
         secondaryLabel={t("appointments.push.secondary")}
       />
 
-      <header className="bg-white border-b border-slate-100 sticky top-0 z-20">
-        <div className="px-5 py-4 pt-12">
-          <div className="flex items-center gap-2 mb-4 min-h-10">
-            <div className="w-8 h-8 flex items-center justify-center">
-              <img src={appLogo} alt={`${branding.appName} Logo`} className="w-full h-full object-contain" />
-            </div>
-            <h1 className="font-bold text-xl text-slate-900 font-display">{t("appointments.title")}</h1>
-          </div>
+      <MainHeader title={t("appointments.title")} />
 
+      <PageContent>
+        {/* Filter Pills */}
+        <div className="px-5 pt-5 pb-3">
           <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
             {[
               { id: "all", label: t("appointments.filters.all") },
@@ -268,31 +264,14 @@ export default function AppointmentsPage() {
             ))}
           </div>
         </div>
-      </header>
 
-      <main className="p-5 relative">
+      <main className="p-5 pt-0 relative">
 
         {/* Note: Removed tabs for Upcoming/Past as History is now in a separate tab */}
 
         <div className="space-y-4">
           {isLoading ? (
-            // Loading Skeleton
-            Array.from({ length: 3 }).map((_, i) => (
-              <div key={i} className="w-full p-4 rounded-2xl border border-slate-100 shadow-sm bg-white">
-                <div className="flex justify-between items-start mb-3">
-                  <Skeleton className="h-5 w-24 rounded-full" />
-                  <Skeleton className="h-4 w-32" />
-                </div>
-                <div className="flex justify-between items-center">
-                  <div className="flex-1 space-y-2">
-                    <Skeleton className="h-5 w-40" />
-                    <Skeleton className="h-4 w-28" />
-                    <Skeleton className="h-3 w-48" />
-                  </div>
-                  <Skeleton className="h-5 w-5 rounded" />
-                </div>
-              </div>
-            ))
+            <LoadingSkeleton variant="card" count={3} />
           ) : filteredAppointments.length > 0 ? (
             filteredAppointments.map((apt) => (
               <AppointmentCard
@@ -323,6 +302,7 @@ export default function AppointmentsPage() {
         </div>
 
       </main>
+      </PageContent>
 
       {/* FAB */}
       <div className="fixed bottom-[160px] left-0 right-0 max-w-[375px] mx-auto pointer-events-none z-20">

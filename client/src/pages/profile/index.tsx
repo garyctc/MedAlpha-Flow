@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import { User, Shield, HelpCircle, LogOut, ChevronRight, CreditCard, Bell, FileText, Globe, Link2 } from "lucide-react";
-import SubPageHeader from "@/components/layout/SubPageHeader";
+import MainHeader from "@/components/layout/MainHeader";
+import { PageContent } from "@/components/layout/PageContainer";
 import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
+import { LoadingSkeleton } from "@/components/ui/loading-skeleton";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   AlertDialog,
@@ -16,8 +17,6 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import avatarImage from "@assets/generated_images/professional_user_avatar_for_healthcare_app.png";
-import appLogo from "@/assets/app-logo.svg";
-import { branding } from "@/config/branding";
 import { getUserProfile, getUserInsurance, clearAuthState } from "@/lib/storage";
 import { showSuccess } from "@/lib/toast-helpers";
 import { useTranslation } from "react-i18next";
@@ -70,16 +69,10 @@ export default function ProfilePage() {
   };
 
   return (
-    <div className="min-h-screen bg-background pb-24">
-      <header className="px-5 py-4 pt-12 bg-white border-b border-slate-100 flex justify-between items-center sticky top-0 z-10">
-        <div className="flex items-center gap-2 min-h-10">
-          <div className="w-8 h-8 flex items-center justify-center">
-            <img src={appLogo} alt={`${branding.appName} Logo`} className="w-full h-full object-contain" />
-          </div>
-          <h1 className="font-bold text-xl text-slate-900 font-display">{t("profile.title")}</h1>
-        </div>
-      </header>
-      
+    <div className="min-h-screen bg-primary">
+      <MainHeader title={t("profile.title")} showProfile={false} />
+
+      <PageContent>
       <main className="p-5 space-y-8">
         {/* User Info Card */}
         <div className="flex flex-col items-center text-center">
@@ -87,10 +80,7 @@ export default function ProfilePage() {
              <img src={avatarImage} alt="Profile" className="w-full h-full object-cover" />
            </div>
            {isLoading ? (
-             <>
-               <Skeleton className="h-7 w-40 mb-2" />
-               <Skeleton className="h-4 w-48" />
-             </>
+             <LoadingSkeleton variant="card" count={1} />
            ) : (
              <>
                <h2 className="text-xl font-bold text-slate-900 font-display">{displayName}</h2>
@@ -139,6 +129,7 @@ export default function ProfilePage() {
           <LogOut size={18} /> {t("profile.signOut")}
         </Button>
       </main>
+      </PageContent>
 
       <AlertDialog open={showLogoutDialog} onOpenChange={setShowLogoutDialog}>
         <AlertDialogContent className="w-[90%] rounded-xl">

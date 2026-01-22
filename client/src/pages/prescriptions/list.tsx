@@ -2,9 +2,10 @@ import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { Check, Calendar, Info, Shield, CreditCard } from "lucide-react";
 import SubPageHeader from "@/components/layout/SubPageHeader";
+import { PageContent } from "@/components/layout/PageContainer";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Skeleton } from "@/components/ui/skeleton";
+import { LoadingSkeleton } from "@/components/ui/loading-skeleton";
 
 const prescriptions = [
   {
@@ -65,11 +66,13 @@ export default function PrescriptionList() {
   const total = calculateTotal();
 
   return (
-    <div className="min-h-screen bg-background pb-32">
-      <div className="bg-white border-b border-slate-100 sticky top-0 z-10">
-        <SubPageHeader title="Your Prescriptions" backPath="/prescriptions/type" className="border-none pb-2" showLogo={true} />
-        <div className="px-4 pb-4">
-           <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
+    <div className="min-h-screen bg-primary">
+      <SubPageHeader title="Your Prescriptions" backPath="/prescriptions/type" showLogo={true} />
+
+      <PageContent>
+        {/* Filter Pills */}
+        <div className="px-5 pt-5 pb-3">
+          <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
             {[
               { id: "active", label: "Active" },
               { id: "redeemed", label: "Redeemed" }
@@ -88,9 +91,8 @@ export default function PrescriptionList() {
             ))}
           </div>
         </div>
-      </div>
-      
-      <main className="p-5 space-y-6">
+
+      <main className="p-5 pt-0 space-y-6">
         {/* Success Banner */}
         <div className="bg-success rounded-xl p-4 flex items-center gap-3 shadow-md shadow-green-900/10 text-white">
           <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
@@ -117,20 +119,7 @@ export default function PrescriptionList() {
 
         <div className="space-y-4">
           {loading ? (
-            // Skeleton Loading
-            Array.from({ length: 2 }).map((_, i) => (
-              <div key={i} className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm flex items-start gap-4">
-                <Skeleton className="w-5 h-5 rounded mt-1" />
-                <div className="flex-1 space-y-3">
-                  <Skeleton className="h-6 w-3/4" />
-                  <Skeleton className="h-4 w-1/2" />
-                  <div className="flex gap-4">
-                    <Skeleton className="h-3 w-20" />
-                    <Skeleton className="h-3 w-20" />
-                  </div>
-                </div>
-              </div>
-            ))
+            <LoadingSkeleton variant="list" count={2} />
           ) : (
             // Real Data
             items.map((item) => (
@@ -185,6 +174,7 @@ export default function PrescriptionList() {
           )}
         </div>
       </main>
+      </PageContent>
 
       {/* Sticky Bottom Button */}
       <div className="fixed bottom-0 left-0 right-0 p-5 bg-white border-t border-slate-100 pb-safe z-[60]">

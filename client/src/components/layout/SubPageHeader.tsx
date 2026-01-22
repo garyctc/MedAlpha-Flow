@@ -9,14 +9,13 @@ interface SubPageHeaderProps {
   backPath?: string;
   className?: string;
   showLogo?: boolean;
+  rightElement?: React.ReactNode;
 }
 
-export default function SubPageHeader({ title, backPath, className, showLogo = false }: SubPageHeaderProps) {
+export default function SubPageHeader({ title, backPath, className, showLogo = false, rightElement }: SubPageHeaderProps) {
   const [, setLocation] = useLocation();
 
   const handleBack = () => {
-    // Use backPath if provided (explicit navigation target)
-    // Otherwise fall back to history.back() for natural browser behavior
     if (backPath) {
       setLocation(backPath);
     } else if (window.history.length > 1) {
@@ -27,19 +26,29 @@ export default function SubPageHeader({ title, backPath, className, showLogo = f
   };
 
   return (
-    <header className={cn("bg-white px-4 py-4 flex items-center gap-4 border-b border-slate-100 sticky top-0 z-10", className)}>
-      <button
-        onClick={handleBack}
-        className="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center text-slate-600 hover:bg-slate-100 transition-colors"
-      >
-        <ChevronLeft size={24} />
-      </button>
-      {showLogo && (
-        <div className="w-8 h-8 flex items-center justify-center flex-shrink-0">
-          <img src={appLogo} alt={`${branding.appName} Logo`} className="w-full h-full object-contain" />
+    <header className={cn("bg-primary pb-6", className)}>
+      <div className="px-4 py-4 pt-12">
+        <div className="flex items-center gap-3 min-h-10">
+          <button
+            onClick={handleBack}
+            className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white hover:bg-white/30 transition-colors"
+            aria-label="Go back"
+          >
+            <ChevronLeft size={24} />
+          </button>
+          {showLogo && (
+            <div className="w-8 h-8 flex items-center justify-center flex-shrink-0">
+              <img src={appLogo} alt={`${branding.appName} Logo`} className="w-full h-full object-contain brightness-0 invert" />
+            </div>
+          )}
+          <h1 className="text-lg font-bold text-white font-display flex-1">{title}</h1>
+          {rightElement && (
+            <div className="flex items-center">
+              {rightElement}
+            </div>
+          )}
         </div>
-      )}
-      <h1 className="text-lg font-bold text-slate-900 font-display">{title}</h1>
+      </div>
     </header>
   );
 }

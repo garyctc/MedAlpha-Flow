@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { useLocation } from "wouter";
 import { Star, Clock, Calendar } from "lucide-react";
 import SubPageHeader from "@/components/layout/SubPageHeader";
-import { Skeleton } from "@/components/ui/skeleton";
+import { LoadingSkeleton } from "@/components/ui/loading-skeleton";
 import { saveBookingDraft, getBookingDraft } from "@/lib/storage";
 import { DOCTORS } from "@/lib/constants/doctors";
 
@@ -70,17 +70,7 @@ export default function DoctorSelect() {
         {/* Doctor List */}
         <div className="space-y-3">
           {loading ? (
-            // Skeleton Loading State
-            Array.from({ length: 3 }).map((_, i) => (
-              <div key={i} className="w-full bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4">
-                <Skeleton className="w-16 h-16 rounded-full flex-shrink-0" />
-                <div className="flex-1 space-y-2">
-                  <Skeleton className="h-4 w-3/4" />
-                  <Skeleton className="h-3 w-1/2" />
-                  <Skeleton className="h-3 w-1/3" />
-                </div>
-              </div>
-            ))
+            <LoadingSkeleton variant="card" count={3} />
           ) : filteredDoctors.length === 0 ? (
             // Empty State
             <div className="bg-white rounded-2xl border border-slate-100 border-dashed p-8 text-center">

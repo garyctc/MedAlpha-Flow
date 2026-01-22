@@ -3,9 +3,9 @@ import { useLocation } from "wouter";
 import { motion } from "framer-motion";
 import { Calendar, Search, Video, Clock } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { Skeleton } from "@/components/ui/skeleton";
-import appLogo from "@/assets/app-logo.svg";
-import { branding } from "@/config/branding";
+import { LoadingSkeleton } from "@/components/ui/loading-skeleton";
+import MainHeader from "@/components/layout/MainHeader";
+import { PageContent } from "@/components/layout/PageContainer";
 import { getUserAppointments } from "@/lib/storage";
 import type { Appointment } from "@/types/storage";
 import { formatLocalDate, getLocale } from "@/i18n";
@@ -66,69 +66,48 @@ export default function HistoryPage() {
   }, [filteredHistory, locale]);
 
   return (
-    <div className="min-h-screen bg-background pb-24">
-      <header className="px-5 py-4 pt-12 bg-white border-b border-slate-100 sticky top-0 z-10">
-        <div className="flex items-center gap-2 mb-4 min-h-10">
-          <div className="w-8 h-8 flex items-center justify-center">
-            <img src={appLogo} alt={`${branding.appName} Logo`} className="w-full h-full object-contain" />
+    <div className="min-h-screen bg-primary">
+      <MainHeader title="History" />
+
+      <PageContent>
+        {/* Search & Filters */}
+        <div className="px-5 pt-5 pb-3 space-y-4">
+          {/* Search */}
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+            <Input
+              placeholder="Search history..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-10 bg-slate-50 border-slate-200 focus:bg-white transition-colors"
+            />
           </div>
-          <h1 className="font-bold text-xl text-slate-900 font-display">History</h1>
-        </div>
-        
-        {/* Search */}
-        <div className="relative mb-4">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-          <Input
-            placeholder="Search history..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10 bg-slate-50 border-slate-200 focus:bg-white transition-colors"
-          />
-        </div>
 
-        {/* Filter Tabs */}
-        <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
-          {[
-            { id: "all", label: "All" },
-            { id: "in-person", label: "In-Person" },
-            { id: "video", label: "Video" }
-          ].map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id as any)}
-              className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors whitespace-nowrap ${
-                activeTab === tab.id
-                  ? "bg-slate-900 text-white border-slate-900"
-                  : "bg-white text-slate-600 border-slate-200 hover:border-slate-300"
-              }`}
-            >
-              {tab.label}
-            </button>
-          ))}
-        </div>
-      </header>
-
-      <main className="p-5 space-y-6">
-        {isLoading ? (
-          // Loading Skeleton
-          <div className="space-y-4">
-            {Array.from({ length: 4 }).map((_, i) => (
-              <div key={i} className="w-full bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4">
-                <Skeleton className="w-12 h-12 rounded-full flex-shrink-0" />
-                <div className="flex-1 space-y-2">
-                  <div className="flex justify-between">
-                    <Skeleton className="h-4 w-24" />
-                    <Skeleton className="h-4 w-12" />
-                  </div>
-                  <Skeleton className="h-3 w-40" />
-                  <div className="flex justify-between">
-                    <Skeleton className="h-3 w-20" />
-                    <Skeleton className="h-3 w-16" />
-                  </div>
-                </div>
-              </div>
+          {/* Filter Tabs */}
+          <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
+            {[
+              { id: "all", label: "All" },
+              { id: "in-person", label: "In-Person" },
+              { id: "video", label: "Video" }
+            ].map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id as any)}
+                className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors whitespace-nowrap ${
+                  activeTab === tab.id
+                    ? "bg-slate-900 text-white border-slate-900"
+                    : "bg-white text-slate-600 border-slate-200 hover:border-slate-300"
+                }`}
+              >
+                {tab.label}
+              </button>
             ))}
           </div>
+        </div>
+
+      <main className="p-5 pt-0 space-y-6">
+        {isLoading ? (
+          <LoadingSkeleton variant="card" count={4} />
         ) : filteredHistory.length === 0 ? (
           // Empty State
           <div className="flex flex-col items-center justify-center py-12 text-center">
@@ -164,6 +143,7 @@ export default function HistoryPage() {
           ))
         )}
       </main>
+      </PageContent>
     </div>
   );
 }

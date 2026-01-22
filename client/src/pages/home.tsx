@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { motion } from "framer-motion";
 import { Link } from "wouter";
-import { Bell, Calendar, ChevronLeft, ChevronRight, MapPin } from "lucide-react";
+import { Bell, Calendar, ChevronRight, MapPin } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
@@ -19,21 +19,19 @@ function stableHash(input: string): number {
   return hash;
 }
 
-function DiscoverMoreCarousel() {
-  const { promos } = useNotifications();
+const MAX_CAROUSEL_ITEMS = 5;
+
+function DiscoverMoreCarousel({ promos }: { promos: Array<{ id: string; title: string; body: string; url?: string }> }) {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false, align: "start" });
   const [selectedIndex, setSelectedIndex] = React.useState(0);
-  const [canScrollPrev, setCanScrollPrev] = React.useState(false);
-  const [canScrollNext, setCanScrollNext] = React.useState(false);
 
+  const displayedPromos = promos.slice(0, MAX_CAROUSEL_ITEMS);
   const scrollSnaps = React.useMemo(() => emblaApi?.scrollSnapList() ?? [], [emblaApi]);
 
   React.useEffect(() => {
     if (!emblaApi) return;
     const onSelect = () => {
       setSelectedIndex(emblaApi.selectedScrollSnap());
-      setCanScrollPrev(emblaApi.canScrollPrev());
-      setCanScrollNext(emblaApi.canScrollNext());
     };
     onSelect();
     emblaApi.on("select", onSelect);
@@ -50,13 +48,13 @@ function DiscoverMoreCarousel() {
     "from-teal-700 to-sky-500",
   ];
 
-  if (promos.length === 0) return null;
+  if (displayedPromos.length === 0) return null;
 
   return (
-    <div className="group relative">
+    <div className="relative">
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex gap-3">
-          {promos.map((promo) => {
+          {displayedPromos.map((promo) => {
             const gradient = gradients[stableHash(promo.id) % gradients.length];
             const content = (
               <div
@@ -66,10 +64,10 @@ function DiscoverMoreCarousel() {
                 <div className="relative z-10 flex h-full flex-col justify-between">
                   <div className="space-y-1">
                     <h2 className="text-lg font-bold font-display leading-tight line-clamp-1">{promo.title}</h2>
-                    <p className="text-white/90 text-sm leading-snug line-clamp-2 max-w-[90%]">{promo.body}</p>
+                    <p className="text-white/90 text-base leading-snug line-clamp-2 max-w-[90%]">{promo.body}</p>
                   </div>
                   {promo.url ? (
-                    <span className="inline-flex w-fit items-center rounded-full bg-white/15 px-3 py-1 text-[11px] font-semibold">
+                    <span className="inline-flex w-fit items-center rounded-full bg-white/15 px-3 py-1 text-xs font-semibold">
                       Learn more
                     </span>
                   ) : null}
@@ -96,26 +94,6 @@ function DiscoverMoreCarousel() {
           })}
         </div>
       </div>
-
-      <button
-        type="button"
-        aria-label="Previous promo"
-        disabled={!canScrollPrev}
-        onClick={() => emblaApi?.scrollPrev()}
-        className="pointer-events-none absolute left-2 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full bg-white/15 border border-white/20 text-white backdrop-blur-sm opacity-0 transition-opacity group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100 disabled:opacity-40"
-      >
-        <ChevronLeft className="mx-auto" size={18} />
-      </button>
-
-      <button
-        type="button"
-        aria-label="Next promo"
-        disabled={!canScrollNext}
-        onClick={() => emblaApi?.scrollNext()}
-        className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full bg-white/15 border border-white/20 text-white backdrop-blur-sm opacity-0 transition-opacity group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100 disabled:opacity-40"
-      >
-        <ChevronRight className="mx-auto" size={18} />
-      </button>
 
       {scrollSnaps.length > 1 ? (
         <div className="mt-3 flex items-center justify-center gap-2" aria-label="Promo carousel pagination">
@@ -173,82 +151,89 @@ export default function Home() {
   const upcomingTime = upcomingTime24 ? formatLocalTime(upcomingTime24, locale) : "";
 
   return (
-    <div className="min-h-screen bg-background pb-24" data-testid="home-screen">
-      {/* Hero */}
-      <div className="relative overflow-hidden">
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 bg-gradient-to-br from-slate-900 via-sky-900 to-sky-700"
-        />
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 opacity-60 bg-[radial-gradient(900px_400px_at_20%_20%,rgba(255,255,255,0.12),transparent_60%),radial-gradient(700px_320px_at_90%_30%,rgba(255,255,255,0.10),transparent_55%),radial-gradient(800px_380px_at_40%_120%,rgba(255,255,255,0.10),transparent_60%)]"
-        />
-
-        <header className="sticky top-0 z-10 bg-slate-950/35 backdrop-blur border-b border-white/10">
-          <div className="px-5 py-4 pt-12">
-            <div className="flex justify-between items-center min-h-10">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 flex items-center justify-center">
-                  <img src={appLogo} alt={`${branding.appName} Logo`} className="w-full h-full object-contain" />
-                </div>
-                <h1 className="text-xl font-bold text-white font-display tracking-tight">{branding.appName}</h1>
+    <div className="min-h-screen bg-primary" data-testid="home-screen">
+      {/* Header */}
+      <header className="bg-primary pb-6">
+        <div className="px-6 py-4 pt-12">
+          <div className="flex justify-between items-center min-h-10">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 flex items-center justify-center">
+                <img src={appLogo} alt={`${branding.appName} Logo`} className="w-full h-full object-contain brightness-0 invert" />
               </div>
-              <div className="flex items-center gap-4">
-                <Link
-                  href="/notifications"
-                  className="text-white/90 hover:text-white transition-colors relative inline-flex items-center justify-center"
-                  aria-label="Notifications"
-                >
-                  <Bell size={24} />
-                  {unreadCount > 0 ? (
-                    <span className="absolute -top-1 -right-1 min-w-5 h-5 px-1 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-slate-950/35">
-                      {unreadCount > 99 ? "99+" : unreadCount}
-                    </span>
-                  ) : null}
-                </Link>
-              </div>
+              <h1 className="text-xl font-bold text-white font-display tracking-tight">{branding.appName}</h1>
+            </div>
+            <div className="flex items-center gap-3">
+              <Link
+                href="/notifications"
+                className="text-white/80 hover:text-white transition-colors relative inline-flex items-center justify-center"
+                aria-label="Notifications"
+              >
+                <Bell size={22} />
+                {unreadCount > 0 ? (
+                  <span className="absolute -top-1 -right-1 min-w-5 h-5 px-1 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center border-2 border-primary">
+                    {unreadCount > 99 ? "99+" : unreadCount}
+                  </span>
+                ) : null}
+              </Link>
+              <Link
+                href="/profile"
+                className="w-9 h-9 rounded-full bg-white/20 border-2 border-white/40 flex items-center justify-center overflow-hidden"
+                aria-label="Profile"
+              >
+                <span className="text-white font-semibold text-sm">
+                  {profile?.firstName?.[0] || 'U'}
+                </span>
+              </Link>
             </div>
           </div>
-        </header>
+        </div>
+      </header>
 
+      {/* Content area with rounded top corners */}
+      <div className="bg-background rounded-t-[24px] min-h-screen -mt-6 relative z-10 pb-24">
         {promos.length > 0 ? (
-          <section className="relative px-5 pb-6 pt-4 space-y-3">
-            <h2 className="font-bold text-lg text-white/95">{t("home.sections.discoverMore")}</h2>
-            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="-mr-5">
-              <DiscoverMoreCarousel />
+          <section className="px-6 pb-6 pt-6 space-y-4">
+            <div className="flex items-center justify-between">
+              <h2 className="font-bold text-lg text-foreground">{t("home.sections.discoverMore")}</h2>
+              {promos.length > MAX_CAROUSEL_ITEMS && (
+                <Link href="/notifications" className="text-sm font-medium text-primary hover:underline">
+                  {t("common.buttons.seeAll")}
+                </Link>
+              )}
+            </div>
+            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="-mr-6">
+              <DiscoverMoreCarousel promos={promos} />
             </motion.div>
           </section>
         ) : null}
-      </div>
 
-      <main className="px-5 py-6 space-y-8">
+      <main className="px-6 py-6 space-y-6">
         {isLoading ? (
           <LoadingSkeleton variant="page" />
         ) : (
         <>
         {/* Feature Card */}
-        <Link href="/booking/type">
+        <Link href="/booking/type" className="block">
           <motion.button
             whileTap={{ scale: 0.98 }}
-            className="w-full bg-card p-5 rounded-lg shadow-[var(--shadow-soft)] border border-border flex items-center gap-4 text-left hover:border-primary/20 hover:shadow-[var(--shadow-card)] transition-all group"
+            className="w-full bg-primary p-4 rounded-xl shadow-[var(--shadow-card)] flex items-center gap-4 text-left hover:bg-primary/90 transition-all"
           >
-            <div className="w-12 h-12 bg-accent rounded-xl flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+            <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center text-white">
               <Calendar size={24} />
             </div>
             <div className="flex-1">
-              <span className="block font-bold text-foreground group-hover:text-primary transition-colors">
+              <span className="block font-bold text-white">
                 {t("home.features.book.title")}
               </span>
-              <span className="text-xs text-muted-foreground mt-1 block">{t("home.features.book.subtitle")}</span>
+              <span className="text-sm text-white/80 mt-1 block">{t("home.features.book.subtitle")}</span>
             </div>
-            <ChevronRight size={20} className="text-muted-foreground group-hover:text-primary transition-colors" />
+            <ChevronRight size={20} className="text-white/80" />
           </motion.button>
         </Link>
 
         {/* Upcoming Section */}
         <section>
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center justify-between mb-3">
             <h3 className="font-bold text-lg text-foreground">{t("home.sections.upcoming")}</h3>
             {hasAppointments && (
               <Link href="/appointments" className="text-sm font-medium text-primary hover:underline">
@@ -300,7 +285,7 @@ export default function Home() {
 
         {/* Recent Activity Mini-List */}
         <section>
-           <h3 className="font-bold text-lg text-foreground mb-4">{t("home.sections.recent")}</h3>
+           <h3 className="font-bold text-lg text-foreground mb-3">{t("home.sections.recent")}</h3>
            <div className="bg-card rounded-lg border border-border shadow-[var(--shadow-card)] p-4">
               <div className="flex items-center gap-4">
                  <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center text-muted-foreground">
@@ -319,6 +304,7 @@ export default function Home() {
         </>
         )}
       </main>
+      </div>
     </div>
   );
 }
