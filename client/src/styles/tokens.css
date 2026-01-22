@@ -29,6 +29,12 @@
   --destructive: 358 86% 51%;
   --destructive-foreground: 0 0% 100%;
 
+  --success: 123 46% 34%;
+  --success-foreground: 0 0% 100%;
+
+  --warning: 38 92% 50%;
+  --warning-foreground: 0 0% 100%;
+
   --radius: 12px;
   --radius-sm: 8px;
   --radius-md: 12px;

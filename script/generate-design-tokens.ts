@@ -121,6 +121,9 @@ function buildCss(tokens: DesignTokens) {
   const destructive = getRequiredHex(tokens, "colors.semantic.secondary.value", semantic.secondary?.value);
   const destructiveForeground = "#FFFFFF";
 
+  const success = getRequiredHex(tokens, "colors.semantic.success.value", semantic.success?.value) ?? "#16A34A";
+  const warning = getRequiredHex(tokens, "colors.semantic.warning.value", semantic.warning?.value) ?? "#F59E0B";
+
   const mutedForeground = getRequiredHex(
     tokens,
     "colors.semantic.foregroundMuted.value",
@@ -170,6 +173,12 @@ function buildCss(tokens: DesignTokens) {
     "",
     `  --destructive: ${hexToHslTriplet(destructive)};`,
     `  --destructive-foreground: ${hexToHslTriplet(destructiveForeground)};`,
+    "",
+    `  --success: ${hexToHslTriplet(success)};`,
+    `  --success-foreground: ${hexToHslTriplet(primaryForeground)};`,
+    "",
+    `  --warning: ${hexToHslTriplet(warning)};`,
+    `  --warning-foreground: ${hexToHslTriplet(primaryForeground)};`,
     "",
     `  --radius: ${radiusMd};`,
     `  --radius-sm: ${radiusSm};`,

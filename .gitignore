@@ -8,3 +8,6 @@ vite.config.ts.*
 # Claude Code working files
 .claude/NOTES.md
 docs/notes/.worktrees/
+docs/notes/
+docs/plans/
+docs/.prev.yaml

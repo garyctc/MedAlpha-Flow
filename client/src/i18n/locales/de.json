@@ -56,6 +56,8 @@
       }
     },
     "sections": {
+      "discoverMore": "Mehr entdecken",
+      "healthServices": "Gesundheitsservices",
       "upcoming": "Anstehend",
       "recent": "Letzte Aktivitäten"
     },
@@ -82,11 +84,11 @@
       "title": "Termin buchen",
       "inPerson": {
         "title": "Vor Ort",
-        "subtitle": "Buche einen Termin in einer Praxis in deiner Nähe."
+        "subtitle": "Buchen Sie einen Termin in einer Praxis in Ihrer Nähe."
       },
       "video": {
         "title": "Videosprechstunde",
-        "subtitle": "Sprich von zu Hause mit einer Ärztin oder einem Arzt.",
+        "subtitle": "Sprechen Sie von zu Hause mit einer Ärztin oder einem Arzt.",
         "partner": "Powered by Teleclinic"
       }
     },
@@ -96,7 +98,7 @@
     },
     "success": {
       "title": "Termin bestätigt",
-      "subtitle": "Dein Termin ist gebucht.",
+      "subtitle": "Ihr Termin ist gebucht.",
       "summaryDateTime": "{{date}} um {{time}}",
       "addToCalendar": "Zum Kalender hinzufügen"
     }
@@ -124,7 +126,7 @@
     "toast": {
       "confirmed": {
         "title": "Termin bestätigt",
-        "description": "Dein Termin mit {{doctor}} ist bestätigt."
+        "description": "Ihr Termin mit {{doctor}} ist bestätigt."
       }
     },
     "push": {
@@ -181,7 +183,7 @@
     "signOut": "Abmelden",
     "language": {
       "currentLabel": "App-Sprache",
-      "helper": "Die App wird in deiner ausgewählten Sprache angezeigt.",
+      "helper": "Die App wird in Ihrer ausgewählten Sprache angezeigt.",
       "available": "Verfügbar",
       "enLabel": "English",
       "deLabel": "Deutsch"

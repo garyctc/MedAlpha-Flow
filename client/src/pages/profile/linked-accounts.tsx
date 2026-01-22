@@ -6,12 +6,14 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getLinkedAccounts, saveLinkedAccounts, getUserInsurance } from "@/lib/storage";
 import { showSuccess } from "@/lib/toast-helpers";
+import { useSSOProviders } from "@/hooks/use-sso-providers";
 import type { LinkedAccounts as LinkedAccountsType } from "@/types/storage";
 
 export default function LinkedAccounts() {
   const [, setLocation] = useLocation();
   const [isLoading, setIsLoading] = useState(true);
   const [accounts, setAccounts] = useState<LinkedAccountsType>({ dm: true, payback: false, insurance: false });
+  const { providers } = useSSOProviders();
 
   const insurance = getUserInsurance();
   const insuranceLabel = insurance?.provider || "TK - Techniker";

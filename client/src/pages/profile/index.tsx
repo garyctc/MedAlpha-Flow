@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import avatarImage from "@assets/generated_images/professional_user_avatar_for_healthcare_app.png";
 import appLogo from "@/assets/app-logo.svg";
+import { branding } from "@/config/branding";
 import { getUserProfile, getUserInsurance, clearAuthState } from "@/lib/storage";
 import { showSuccess } from "@/lib/toast-helpers";
 import { useTranslation } from "react-i18next";
@@ -73,7 +74,7 @@ export default function ProfilePage() {
       <header className="px-5 py-4 pt-12 bg-white border-b border-slate-100 flex justify-between items-center sticky top-0 z-10">
         <div className="flex items-center gap-2 min-h-10">
           <div className="w-8 h-8 flex items-center justify-center">
-            <img src={appLogo} alt="App Logo" className="w-full h-full object-contain" />
+            <img src={appLogo} alt={`${branding.appName} Logo`} className="w-full h-full object-contain" />
           </div>
           <h1 className="font-bold text-xl text-slate-900 font-display">{t("profile.title")}</h1>
         </div>

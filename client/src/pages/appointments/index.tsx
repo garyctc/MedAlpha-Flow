@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import appLogo from "@/assets/app-logo.svg";
+import { branding } from "@/config/branding";
 import { useToast } from "@/hooks/use-toast";
 import PushNotificationBanner from "@/components/ui/push-notification-banner";
 import { getUserAppointments, saveAppointment, updateAppointment } from "@/lib/storage";
@@ -241,7 +242,7 @@ export default function AppointmentsPage() {
         <div className="px-5 py-4 pt-12">
           <div className="flex items-center gap-2 mb-4 min-h-10">
             <div className="w-8 h-8 flex items-center justify-center">
-              <img src={appLogo} alt="App Logo" className="w-full h-full object-contain" />
+              <img src={appLogo} alt={`${branding.appName} Logo`} className="w-full h-full object-contain" />
             </div>
             <h1 className="font-bold text-xl text-slate-900 font-display">{t("appointments.title")}</h1>
           </div>

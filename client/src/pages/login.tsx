@@ -6,8 +6,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { motion } from "framer-motion";
 import appLogo from "@/assets/app-logo.svg";
+import { branding } from "@/config/branding";
 import { saveAuthState, seedDemoData } from "@/lib/storage";
 import { showError } from "@/lib/toast-helpers";
+import { useSSOProviders } from "@/hooks/use-sso-providers";
 
 // Demo credentials
 const DEMO_EMAIL = "alex@example.com";
@@ -19,6 +21,7 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState(DEMO_EMAIL);
   const [password, setPassword] = useState(DEMO_PASSWORD);
+  const { providers } = useSSOProviders();
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -49,7 +52,7 @@ export default function Login() {
       >
         <div className="mb-10 text-center">
           <div className="w-20 h-20 flex items-center justify-center mx-auto mb-4">
-            <img src={appLogo} alt="App Logo" className="w-full h-full object-contain" />
+            <img src={appLogo} alt={`${branding.appName} Logo`} className="w-full h-full object-contain" />
           </div>
           <h1 className="text-2xl font-bold font-display text-slate-900 mb-2">Welcome Back</h1>
           <p className="text-slate-500">Sign in to manage your health</p>
@@ -114,28 +117,26 @@ export default function Login() {
           </div>
 
           <div className="grid grid-cols-2 gap-3">
-             <Button 
-               type="button" 
-               variant="outline" 
-               className="h-12 border-slate-200 text-slate-700 font-medium hover:bg-slate-50 rounded-xl gap-2"
-               onClick={() => setLocation("/sso/loading")}
-             >
-               <div className="w-6 h-6 bg-slate-100 rounded-full flex items-center justify-center">
-                 <span className="text-[8px] font-bold text-slate-500">dm</span>
-               </div>
-               dm
-             </Button>
-             <Button 
-               type="button" 
-               variant="outline" 
-               className="h-12 border-slate-200 text-slate-700 font-medium hover:bg-slate-50 rounded-xl gap-2"
-               onClick={() => setLocation("/sso/loading")}
-             >
-               <div className="w-6 h-6 bg-blue-50 rounded-full flex items-center justify-center">
-                 <span className="text-[6px] font-bold text-blue-700">PB</span>
-               </div>
-               PAYBACK
-             </Button>
+             {providers.slice(0, 2).map((provider) => (
+               <Button
+                 key={provider.id}
+                 type="button"
+                 variant="outline"
+                 className="h-12 border-slate-200 text-slate-700 font-medium hover:bg-slate-50 rounded-xl gap-2"
+                 onClick={() => setLocation(`/sso/loading?provider=${provider.id}`)}
+               >
+                 <div
+                   className="w-6 h-6 rounded-full flex items-center justify-center"
+                   style={{
+                     backgroundColor: provider.backgroundColor,
+                     color: provider.textColor
+                   }}
+                 >
+                   <span className="text-[6px] font-bold">{provider.logoInitials}</span>
+                 </div>
+                 {provider.displayName}
+               </Button>
+             ))}
           </div>
 
         </form>

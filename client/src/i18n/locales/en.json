@@ -56,8 +56,10 @@
       }
     },
     "sections": {
+      "discoverMore": "Discover more",
+      "healthServices": "Health services",
       "upcoming": "Upcoming",
-      "recent": "Recent"
+      "recent": "Recent activity"
     },
     "upcoming": {
       "subtitle": "General checkup"

@@ -26,11 +26,11 @@ export default function LanguageSelection() {
           <div className="bg-white rounded-lg shadow-sm p-4 flex items-center justify-between">
             <span className="text-slate-900 font-medium">{t("profile.language.currentLabel")}</span>
             <div className="flex items-center gap-2">
-              <span className="text-[#0C3D91] font-bold">
+              <span className="text-primary font-bold">
                 {currentLocale === "de" ? t("profile.language.deLabel") : t("profile.language.enLabel")}
               </span>
               <div className="w-5 h-5 bg-green-100 rounded-full flex items-center justify-center">
-                <Check size={14} className="text-[#2E7D32]" />
+                <Check size={14} className="text-success" />
               </div>
             </div>
           </div>
@@ -54,7 +54,7 @@ export default function LanguageSelection() {
                 <span className="text-slate-900 font-medium">{t("profile.language.enLabel")}</span>
               </div>
               {currentLocale === "en" ? (
-                <div className="w-5 h-5 rounded-full bg-[#0C3D91] border-2 border-[#0C3D91] flex items-center justify-center">
+                <div className="w-5 h-5 rounded-full bg-primary border-2 border-primary flex items-center justify-center">
                   <div className="w-2 h-2 bg-white rounded-full" />
                 </div>
               ) : (
@@ -71,7 +71,7 @@ export default function LanguageSelection() {
                 <span className="text-slate-900 font-medium">{t("profile.language.deLabel")}</span>
               </div>
               {currentLocale === "de" ? (
-                <div className="w-5 h-5 rounded-full bg-[#0C3D91] border-2 border-[#0C3D91] flex items-center justify-center">
+                <div className="w-5 h-5 rounded-full bg-primary border-2 border-primary flex items-center justify-center">
                   <div className="w-2 h-2 bg-white rounded-full" />
                 </div>
               ) : (

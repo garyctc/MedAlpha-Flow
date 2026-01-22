@@ -3,6 +3,7 @@ import path from "node:path";
 import ts from "typescript";
 
 const ROOT = path.join(process.cwd(), "client", "src");
+const DE_LOCALE_PATH = path.join(ROOT, "i18n", "locales", "de.json");
 
 const BANNED_SUBSTRINGS = [
   { pattern: /successfully/i, reason: 'Avoid "successfully"' },
@@ -178,6 +179,47 @@ async function lintFile(filePath: string) {
   return findings;
 }
 
+async function lintGermanFormality() {
+  let raw: string;
+  try {
+    raw = await fs.readFile(DE_LOCALE_PATH, "utf-8");
+  } catch {
+    return [] as Array<{ line: number; text: string; violations: string[] }>;
+  }
+
+  const lines = raw.split(/\r?\n/);
+  const findings: Array<{ line: number; text: string; violations: string[] }> = [];
+
+  const informal = [
+    /\bdu\b/i,
+    /\bdich\b/i,
+    /\bdir\b/i,
+    /\bdein\b/i,
+    /\bdeine\b/i,
+    /\bdeinen\b/i,
+    /\bdeinem\b/i,
+    /\bdeiner\b/i,
+    /\bdeines\b/i,
+  ];
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i] ?? "";
+    if (!line.includes('"')) continue;
+    for (const re of informal) {
+      if (re.test(line)) {
+        findings.push({
+          line: i + 1,
+          text: line.trim().slice(0, 140),
+          violations: ["German must use formal 'Sie' (no du/dein/dich/dir)"],
+        });
+        break;
+      }
+    }
+  }
+
+  return findings;
+}
+
 async function main() {
   const files = await listFiles(ROOT);
 
@@ -192,6 +234,15 @@ async function main() {
     }
   }
 
+  const deFindings = await lintGermanFormality();
+  if (deFindings.length > 0) {
+    total += deFindings.length;
+    const rel = path.relative(process.cwd(), DE_LOCALE_PATH);
+    for (const f of deFindings) {
+      console.log(`${rel}:${f.line} ${f.violations.join(", ")} :: ${JSON.stringify(f.text)}`);
+    }
+  }
+
   if (total > 0) {
     console.error(`copy lint failed. violations=${total}`);
     process.exit(1);
@@ -202,4 +253,3 @@ main().catch((err) => {
   console.error(err);
   process.exit(1);
 });
-

@@ -1,6 +1,7 @@
 import { useLocation } from "wouter";
 import { Mail, Phone, MapPin, Scale } from "lucide-react";
 import SubPageHeader from "@/components/layout/SubPageHeader";
+import { branding } from "@/config/branding";
 
 export default function LegalDisclosure() {
   const [, setLocation] = useLocation();
@@ -13,7 +14,7 @@ export default function LegalDisclosure() {
         
         {/* Company Info */}
         <section className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm text-center">
-           <h2 className="text-xl font-bold text-slate-900 font-display mb-2">MedAlpha GmbH</h2>
+           <h2 className="text-xl font-bold text-slate-900 font-display mb-2">{branding.companyName}</h2>
            <p className="text-slate-600 text-sm">Musterstraße 123</p>
            <p className="text-slate-600 text-sm">10115 Berlin, Germany</p>
         </section>
@@ -54,7 +55,7 @@ export default function LegalDisclosure() {
            <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm space-y-4">
               <div className="flex items-center gap-3">
                 <Mail size={18} className="text-slate-400" />
-                <a href="mailto:legal@medalpha.de" className="text-sm font-medium text-primary hover:underline">legal@medalpha.de</a>
+                <a href={`mailto:${branding.supportEmail}`} className="text-sm font-medium text-primary hover:underline">{branding.supportEmail}</a>
               </div>
               <div className="flex items-center gap-3">
                 <Phone size={18} className="text-slate-400" />
@@ -67,7 +68,7 @@ export default function LegalDisclosure() {
         <section className="bg-slate-50 p-4 rounded-xl border border-slate-100 flex gap-3 items-start">
            <Scale className="text-slate-400 shrink-0 mt-0.5" size={20} />
            <p className="text-xs text-slate-500 leading-relaxed">
-             MedAlpha GmbH operates under the regulations for digital healthcare applications (DiGA) and complies with the German Medical Devices Act (MPG).
+             {branding.companyName} operates under the regulations for digital healthcare applications (DiGA) and complies with the German Medical Devices Act (MPG).
            </p>
         </section>
 

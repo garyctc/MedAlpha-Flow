@@ -5,6 +5,7 @@ import { Calendar, Search, Video, Clock } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import appLogo from "@/assets/app-logo.svg";
+import { branding } from "@/config/branding";
 import { getUserAppointments } from "@/lib/storage";
 import type { Appointment } from "@/types/storage";
 import { formatLocalDate, getLocale } from "@/i18n";
@@ -69,7 +70,7 @@ export default function HistoryPage() {
       <header className="px-5 py-4 pt-12 bg-white border-b border-slate-100 sticky top-0 z-10">
         <div className="flex items-center gap-2 mb-4 min-h-10">
           <div className="w-8 h-8 flex items-center justify-center">
-            <img src={appLogo} alt="App Logo" className="w-full h-full object-contain" />
+            <img src={appLogo} alt={`${branding.appName} Logo`} className="w-full h-full object-contain" />
           </div>
           <h1 className="font-bold text-xl text-slate-900 font-display">History</h1>
         </div>

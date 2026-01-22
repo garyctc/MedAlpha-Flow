@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { getRegistrationDraft, clearRegistrationDraft, saveUserProfile, saveUserInsurance, saveAuthState } from "@/lib/storage";
 import { showSuccess } from "@/lib/toast-helpers";
 import { DURATION_DEFAULT, DURATION_SLOW, EASING_DEFAULT, shouldReduceMotion } from "@/lib/motion";
+import { branding } from "@/config/branding";
 
 export default function RegisterComplete() {
   const [, setLocation] = useLocation();
@@ -82,7 +83,7 @@ export default function RegisterComplete() {
         className="space-y-8 w-full max-w-sm"
       >
         <div>
-          <h1 className="text-2xl font-bold font-display text-slate-900 mb-2">Welcome to MedAlpha</h1>
+          <h1 className="text-2xl font-bold font-display text-slate-900 mb-2">Welcome to {branding.appName}</h1>
           <p className="text-slate-500">Your account has been created</p>
         </div>
 
