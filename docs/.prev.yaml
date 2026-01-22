@@ -1,0 +1,10 @@
+# prev-cli configuration
+# Excludes internal folders from documentation site
+
+hidden:
+  - "notes/**"
+  - "plans/**"
+
+theme: system
+contentWidth: constrained
+port: 9001
