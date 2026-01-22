@@ -3,10 +3,10 @@
 **Last Updated:** 2026-01-16
 
 **See also:**
-- Visual design rationale: `visual-guidelines.md`
-- Copy & tone: `copy-guidelines.md`
-- Design tokens: 
-- Implementation patterns: 
+- Visual design rationale: `../../guidelines/visual-guidelines.md`
+- Copy & tone: `../../guidelines/copy-guidelines.md`
+- Design tokens: `../../../shared/design-tokens.json` (source of truth, generates `client/src/styles/tokens.{css,ts}`)
+- Implementation patterns: See codebase structure (`client/src/{lib,components,config}`) 
 
 ---
 
