@@ -94,6 +94,22 @@ function NotificationsTab({ value }: { value: TabValue }) {
 
 export default function NotificationsList() {
   const [activeTab, setActiveTab] = React.useState<TabValue>("all");
+  const { unreadCount, unreadPromoCount, unreadTipCount } = useNotifications();
+
+  const getUnreadCount = (tabId: TabValue): number => {
+    switch (tabId) {
+      case "all":
+        return unreadCount;
+      case "promo":
+        return unreadPromoCount;
+      case "tip":
+        return unreadTipCount;
+    }
+  };
+
+  const formatBadgeCount = (count: number): string => {
+    return count > 99 ? "99+" : count.toString();
+  };
 
   return (
     <div className="min-h-screen bg-background pb-10">
@@ -105,23 +121,31 @@ export default function NotificationsList() {
             { id: "all" as const, label: "All" },
             { id: "promo" as const, label: "Promos" },
             { id: "tip" as const, label: "Tips" },
-          ].map((tab) => (
-            <button
-              key={tab.id}
-              type="button"
-              role="tab"
-              aria-selected={activeTab === tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={cn(
-                "px-3 py-1.5 rounded-full text-xs font-medium border transition-colors whitespace-nowrap",
-                activeTab === tab.id
-                  ? "bg-slate-900 text-white border-slate-900"
-                  : "bg-white text-slate-600 border-slate-200 hover:border-slate-300"
-              )}
-            >
-              {tab.label}
-            </button>
-          ))}
+          ].map((tab) => {
+            const unreadTabCount = getUnreadCount(tab.id);
+            return (
+              <button
+                key={tab.id}
+                type="button"
+                role="tab"
+                aria-selected={activeTab === tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={cn(
+                  "px-3 py-1.5 rounded-full text-xs font-medium border transition-colors whitespace-nowrap flex items-center gap-1",
+                  activeTab === tab.id
+                    ? "bg-slate-900 text-white border-slate-900"
+                    : "bg-white text-slate-600 border-slate-200 hover:border-slate-300"
+                )}
+              >
+                {tab.label}
+                {unreadTabCount > 0 && (
+                  <span className="bg-red-500 text-white px-1.5 py-0.5 rounded-full text-xs font-semibold ml-1">
+                    {formatBadgeCount(unreadTabCount)}
+                  </span>
+                )}
+              </button>
+            );
+          })}
         </div>
 
         <div role="tabpanel">
