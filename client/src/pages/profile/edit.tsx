@@ -19,6 +19,7 @@ import { useToast } from "@/hooks/use-toast";
 import { getUserProfile, saveUserProfile } from "@/lib/storage";
 import { showSuccess } from "@/lib/toast-helpers";
 import { usePrimarySSOProvider } from "@/hooks/use-sso-providers";
+import { FEATURES } from "@/lib/features";
 
 export default function EditProfile() {
   const [, setLocation] = useLocation();
@@ -69,12 +70,13 @@ export default function EditProfile() {
   const [errors, setErrors] = useState({
     phone: "",
     firstName: "",
+    lastName: "",
     email: ""
   });
 
   const validate = () => {
     let isValid = true;
-    const newErrors = { phone: "", firstName: "", email: "" };
+    const newErrors = { phone: "", firstName: "", lastName: "", email: "" };
 
     // Phone validation
     const phoneRegex = /^\+49\s?1[5-9]\d\s?\d{7,9}$/;
@@ -90,7 +92,12 @@ export default function EditProfile() {
 
     // Name validation
     if (formData.firstName.length < 2) {
-      newErrors.firstName = "Name must be 2-50 characters";
+      newErrors.firstName = "First name must be 2-50 characters";
+      isValid = false;
+    }
+
+    if (formData.lastName.length < 2) {
+      newErrors.lastName = "Last name must be 2-50 characters";
       isValid = false;
     }
 
@@ -139,12 +146,15 @@ export default function EditProfile() {
             <Input
               id="firstName"
               value={formData.firstName}
-              readOnly
-              className="h-12 rounded-xl bg-slate-50 border-slate-200 text-slate-500 pr-10"
+              readOnly={!!primaryProvider}
+              onChange={(e) => handleFieldChange("firstName", e.target.value)}
+              className={`h-12 rounded-xl ${primaryProvider ? 'bg-slate-50 border-slate-200 text-slate-500 pr-10' : 'bg-white'} ${errors.firstName && !primaryProvider ? 'border-red-500 focus-visible:ring-red-500' : 'border-slate-200'}`}
             />
-            <Lock className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+            {primaryProvider && <Lock className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />}
+            {errors.firstName && !primaryProvider && <AlertCircle className="absolute right-3 top-1/2 -translate-y-1/2 text-red-500" size={16} />}
           </div>
-          <button className="text-xs text-primary font-medium hover:underline">Managed by {primaryProvider?.displayName || 'partner'}</button>
+          {primaryProvider && <button className="text-xs text-primary font-medium hover:underline">Managed by {primaryProvider.displayName}</button>}
+          {errors.firstName && !primaryProvider && <p className="text-xs text-red-600">{errors.firstName}</p>}
         </div>
 
         <div className="space-y-3">
@@ -153,12 +163,15 @@ export default function EditProfile() {
              <Input
               id="lastName"
               value={formData.lastName}
-              readOnly
-              className="h-12 rounded-xl bg-slate-50 border-slate-200 text-slate-500 pr-10"
+              readOnly={!!primaryProvider}
+              onChange={(e) => handleFieldChange("lastName", e.target.value)}
+              className={`h-12 rounded-xl ${primaryProvider ? 'bg-slate-50 border-slate-200 text-slate-500 pr-10' : 'bg-white'} ${errors.lastName && !primaryProvider ? 'border-red-500 focus-visible:ring-red-500' : 'border-slate-200'}`}
             />
-            <Lock className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+            {primaryProvider && <Lock className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />}
+            {errors.lastName && !primaryProvider && <AlertCircle className="absolute right-3 top-1/2 -translate-y-1/2 text-red-500" size={16} />}
           </div>
-          <button className="text-xs text-primary font-medium hover:underline">Managed by {primaryProvider?.displayName || 'partner'}</button>
+          {primaryProvider && <button className="text-xs text-primary font-medium hover:underline">Managed by {primaryProvider.displayName}</button>}
+          {errors.lastName && !primaryProvider && <p className="text-xs text-red-600">{errors.lastName}</p>}
         </div>
 
         <div className="space-y-3">
@@ -195,52 +208,58 @@ export default function EditProfile() {
              <Input
               id="email"
               value={formData.email}
-              readOnly
-              className="h-12 rounded-xl bg-slate-50 border-slate-200 text-slate-500 pr-10"
+              readOnly={!!primaryProvider}
+              onChange={(e) => handleFieldChange("email", e.target.value)}
+              className={`h-12 rounded-xl ${primaryProvider ? 'bg-slate-50 border-slate-200 text-slate-500 pr-10' : 'bg-white'} ${errors.email && !primaryProvider ? 'border-red-500 focus-visible:ring-red-500' : 'border-slate-200'}`}
             />
-             <Lock className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+             {primaryProvider && <Lock className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />}
+             {errors.email && !primaryProvider && <AlertCircle className="absolute right-3 top-1/2 -translate-y-1/2 text-red-500" size={16} />}
           </div>
-           <button className="text-xs text-primary font-medium hover:underline">Managed by {primaryProvider?.displayName || 'partner'}</button>
+           {primaryProvider && <button className="text-xs text-primary font-medium hover:underline">Managed by {primaryProvider.displayName}</button>}
+           {errors.email && !primaryProvider && <p className="text-xs text-red-600">{errors.email}</p>}
         </div>
 
-        <div className="space-y-3">
-          <Label className="text-sm font-medium text-slate-700">Address</Label>
-          {hasAddress ? (
-            <>
-              <div className="relative">
-                <Input
-                  value={profile?.street || ""}
-                  readOnly
-                  className="h-12 rounded-xl bg-slate-50 border-slate-200 text-slate-500 pr-10"
-                />
-                <Lock className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
-              </div>
-              <div className="grid grid-cols-2 gap-3">
+        {/* Address - Hidden in V1 (only for prescription delivery) */}
+        {FEATURES.prescriptionEnabled && (
+          <div className="space-y-3">
+            <Label className="text-sm font-medium text-slate-700">Address</Label>
+            {hasAddress ? (
+              <>
                 <div className="relative">
                   <Input
-                    value={profile?.city || ""}
+                    value={profile?.street || ""}
                     readOnly
                     className="h-12 rounded-xl bg-slate-50 border-slate-200 text-slate-500 pr-10"
                   />
                   <Lock className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
                 </div>
-                <div className="relative">
-                  <Input
-                    value={profile?.postalCode || ""}
-                    readOnly
-                    className="h-12 rounded-xl bg-slate-50 border-slate-200 text-slate-500 pr-10"
-                  />
-                  <Lock className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="relative">
+                    <Input
+                      value={profile?.city || ""}
+                      readOnly
+                      className="h-12 rounded-xl bg-slate-50 border-slate-200 text-slate-500 pr-10"
+                    />
+                    <Lock className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+                  </div>
+                  <div className="relative">
+                    <Input
+                      value={profile?.postalCode || ""}
+                      readOnly
+                      className="h-12 rounded-xl bg-slate-50 border-slate-200 text-slate-500 pr-10"
+                    />
+                    <Lock className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+                  </div>
                 </div>
+              </>
+            ) : (
+              <div className="h-12 rounded-xl bg-slate-50 border border-slate-200 flex items-center px-4 text-slate-500 text-sm">
+                No address on file
               </div>
-            </>
-          ) : (
-            <div className="h-12 rounded-xl bg-slate-50 border border-slate-200 flex items-center px-4 text-slate-500 text-sm">
-              No address on file
-            </div>
-          )}
-          <button className="text-xs text-primary font-medium hover:underline">Managed by {primaryProvider?.displayName || 'partner'}</button>
-        </div>
+            )}
+            {primaryProvider && <button className="text-xs text-primary font-medium hover:underline">Managed by {primaryProvider.displayName}</button>}
+          </div>
+        )}
       </main>
 
       <div className="fixed bottom-0 left-0 right-0 p-5 bg-white border-t border-slate-100 pb-safe z-[60] max-w-[375px] mx-auto">

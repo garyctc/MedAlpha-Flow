@@ -23,6 +23,7 @@ import { showSuccess } from "@/lib/toast-helpers";
 import { useTranslation } from "react-i18next";
 import { getLocale, type Locale } from "@/i18n";
 import type { UserProfile, UserInsurance } from "@/types/storage";
+import { FEATURES } from "@/lib/features";
 
 export default function ProfilePage() {
   const [, setLocation] = useLocation();
@@ -105,8 +106,12 @@ export default function ProfilePage() {
              <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 px-1">{t("profile.sections.account")}</h3>
              <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
                 <MenuRow icon={User} label={t("profile.menu.personalInfo")} onClick={() => setLocation("/profile/edit")} />
-                <div className="h-px bg-slate-50 mx-4"></div>
-                <MenuRow icon={Shield} label={t("profile.menu.insuranceInfo")} onClick={handleInsuranceClick} />
+                {FEATURES.prescriptionEnabled && (
+                  <>
+                    <div className="h-px bg-slate-50 mx-4"></div>
+                    <MenuRow icon={Shield} label={t("profile.menu.insuranceInfo")} onClick={handleInsuranceClick} />
+                  </>
+                )}
                 <div className="h-px bg-slate-50 mx-4"></div>
                 <MenuRow
                   icon={Link2}
