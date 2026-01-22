@@ -1,1501 +1,1426 @@
 {
   "AUTH-001": {
-    "title": "Splash",
+    "title": "Splash Screen",
     "assumptions": [
-      "User has just launched the app for the first time or after closing it",
-      "App can check localStorage for existing auth state",
-      "Network connectivity is not required at this stage"
+      "Users expect a brief brand moment before accessing the app",
+      "Returning users have valid session tokens stored locally",
+      "2-second delay feels intentional rather than slow"
     ],
-    "userScenario": "A user opens the MedAlpha Connect app and sees a brief branded splash screen. The app checks if they're already logged in and routes them accordingly - to home if authenticated, or to login if not.",
+    "userScenario": "When I launch the app, I want to see the brand identity briefly, so I can trust I'm in the right app while it checks my login state.",
     "pros": [
-      "Creates a professional first impression with branded visuals",
-      "Provides time for app initialization without showing loading spinners",
-      "Auto-routes returning users directly to home, reducing friction"
+      "Establishes brand recognition before any interaction",
+      "Masks authentication check behind intentional animation",
+      "Routes returning users directly to home, skipping login"
     ],
     "cons": [
-      "Fixed 2-second delay may feel slow for returning users",
-      "No skip option for users who want to get in faster",
-      "Animation may not render smoothly on older devices"
+      "Adds 2 seconds to every cold start regardless of urgency",
+      "No skip option for users who want faster access"
     ],
-    "impactIfWrong": "If auth check fails silently, logged-in users would be sent to login unnecessarily, causing confusion and requiring them to sign in again."
+    "impactIfWrong": "If 2 seconds feels too slow, users may perceive the app as laggy — would need to reduce animation time or add a loading indicator to show progress."
   },
   "AUTH-002": {
-    "title": "Login",
+    "title": "Login Screen",
     "assumptions": [
-      "User has an existing account or knows they need to create one",
-      "Demo mode is acceptable for prototype/stakeholder demos",
-      "SSO partners (dm, PAYBACK) have integration points ready"
+      "Users have existing accounts (email/password or SSO)",
+      "Demo mode with pre-filled credentials helps prototype testing",
+      "SSO partners (dm, PAYBACK) are recognizable to German retail customers",
+      "Users understand 'Forgot password' flow exists even if not fully implemented"
     ],
-    "userScenario": "A returning user wants to sign in to access their appointments and prescriptions. They can use email/password, or sign in through a retail partner (dm, PAYBACK) if they came from that ecosystem.",
+    "userScenario": "When I return to the app, I want to sign in quickly with my credentials or partner account, so I can access my appointments and prescriptions.",
     "pros": [
-      "Demo credentials pre-filled reduces friction during stakeholder demos",
-      "SSO options provide faster login for partner app users",
-      "Clear path to registration for new users",
-      "Password visibility toggle improves usability"
+      "Pre-filled demo credentials reduce friction for prototype testing",
+      "SSO options surface partner integrations prominently",
+      "Password visibility toggle prevents typing errors",
+      "Clear path to registration for new users"
     ],
     "cons": [
-      "Demo mode indicator may confuse real users in production",
-      "No biometric login option (Face ID, fingerprint)",
-      "Forgot password is a placeholder - no actual flow implemented"
+      "Demo mode badge may confuse stakeholders expecting production behavior",
+      "SSO buttons go to same loading screen — no differentiation yet",
+      "Forgot password link is non-functional in prototype"
     ],
-    "impactIfWrong": "If SSO integration fails, partner users cannot access the app through their preferred login method, breaking the retail partner value proposition."
+    "impactIfWrong": "If users don't recognize SSO partners, those buttons become confusing — would need clearer partner branding or explanatory text."
   },
   "REG-001": {
-    "title": "Create Account",
+    "title": "Account Creation",
     "assumptions": [
-      "User is new and doesn't have an existing account",
-      "User has a valid email address they can access",
-      "Password requirements (8+ chars, uppercase, number) are acceptable"
+      "Users have a valid email address they can access",
+      "Standard password requirements (8+ chars, uppercase, number) are familiar",
+      "Users accept email/password as the primary auth method"
     ],
-    "userScenario": "A new user wants to create an account to book appointments or redeem prescriptions. They start by providing their email and creating a secure password that meets the displayed requirements.",
+    "userScenario": "When I decide to use MedAlpha, I want to create an account with my email, so I can access appointment booking and prescription features.",
     "pros": [
-      "Live password validation gives immediate feedback on requirements",
-      "Step indicator (1 of 5) sets clear expectations for registration length",
-      "Password confirmation prevents typos that would lock users out",
-      "Show/hide password toggle helps users verify what they typed"
+      "Real-time password validation prevents submission errors",
+      "Visual checkmarks provide clear feedback on requirements",
+      "Step indicator sets expectations for registration length",
+      "Link to login catches users who already have accounts"
     ],
     "cons": [
-      "5-step registration may feel long compared to social login",
-      "No social sign-up option (Google, Apple) for faster onboarding",
-      "Password requirements may frustrate users with simple passwords"
+      "No social login option — email/password only",
+      "Password requirements may frustrate users with simpler passwords",
+      "No password strength meter beyond minimum requirements"
     ],
-    "impactIfWrong": "If validation is too strict or unclear, users may abandon registration. If too lenient, accounts become vulnerable to unauthorized access."
+    "impactIfWrong": "If users expect social login (Google, Apple), they may abandon registration — would need to add OAuth options."
   },
   "REG-002": {
-    "title": "Verify Email",
+    "title": "Email Verification",
     "assumptions": [
-      "User has access to the email address they provided",
-      "Email verification code is delivered within 60 seconds",
-      "6-digit codes are sufficient security for email verification"
+      "Users have immediate access to their email inbox",
+      "6-digit codes are familiar from banking and 2FA apps",
+      "60-second resend timer prevents spam while allowing recovery"
     ],
-    "userScenario": "After creating an account, the user receives a 6-digit verification code via email. They enter this code to prove they own the email address before continuing with profile setup.",
+    "userScenario": "When I've entered my email, I want to verify ownership quickly, so I can proceed with registration without delays.",
     "pros": [
-      "Countdown timer sets clear expectation for when resend becomes available",
       "Large input field with tracking makes code entry easy",
-      "Option to use different email if wrong address was entered",
-      "Demo mode accepts any 6-digit code for testing"
+      "Countdown timer sets clear expectations for resend availability",
+      "Email displayed confirms correct address was used",
+      "'Use different email' option allows error recovery"
     ],
     "cons": [
-      "Email delivery delays could cause users to abandon registration",
-      "No fallback if user cannot access email (e.g., typo in address)",
-      "Single verification method - no backup SMS option"
+      "Adds a mandatory step even for valid emails",
+      "60-second wait may frustrate users if code doesn't arrive",
+      "No alternative verification method (SMS, link click)"
     ],
-    "impactIfWrong": "If verification emails are delayed or filtered as spam, users get stuck and cannot complete registration, leading to abandonment at a critical funnel point."
+    "impactIfWrong": "If email delivery is unreliable, users get stuck — would need SMS fallback or magic link option."
   },
   "REG-003": {
-    "title": "Personal Info",
+    "title": "Personal Information",
     "assumptions": [
-      "User has verified their email in the previous step",
-      "User is willing to provide personal details for healthcare services",
-      "German phone numbers (+49) are the primary user base",
-      "Address is needed for prescription delivery or appointment context"
+      "Users are willing to provide full personal details during registration",
+      "German phone numbers start with +49 prefix",
+      "Address is needed for prescription delivery and appointment context",
+      "Date picker follows local date format conventions"
     ],
-    "userScenario": "The user provides their personal information including name, date of birth, phone number, and address. This data is required for booking appointments and receiving prescription deliveries.",
+    "userScenario": "When I'm setting up my profile, I want to enter my personal details once, so I don't have to repeat them for every appointment or prescription.",
     "pros": [
-      "Pre-set +49 country code removes friction for German users",
-      "Inline explanation of why phone number is needed builds trust",
-      "Progress indicator (Step 2 of 5) shows advancement through flow",
-      "All fields required ensures complete profile for healthcare use"
+      "Pre-filled +49 country code reduces input for German users",
+      "All fields on one screen reduces perceived registration steps",
+      "Explanation of phone usage builds trust for SMS verification"
     ],
     "cons": [
-      "Asking for full address upfront may feel intrusive to some users",
-      "No address autocomplete - manual entry is error-prone",
-      "Date picker UX varies by device and may be awkward on mobile"
+      "Long form may feel invasive before users see app value",
+      "All fields required — no progressive disclosure option",
+      "No address autocomplete to speed up entry"
     ],
-    "impactIfWrong": "Incomplete or incorrect personal info could prevent appointment check-in or prescription delivery. Phone number errors would block SMS verification in prescription flows."
+    "impactIfWrong": "If users feel this collects too much data upfront, they may abandon — would need to defer some fields to later or make optional."
   },
   "REG-004": {
-    "title": "Insurance Type",
+    "title": "Insurance Type Selection",
     "assumptions": [
-      "User knows whether they have public (GKV) or private (PKV) insurance",
-      "User understands the difference affects how they redeem prescriptions",
-      "Most users in Germany are GKV (roughly 90% of population)"
+      "Users can identify whether they have public (GKV) or private (PKV) insurance",
+      "Users have their insurance card accessible to check if unsure",
+      "GKV users have NFC-enabled Gesundheitskarte; PKV users use GesundheitsID",
+      "Insurance type determines the entire downstream prescription redemption flow"
     ],
-    "userScenario": "The user selects their insurance type - GKV (public) or PKV (private). This determines the prescription redemption flow they'll use later: NFC card scan for GKV, or GesundheitsID app login for PKV.",
+    "userScenario": "When I'm setting up my account, I want to specify my insurance type, so I can access the correct prescription redemption flow later.",
     "pros": [
-      "Clear visual distinction between GKV and PKV with color coding",
-      "Bullet points explain practical differences (copay vs reimbursement)",
-      "Help section with card image assists users who are unsure",
-      "Examples of real insurers (TK, AOK, Allianz) aid recognition"
+      "Reduces confusion by explaining the practical difference (NFC card vs GesundheitsID)",
+      "Provides familiar examples (TK, AOK, Allianz) so users can pattern-match",
+      "Expandable 'Not sure?' helper prevents users from guessing incorrectly",
+      "Visual card design makes abstract insurance concepts concrete"
     ],
     "cons": [
-      "Users with both GKV and PKV coverage may be confused about which to choose",
-      "Help section requires extra tap - not immediately visible",
-      "No option for users without German health insurance"
+      "Adds a mandatory step even though most users know their insurance type",
+      "Users with dual coverage (e.g., supplemental private) may be unsure which to pick",
+      "Helper text relies on user having physical card nearby"
     ],
-    "impactIfWrong": "Wrong insurance type selection leads to failed prescription redemption later. GKV users sent to PKV flow won't have GesundheitsID, and vice versa for NFC card."
+    "impactIfWrong": "If users don't understand GKV vs PKV, they'll select incorrectly and face a broken prescription flow — would need to add a 'change insurance type' option in profile settings, or detect mismatch during first prescription attempt."
   },
   "REG-005": {
-    "title": "GKV Details",
+    "title": "GKV Insurance Details",
     "assumptions": [
-      "User selected GKV (public insurance) in the previous step",
-      "User has their Gesundheitskarte (health card) accessible",
-      "User is willing to acknowledge the €5-10 copay per medication"
+      "GKV users know their insurance provider name",
+      "Users can find their 10-digit insurance number on their Gesundheitskarte",
+      "Users accept €5-10 copay as standard for prescription medications",
+      "Users understand they'll need their physical card for NFC scanning later"
     ],
-    "userScenario": "A GKV-insured user enters their insurance provider and member number. They review how the NFC prescription flow works (scan card, enter CAN, SMS verify, pay copay) and acknowledge the copay requirement.",
+    "userScenario": "When I've selected GKV insurance, I want to enter my provider details, so I can redeem e-prescriptions using my health card's NFC chip.",
     "pros": [
-      "Dropdown of common insurers (TK, AOK, Barmer) speeds selection",
-      "4-step explanation prepares users for the NFC flow they'll encounter later",
-      "Copay acknowledgment checkbox prevents surprise at checkout",
-      "Help icon on insurance number field provides guidance"
+      "Dropdown with major providers (TK, AOK, Barmer) speeds selection",
+      "Step-by-step explanation of prescription flow sets expectations",
+      "Copay acknowledgment checkbox prevents surprise charges later",
+      "Help icon suggests support for finding insurance number"
     ],
     "cons": [
-      "Users may not have their card handy to look up the insurance number",
-      "Limited insurer list - smaller insurers may not appear",
-      "No validation that insurance number format is correct"
+      "Provider list may not include all 100+ German GKV insurers",
+      "Insurance number input has no format validation",
+      "No card scanning option to auto-fill details"
     ],
-    "impactIfWrong": "Incorrect insurance details could cause prescription retrieval to fail when NFC scanning. Users unaware of copay may abandon at payment step."
+    "impactIfWrong": "If user's provider isn't listed, they can't complete registration — would need 'Other' option with manual entry or searchable dropdown."
   },
   "REG-006": {
-    "title": "PKV Details",
+    "title": "PKV Insurance Details",
     "assumptions": [
-      "User selected PKV (private insurance) in the previous step",
-      "User may or may not have GesundheitsID set up with their insurer",
-      "PKV users understand they pay upfront and get reimbursed later"
+      "PKV users understand they need a KVNR from their insurer",
+      "PKV users have their insurer's app installed with GesundheitsID enabled",
+      "PKV users have completed Online Check-in at their doctor before",
+      "Users accept pay-upfront-then-reimburse model for private insurance"
     ],
-    "userScenario": "A PKV-insured user selects their private insurer and reviews the prerequisites for digital prescription redemption: having a KVNR, the insurer's app with GesundheitsID, and completed online check-in.",
+    "userScenario": "When I've selected PKV insurance, I want to understand the prerequisites, so I can set up GesundheitsID access for prescription redemption.",
     "pros": [
-      "Checklist format makes prerequisites clear before user commits",
-      "4-step flow explanation sets correct expectations for reimbursement process",
-      "Reassurance that local pharmacies remain an option if not ready",
-      "Continue button works even without all checkboxes - low friction"
+      "Checklist format clearly shows prerequisites before attempting setup",
+      "Step-by-step explanation demystifies the PKV prescription process",
+      "'Not ready yet' message reduces pressure — users can skip and complete later",
+      "External link to learn more provides escape hatch for confused users"
     ],
     "cons": [
-      "Three prerequisite checkboxes may feel overwhelming for new users",
-      "KVNR, GesundheitsID, Online Check-in are unfamiliar terms for many",
-      "External link to learn more takes users out of registration flow"
+      "Three prerequisites may overwhelm users unfamiliar with GesundheitsID",
+      "No in-app guidance for completing prerequisites",
+      "Button allows proceeding even without checking all boxes — soft validation only"
     ],
-    "impactIfWrong": "Users who skip prerequisites will fail when attempting prescription redemption via GesundheitsID, causing frustration. They'll need to fall back to offline pharmacy."
+    "impactIfWrong": "If users don't understand GesundheitsID prerequisites, they'll fail during prescription redemption — would need in-app onboarding or direct link to insurer app setup."
   },
   "REG-007": {
     "title": "Registration Complete",
     "assumptions": [
-      "User has completed all previous registration steps",
-      "Registration data has been saved successfully to local storage",
-      "User is now authenticated and can access main app features"
+      "Users feel accomplished after completing 5-step registration",
+      "Users want clear guidance on what to do next",
+      "Showing user data (name, email, insurance type) confirms successful registration",
+      "Primary next action is either exploring or booking immediately"
     ],
-    "userScenario": "The user sees a success confirmation after completing registration. They're shown a summary of their account details and insurance type, with next steps guidance and clear CTAs to explore the app or book an appointment.",
+    "userScenario": "When I've completed registration, I want confirmation that my account is ready, so I can start using the app's main features.",
     "pros": [
       "Celebratory checkmark animation creates positive emotional moment",
-      "User card summary confirms details were saved correctly",
-      "Next steps differ by insurance type (GKV: have card ready, PKV: set up GesundheitsID)",
-      "Two CTAs give user choice: explore freely or take immediate action"
+      "User card with initials and insurance badge confirms stored data",
+      "Two clear CTAs: explore (low commitment) or book (high intent)",
+      "Insurance-specific next steps (health card vs GesundheitsID) are contextual"
     ],
     "cons": [
-      "No option to edit details if user notices an error in the summary",
-      "User may not read next steps and be unprepared for prescription flow later",
-      "Success animation may not render for users with reduced motion preferences"
+      "No option to edit details if user notices an error",
+      "Success toast may be missed while animation plays",
+      "Back navigation unclear — can user return to previous steps?"
     ],
-    "impactIfWrong": "If data fails to save, user believes they're registered but has no account. If success shows despite errors, user will encounter issues later in the app."
+    "impactIfWrong": "If user data was entered incorrectly, there's no immediate way to fix it — would need an 'Edit' link or clearer path to profile settings."
   },
   "HOME-001": {
     "title": "Home Dashboard",
     "assumptions": [
-      "User is logged in with a completed profile (registration or SSO)",
-      "LocalStorage contains valid user profile and appointment data",
-      "User understands German healthcare context and has insurance set up",
-      "Network connectivity is not required for displaying cached local data"
+      "Users want a quick overview of their healthcare status on launch",
+      "Promotional banners drive discovery of pharmacy features",
+      "Most users' primary action is booking an appointment",
+      "Upcoming appointment visibility reduces missed appointments"
     ],
-    "userScenario": "A returning user opens the app to check their upcoming appointments or start a new healthcare task. They see personalized content including their next scheduled visit, promotional offers, and quick access to book appointments—the app's primary value proposition. The home screen serves as the hub from which all healthcare journeys begin.",
+    "userScenario": "When I open the app after login, I want to see my next appointment and key actions at a glance, so I can quickly navigate to what I need.",
     "pros": [
-      "Prominent 'Book Appointment' CTA directly addresses the primary user job-to-be-done",
-      "Upcoming appointment widget surfaces time-sensitive info without requiring navigation",
-      "Auto-rotating promo carousel enables dynamic content updates without code changes",
-      "Loading skeleton provides realistic feedback during data fetch, building trust",
-      "Empty state with CTA guides new users toward their first meaningful action"
+      "Surfaces next appointment prominently — reduces no-shows",
+      "Single prominent CTA for booking reduces decision paralysis",
+      "Auto-rotating promo carousel introduces features without overwhelming",
+      "Empty state with clear CTA guides first-time users to book"
     ],
     "cons": [
-      "Promo carousel content is hardcoded—not yet connected to a real CMS",
-      "No personalized greeting (e.g., 'Good morning, Maria') despite having user data",
-      "Recent activity section shows static placeholder, not actual user history",
-      "Notification bell is visual only—no functional notification system behind it"
+      "Promotional carousel may feel commercial rather than healthcare-focused",
+      "No prescription status visible — users must navigate elsewhere",
+      "Recent activity section shows static placeholder data"
     ],
-    "impactIfWrong": "If the home screen fails to load user data or displays stale appointment info, users may miss scheduled visits or lose trust in the app as their reliable healthcare companion."
+    "impactIfWrong": "If users expect prescription status on home, they'll feel the app is incomplete — would need to add a prescription summary card or quick-access section."
   },
   "BKG-001": {
-    "title": "Booking Type",
+    "title": "Booking Type Selection",
     "assumptions": [
-      "User wants to schedule a healthcare appointment and has a completed profile",
-      "User understands the difference between in-person visits and telemedicine",
-      "Teleclinic partnership is active and can handle video consultation handoff",
-      "User has a device capable of video calls if choosing telemedicine option"
+      "Users know whether they want an in-person visit or video consultation",
+      "Teleclinic partnership provides video consultations as a separate flow",
+      "In-person booking requires location awareness; video does not"
     ],
-    "userScenario": "A user navigates from the home screen to book an appointment. They're presented with two clear paths: visit a clinic in-person for hands-on care, or connect with a doctor via video call through Teleclinic for convenience. The choice depends on their medical need and schedule flexibility.",
+    "userScenario": "When I need to see a doctor, I want to choose between in-person and video visits, so I can pick the option that fits my situation.",
     "pros": [
-      "Binary choice reduces cognitive load—users don't face a complex decision tree",
-      "Clear visual distinction with icons (building vs video) aids quick comprehension",
-      "Teleclinic badge signals trusted partnership for telemedicine",
-      "Touch feedback (scale animation) confirms interaction on mobile"
+      "Separates two fundamentally different user journeys early",
+      "Partner branding (Teleclinic) surfaces video as a premium option",
+      "Large touch targets make selection easy on mobile"
     ],
     "cons": [
-      "No guidance on which option is better for specific symptoms or conditions",
-      "Video option immediately exits to Teleclinic—no native telemedicine flow",
-      "Users may not know their condition requires in-person examination"
+      "No hybrid option for users who want either depending on availability",
+      "Video option exits to external Teleclinic flow — breaks continuity"
     ],
-    "impactIfWrong": "If users choose video for conditions requiring physical examination, they waste time and may delay necessary care. If Teleclinic handoff fails, users have no fallback telemedicine option."
+    "impactIfWrong": "If users expect video consultations within MedAlpha, the handoff to Teleclinic may feel jarring — would need tighter integration or in-app video capability."
   },
   "BKG-002": {
-    "title": "Specialty Select",
+    "title": "Specialty Selection",
     "assumptions": [
-      "User knows what type of medical specialty they need (or has a rough idea)",
-      "Six displayed specialties cover the most common appointment types",
-      "Search functionality will help users find specialties not shown in the grid",
-      "Specialty selection determines which doctors appear in subsequent steps"
+      "Users know which medical specialty they need",
+      "Six specialties cover the most common booking needs",
+      "Search functionality helps users who don't see their specialty listed"
     ],
-    "userScenario": "A user who selected in-person booking needs to specify what kind of doctor they want to see. They scan a visual grid of common specialties (GP, Dermatology, Cardiology, etc.) or use search to find something specific. This narrows down the doctor pool for the next steps.",
+    "userScenario": "When I've decided on an in-person visit, I want to select a specialty, so I can see doctors qualified for my health concern.",
     "pros": [
-      "Visual grid with icons makes specialty recognition faster than a text list",
-      "Color-coded icons create visual distinction between specialties",
-      "Search bar accommodates users who know exactly what they need",
-      "Staggered animation draws attention to available options"
+      "Visual grid with icons makes specialties scannable",
+      "Search bar supports users looking for unlisted specialties",
+      "Staggered animation draws attention without overwhelming"
     ],
     "cons": [
-      "Only 6 specialties shown—users may not find their needed specialty without searching",
-      "Search is UI-only (placeholder)—not connected to a real specialty database",
-      "No description of what each specialty treats, which may confuse users",
-      "No 'I don't know' option for users unsure of which specialist they need"
+      "Limited to 6 specialties — users with other needs may feel unsupported",
+      "Search is non-functional in prototype — could frustrate testers",
+      "No 'I'm not sure' option for users who don't know which specialty"
     ],
-    "impactIfWrong": "Users who select the wrong specialty will see irrelevant doctors, potentially booking with someone who can't address their condition. This wastes time and may require rebooking."
+    "impactIfWrong": "If users don't know their specialty, they may abandon — would need a symptom-based wizard or 'Help me choose' option."
   },
   "BKG-003": {
-    "title": "Location Select",
+    "title": "Location Selection",
     "assumptions": [
-      "User has granted location permissions or is comfortable with Berlin-area defaults",
-      "Nearby clinics have availability for the selected specialty",
-      "Distance and ratings are reliable decision factors for users",
-      "Map visual provides helpful spatial context even without full interactivity"
+      "Users want to see nearby clinics based on their location",
+      "Distance and ratings are the primary decision factors",
+      "Map placeholder is sufficient for prototype demonstration"
     ],
-    "userScenario": "After selecting a specialty, the user chooses which clinic to visit. They see a map placeholder showing their approximate location and a list of nearby clinics sorted by distance. Ratings and review counts help them pick a reputable location convenient to their commute.",
+    "userScenario": "When I've selected a specialty, I want to see nearby clinics, so I can pick one that's convenient for me.",
     "pros": [
-      "Distance badges give users immediate travel context without calculations",
-      "Rating and review count builds trust in clinic quality",
-      "Loading skeleton provides feedback while 'searching' for clinics",
-      "Map placeholder sets visual expectation for location-based selection"
+      "Distance badges help users quickly assess convenience",
+      "Star ratings with review counts build trust in clinic quality",
+      "Loading skeleton prevents jarring content shifts"
     ],
     "cons": [
-      "Map is not interactive—users cannot pan/zoom or tap pins",
-      "Clinic list is hardcoded, not filtered by actual specialty availability",
-      "No option to search by address or filter by specific criteria (parking, accessibility)",
-      "Distance calculation is static, not based on real user location"
+      "Map is a placeholder — no real location functionality",
+      "Only 3 clinics shown — limited choice may frustrate users",
+      "No filter for insurance acceptance or accessibility"
     ],
-    "impactIfWrong": "If displayed clinics don't actually have the selected specialty or availability, users will hit a dead end when trying to book. Inaccurate distances could lead to missed appointments due to travel time miscalculation."
+    "impactIfWrong": "If users expect real location services, the static map breaks immersion — would need live map integration or clearer prototype disclaimer."
   },
   "BKG-004": {
-    "title": "Doctor Select",
+    "title": "Doctor Selection",
     "assumptions": [
-      "User values being able to choose their specific doctor rather than being assigned one",
-      "Filters (all, available today, top-rated) cover the main decision criteria",
-      "Doctor ratings and next availability are accurate and up-to-date",
-      "User has flexibility in timing and can accommodate different availability windows"
+      "Users want to choose their doctor rather than be assigned one",
+      "Availability and ratings are the primary selection criteria",
+      "Filters (All, Available Today, Highest Rated) cover main use cases"
     ],
-    "userScenario": "A user who has selected a clinic now picks their preferred doctor. They browse a list showing doctor names, specialties, ratings, and next available slot. Quick filters let them narrow down to doctors available today or those with the highest ratings if they're willing to wait.",
+    "userScenario": "When I've selected a clinic, I want to browse available doctors, so I can choose one based on ratings and availability.",
     "pros": [
-      "Filter chips enable quick narrowing without complex form interactions",
-      "'Next available' preview helps users gauge how soon they can be seen",
-      "Rating badges provide social proof for quality assurance",
-      "Empty state guides users when no doctors match the selected filter"
+      "Filter pills let users quickly narrow by availability or quality",
+      "Next available time shown inline reduces friction to booking",
+      "Empty state handles edge case when no doctors match filter"
     ],
     "cons": [
-      "No doctor photos—placeholder circles reduce personal connection",
-      "Cannot filter by gender, language, or specific expertise areas",
-      "Doctor list is from constants, not tied to actual clinic availability",
-      "No way to view doctor profiles or patient reviews before selecting"
+      "No doctor photos — harder to recognize returning providers",
+      "No language or gender filters for user preferences",
+      "Loading delay (1.5s) may feel slow for repeat users"
     ],
-    "impactIfWrong": "If 'Next available' times are inaccurate, users may select a doctor expecting immediate availability only to find different times on the calendar. If ratings don't reflect actual quality, users may have poor experiences."
+    "impactIfWrong": "If users want to filter by language or gender, the current filters are insufficient — would need additional filter options."
   },
   "BKG-005": {
-    "title": "Calendar",
+    "title": "Date & Time Selection",
     "assumptions": [
-      "User has flexibility to book within the available time slots shown",
-      "Time slot availability varies by day (weekdays vs weekends, busy days)",
-      "Past dates should be disabled to prevent invalid bookings",
-      "User device displays dates correctly in their locale"
+      "Users prefer a visual calendar over date input",
+      "Time slot availability varies by day of week",
+      "Past dates should be disabled to prevent invalid bookings"
     ],
-    "userScenario": "The user picks their preferred appointment date and time. They tap a date on the calendar to reveal available time slots, which vary based on clinic hours (closed Sundays, limited Saturday hours, busier Monday/Wednesday). Once both date and time are selected, they can proceed to review.",
+    "userScenario": "When I've selected a doctor, I want to pick an available date and time, so I can schedule an appointment that works with my calendar.",
     "pros": [
-      "Calendar widget provides familiar date-picking interaction",
-      "Time slots dynamically update based on selected date, showing realistic availability",
-      "Clear visual states for today, selected date, and disabled past dates",
-      "Sticky continue button is always accessible without scrolling"
+      "Visual calendar makes date selection intuitive",
+      "Time slots update dynamically based on selected date",
+      "Clear empty state explains when dates have no availability"
     ],
     "cons": [
-      "No indication of which dates have availability before tapping",
-      "Time slots are algorithmically generated, not from real scheduling system",
-      "Cannot book multiple consecutive slots for longer appointments",
-      "No timezone handling—assumes user is in the clinic's timezone"
+      "No timezone indicator for users traveling or remote",
+      "Cannot see multiple weeks of availability at once",
+      "Sticky button overlaps bottom nav — potential tap issues"
     ],
-    "impactIfWrong": "If shown time slots don't match actual availability, the booking will fail at confirmation or require rebooking. Users in different timezones could book at unexpected local times."
+    "impactIfWrong": "If users need to compare availability across weeks, the single-month view is limiting — would need a list view or availability overview."
   },
   "BKG-006": {
-    "title": "Review Booking",
+    "title": "Booking Review",
     "assumptions": [
-      "User has completed all prior steps (doctor, location, date/time selection)",
-      "Booking draft data persists in localStorage across navigation",
-      "User wants a final review before committing to the appointment",
-      "Date and time formatting respects user's locale preferences"
+      "Users want to confirm all details before finalizing",
+      "Edit links for each section reduce anxiety about mistakes",
+      "Incomplete drafts should redirect to start rather than showing partial data"
     ],
-    "userScenario": "Before finalizing, the user reviews all booking details: selected doctor, clinic location, date, and time. Each section has an edit link allowing them to go back and change that specific item without restarting the entire flow. The confirm button creates the appointment.",
+    "userScenario": "When I've selected all booking details, I want to review everything before confirming, so I can catch any mistakes.",
     "pros": [
-      "Consolidated summary prevents errors from booking the wrong details",
-      "Inline edit links allow targeted corrections without losing other selections",
-      "Localized date/time display matches user's language preference",
-      "Loading state on confirm button prevents double-submission"
+      "All booking details visible in one scannable card",
+      "Edit links next to each section enable quick corrections",
+      "Loading state during confirmation prevents double-submission"
     ],
     "cons": [
-      "Cannot add notes or reason for visit at this stage",
-      "No cost estimate or insurance verification before confirming",
-      "Address shown is static placeholder, not the actual clinic address",
-      "No cancellation policy or rescheduling information displayed"
+      "No cancellation policy or rescheduling info shown",
+      "Address is hardcoded — doesn't reflect actual clinic selection",
+      "No reminder preference options (SMS, email, push)"
     ],
-    "impactIfWrong": "If displayed details don't match what was actually selected, user may confirm a wrong appointment. If the appointment fails to save, user believes they're booked but no record exists."
+    "impactIfWrong": "If users expect to set reminder preferences here, they'll be surprised by default notifications — would need reminder options or settings link."
   },
   "BKG-007": {
-    "title": "Booking Success",
+    "title": "Booking Confirmation",
     "assumptions": [
-      "Appointment was successfully saved to localStorage before showing this screen",
-      "User benefits from visual confirmation that their action completed",
-      "Calendar integration is a valued feature for appointment management",
-      "Session storage correctly passes the appointment ID from the previous step"
+      "Users feel accomplished after successful booking",
+      "Add to calendar is a common post-booking action",
+      "Showing appointment summary reinforces what was booked"
     ],
-    "userScenario": "After confirming, the user sees a celebratory success screen with a green checkmark animation. A summary card shows doctor name, date/time, and location. They can add the appointment to their device calendar or tap 'Done' to return home.",
+    "userScenario": "When my booking is confirmed, I want to see a summary and next steps, so I can add it to my calendar and feel confident about the appointment.",
     "pros": [
-      "Animated checkmark creates positive emotional reinforcement",
-      "Summary card provides one last verification of booking details",
-      "Add to Calendar button helps users not forget their appointment",
-      "Clean, focused layout without distractions celebrates the completion"
+      "Celebratory animation creates positive emotional moment",
+      "Compact summary card confirms key details at a glance",
+      "Add to calendar button reduces manual entry"
     ],
     "cons": [
-      "Add to Calendar is UI-only—no actual calendar integration implemented",
-      "No confirmation email or SMS—relies solely on in-app storage",
-      "If user navigates away before seeing this, they may not realize booking succeeded",
-      "No option to book another appointment or share the details"
+      "Add to calendar is non-functional in prototype",
+      "No confirmation email/SMS mentioned — users may worry",
+      "Done button goes to home, not appointments list"
     ],
-    "impactIfWrong": "If this screen shows despite a failed save, user believes they have an appointment that doesn't exist. If they rely on 'Add to Calendar' that doesn't work, they may miss the appointment."
+    "impactIfWrong": "If users expect a confirmation email, the lack of mention may cause anxiety — would need to add 'Confirmation sent to email' message."
   },
   "BKG-008": {
     "title": "Smart Match Processing",
     "assumptions": [
-      "Smart Match is an AI/algorithm-powered service that finds optimal appointments",
-      "Users are willing to wait 10-30 seconds for automated matching",
-      "70% of requests can be fulfilled immediately, 30% require refinement",
-      "Retry attempts (from refinement) should always succeed to avoid frustration loops"
+      "Users accept automated matching as a faster alternative to manual selection",
+      "Progress animation (10-30 seconds) sets realistic expectations",
+      "70% success rate with 30% refinement needed is a reasonable simulation"
     ],
-    "userScenario": "Instead of manually selecting every booking detail, the user lets Smart Match find them an optimal appointment. This screen shows a progress animation while the system 'processes' the request—verifying info, finding availability, and confirming. Users can cancel if they prefer manual booking.",
+    "userScenario": "When I've requested Smart Match, I want to see progress while the system finds an appointment, so I know the request is being processed.",
     "pros": [
-      "Step-by-step progress indicators reduce perceived wait time",
-      "Animated progress bar provides continuous feedback during processing",
-      "Cancel button gives users an escape hatch if they change their mind",
-      "Retry logic ensures second attempts succeed, preventing infinite loops"
+      "Step-by-step progress reduces anxiety during wait",
+      "Progress bar gives visual feedback on completion",
+      "Cancel option provides escape hatch without commitment"
     ],
     "cons": [
-      "Processing is simulated—no real backend matching is happening",
-      "Random success/failure (70/30 split) may frustrate users who hit refinement",
-      "No visibility into what 'Smart Match' is actually doing or considering",
-      "2.5-second fixed delay doesn't adapt to network conditions"
+      "Randomized outcomes may confuse prototype testers",
+      "No way to influence matching criteria during processing",
+      "Cancel returns to review, not specialty selection"
     ],
-    "impactIfWrong": "If processing appears stuck or takes too long, users may abandon and lose trust in Smart Match. If the random failure rate is too high, users will avoid this feature entirely."
+    "impactIfWrong": "If users expect deterministic results in demos, the random refinement path may seem like a bug — would need to explain this is intentional for prototype variety."
   },
   "BKG-009": {
     "title": "Smart Match Refinement",
     "assumptions": [
-      "User's initial preferences couldn't be fully matched (time, specialty, or location)",
-      "Offering alternatives is better than simply failing the request",
-      "Users are flexible enough to accept one of the suggested alternatives",
-      "Three options per scenario provides sufficient choice without overwhelming"
+      "Users are willing to adjust preferences when first choice is unavailable",
+      "Offering alternatives is better than failing the booking",
+      "Three options per category is enough choice without overwhelming"
     ],
-    "userScenario": "When Smart Match can't find an exact match, the user sees this refinement screen. It explains what went wrong (unavailable time, suggests alternative specialist, or nearby clinic) and offers three alternatives. The user picks one, and the system retries—this time guaranteed to succeed.",
+    "userScenario": "When Smart Match can't find my exact request, I want to see alternative options, so I can still book an appointment without starting over.",
     "pros": [
-      "Clear explanation of why refinement is needed (not just 'error')",
-      "Scenario-specific options (time slots, specialties, or locations) feel personalized",
-      "Selection cards with visual feedback make choosing easy",
-      "Cancel option respects users who prefer to book manually instead"
+      "Clear explanation of why refinement is needed",
+      "Radio-style selection makes choosing easy",
+      "Submit retries matching with new preferences"
     ],
     "cons": [
-      "Random scenario selection doesn't relate to actual user preferences",
-      "Options are hardcoded, not based on real availability data",
-      "Amber warning styling may feel more alarming than necessary",
-      "No option to provide custom preferences beyond the three choices"
+      "Random scenario type may confuse users expecting consistent flow",
+      "No option to adjust multiple criteria at once",
+      "Cancel loses all progress — no save-and-continue-later"
     ],
-    "impactIfWrong": "If alternatives don't actually match user needs, they're forced into an unwanted appointment or must cancel. If the retry fails again, users lose trust in the entire Smart Match system."
+    "impactIfWrong": "If users want to adjust multiple criteria, the single-category refinement feels limiting — would need multi-select refinement or 'start over with preferences' option."
   },
   "BKG-010": {
-    "title": "Smart Match Success",
+    "title": "Smart Match Confirmation",
     "assumptions": [
-      "Smart Match has successfully found and booked an appointment",
-      "Generated appointment is 3-5 days in the future to feel realistic",
-      "User wants to see full booking details immediately after success",
-      "Auto-redirect to appointments list helps users find their booking"
+      "Users trust Smart Match to select appropriate doctors",
+      "Auto-redirect after 3 seconds guides users to next logical screen",
+      "Purple branding differentiates Smart Match from manual booking"
     ],
-    "userScenario": "After Smart Match successfully processes a booking, the user sees a purple-branded success screen with a detailed confirmation card. It shows the matched doctor, clinic, date, and time. The screen auto-redirects to the appointments list after 3 seconds, or users can tap to go immediately.",
+    "userScenario": "When Smart Match finds an appointment, I want to see the confirmed details, so I know the booking was successful.",
     "pros": [
-      "Distinct purple branding differentiates Smart Match from manual booking success",
-      "'Smart Match' and 'Confirmed' badges reinforce the feature that was used",
-      "Detailed card provides all essential booking information at a glance",
-      "Auto-redirect ensures users land where they can manage their appointments"
+      "Clear confirmation with all appointment details",
+      "Smart Match badge distinguishes from manual bookings",
+      "Auto-redirect prevents users from getting stuck"
     ],
     "cons": [
-      "Doctor and clinic are hardcoded, not reflecting user's original preferences",
-      "3-second auto-redirect may feel rushed for users still reading details",
-      "No option to add to calendar like the manual booking success screen",
-      "Gradient background may not render well on all devices"
+      "Doctor is always 'Dr. Sarah Johnson' — no real matching logic",
+      "No option to reject and try again if user dislikes the match",
+      "3-second auto-redirect may feel rushed for users reading details"
     ],
-    "impactIfWrong": "If the shown details don't match the actual saved appointment, users will be confused when they see different info in their appointments list. If auto-redirect happens too fast, users may miss important details."
+    "impactIfWrong": "If users want to reject the match, there's no option — would need 'Not what I wanted' link to restart or refine."
   },
   "RX-001": {
-    "title": "Prescriptions List",
+    "title": "Prescriptions Home",
     "assumptions": [
-      "User has active e-prescriptions stored in the Telematik Infrastruktur (TI)",
-      "Insurance type (GKV/PKV) is already set in the user's profile",
-      "Prescriptions are valid for 28 days from issue date",
-      "GKV users understand the copay (Zuzahlung) concept of €5-10 per medication"
+      "Users have active prescriptions issued by their doctor via e-prescription",
+      "Users understand copay amounts displayed per medication",
+      "The FAB (floating action button) pattern is familiar from mobile apps",
+      "Prescriptions are pre-fetched from the e-prescription server during registration/auth"
     ],
-    "userScenario": "A user who has received e-prescriptions from their doctor visits this screen to view and select which medications to redeem. GKV users see fixed copay amounts while PKV users see full prices with reimbursement notes. The user can toggle an exemption checkbox if they have a Befreiungsausweis.",
+    "userScenario": "When I open the prescriptions section, I want to see my active prescriptions at a glance, so I can decide which ones to redeem.",
     "pros": [
-      "Clear insurance-specific pricing (copay vs full price) reduces confusion at checkout",
-      "Multi-select with checkboxes lets users redeem multiple prescriptions in one order",
-      "Tab filter (Active/Redeemed) helps users track prescription status over time",
-      "Copay exemption toggle is prominently placed for users who qualify"
+      "Surfaces active prescriptions immediately without extra taps",
+      "Card-based layout makes each prescription visually distinct and tappable",
+      "Copay displayed inline sets cost expectations before redemption",
+      "FAB provides clear entry point for starting a new redemption flow"
     ],
     "cons": [
-      "Prescription data is hardcoded—not connected to real TI system",
-      "No indication of which prescriptions were issued together by the same doctor",
-      "Expiry warning is not prominent—users might miss approaching deadlines",
-      "No search or filter by medication name for users with many prescriptions"
+      "No search or filter for users with many prescriptions",
+      "Static demo data may confuse testers expecting real e-prescription integration",
+      "Expiration dates shown but no warning for soon-to-expire prescriptions"
     ],
-    "impactIfWrong": "If prescription data doesn't sync with the TI, users may attempt to redeem already-filled prescriptions or miss active ones. Wrong copay calculations would cause payment surprises at checkout."
+    "impactIfWrong": "If users expect to see recently redeemed prescriptions here, the lack of tabs or history view would frustrate them — would need to add Active/History toggle."
   },
   "RX-002": {
-    "title": "Redeem Start",
+    "title": "Prescription Selection",
     "assumptions": [
-      "User wants to redeem a new prescription (not already loaded in the app)",
-      "User understands the difference between online delivery and local pickup",
-      "Insurance type determines the authentication flow (NFC for GKV, GesundheitsID for PKV)",
-      "Apo Group partnership is active and can fulfill online orders"
+      "Users want to redeem multiple prescriptions in a single order",
+      "GKV users pay flat €5 copay per medication; PKV users pay full price then seek reimbursement",
+      "Some GKV users have copay exemption (Befreiungsausweis)",
+      "Insurance type is already stored from registration"
     ],
-    "userScenario": "A user taps the '+' FAB from the prescriptions screen to start redeeming a new prescription. They choose between online pharmacy (delivery) or finding a local pharmacy (pickup). The screen adapts its guidance based on insurance type—GKV users will scan their card, PKV users will authenticate via their insurer's app.",
+    "userScenario": "When I've authenticated with my health card or GesundheitsID, I want to select which prescriptions to redeem, so I can order them together.",
     "pros": [
-      "Binary choice (online vs local) is simple and covers the main use cases",
-      "Insurance badge toggle allows testing both flows without re-registering",
-      "Info banner explains the authentication method before user commits",
-      "Partnership badge (Apo Group) signals trusted fulfillment partner"
+      "Multi-select with checkboxes enables batch ordering",
+      "Copay exemption toggle surfaces important GKV option",
+      "Insurance-aware pricing shows correct costs for GKV vs PKV users",
+      "Running total in CTA button prevents surprises at checkout"
     ],
     "cons": [
-      "Insurance toggle is a prototype feature—real users can't switch insurance types",
-      "No price comparison between online and local pharmacy options",
-      "Local pharmacy option exits to a separate flow with no return path",
-      "No indication of delivery timeframes to help users choose"
+      "Adds friction for users who only have one prescription",
+      "Exemption checkbox relies on user honesty — no verification",
+      "Active/Redeemed tabs may confuse users expecting this to be the redemption flow"
     ],
-    "impactIfWrong": "If users don't understand which authentication they need, they'll hit blockers in the next steps. If Apo Group partnership fails, online pharmacy becomes unusable."
+    "impactIfWrong": "If copay exemption isn't actually available online, the checkbox creates false expectations — would need to clarify exemption applies only to in-person pickup."
   },
   "RX-003": {
-    "title": "NFC Intro (GKV)",
-    "assumptions": [
-      "User has their Gesundheitskarte (eGK) physically present",
-      "User's phone has NFC capability and it's enabled in settings",
-      "The 6-digit CAN (Card Access Number) is printed on the card front",
-      "User understands this is a security step to access their prescriptions"
-    ],
-    "userScenario": "A GKV-insured user prepares to scan their health card using NFC. The screen guides them through the prerequisites: locating their card, finding the CAN, and positioning for the scan. They enter the 6-digit CAN and tap 'Start Scanning' to initiate the NFC read.",
-    "pros": [
-      "Step-by-step instructions reduce confusion about the NFC process",
-      "Visual animation (floating card, pulse effect) creates clear mental model",
-      "CAN input validation ensures 6 digits before enabling the scan button",
-      "Help link for 'Where is my CAN?' assists first-time users"
-    ],
-    "cons": [
-      "No detection of whether device actually supports NFC before starting",
-      "CAN entry is manual—no option to scan it from the card visually",
-      "Help link is placeholder only—no actual help content",
-      "No guidance for users with older eGK cards that may have different CAN locations"
-    ],
-    "impactIfWrong": "Wrong CAN entry will cause NFC authentication to fail. Users without NFC-capable phones will be blocked with no alternative path. If card positioning guidance is unclear, repeated scan failures frustrate users."
-  },
-  "RX-004": {
-    "title": "NFC Scan",
-    "assumptions": [
-      "User has their Gesundheitskarte positioned against the phone's NFC reader",
-      "NFC communication is stable and uninterrupted during the 4-second scan",
-      "Phone's NFC hardware can successfully read eGK cards",
-      "User will hold the card still despite the visual prompt to do so"
-    ],
-    "userScenario": "The user holds their health card against their phone while the app communicates with it via NFC. A dark, focused UI with animated pulse effects creates a 'scanning in progress' atmosphere. Haptic feedback (if supported) confirms the scan is active. After ~4 seconds, the user is routed to SMS verification.",
-    "pros": [
-      "Full-screen dark mode UI reduces distractions and creates focus",
-      "Animated pulse and phone vibration provide multi-sensory feedback",
-      "Clear 'Hold your card still' instruction prevents premature movement",
-      "Cancel button provides escape hatch if user changes their mind"
-    ],
-    "cons": [
-      "NFC scan is simulated with fixed 4-second timer—no real card reading",
-      "No error handling if NFC fails or card is removed prematurely",
-      "20-second estimate may not match actual scan times in production",
-      "No positioning guidance showing where exactly to place the card on the phone"
-    ],
-    "impactIfWrong": "If NFC fails silently, users wait indefinitely with no feedback. If scan times vary wildly from the estimate, users may assume failure and retry unnecessarily. Lack of card positioning guidance causes repeated scan failures."
-  },
-  "RX-005": {
-    "title": "GKV SMS Verify",
-    "assumptions": [
-      "User's phone number on file with their insurance is correct and accessible",
-      "SMS delivery is reliable and arrives within the 45-second countdown",
-      "6-digit verification codes provide adequate security for prescription access",
-      "User has the same phone that will receive the SMS"
-    ],
-    "userScenario": "After NFC card scan, the user receives an SMS with a 6-digit verification code to their registered phone number. They enter this code to prove they control the phone associated with their insurance record. This two-factor authentication protects against unauthorized prescription access.",
-    "pros": [
-      "Masked phone number (+49 *** ***78) shows enough digits to confirm it's theirs",
-      "Large centered input field with tracking makes code entry easy on mobile",
-      "Countdown timer sets clear expectation for when resend becomes available",
-      "Link to check profile helps users whose phone number may be outdated"
-    ],
-    "cons": [
-      "SMS delivery delays could exceed the 45-second expectation",
-      "No fallback if user doesn't have access to the registered phone",
-      "Demo mode accepts any 6-digit code—not representative of real security",
-      "Phone number cannot be changed from this screen—must exit flow"
-    ],
-    "impactIfWrong": "If SMS is delayed or lost, users are blocked from accessing prescriptions. Wrong phone number on file means SMS goes to wrong device. If verification bypass exists in production, prescription data could be compromised."
-  },
-  "RX-006": {
-    "title": "PKV Auth",
-    "assumptions": [
-      "User has a KVNR (Krankenversichertennummer) from their private insurer",
-      "User's PKV app has GesundheitsID already configured and activated",
-      "User has completed Online Check-in at their doctor to enable e-prescriptions",
-      "OAuth-style handoff to insurer apps is technically feasible"
-    ],
-    "userScenario": "A PKV-insured user begins the prescription retrieval process. Before proceeding, they see a checklist of prerequisites (KVNR, GesundheitsID, Online Check-in) to verify they're set up correctly. Users who aren't ready can learn how to set up, while prepared users continue to select their insurer.",
-    "pros": [
-      "Checklist format clearly shows what's needed before user commits",
-      "Shield icon with 'SECURE' badge builds trust in the authentication process",
-      "'Learn how to set up' link guides unprepared users to resources",
-      "Validates prerequisites before wasting user time on authentication"
-    ],
-    "cons": [
-      "Technical terms (KVNR, GesundheitsID, Online Check-in) may confuse users",
-      "Checklist items are static—doesn't actually verify user has completed them",
-      "Learn more link is placeholder—no actual setup guidance provided",
-      "No indicator of which insurer apps support GesundheitsID"
-    ],
-    "impactIfWrong": "Users who skip prerequisites will fail at insurer authentication. If terminology is unclear, users may think they're prepared when they're not. False confidence leads to frustrating failure later in the flow."
-  },
-  "RX-007": {
-    "title": "PKV Insurer Select",
-    "assumptions": [
-      "User knows which private insurance company they're enrolled with",
-      "Top 5 displayed insurers cover the majority of PKV users",
-      "Each insurer has a functioning GesundheitsID-compatible mobile app",
-      "App-to-app redirect (deep linking) works reliably on user's device"
-    ],
-    "userScenario": "A PKV user selects their insurance company from a searchable list. The five most common private insurers are shown initially (Allianz, DKV, HUK-COBURG, Debeka, AXA), with search for finding others. Selecting an insurer initiates the OAuth-style handoff to that insurer's app.",
-    "pros": [
-      "Search filter helps users find insurers not in the top 5",
-      "Two-letter logo placeholders provide visual variety in the list",
-      "Explanation text sets expectation for app redirect",
-      "'Show all insurers' link suggests comprehensive coverage"
-    ],
-    "cons": [
-      "Only 5 insurers shown—smaller providers require search",
-      "Logo placeholders are generic—not actual insurer branding",
-      "'Show all insurers' is non-functional placeholder",
-      "No indication of which insurers actually support GesundheitsID yet"
-    ],
-    "impactIfWrong": "If user's insurer isn't listed or searchable, they cannot proceed. If app redirect fails, user is stuck between apps. Selecting an insurer without GesundheitsID support leads to the error screen."
-  },
-  "RX-008": {
-    "title": "PKV Redirect",
-    "assumptions": [
-      "User's insurer app is installed on their device",
-      "Deep link will successfully open the insurer's app",
-      "User will complete authentication in the insurer app and return",
-      "OAuth callback will bring user back to this app with valid tokens"
-    ],
-    "userScenario": "An interstitial loading screen appears while the app prepares to hand off to the user's PKV insurer app. The user sees their insurer's name and a loading spinner. After authentication in the insurer app, they return here and are redirected to the prescription list.",
-    "pros": [
-      "Clear messaging that user will leave and return sets expectations",
-      "Insurer name dynamically shown confirms correct selection",
-      "Cancel button allows backing out before app switch",
-      "2.5-second delay provides buffer for app transition"
-    ],
-    "cons": [
-      "Redirect is simulated—no actual insurer app integration",
-      "If insurer app isn't installed, no error handling or app store link",
-      "No timeout handling if user doesn't return from insurer app",
-      "Logo placeholder doesn't match actual insurer branding"
-    ],
-    "impactIfWrong": "If deep link fails, user is stuck on this screen with no feedback. If user doesn't have the insurer app installed, redirect fails silently. Long delays in the insurer app may cause timeout issues."
-  },
-  "RX-009": {
-    "title": "PKV Error",
-    "assumptions": [
-      "GesundheitsID authentication failed due to incomplete setup",
-      "User can resolve the issue by configuring their insurer's app",
-      "Local pharmacy remains a viable alternative for prescription redemption",
-      "User understands why authentication failed to prevent repeat failures"
-    ],
-    "userScenario": "When GesundheitsID authentication fails—typically because the user hasn't activated it in their insurer's app—this error screen explains the problem. It offers a button to open their PKV app for setup, a retry option, and a fallback path to use a local pharmacy instead.",
-    "pros": [
-      "Clear explanation of why authentication failed (GesundheitsID not set up)",
-      "Direct button to open PKV app guides user toward resolution",
-      "Local pharmacy fallback ensures user isn't completely blocked",
-      "Try again option supports users who resolved the issue quickly"
-    ],
-    "cons": [
-      "Generic error message doesn't distinguish between different failure types",
-      "'Open PKV App' button is non-functional placeholder",
-      "No specific guidance on how to set up GesundheitsID in different insurer apps",
-      "Error screen is only reachable via direct URL—not from actual auth failure"
-    ],
-    "impactIfWrong": "If error messaging is unclear, users won't know how to resolve the issue. If fallback options aren't prominent, frustrated users may abandon the app entirely."
-  },
-  "RX-010": {
     "title": "Prescription Detail",
     "assumptions": [
-      "User wants to view full details of a specific prescription",
-      "Prescription data includes medication name, dosage, quantity, and prescriber info",
-      "Active prescriptions can be redeemed; delivered prescriptions can be reordered",
-      "Query params distinguish between active, delivered, and picked-up states"
+      "Users want to see full medication details before redeeming",
+      "Detail view serves both active prescriptions and redemption history",
+      "Query parameters differentiate active vs delivered/picked-up states",
+      "Reorder functionality is a common need for recurring medications"
     ],
-    "userScenario": "A user taps a prescription card to view full details. For active prescriptions, they see medication info, dosage instructions, prescribing doctor, and validity dates with a 'Redeem' CTA. For fulfilled prescriptions, they see delivery/pickup status with options to download receipt or reorder.",
+    "userScenario": "When I tap on a prescription, I want to see all details including dosage and prescriber, so I can verify it's correct before redeeming.",
     "pros": [
-      "Same component handles multiple states (active, delivered, picked up) consistently",
-      "Clear status badges distinguish between prescription states",
-      "Detailed info (dosage, quantity, prescriber) helps users verify correct medication",
-      "Reorder button enables convenient refills for recurring medications"
+      "Single screen handles both active and history states via query params",
+      "Clear dosage and quantity information reduces medication errors",
+      "Receipt and Reorder buttons enable common post-redemption actions",
+      "Visual status badges (Active, Delivered, Picked Up) provide clear state"
     ],
     "cons": [
-      "Prescription data is hardcoded—same medication shown regardless of which card was tapped",
-      "Reorder and receipt download buttons are non-functional placeholders",
-      "No medication interaction warnings or side effect information",
-      "Status states are controlled via URL params, not actual prescription state"
+      "No way to report incorrect prescription details",
+      "History state shows hardcoded delivery info — not actual data",
+      "Reorder button may not be appropriate for all medication types"
     ],
-    "impactIfWrong": "If prescription details don't match what user selected, they may redeem the wrong medication. Missing dosage info could lead to medication errors. Non-functional buttons damage trust."
+    "impactIfWrong": "If users expect to modify or cancel prescriptions from this screen, the lack of those options would frustrate them — would need to add doctor contact or cancellation flow."
+  },
+  "RX-004": {
+    "title": "Redemption Channel Selection",
+    "assumptions": [
+      "Legal requirement: Users must explicitly choose between online and local pharmacy",
+      "Insurance type determines which authentication flow (NFC vs GesundheitsID) follows",
+      "Apo Group is the online pharmacy partner; local pharmacies use geolocation",
+      "Users understand the trade-off between delivery convenience and immediate pickup"
+    ],
+    "userScenario": "When I start redeeming a prescription, I want to choose between home delivery and local pickup, so I can get my medication the way that suits me.",
+    "pros": [
+      "Separates two fundamentally different fulfillment journeys early",
+      "Insurance badge toggle enables testing both GKV and PKV flows",
+      "Partner branding (Apo Group) surfaces delivery as premium option",
+      "Clear icons differentiate delivery truck from map pin"
+    ],
+    "cons": [
+      "Insurance toggle is a prototype convenience — production would use stored type",
+      "No price comparison between online and local options",
+      "Local pharmacy option exits to separate map flow — context may be lost"
+    ],
+    "impactIfWrong": "If users don't understand the insurance toggle is for testing, they may think they can switch insurance types freely — would need to hide toggle in production."
+  },
+  "RX-005": {
+    "title": "GKV NFC Introduction",
+    "assumptions": [
+      "GKV users have NFC-enabled Gesundheitskarte (eGK) with 6-digit CAN",
+      "Users can locate the CAN printed on their physical card",
+      "Device has NFC capability and user has granted permissions",
+      "Users are familiar with NFC card scanning from banking or transit apps"
+    ],
+    "userScenario": "When I choose online redemption with GKV insurance, I want clear instructions for scanning my health card, so I can authenticate successfully.",
+    "pros": [
+      "Step-by-step instructions reduce NFC scanning anxiety",
+      "Visual illustration shows phone-to-card positioning",
+      "CAN input validates before enabling scan to prevent wasted attempts",
+      "Help link for CAN location catches users who can't find it"
+    ],
+    "cons": [
+      "Requires user to have physical card nearby — no fallback option",
+      "6-digit CAN entry adds friction even for users who know their CAN",
+      "No device compatibility check before attempting NFC"
+    ],
+    "impactIfWrong": "If users' devices lack NFC capability, they'll fail at scan step — would need pre-scan device check with fallback to local pharmacy."
+  },
+  "RX-006": {
+    "title": "GKV NFC Scanning",
+    "assumptions": [
+      "NFC scan takes 4-20 seconds to complete successfully",
+      "Dark UI with pulse animations conveys 'system working' state",
+      "Haptic feedback on success enhances physical scanning experience",
+      "Users can hold card steady against phone during scan"
+    ],
+    "userScenario": "When I've entered my CAN and started scanning, I want visual feedback that the scan is in progress, so I know to hold my card steady.",
+    "pros": [
+      "Full-screen dark mode creates focused scanning environment",
+      "Pulse animations indicate active NFC communication",
+      "20-second message sets realistic expectation for scan duration",
+      "Cancel button provides escape if scan isn't working"
+    ],
+    "cons": [
+      "No progress indicator beyond animation — user doesn't know how close to done",
+      "Simulated 4-second scan may be faster than real NFC reads",
+      "No error state if scan fails — always navigates to SMS verify"
+    ],
+    "impactIfWrong": "If real scans fail frequently, the lack of retry guidance would frustrate users — would need error state with troubleshooting tips."
+  },
+  "RX-007": {
+    "title": "GKV SMS Verification",
+    "assumptions": [
+      "Phone number from registration is valid and receives SMS",
+      "6-digit codes are familiar from banking and other verification flows",
+      "45-second resend timer prevents SMS spam while allowing retry",
+      "SMS delivery is reliable for most German mobile carriers"
+    ],
+    "userScenario": "When my health card scan succeeds, I want to verify my identity via SMS, so I can access my prescriptions securely.",
+    "pros": [
+      "Large code input with tracking makes entry easy",
+      "Countdown timer sets clear expectation for resend availability",
+      "Masked phone number confirms correct number without full exposure",
+      "Link to profile helps users who need to update their number"
+    ],
+    "cons": [
+      "Adds friction on top of already-complex NFC flow",
+      "No alternative verification method if SMS doesn't arrive",
+      "45-second wait may feel long if first SMS was delayed"
+    ],
+    "impactIfWrong": "If SMS delivery is unreliable, users get stuck at this step — would need email fallback or authenticator app option."
+  },
+  "RX-008": {
+    "title": "PKV Prerequisites",
+    "assumptions": [
+      "PKV users have completed GesundheitsID setup in their insurer's app",
+      "Users understand they need KVNR, insurer app, and Online Check-in",
+      "PKV auth is more complex than GKV but users accept this trade-off",
+      "Users can complete prerequisites outside the app if needed"
+    ],
+    "userScenario": "When I choose online redemption with PKV insurance, I want to confirm I have the prerequisites, so I don't fail during authentication.",
+    "pros": [
+      "Checklist format clearly shows what's needed before attempting",
+      "Reduces failed auth attempts by setting expectations upfront",
+      "Learn more link provides escape hatch for unprepared users",
+      "Checkmarks suggest completion rather than requirements"
+    ],
+    "cons": [
+      "Three prerequisites may overwhelm users new to GesundheitsID",
+      "No in-app guidance for completing prerequisites",
+      "Checkmarks are decorative — no actual prerequisite verification"
+    ],
+    "impactIfWrong": "If users proceed without prerequisites, they'll fail at insurer auth — would need actual verification or clearer 'I don't have these' path."
+  },
+  "RX-009": {
+    "title": "PKV Insurer Selection",
+    "assumptions": [
+      "PKV users know their insurance company name",
+      "Top 5 private insurers cover most PKV users",
+      "Search helps users find insurers not in the top list",
+      "Each insurer has its own GesundheitsID-compatible app"
+    ],
+    "userScenario": "When I've confirmed my prerequisites, I want to select my insurer from a list, so I can be redirected to the correct app for authentication.",
+    "pros": [
+      "Search enables finding any German PKV insurer",
+      "Logo abbreviations provide visual differentiation",
+      "Redirect explanation sets expectation for app handoff",
+      "Show all insurers link handles edge cases"
+    ],
+    "cons": [
+      "Only 5 insurers shown initially — may not include user's insurer",
+      "Search is case-sensitive in implementation — may miss matches",
+      "No recently used insurer memory for returning users"
+    ],
+    "impactIfWrong": "If user's insurer isn't supported for GesundheitsID, the selection leads to dead end — would need 'Insurer not supported' fallback path."
+  },
+  "RX-010": {
+    "title": "PKV App Handoff",
+    "assumptions": [
+      "Users have the selected insurer's app installed",
+      "App-to-app redirect via deep linking works reliably",
+      "2.5-second simulation is representative of real handoff timing",
+      "Users will return to MedAlpha after insurer app authentication"
+    ],
+    "userScenario": "When I've selected my insurer, I want to be redirected to their app to authenticate, so I can prove my identity securely.",
+    "pros": [
+      "Clear messaging explains what's happening during redirect",
+      "Insurer logo/name confirms correct app is opening",
+      "Cancel option provides escape before app switch",
+      "Loading spinner indicates system is working"
+    ],
+    "cons": [
+      "Simulated redirect doesn't actually open external app",
+      "No handling for users without insurer app installed",
+      "Return-to-app flow isn't demonstrated in prototype"
+    ],
+    "impactIfWrong": "If insurer app isn't installed, redirect fails silently — would need deep link check with App Store fallback."
   },
   "RX-011": {
-    "title": "Prescription List Select",
+    "title": "PKV Error Recovery",
     "assumptions": [
-      "User has authenticated via NFC (GKV) or GesundheitsID (PKV)",
-      "Multiple prescriptions may be available from the same doctor visit",
-      "Insurance type affects pricing display (copay vs full price)",
-      "Users may have copay exemption status (Befreiungsausweis) stored"
+      "GesundheitsID authentication can fail for various reasons",
+      "Most failures are due to incomplete GesundheitsID setup",
+      "Users may not know how to set up GesundheitsID properly",
+      "Fallback to local pharmacy is acceptable alternative"
     ],
-    "userScenario": "After successful authentication, the user sees all retrieved prescriptions with checkboxes for multi-select. GKV users see copay amounts (€5 per medication) with an exemption toggle. PKV users see full prices with reimbursement notes. The total is calculated dynamically as selections change.",
+    "userScenario": "When GesundheitsID authentication fails, I want to understand why and how to fix it, so I can either retry or choose an alternative.",
     "pros": [
-      "Success banner confirms prescriptions were successfully retrieved",
-      "Multi-select enables ordering multiple medications in one transaction",
-      "Dynamic total updates as user toggles selections",
-      "Copay exemption checkbox is contextual—only shown to GKV users"
+      "Clear error messaging explains likely cause",
+      "Open PKV App button enables direct setup attempt",
+      "Try Again option allows immediate retry after fixing",
+      "Local pharmacy fallback prevents complete dead end"
     ],
     "cons": [
-      "Prescription list is hardcoded, not dynamically retrieved from TI",
-      "No indication if prescriptions are for the same condition or unrelated",
-      "Redeemed tab is empty—no historical data to display",
-      "Loading state uses artificial delay, not actual data fetch"
+      "Generic error message may not match actual failure reason",
+      "No specific guidance for different error types",
+      "Opening PKV app doesn't guarantee user will complete setup"
     ],
-    "impactIfWrong": "If the wrong prescriptions are shown, users might order incorrect medications. Wrong copay calculations could cause payment disputes. Missing prescriptions would require users to call their doctor."
+    "impactIfWrong": "If errors are due to system issues rather than user setup, the messaging misdirects users — would need error code parsing for accurate guidance."
   },
   "RX-012": {
-    "title": "Pharmacy Confirm",
+    "title": "Pharmacy Confirmation",
     "assumptions": [
-      "User has selected online pharmacy (Apo Group) as their fulfillment option",
-      "User understands their prescription data will be shared with the pharmacy partner",
-      "Standard delivery (1-2 business days) meets user's timing needs",
-      "User is willing to accept terms and authorize data transfer"
+      "Legal requirement: Users must consent to prescription data transfer",
+      "Apo Group is a certified online pharmacy partner",
+      "Free shipping is standard for prescription orders",
+      "1-2 day delivery meets user expectations for online pharmacy"
     ],
-    "userScenario": "Before placing the order, the user confirms they want Apo Group to fulfill their prescription. They see partner branding, delivery estimates (1-2 days, free shipping), and must accept terms authorizing prescription data transfer. This is a consent gate before finalizing the order.",
+    "userScenario": "When I've selected online pharmacy, I want to confirm the partner and agree to terms, so I understand who will fulfill my prescription.",
     "pros": [
-      "Partner card clearly identifies who will fulfill the prescription",
-      "Free shipping message removes potential cost concerns",
-      "Delivery estimate sets timing expectations (1-2 business days)",
-      "Checkbox consent ensures explicit authorization for data sharing"
+      "Partner branding builds trust before data transfer",
+      "Delivery estimate sets clear expectation for timing",
+      "Free shipping callout removes cost concern",
+      "Explicit consent checkbox ensures legal compliance"
     ],
     "cons": [
-      "No alternative pharmacy options presented—Apo Group is the only choice",
-      "Terms text is brief—doesn't link to full terms and conditions",
-      "Delivery estimate is generic—doesn't account for weekends or holidays",
-      "No mention of what happens if medication is out of stock"
+      "No alternative pharmacy option if user distrusts Apo Group",
+      "Terms agreement is required but terms aren't shown inline",
+      "No express delivery option for urgent medications"
     ],
-    "impactIfWrong": "If users don't realize their prescription data is shared, they may feel privacy was violated. Inaccurate delivery estimates cause frustration when packages are late."
+    "impactIfWrong": "If users want pharmacy choice, the single-partner model limits options — would need pharmacy selection or marketplace approach."
   },
   "RX-013": {
     "title": "Order Review",
     "assumptions": [
-      "User has confirmed pharmacy partner and wants to finalize the order",
-      "Delivery address is correct and on file from registration",
-      "Insurance type determines payment structure (copay vs full price with reimbursement)",
-      "E-Rezept discount or Privatrezept-Bonus is automatically applied"
+      "Delivery address is stored from registration",
+      "GKV users pay discounted copay; PKV users pay full price then submit for reimbursement",
+      "E-Rezept discount or Privatrezept bonus incentivizes digital redemption",
+      "Users want final price confirmation before payment"
     ],
-    "userScenario": "A final review screen shows delivery address, order summary with pricing, and applicable discounts. GKV users see insurance coverage breakdown and pay only the discounted copay (€2.50 after e-Rezept discount). PKV users see full price with reimbursement info and earn bonus credits. Final terms acceptance precedes payment.",
+    "userScenario": "When I've confirmed the pharmacy, I want to review my order details and final price, so I can verify everything before paying.",
     "pros": [
-      "Insurance-specific pricing breakdowns explain what user pays and why",
-      "E-Rezept-Rabatt incentivizes digital prescription redemption",
-      "PKV reimbursement info section explains the claim process",
-      "Edit button on address allows last-minute corrections"
+      "Insurance-aware pricing shows correct cost for user's situation",
+      "GKV insurance coverage breakdown explains price reduction",
+      "PKV reimbursement info sets expectation for post-purchase process",
+      "Edit option for delivery address enables corrections"
     ],
     "cons": [
-      "Delivery address is hardcoded placeholder, not user's actual address",
-      "Edit address button is non-functional",
-      "Terms checkbox state doesn't gate the payment button",
-      "No payment method selection—assumes default payment on file"
+      "Delivery address is hardcoded — not actual user data",
+      "Terms checkbox isn't pre-checked from previous screen",
+      "No payment method selection — assumes single payment option"
     ],
-    "impactIfWrong": "Wrong delivery address means medication goes to wrong location. Incorrect pricing calculations damage trust and may cause payment failures. Missing terms acceptance could create legal issues."
+    "impactIfWrong": "If PKV users don't understand the pay-then-reimburse model, full price may cause abandonment — would need clearer reimbursement guarantee messaging."
   },
   "RX-014": {
-    "title": "Order Success",
+    "title": "Order Confirmation",
     "assumptions": [
-      "Payment was successfully processed and order was submitted",
-      "Order number was generated and can be used for tracking",
-      "Delivery estimate is accurate based on shipping carrier SLAs",
-      "PKV users understand they need the Kostenbeleg for reimbursement"
+      "Users feel accomplished after successful order",
+      "Order number enables customer service inquiries",
+      "Delivery estimate is accurate within the stated range",
+      "PKV users need Kostenbeleg (receipt) for reimbursement"
     ],
-    "userScenario": "After successful payment, the user sees a celebratory confirmation with animated checkmark. The order card shows order number and estimated delivery window. PKV users see additional info about the reimbursement receipt (Kostenbeleg) that will be available after delivery. Users can track the order or return home.",
+    "userScenario": "When my order is placed, I want confirmation with delivery details, so I know when to expect my medication.",
     "pros": [
-      "Animated success checkmark creates positive emotional reinforcement",
-      "Order number and delivery estimate provide actionable information",
-      "PKV-specific Kostenbeleg section prepares users for reimbursement process",
-      "Preview Receipt link lets PKV users see what the document will contain"
+      "Celebratory animation creates positive emotional moment",
+      "Order number and delivery estimate provide practical info",
+      "PKV-specific Kostenbeleg preview prepares users for reimbursement",
+      "Track Order button enables delivery monitoring"
     ],
     "cons": [
-      "Track Order button is non-functional placeholder",
-      "No email/SMS confirmation mentioned—relies solely on in-app record",
-      "Delivery estimate is hardcoded, not calculated from actual shipping data",
-      "No option to modify or cancel the order if user notices an error"
+      "Track Order is non-functional in prototype",
+      "No confirmation email/SMS mentioned — users may worry",
+      "PKV receipt preview link may confuse GKV users if shown"
     ],
-    "impactIfWrong": "If order confirmation shows despite failed submission, user believes medication is coming when it isn't. Missing or inaccurate tracking causes anxiety about delivery status."
+    "impactIfWrong": "If delivery estimate is inaccurate, users lose trust — would need real-time carrier integration for accurate estimates."
   },
   "RX-015": {
-    "title": "Prescription Receipt",
+    "title": "Reimbursement Receipt",
     "assumptions": [
-      "Order has been delivered and Kostenbeleg is now available",
-      "PKV user needs this document to claim reimbursement from their insurer",
-      "Receipt contains all information required for insurance claim",
-      "User has storage/email access to save or send the document"
+      "PKV users need official Kostenbeleg PDF for insurer reimbursement",
+      "Receipt is available after delivery (not before)",
+      "Users want multiple export options (download, send to app, email)",
+      "Insurer apps can receive documents directly via share sheet"
     ],
-    "userScenario": "A PKV user accesses their reimbursement receipt (Kostenbeleg) after delivery to submit to their insurer. The screen shows the order details and PDF document info with options to download, send directly to their PKV app, or email to themselves. Next steps guidance explains the reimbursement process.",
+    "userScenario": "When my PKV order is delivered, I want to download my reimbursement receipt, so I can submit it to my insurer.",
     "pros": [
-      "Multiple sharing options (download, send to app, email) cover different workflows",
-      "File info (name, size) confirms the document is ready",
-      "Next steps guidance reduces confusion about what to do with the receipt",
-      "Clear purple theming connects to PKV-specific features throughout the app"
+      "Multiple export options accommodate different user preferences",
+      "Send to PKV App streamlines reimbursement workflow",
+      "Clear next steps guidance reduces post-purchase confusion",
+      "PDF format is standard for German insurance submissions"
     ],
     "cons": [
-      "All action buttons are non-functional placeholders",
-      "'Send to PKV App' would require integration with each insurer's app",
-      "No preview of the PDF content before downloading",
-      "Back navigation goes to /history which may not exist in prototype"
+      "Receipt is a prototype placeholder — not actual generated document",
+      "Send to PKV App assumes insurer app supports document receiving",
+      "No in-app reimbursement tracking after submission"
     ],
-    "impactIfWrong": "If receipt is missing or incomplete, PKV users cannot get reimbursed. Failed document delivery means users must contact support. Wrong amounts on receipt would result in incorrect reimbursement."
+    "impactIfWrong": "If insurer apps don't accept shared documents, that button creates dead end — would need to verify supported insurers or remove option."
   },
   "TH-001": {
-    "title": "Schedule Type",
+    "title": "Telehealth Schedule Type",
     "assumptions": [
-      "User has selected 'Video Consultation' from the booking type screen",
-      "Teleclinic partner integration provides the actual video call infrastructure",
-      "On-demand telehealth is available with ~15 minute wait times",
-      "User can also schedule video calls for specific future time slots"
+      "Users understand the difference between immediate and scheduled consultations",
+      "15-minute wait time is acceptable for 'Next Available' option",
+      "Teleclinic partnership provides video consultation infrastructure",
+      "Users have device with camera/microphone for video calls"
     ],
-    "userScenario": "A user who needs remote medical care chooses between seeing a doctor immediately (next available) or scheduling for a specific time. Users with acute but non-emergency issues typically choose 'Next Available' to minimize wait, while those with stable conditions may prefer scheduling around their work or personal calendar.",
+    "userScenario": "When I choose video consultation, I want to pick between seeing someone now or scheduling for later, so I can fit the consultation into my situation.",
     "pros": [
-      "Clear two-option choice prevents decision paralysis",
-      "Wait time estimate sets realistic expectations upfront",
-      "Teleclinic badge signals legitimate partner infrastructure",
-      "Reuses existing calendar flow for scheduled appointments"
+      "Separates urgent (immediate) vs planned (scheduled) use cases early",
+      "Wait time estimate sets realistic expectations for immediate option",
+      "Partner branding (Teleclinic) surfaces integration transparently",
+      "Large touch targets make selection easy on mobile"
     ],
     "cons": [
-      "~15 minute estimate is hardcoded—not pulled from real queue data",
-      "No indication of doctor specialty or availability for specific conditions",
-      "Pick a Time reuses booking calendar which may not match Teleclinic's actual schedule"
+      "15-minute estimate is static — actual wait times may vary",
+      "Schedule later option reuses booking calendar — may confuse video vs in-person",
+      "No indication of doctor availability for immediate consultations"
     ],
-    "impactIfWrong": "If wait time estimates are inaccurate, users may abandon mid-wait or miss their turn. If scheduled times don't match Teleclinic's availability, users could book phantom appointments."
+    "impactIfWrong": "If wait times are frequently longer than 15 minutes, users will distrust the estimate — would need real-time queue data or wider time range."
   },
   "TH-002": {
-    "title": "Symptoms Intro (1/3)",
+    "title": "Symptoms Selection",
     "assumptions": [
-      "User can identify their symptoms from a limited category list",
-      "Multi-select is appropriate because users often have overlapping symptoms",
-      "The 6 categories cover the most common telehealth use cases",
-      "Symptom data will be stored in booking draft for review screen"
+      "Users can categorize their symptoms into predefined categories",
+      "Six symptom categories cover most telehealth consultation reasons",
+      "Multi-select allows users with multiple concerns to indicate all of them",
+      "Symptom information helps doctor prepare before consultation"
     ],
-    "userScenario": "A user entering the telehealth symptom wizard selects one or more symptom categories that best describe their concern. This helps triage the consultation and gives the doctor context before the call. Users with multiple related issues (e.g., cold symptoms + headache pain) can select multiple categories.",
+    "userScenario": "When I'm booking a video consultation, I want to describe my main health concern, so the doctor can prepare and prioritize accordingly.",
     "pros": [
-      "Checkbox multi-select allows capturing co-occurring symptoms",
-      "Progress bar (1/3) sets clear expectations for wizard length",
-      "Large tap targets with visual feedback make mobile selection easy",
-      "Draft persistence means users can back out and return without losing data"
+      "Checkbox-style selection allows multiple symptoms",
+      "Progress bar (1/3) sets clear expectation for wizard length",
+      "Pre-defined categories reduce typing on mobile",
+      "'Other' option catches edge cases not covered by categories"
     ],
     "cons": [
-      "6 categories may not cover all conditions—'Other' is a catch-all",
-      "No urgency triage question to filter out emergencies",
-      "Mental health as a checkbox may feel dismissive of serious conditions",
-      "No guidance on which category to choose for ambiguous symptoms"
+      "Six categories may not cover all user concerns adequately",
+      "No free-text input at this step for users who want to describe specifics",
+      "Categories are broad — 'Pain/Injury' covers vastly different issues"
     ],
-    "impactIfWrong": "If categories don't match user's condition, they may choose 'Other' and the doctor gets no useful pre-call context. Missing emergency triage could delay critical care."
+    "impactIfWrong": "If users can't find their symptom category, they may select wrong option or 'Other' without context — would need more categories or symptom search."
   },
   "TH-003": {
-    "title": "Symptoms Details (2/3)",
+    "title": "Symptoms Duration & Severity",
     "assumptions": [
-      "Symptom duration affects clinical decision-making",
-      "Users can accurately estimate how long they've had symptoms",
-      "1-10 pain scale is a familiar self-reporting mechanism",
-      "Duration buckets (<24h, 1-3d, 4-7d, >7d) are clinically meaningful"
+      "Duration and pain level are clinically relevant for triage",
+      "Users can accurately estimate symptom duration in days",
+      "1-10 pain scale is familiar from medical contexts",
+      "Slider interaction works well on mobile touchscreens"
     ],
-    "userScenario": "A user provides additional clinical context by indicating how long they've had symptoms and rating their discomfort level. This helps the doctor assess urgency and severity before the consultation. A user with a 2-day cold and mild discomfort (3/10) presents differently than one with week-long pain at 8/10.",
+    "userScenario": "When I've selected my symptoms, I want to indicate how long I've had them and how severe they are, so the doctor understands urgency.",
     "pros": [
-      "Radio buttons enforce single selection for duration (mutually exclusive)",
-      "Large slider with prominent number display makes pain rating intuitive",
-      "Mild/Severe labels anchor the pain scale for consistent interpretation",
-      "Duration options cover acute through chronic symptom timelines"
+      "Duration options cover typical telehealth timeframes",
+      "Visual pain slider with large number display is easy to use",
+      "Radio buttons prevent ambiguous selections",
+      "Progress bar (2/3) shows wizard progress"
     ],
     "cons": [
-      "Pain scale is generic—not tailored to specific symptom categories from step 1",
+      "Pain scale is subjective — 5/10 means different things to different people",
       "No option for intermittent symptoms (comes and goes)",
-      "Pain rating may not apply to all conditions (e.g., skin issues, mental health)",
-      "Duration doesn't capture whether symptoms are getting better or worse"
+      "Slider requires precise touch — may be difficult on small screens"
     ],
-    "impactIfWrong": "If duration/severity data is misinterpreted or irrelevant to the condition, doctor may over or under-estimate urgency. Users with non-pain symptoms may find the slider confusing."
+    "impactIfWrong": "If pain scale isn't calibrated to clinical expectations, doctors may misjudge urgency — would need reference examples for each level."
   },
   "TH-004": {
-    "title": "Symptoms Info (3/3)",
+    "title": "Additional Information",
     "assumptions": [
-      "Free-text notes are valuable for context the wizard didn't capture",
-      "Photo uploads are optional but can help with visual conditions (rashes, injuries)",
-      "Users are willing to type additional details on mobile",
-      "Medical history and medications are stored elsewhere in profile"
+      "Free-text allows users to provide context not captured by structured questions",
+      "Photo upload is optional but valuable for visual symptoms (skin, injuries)",
+      "Users want to share relevant medical history before the call",
+      "Text area is preferable to voice input for most users"
     ],
-    "userScenario": "A user completes the symptom intake by adding free-form notes about anything the structured questions missed. For visible conditions like skin issues, they can indicate they've uploaded photos. A user with a rash might note 'appeared after hiking' or 'allergic to penicillin' to give the doctor critical context.",
+    "userScenario": "When I've described my symptoms, I want to add any additional context or upload photos, so the doctor has complete information.",
     "pros": [
-      "Open text field captures edge cases the structured wizard missed",
-      "Photo checkbox signals readiness to share visual evidence",
-      "Full progress bar (3/3) confirms user is at the final intake step",
-      "Review button label prepares user for confirmation before booking"
+      "Open text field captures nuance not covered by categories",
+      "Photo upload checkbox indicates option exists",
+      "Progress bar (3/3) shows final step of wizard",
+      "Optional nature reduces pressure to provide lengthy details"
     ],
     "cons": [
-      "Photo upload is a checkbox only—no actual upload UI implemented",
-      "No character limit or guidance on what to include in notes",
-      "Doesn't pull existing medical history from profile to pre-populate",
-      "No prompts for common important info (allergies, current medications)"
+      "Photo upload is a checkbox, not actual upload functionality",
+      "No character limit guidance — users may write too much or too little",
+      "No voice-to-text option for users who prefer speaking"
     ],
-    "impactIfWrong": "If users skip notes and photo upload isn't functional, doctors lose valuable diagnostic context. Missing allergy info could lead to unsafe prescriptions."
+    "impactIfWrong": "If users expect actual photo upload and it's not functional, they'll be frustrated — would need real file upload or remove the option."
   },
   "TH-005": {
-    "title": "Telehealth Review",
+    "title": "Consultation Review",
     "assumptions": [
-      "User needs to review all symptom data before committing to consultation",
-      "Consent checkbox is legally required before telehealth services",
-      "Insurance will cover telehealth consultations (GKV benefit)",
-      "User understands this is not for emergencies (119 consent language)"
+      "Users want to verify symptom information before joining queue",
+      "Insurance coverage for video consultations is pre-verified",
+      "Edit functionality allows corrections without restarting",
+      "Consent is legally required before telehealth consultation"
     ],
-    "userScenario": "A user reviews their symptom intake summary and cost information before confirming the video consultation. They must acknowledge consent terms—particularly that this isn't for life-threatening emergencies—before proceeding. The edit button lets them fix any mistakes without starting over.",
+    "userScenario": "When I've completed the symptom wizard, I want to review all details before confirming, so I can catch any mistakes.",
     "pros": [
-      "Clear summary of symptoms, duration, and type before commitment",
-      "Edit button allows corrections without re-entering the full wizard",
-      "Cost transparency ('Covered by insurance') removes financial uncertainty",
-      "Emergency disclaimer protects both user and provider from misuse"
+      "All symptom data visible in scannable card format",
+      "Edit link enables corrections without restarting wizard",
+      "Insurance coverage callout removes cost uncertainty",
+      "Emergency disclaimer sets appropriate expectations"
     ],
     "cons": [
-      "Consent checkbox is minimal—no link to full terms document",
-      "Insurance coverage assumes GKV—PKV users may have different cost rules",
-      "~15 min wait is still an estimate, may have changed since schedule screen",
-      "No option to add additional symptoms discovered while reviewing"
+      "'Covered by insurance' is static — doesn't verify actual coverage",
+      "Consent checkbox text is long for mobile screens",
+      "No option to add or change symptoms from this screen"
     ],
-    "impactIfWrong": "If consent language is insufficient, users may still try to use telehealth for emergencies. If cost display is wrong, PKV users could face unexpected bills."
+    "impactIfWrong": "If insurance coverage varies and users are charged unexpectedly, trust is broken — would need real-time insurance verification."
   },
   "TH-006": {
-    "title": "Confirmation",
+    "title": "Consultation Scheduled",
     "assumptions": [
-      "User has completed symptom intake and consented to terms",
-      "Video appointment is created and stored in appointments list",
-      "Booking draft is cleared after successful confirmation",
-      "User can choose to wait immediately or be notified when their turn comes"
+      "Users feel accomplished after booking confirmation",
+      "15-minute wait estimate is accurate for queue position",
+      "Users want choice between waiting in-app or getting notified",
+      "Notification option allows users to multitask while waiting"
     ],
-    "userScenario": "A user sees confirmation that their consultation is scheduled and must decide: join the waiting room now, or leave and get a push notification when the doctor is ready. Users at home typically join immediately, while those on-the-go may prefer the notification option to continue other activities.",
+    "userScenario": "When my consultation is confirmed, I want to know my wait time and choose how to wait, so I can manage my time effectively.",
     "pros": [
-      "Success animation provides satisfying visual feedback",
-      "Two clear options accommodate different user situations",
-      "Wait time estimate is repeated to reinforce expectations",
-      "Appointment is persisted so it appears in appointments list"
+      "Clear confirmation with estimated wait time",
+      "Two wait options accommodate different user preferences",
+      "Join Waiting Room provides immediate next step",
+      "Notification option reduces forced waiting"
     ],
     "cons": [
-      "Notification option is UI-only—no actual push notification implemented",
-      "No cancel or reschedule option if user changes their mind",
-      "Wait time may have changed since they started the flow",
-      "No SMS/email confirmation sent with appointment details"
+      "15-minute estimate is static — doesn't update based on queue",
+      "Notification option may not trigger real notifications in prototype",
+      "No option to cancel or reschedule from this screen"
     ],
-    "impactIfWrong": "If notification option doesn't work, users who leave may miss their consultation window. If appointment isn't saved correctly, it won't appear in their history."
+    "impactIfWrong": "If notification doesn't work, users may miss their consultation — would need reliable push notification infrastructure."
   },
   "TH-007": {
     "title": "Waiting Room",
     "assumptions": [
-      "User has confirmed their telehealth consultation and joined the queue",
-      "Camera and microphone access will be requested before the call",
-      "Queue position and wait time are meaningful to users",
-      "Auto-transition to video call when it's the user's turn (simulated at 4 seconds)"
+      "Users want visual confirmation their camera and microphone work",
+      "Queue position and wait time help manage expectations",
+      "Camera preview builds confidence before call starts",
+      "Auto-advance to call simulates real queue progression"
     ],
-    "userScenario": "A user waits in a virtual queue while the doctor finishes with the previous patient. They can preview their camera feed to ensure lighting and framing are good, test their microphone, and see their queue position (e.g., 'Position: 2'). The animated wait indicator and tips help pass time productively.",
+    "userScenario": "When I'm waiting for my consultation, I want to see my queue position and test my camera, so I'm ready when it's my turn.",
     "pros": [
-      "Camera preview lets users check their appearance before the call",
-      "Queue position + time estimate reduces uncertainty about the wait",
-      "Test buttons for camera/mic help troubleshoot AV issues early",
-      "Tip card provides useful guidance for better consultation quality"
+      "Camera preview lets users verify they look presentable",
+      "Queue position (#2) provides concrete waiting context",
+      "Hardware test buttons help troubleshoot before call",
+      "Preparation tip encourages optimal consultation environment"
     ],
     "cons": [
-      "Queue position is hardcoded—not connected to real queue system",
-      "Camera preview is a static placeholder, not actual camera feed",
-      "Leave waiting room option is just a link—no confirmation dialog",
-      "4-second auto-transition is too fast to read the screen in demo"
+      "Camera preview is simulated — no actual camera access",
+      "Queue position and wait time are static, not real-time",
+      "4-second auto-advance doesn't represent real queue waiting"
     ],
-    "impactIfWrong": "If queue data is inaccurate, users may leave thinking they have time and miss their turn. If AV test doesn't work, users discover issues only when the call starts."
+    "impactIfWrong": "If camera preview shows nothing but real camera works, users may think their setup is broken — would need actual camera integration."
   },
   "TH-008": {
     "title": "Video Call",
     "assumptions": [
-      "WebRTC or equivalent video infrastructure is provided by Teleclinic",
-      "User has granted camera and microphone permissions",
-      "Call duration tracking helps users and doctors manage consultation length",
-      "Standard video call controls (mute, camera off, end call) are expected"
+      "Dark UI is standard for video call applications",
+      "Users are familiar with video call controls (mute, camera, end)",
+      "Call duration display helps users track consultation time",
+      "Picture-in-picture self-view is expected from video apps"
     ],
-    "userScenario": "A user is in an active video consultation with a doctor. They can see the doctor's video feed (or avatar), a picture-in-picture preview of themselves, and the call duration. Standard controls let them mute/unmute, toggle camera, or end the call. The dark UI minimizes distraction during the medical conversation.",
+    "userScenario": "When my consultation starts, I want standard video call controls, so I can focus on talking to the doctor rather than figuring out the interface.",
     "pros": [
-      "Full-screen doctor view with PIP self-view follows video call conventions",
-      "Running timer helps both parties track consultation length",
-      "Toggle states (mic/cam on/off) are visually distinct",
-      "Red end-call button is prominent and hard to hit accidentally"
+      "Familiar video call layout matches Zoom/FaceTime patterns",
+      "Large end call button is easy to find in emergencies",
+      "Self-view PIP shows what doctor sees",
+      "Call duration timer helps track consultation length"
     ],
     "cons": [
-      "No actual video feed—just placeholder UI for demo purposes",
-      "Chat button exists but no text chat functionality implemented",
-      "No network quality indicator or reconnection handling shown",
-      "Ending call immediately transitions to summary—no 'are you sure?' prompt"
+      "Video feeds are simulated — no actual WebRTC connection",
+      "Chat button is visible but functionality isn't demonstrated",
+      "No connection quality indicator or troubleshooting"
     ],
-    "impactIfWrong": "If video infrastructure fails, users see a blank screen and lose their consultation. If controls don't work, users may be unable to hear/see the doctor."
+    "impactIfWrong": "If actual video quality is poor, users need quality indicators — would need connection status and fallback to audio-only."
   },
   "TH-009": {
-    "title": "Telehealth Summary",
+    "title": "Consultation Summary",
     "assumptions": [
-      "Consultation has ended and the video appointment is marked complete",
-      "Doctor's diagnosis and recommendations are available post-call",
-      "Users value the ability to rate their experience",
-      "Follow-up booking is a common next action after consultations"
+      "Doctors provide diagnosis and recommendations during consultation",
+      "Users want written summary of consultation for reference",
+      "Follow-up booking is common post-consultation action",
+      "Star rating helps improve telehealth service quality"
     ],
-    "userScenario": "A user reviews the summary of their completed consultation, including the doctor's diagnosis (e.g., 'Common cold') and treatment recommendations. They can rate the experience with a 5-star system and optionally book a follow-up appointment. This screen serves as both closure and a gateway to continued care.",
+    "userScenario": "When my consultation ends, I want a summary of the diagnosis and recommendations, so I can follow the doctor's advice.",
     "pros": [
-      "Clear summary of diagnosis and recommendations for future reference",
-      "Star rating system is familiar and quick to complete",
-      "Follow-up booking CTA is contextually relevant right after consultation",
-      "Appointment marked as completed in storage for history tracking"
+      "Structured summary with diagnosis and recommendations",
+      "Follow-up booking CTA enables continuity of care",
+      "Star rating provides simple feedback mechanism",
+      "Consultation marked as completed in appointment history"
     ],
     "cons": [
-      "Diagnosis/recommendations are hardcoded demo data, not from actual doctor",
-      "No way to download or share the consultation summary",
-      "No link to any prescriptions that may have been issued during the call",
-      "Rating isn't submitted anywhere—just local state for demo"
+      "Summary content is static placeholder, not from actual consultation",
+      "No prescription or sick note generation mentioned",
+      "Rating has no visible impact or thank-you feedback"
     ],
-    "impactIfWrong": "If summary data doesn't match what the doctor actually said, users may follow incorrect advice. If rating system is broken, user feedback is lost."
+    "impactIfWrong": "If users expect prescriptions to be issued here, the lack of that feature would disappoint — would need e-prescription integration for telehealth."
   },
   "TH-010": {
-    "title": "Teleclinic Simulated",
+    "title": "Teleclinic Partner Handoff",
     "assumptions": [
-      "Teleclinic is a real third-party telehealth provider with their own booking flow",
-      "Deep linking or WebView integration passes the user to Teleclinic's interface",
-      "User's symptoms from the app flow should pre-populate consultation reason",
-      "Appointment booked in Teleclinic must sync back to the app's appointments list"
+      "Teleclinic is an external partner with its own booking interface",
+      "Browser chrome simulation conveys 'external website' context",
+      "Users accept being redirected to partner platforms",
+      "Partner-booked appointments sync back to MedAlpha"
     ],
-    "userScenario": "A user who chose 'Pick a Time' on the schedule screen is redirected to Teleclinic's booking interface. The simulated browser chrome (URL bar, nav buttons) shows this is an external partner experience. Users select a consultation reason and available time slot, then book. The confirmed appointment syncs back to the app's appointments list.",
+    "userScenario": "When I'm redirected to Teleclinic, I want to complete booking in their interface, so my appointment is properly scheduled with their system.",
     "pros": [
-      "Browser chrome UI signals this is a partner handoff, not native app",
-      "Dynamic time slots based on current time feel realistic",
-      "Symptoms from prior wizard pre-populate the reason list",
-      "Appointment is saved to local storage, appearing in appointments list"
+      "Browser chrome clearly indicates external partner context",
+      "Simple reason and time selection mirrors partner UI patterns",
+      "Appointment saves back to MedAlpha appointments list",
+      "Loading and confirmation states provide clear feedback"
     ],
     "cons": [
-      "Simulated UI doesn't match real Teleclinic branding or flow",
-      "No actual OAuth or session handoff—user context isn't really shared",
-      "Cancel returns to booking/type, not a proper back navigation",
-      "Loading state is artificial delay, not real API communication"
+      "Simulated browser may confuse users expecting real redirect",
+      "Cancel returns to MedAlpha but no back navigation within flow",
+      "Time slots are generated dynamically — may not match real availability"
     ],
-    "impactIfWrong": "If real Teleclinic integration differs significantly, users will be confused by the transition. If appointment sync fails, users won't see their booking in the app."
+    "impactIfWrong": "If real Teleclinic integration differs significantly, users may be confused by actual partner UI — would need closer alignment or embedded booking."
   },
   "PHR-001": {
-    "title": "Pharmacy Map",
+    "title": "Pharmacy Map View",
     "assumptions": [
-      "User has location services enabled or has provided a default location",
-      "Pharmacy data includes coordinates for map pin placement",
-      "Users prefer visual spatial context when choosing a pharmacy",
-      "Bottom sheet preview reduces need to tap into full list"
+      "Users prefer seeing pharmacies on a map for spatial context",
+      "Location services are available to determine user's position",
+      "Nearest pharmacy preview helps users quickly find closest option",
+      "Map pins are tappable to access pharmacy details"
     ],
-    "userScenario": "A user with an e-prescription needs to find a nearby pharmacy to pick it up. They open the pharmacy finder expecting a map-centric view that shows locations relative to their position. Users typically scan pins visually to find the closest option, then tap for details.",
+    "userScenario": "When I choose local pharmacy pickup, I want to see nearby pharmacies on a map, so I can find one that's convenient to reach.",
     "pros": [
-      "Map-first design matches mental model of 'finding nearby'",
-      "Pulsing user location indicator provides spatial orientation",
-      "Bottom sheet preview shows nearest pharmacy without extra tap",
-      "Search bar filters map pins in real-time"
+      "Visual map provides spatial orientation for pharmacy locations",
+      "User location dot shows relative position to pharmacies",
+      "Bottom sheet preview surfaces nearest pharmacy without tap",
+      "View List link enables switch to list-based browsing"
     ],
     "cons": [
-      "Fake map pattern (dots) doesn't show real streets or landmarks",
-      "No actual GPS integration—location is simulated",
-      "Pin positions are hardcoded, not derived from real coordinates",
-      "Can't drag/zoom the map to explore further areas"
+      "Map is a styled placeholder — no real mapping integration",
+      "Pin positions are hardcoded, not based on actual coordinates",
+      "Search filters only by name/address, not by services"
     ],
-    "impactIfWrong": "If users expect real map functionality, the static dots pattern may confuse them. Without actual location services, the 'nearby' concept loses meaning."
+    "impactIfWrong": "If users expect real map navigation, the placeholder breaks immersion — would need Google Maps or Mapbox integration."
   },
   "PHR-002": {
-    "title": "Pharmacy List",
+    "title": "Pharmacy List View",
     "assumptions": [
-      "Some users prefer scanning a list over interpreting a map",
-      "Filters like 'Open Now' and '24 Hours' are high-priority for prescription pickup",
-      "Distance data is available and meaningful for sorting",
-      "Pharmacy data includes ratings and reviews"
+      "Users want to browse multiple pharmacies with detailed info",
+      "Filter pills cover primary pharmacy selection criteria",
+      "Open Now filter is most common use case for immediate pickup",
+      "Distance and ratings help users compare options"
     ],
-    "userScenario": "A user who knows roughly what they need (e.g., a pharmacy open late or one with delivery) wants to quickly scan options and filter. List view suits users who are comparison-shopping rather than purely proximity-driven. They may filter by 'Open Now' if it's evening or '24 Hours' for emergencies.",
+    "userScenario": "When I want to compare pharmacy options, I want to see a list with ratings and hours, so I can choose the best one for my needs.",
     "pros": [
-      "Filter chips enable quick narrowing without leaving the view",
-      "Each card shows key decision factors: name, distance, status, rating",
-      "Staggered animation adds polish without slowing interaction",
-      "Empty state guides users to adjust filters rather than showing nothing"
+      "Filter pills enable quick narrowing by common criteria",
+      "Search allows finding specific pharmacy by name or address",
+      "Card layout shows rating, hours, and distance at glance",
+      "Empty state guides users to adjust filters"
     ],
     "cons": [
-      "Distance values are static—not recalculated from user's actual location",
-      "Delivery filter exists but no delivery flow is implemented",
-      "No way to combine map and list views simultaneously",
-      "Rating data is mock—no real review aggregation"
+      "Filters are OR-based — can't combine Open Now + Delivery",
+      "No sort options beyond 'Highest Rated' filter",
+      "Loading delay per card may feel slow on long lists"
     ],
-    "impactIfWrong": "If filters suggest functionality that doesn't exist (like delivery), users may be disappointed. Static distance values could send users to a pharmacy that isn't actually closest."
+    "impactIfWrong": "If users need combined filters (Open + Delivery), single-select filters are insufficient — would need multi-filter support."
   },
   "PHR-003": {
     "title": "Pharmacy Detail",
     "assumptions": [
-      "Users need full hours and contact info before visiting",
-      "'Reserve Prescription' creates a local record the user can reference",
-      "Users may need directions or want to call ahead",
-      "E-prescription redemption requires presenting Gesundheitskarte at counter"
+      "Users want full details before visiting or reserving",
+      "Reserve Prescription creates a pickup hold at the pharmacy",
+      "Directions and Call enable immediate real-world actions",
+      "Hours detail helps users plan their visit time"
     ],
-    "userScenario": "A user has selected a pharmacy and wants to confirm it meets their needs before traveling. They check hours to ensure it's open, review the address, and may reserve their prescription so the pharmacy can prepare it. Some users call ahead to confirm stock availability.",
+    "userScenario": "When I select a pharmacy, I want to see full details including hours and contact info, so I can decide if it's right for me.",
     "pros": [
-      "Comprehensive info card layout covers address, hours, and contact",
-      "Reserve Prescription action gives user sense of commitment",
-      "Get Directions and Call buttons reduce friction for next steps",
-      "Info note reminds users of Gesundheitskarte requirement upfront"
+      "Complete info: address, hours, phone, email on one screen",
+      "Reserve Prescription creates actionable pickup intent",
+      "Get Directions enables navigation to pharmacy location",
+      "Call Pharmacy enables immediate phone contact"
     ],
     "cons": [
-      "Reserve Prescription only saves locally—no actual pharmacy notification",
-      "Get Directions doesn't open maps app (no deep link)",
-      "Call button doesn't initiate phone call (no tel: link)",
-      "No stock availability or prescription fulfillment time estimate"
+      "Reserve Prescription saves locally — no actual pharmacy integration",
+      "Get Directions is non-functional in prototype",
+      "No information about services (compounding, vaccines, etc.)"
     ],
-    "impactIfWrong": "If users believe 'Reserve Prescription' notifies the pharmacy, they may arrive expecting their order to be ready. Non-functional direction and call buttons break expected mobile patterns."
+    "impactIfWrong": "If reservation doesn't notify the pharmacy, users arrive to find prescription not ready — would need real pharmacy API integration."
   },
   "APT-001": {
     "title": "Appointments List",
     "assumptions": [
-      "Users want a single view for all upcoming appointments",
-      "Smart Match bookings need a 'processing' state while awaiting doctor confirmation",
-      "Filter by appointment type (in-person vs video) is a common need",
-      "Push notifications for booking confirmation improve engagement"
+      "Users want to see upcoming appointments in a dedicated view",
+      "Smart Match processing state is visible while async booking confirms",
+      "Filter pills (All, In-Person, Video) cover main viewing needs",
+      "FAB provides quick access to book new appointment"
     ],
-    "userScenario": "A user opens the app to check their upcoming appointments. They may have booked via Smart Match (still awaiting confirmation) or directly. The list shows all scheduled visits in one place, letting users quickly see what's coming up and tap into details for any appointment.",
+    "userScenario": "When I open the appointments tab, I want to see all my upcoming appointments, so I can plan my schedule and prepare.",
     "pros": [
-      "Processing state with animation clearly signals pending Smart Match confirmation",
-      "Filter chips let users focus on specific appointment types",
-      "Loading skeletons prevent layout shift while data loads",
-      "FAB provides quick access to new booking flow"
+      "Processing state shows Smart Match bookings awaiting confirmation",
+      "Push notification banner alerts when appointments conclude",
+      "Filter pills enable quick switch between appointment types",
+      "FAB provides prominent booking entry point"
     ],
     "cons": [
-      "Smart Match webhook simulation (5s delay) is hardcoded, not real-time",
-      "No real push notification system—just in-app banner simulation",
-      "Doctor assignment is random, not based on actual availability",
-      "Past appointments moved to separate History tab—users must navigate away"
+      "Past appointments moved to separate History tab — requires extra navigation",
+      "Processing state simulation uses hardcoded 5-second delay",
+      "No sort options (by date, by doctor, etc.)"
     ],
-    "impactIfWrong": "If processing state lingers without resolution, users may think the app is broken. Simulated push notifications may set expectations for system-level alerts that don't exist."
+    "impactIfWrong": "If users expect to see past appointments here, the separation may confuse them — would need combined view with toggle or clearer tab labels."
   },
   "APT-002": {
     "title": "Appointment Detail",
     "assumptions": [
-      "Users need to review appointment details before attending",
-      "Cancellation requires confirmation to prevent accidental taps",
-      "Reschedule links back to calendar flow rather than inline editing",
-      "Directions link to external maps app via Google Maps URL"
+      "Users want full details and actions for a specific appointment",
+      "Get Directions links to actual mapping service",
+      "Add to Calendar creates device calendar event",
+      "Cancel requires confirmation to prevent accidents"
     ],
-    "userScenario": "A user taps an appointment from the list to see full details—doctor info, clinic address, date/time, and what to bring. They may add it to their device calendar, get directions, reschedule for a better time, or cancel if their situation changed.",
+    "userScenario": "When I tap on an appointment, I want to see all details and available actions, so I can prepare for the visit or make changes.",
     "pros": [
-      "Summary card consolidates doctor, location, and timing in scannable layout",
-      "'What to Bring' checklist reduces pre-visit anxiety",
-      "Cancel confirmation dialog prevents accidental cancellations",
-      "Get Directions opens Google Maps with clinic query"
+      "Complete info: doctor, specialty, location, date/time on one screen",
+      "Get Directions opens Google Maps with clinic location",
+      "Destructive cancel action requires confirmation dialog",
+      "'What to bring' checklist helps users prepare for visit"
     ],
     "cons": [
-      "Clinic address is hardcoded (Friedrichstraße 123)—not pulled from appointment data",
-      "Rating is static (4.8)—not connected to real reviews",
-      "'Add to Calendar' shows toast but doesn't create actual calendar event",
-      "Reschedule redirects to generic calendar, not pre-filled with current appointment"
+      "Reschedule goes to calendar — may lose context of which appointment",
+      "No video call join button for telehealth appointments",
+      "Clinic address is hardcoded, not from actual booking data"
     ],
-    "impactIfWrong": "Hardcoded addresses could send users to wrong locations. Non-functional calendar integration may frustrate users who rely on reminders."
+    "impactIfWrong": "If video appointments don't show join button, users can't start calls — would need appointment-type-aware action buttons."
   },
   "HIST-001": {
-    "title": "History",
+    "title": "Appointment History",
     "assumptions": [
-      "Past appointments should be separate from upcoming to reduce list clutter",
-      "Grouping by month helps users locate specific visits",
-      "Search across doctor, specialty, and clinic covers common lookup patterns",
-      "Cancelled appointments are still valuable to show (e.g., for rebooking)"
+      "Users want to review past appointments for reference",
+      "Completed and cancelled appointments are both relevant history",
+      "Grouping by month helps users find specific past visits",
+      "Search helps users find specific doctors or clinics"
     ],
-    "userScenario": "A user wants to recall a past appointment—perhaps to rebook with the same doctor, reference a diagnosis date, or check which specialist they saw. They scroll through month-grouped history or use search to find the specific visit.",
+    "userScenario": "When I want to review past appointments, I want to search and browse by date, so I can find records of previous visits.",
     "pros": [
-      "Month grouping creates natural timeline structure",
-      "Search covers doctor name, specialty, and clinic",
-      "Visual distinction between completed (green) and cancelled (red) status",
-      "Cards link to detail view for full appointment info"
+      "Month-based grouping provides temporal organization",
+      "Search filters by doctor, specialty, or clinic name",
+      "Status badges distinguish completed from cancelled",
+      "Type filters (All, In-Person, Video) narrow results"
     ],
     "cons": [
-      "€0.00 amount shown on all cards—no real cost tracking",
-      "No export or download of appointment history",
-      "No prescription or diagnosis info shown in history cards",
-      "Clicking cancelled appointments shows same detail screen as completed ones"
+      "No export or print functionality for records",
+      "Amount shown is placeholder €0.00 — not actual cost",
+      "Tapping history item goes to detail but no history-specific actions"
     ],
-    "impactIfWrong": "If users expect cost tracking or medical records from history, the prototype will underwhelm. Lack of differentiation between cancelled and completed detail views may confuse users."
+    "impactIfWrong": "If users need appointment records for insurance claims, the lack of export would frustrate them — would need PDF export or receipt download."
   },
   "PRF-001": {
-    "title": "Profile",
+    "title": "Profile Hub",
     "assumptions": [
-      "Users need a central hub to access all account-related settings",
-      "Profile data (name, email) loads from localStorage after brief delay",
-      "Insurance type (GKV vs PKV) determines which insurance detail page to navigate to",
-      "Logout requires confirmation to prevent accidental sign-outs"
+      "Users want centralized access to all account settings",
+      "Profile photo and name provide identity confirmation",
+      "Menu groupings (Account, Support) help users find settings quickly",
+      "Sign out requires confirmation to prevent accidental logout"
     ],
-    "userScenario": "A user opens their profile to manage account settings, update insurance information, or change app preferences. The screen serves as a navigation hub with grouped menu items for Account, Support, and Legal sections, plus a prominent sign-out option.",
+    "userScenario": "When I tap the profile tab, I want to see my account overview and access settings, so I can manage my personal information and preferences.",
     "pros": [
-      "Grouped menu sections (Account, Support) reduce cognitive load",
-      "Avatar and name at top creates personal connection to the app",
-      "Logout confirmation dialog prevents accidental sign-outs",
-      "Language preference shown inline with current selection"
+      "Clear menu organization with Account and Support sections",
+      "Profile photo and name visible immediately for identity confirmation",
+      "Language setting shows current selection inline",
+      "Sign out button is visually distinct (red) to indicate destructive action"
     ],
     "cons": [
-      "Notifications menu item shows 'Coming soon' toast—no real notification settings",
-      "Insurance routing logic depends on localStorage type which may be unset",
-      "No account deletion option—users must contact support",
-      "Linked accounts count is hardcoded to '1 connected'"
+      "Insurance route depends on stored type — may confuse users who changed types",
+      "Notifications link shows 'Coming soon' toast — feels incomplete",
+      "No edit button directly on profile header for quick access"
     ],
-    "impactIfWrong": "If insurance type is missing or corrupted, users may be routed to the wrong insurance page (GKV vs PKV), causing confusion about their coverage settings."
+    "impactIfWrong": "If users expect to edit profile from the header, the lack of tap-to-edit would frustrate them — would need to make header tappable."
   },
   "PRF-002": {
-    "title": "Edit Profile",
+    "title": "Edit Personal Info",
     "assumptions": [
-      "Most profile fields are managed by partner SSO (dm) and cannot be edited directly",
-      "Only phone number is user-editable in this prototype",
-      "Date of birth changes require support contact for identity verification",
-      "Unsaved changes should trigger a confirmation dialog before leaving"
+      "Some fields are managed by dm partner SSO and can't be edited directly",
+      "Phone number is editable because it's user-owned",
+      "Date of birth changes require support for legal/verification reasons",
+      "Unsaved changes warning prevents accidental data loss"
     ],
-    "userScenario": "A user wants to update their contact information. They discover most fields (name, email, address) are locked because they're managed by their dm account. Only the phone number can be edited directly, with validation ensuring German format (+49).",
+    "userScenario": "When I need to update my contact info, I want to edit my phone number and see what's managed elsewhere, so I know what I can change.",
     "pros": [
-      "Lock icons clearly indicate which fields are managed externally",
+      "Lock icons clearly indicate which fields are externally managed",
       "'Managed by dm' links explain why fields are read-only",
-      "Dirty state tracking prevents accidental data loss",
-      "Phone validation ensures consistent German number format"
+      "Phone validation ensures correct German format",
+      "Discard changes dialog prevents accidental navigation"
     ],
     "cons": [
-      "Most fields locked creates frustration if user needs to fix a typo",
-      "No inline explanation of WHY external management exists",
-      "Address shows 'No address on file' if empty—no way to add one",
-      "'Managed by dm' links don't actually navigate anywhere"
+      "Many fields are locked — limited editing capability may frustrate users",
+      "Support link for DOB changes doesn't provide direct contact",
+      "No profile photo editing option on this screen"
     ],
-    "impactIfWrong": "If phone validation is too strict, users with valid numbers may be unable to save. If too lenient, appointment confirmation SMS could fail to deliver."
+    "impactIfWrong": "If users can't update fields they expect to control, frustration increases — would need clearer guidance on where to make changes."
   },
   "PRF-003": {
-    "title": "Linked Accounts",
+    "title": "GKV Insurance Settings",
     "assumptions": [
-      "Users may have accounts with retail partners (dm, PAYBACK) or their insurance provider",
-      "Linking accounts enables faster SSO login and benefit syncing",
-      "Connection state persists in localStorage across sessions",
-      "dm is pre-connected by default since it's the primary SSO partner"
+      "GKV users know their insurance provider from a short list",
+      "Insurance number follows German format: Letter + 9 digits",
+      "Insurance type changes require support for verification reasons",
+      "Rescan health card enables updating insurance info via NFC"
     ],
-    "userScenario": "A user wants to connect their PAYBACK account to earn points on health bookings. They see which accounts are already connected (dm by default), can unlink existing connections, and connect new partners with a single tap.",
+    "userScenario": "When I need to update my public insurance details, I want to change my provider or rescan my card, so my insurance info stays current.",
     "pros": [
-      "Clear separation between 'Connected' and 'Available' sections",
-      "Unlink action is prominent and requires no confirmation (easy to reverse)",
-      "Brief descriptions explain the benefit of each connection",
-      "Instant feedback via toast messages on connect/unlink"
+      "Provider dropdown covers major GKV insurers",
+      "Insurance number format hint helps users enter correctly",
+      "Rescan button enables re-reading health card data",
+      "Type change locked with support escalation path"
     ],
     "cons": [
-      "No actual OAuth flow—toggling just flips a boolean in localStorage",
-      "Connection date is hardcoded to 'January 15, 2026'",
-      "Insurance provider label pulled from saved data may be stale",
-      "No confirmation before unlinking an account"
+      "Provider list is limited — may not include user's GKV",
+      "Rescan button is non-functional in prototype",
+      "No card preview or validation of scanned data"
     ],
-    "impactIfWrong": "If linked account state doesn't persist correctly, users may lose SSO access or miss PAYBACK points on future bookings."
+    "impactIfWrong": "If user's GKV isn't in dropdown, they can't select it — would need 'Other' option or searchable provider list."
   },
   "PRF-004": {
-    "title": "Insurance Info GKV",
+    "title": "PKV Insurance Settings",
     "assumptions": [
-      "User has statutory public health insurance (GKV)",
-      "Insurance type (GKV) cannot be changed without support intervention",
-      "Insurance number follows German format: 1 letter + 9 digits",
-      "Rescan Health Card button would trigger NFC in production"
+      "PKV users need GesundheitsID setup for digital prescription redemption",
+      "GesundheitsID status is important for PKV users to track",
+      "PKV provider list covers major private insurers",
+      "Setup link opens insurer app for GesundheitsID configuration"
     ],
-    "userScenario": "A GKV-insured user needs to update their insurance provider after switching jobs. They can select from major German public insurers (TK, AOK, Barmer, DAK, IKK) and update their insurance number. The insurance type badge is locked to prevent accidental changes.",
+    "userScenario": "When I need to manage my private insurance, I want to see my GesundheitsID status and update my provider, so I can use digital prescription features.",
     "pros": [
-      "Blue badge with lock icon clearly indicates GKV type is protected",
-      "Dropdown includes the most common German public insurers",
-      "Insurance number format hint (A123456789) guides correct entry",
-      "'Rescan Health Card' suggests NFC capability for future use"
+      "GesundheitsID status prominently displayed (connected vs not set up)",
+      "Setup/disconnect toggle enables managing GesundheitsID link",
+      "Provider dropdown covers major PKV insurers",
+      "Purple styling differentiates from GKV blue"
     ],
     "cons": [
-      "Limited to 5 insurers—users with other providers must contact support",
-      "'Rescan Health Card' button has no actual functionality",
-      "No validation that insurance number matches selected provider",
-      "Type change requires support contact—friction for users who switch to PKV"
+      "GesundheitsID toggle is simulated — doesn't actually open insurer app",
+      "No member number or policy details editable",
+      "Provider list may not include smaller PKV companies"
     ],
-    "impactIfWrong": "If insurance number is entered incorrectly, prescription redemption via NFC may fail at the pharmacy, forcing the user to re-verify their card."
+    "impactIfWrong": "If GesundheitsID setup doesn't redirect properly, users can't complete setup — would need deep link to insurer app."
   },
   "PRF-005": {
-    "title": "Insurance Info PKV",
+    "title": "Linked Accounts",
     "assumptions": [
-      "User has private health insurance (PKV)",
-      "PKV users authenticate prescriptions via GesundheitsID (not NFC card)",
-      "GesundheitsID setup status is stored in app settings",
-      "Insurance type cannot be changed without support intervention"
+      "Users benefit from linking partner accounts (dm, PAYBACK, insurance)",
+      "dm SSO provides profile data; PAYBACK enables rewards",
+      "Insurance link provides digital health card access",
+      "Unlink action should be easily reversible"
     ],
-    "userScenario": "A PKV-insured user checks whether their GesundheitsID is connected for prescription access. They can see their current private insurer (Allianz, DKV, Debeka, AXA, HUK-COBURG), update it, and toggle GesundheitsID connection status.",
+    "userScenario": "When I want to manage connected services, I want to see which accounts are linked and connect new ones, so I can access benefits and faster login.",
     "pros": [
-      "Purple badge visually distinguishes PKV from GKV (blue) screens",
-      "GesundheitsID status banner clearly shows connected vs not-set-up state",
-      "Toggle allows simulating connect/disconnect for demo purposes",
-      "Separate screen from GKV prevents confusion between insurance types"
+      "Clear separation between Connected and Available accounts",
+      "Connect/Unlink buttons provide obvious actions",
+      "Partner benefits described in Available section",
+      "Connection dates show when accounts were linked"
     ],
     "cons": [
-      "GesundheitsID 'setup' is just a boolean toggle—no actual ID verification",
-      "'Setup GesundheitsID in App' doesn't navigate to real setup flow",
-      "Limited to 5 private insurers—niche providers not listed",
-      "No policy number field—only provider selection"
+      "Connect action is simulated — no actual OAuth flow",
+      "No data sharing details shown for linked accounts",
+      "Unlink doesn't warn about losing benefits/data"
     ],
-    "impactIfWrong": "If GesundheitsID status doesn't match reality, users may attempt prescription redemption and fail authentication at the pharmacy or doctor's office."
+    "impactIfWrong": "If users expect real account linking, simulated toggle breaks trust — would need actual OAuth integration."
   },
   "PRF-006": {
-    "title": "Language Selection",
+    "title": "Language Settings",
     "assumptions": [
-      "App supports two languages: English (en) and German (de)",
-      "Language preference persists via i18next and localStorage",
-      "UI updates immediately upon language selection",
-      "German healthcare context means most users prefer German"
+      "German and English are the primary languages for German healthcare app",
+      "Language change applies immediately across the app",
+      "Current language shown prominently for confirmation",
+      "i18next handles all translation loading"
     ],
-    "userScenario": "A user who prefers English wants to switch the app from German. They see the current language with a green checkmark, then select from available options. The app immediately reloads content in the chosen language and returns to profile.",
+    "userScenario": "When I want to use the app in a different language, I want to select my preferred language, so all text displays in that language.",
     "pros": [
-      "Current language shown at top with green checkmark for quick confirmation",
-      "Radio button UI makes selection state unambiguous",
-      "Helper text explains that the setting affects all app content",
-      "Auto-navigate back to profile after selection reduces taps"
+      "Current language displayed prominently at top",
+      "Radio button pattern makes selection clear",
+      "Immediate application of language change",
+      "Simple two-option interface is easy to use"
     ],
     "cons": [
-      "Only 2 languages—no support for Turkish or other common German immigrant languages",
-      "200ms delay before navigation may feel sluggish",
-      "No preview of how content looks in selected language",
-      "Some medical terms may not translate well to English"
+      "Only two languages — may not serve all users in Germany",
+      "No preview of what changes before applying",
+      "Auto-returns to profile — no confirmation of change"
     ],
-    "impactIfWrong": "If language setting doesn't persist correctly, users may see the app revert to German on next launch, forcing repeated language changes."
+    "impactIfWrong": "If users need Turkish, Arabic, or other languages common in Germany, the limited options exclude them — would need more language options."
   },
   "PRF-007": {
     "title": "Help & Support",
     "assumptions": [
-      "Users need self-service help before contacting support",
-      "FAQ, Contact Support, and Report Problem are the primary support actions",
-      "Static pages exist for FAQ and support contact forms",
-      "Support channels are available during German business hours"
+      "Users need multiple support channels: FAQ, contact, problem reporting",
+      "FAQ answers common questions without human support",
+      "Contact support enables direct communication",
+      "Problem reporting surfaces bugs or issues"
     ],
-    "userScenario": "A user encounters an issue with their prescription redemption and needs help. They open Help & Support to find FAQ articles, contact support directly, or report a bug. Each option navigates to a dedicated static page.",
+    "userScenario": "When I need help with the app, I want to access FAQ or contact support, so I can resolve my issue.",
     "pros": [
-      "Three clear options cover most support scenarios",
-      "Consistent menu row design matches profile hub for familiarity",
-      "Icons provide quick visual scanning (question, chat, flag)",
-      "Simple navigation—no nested menus to confuse users"
+      "Three clear support options cover main use cases",
+      "Icon + label combination aids quick scanning",
+      "Menu format is consistent with other profile sections",
+      "Hover states provide interaction feedback"
     ],
     "cons": [
-      "FAQ and Report Problem both navigate to static pages—no in-app chat",
-      "No search function to quickly find relevant help articles",
-      "No ticket tracking for submitted support requests",
-      "Report Problem and Contact Support go to same destination"
+      "All links go to static pages — no live chat or in-app support",
+      "Report a Problem and Contact Support go to same destination",
+      "No estimated response time or support hours shown"
     ],
-    "impactIfWrong": "If support pages are unreachable or unhelpful, users with urgent issues (failed prescriptions, missed appointments) have no recourse within the app."
+    "impactIfWrong": "If users expect live support and only get static pages, they may feel unsupported — would need chat widget or callback option."
   },
   "PRF-008": {
     "title": "Privacy & Legal",
     "assumptions": [
-      "German healthcare apps require GDPR-compliant privacy policies",
-      "Legal disclosure (Impressum) is mandatory under German law",
-      "Terms of Service must be accessible for user reference",
-      "Static legal pages exist and are kept up-to-date"
+      "Users need access to privacy policy, legal disclosure, and terms",
+      "Legal documents are required for GDPR compliance",
+      "Static document pages are sufficient for legal requirements",
+      "German healthcare apps require specific legal disclosures"
     ],
-    "userScenario": "A user wants to review how their health data is handled before connecting their GesundheitsID. They access Privacy Policy, Legal Disclosure, and Terms of Service from a single hub to understand their rights and the app's obligations.",
+    "userScenario": "When I need to review legal documents, I want to access privacy policy and terms, so I understand my rights and the app's policies.",
     "pros": [
-      "Three essential legal documents accessible from one screen",
-      "Consistent menu design with profile hub for familiarity",
-      "Clear icons distinguish each document type",
-      "Simple navigation without nested complexity"
+      "Three key legal documents accessible from one menu",
+      "Consistent menu pattern with other profile sections",
+      "Privacy Policy first as most commonly accessed",
+      "Simple navigation to static legal pages"
     ],
     "cons": [
-      "Legal Disclosure and Terms of Service navigate to the same static page",
-      "No version history or 'last updated' indicator for legal documents",
-      "No in-app summary—users must read full legal text",
-      "No way to export or share legal documents"
+      "Terms and Legal go to same page — may confuse users",
+      "No version numbers or last-updated dates shown",
+      "No option to download or share legal documents"
     ],
-    "impactIfWrong": "If legal pages are missing or outdated, the app may violate German Telemediengesetz requirements, exposing the operator to regulatory penalties."
+    "impactIfWrong": "If terms and legal disclosure should be separate documents, the shared destination may cause compliance issues — would need distinct pages."
   },
   "SSO-001": {
     "title": "SSO Loading",
     "assumptions": [
-      "User initiated login via a retail partner (dm, PAYBACK) button",
-      "SSO handoff takes 2+ seconds for OAuth token exchange",
-      "Partner logo (dm) should be displayed to reassure user of correct flow",
-      "Network errors should show retry option rather than silent failure"
+      "Users understand they are authenticating via dm partner",
+      "2-second OAuth handshake is reasonable simulation timing",
+      "SSO may fail and users need clear error recovery",
+      "Partial auth state must be saved before profile completion"
     ],
-    "userScenario": "A user tapped 'Sign in with dm' on the login screen. They see a loading state with the dm logo while the app exchanges OAuth tokens with the partner. After success, they proceed to complete their profile with additional required fields.",
+    "userScenario": "When I tap 'Sign in with dm', I want to see progress while connecting, so I know the authentication is happening.",
     "pros": [
-      "Partner logo reinforces user is in the correct SSO flow",
-      "Spinner provides visual feedback that something is happening",
-      "Error state offers retry and fallback to regular login",
-      "Auto-marks dm as linked account upon successful auth"
+      "Partner logo confirms which service is authenticating",
+      "Spinner provides visual feedback during wait",
+      "Error state with retry option prevents dead ends",
+      "Back to login link enables escape from stuck state"
     ],
     "cons": [
-      "2-second delay is hardcoded—no actual OAuth exchange happening",
-      "Error state exists but is never triggered in prototype",
-      "No timeout handling if partner auth takes too long",
-      "Only dm partner supported—PAYBACK would need separate implementation"
+      "2-second delay is simulated — real OAuth may be faster or slower",
+      "Error state is never triggered in normal prototype flow",
+      "No cancel option during loading"
     ],
-    "impactIfWrong": "If SSO fails silently without error state, users may think the app is frozen and force-quit, losing trust in the partner login flow."
+    "impactIfWrong": "If real SSO is significantly slower, users may think it's broken — would need progress indicators or timeout messaging."
   },
   "SSO-002": {
-    "title": "Complete Profile",
+    "title": "Complete Profile (SSO)",
     "assumptions": [
       "SSO provides name and email but not phone, DOB, or insurance",
-      "User must provide missing fields before accessing app features",
-      "Phone number is required for appointment reminders",
-      "Insurance type determines prescription redemption flow later"
+      "Users must complete missing fields before using main features",
+      "Read-only fields show what data came from SSO partner",
+      "Insurance selection is optional but recommended"
     ],
-    "userScenario": "After SSO authentication, a user sees their name and email pre-filled (locked) from dm. They complete the remaining required fields—phone number, date of birth, and optionally insurance provider—before being granted full app access.",
+    "userScenario": "When I sign in with dm, I want to complete my profile with missing info, so I can use appointment and prescription features.",
     "pros": [
-      "Read-only SSO fields with lock icons show data source clearly",
-      "'From your dm account' section separates partner data from user input",
-      "Insurance selection sets up correct GKV/PKV flow for prescriptions",
-      "Single 'Continue' button reduces decision paralysis"
+      "Clear separation between SSO-provided and user-provided data",
+      "Lock icons indicate which fields are managed externally",
+      "Minimal required fields reduce friction",
+      "Insurance dropdown covers common options"
     ],
     "cons": [
-      "SSO data is hardcoded (Max Mustermann)—no real partner integration",
-      "No validation on phone or DOB fields before submission",
-      "Insurance field is optional but needed for key features",
-      "Address not collected—may be needed for prescription delivery"
+      "Phone and DOB are required but may feel intrusive",
+      "No 'Skip for now' option for insurance selection",
+      "SSO data is hardcoded, not actually from dm"
     ],
-    "impactIfWrong": "If insurance type is not set during SSO onboarding, users may encounter unexpected flows when trying to redeem prescriptions, causing confusion about GKV vs PKV processes."
+    "impactIfWrong": "If users expect to skip profile completion, the mandatory fields would frustrate them — would need optional fields or skip flow."
   },
   "STATIC-001": {
-    "title": "FAQ",
+    "title": "FAQ Page",
     "assumptions": [
-      "Users prefer self-service help before contacting support",
-      "Most questions fall into Appointments, Prescriptions, or Video categories",
-      "Accordion UI reduces visual overwhelm for long FAQ lists",
-      "Search helps users find relevant answers quickly"
+      "Users have common questions about appointments, prescriptions, and video calls",
+      "Searchable FAQs reduce support tickets",
+      "Accordion pattern is familiar for Q&A content",
+      "Categories help users find relevant answers"
     ],
-    "userScenario": "A user has a question about how e-prescriptions work before redeeming their first one. They open the FAQ, optionally search for 'prescription', and expand the relevant accordion item to read a concise answer. If unsatisfied, they can tap through to contact support.",
+    "userScenario": "When I have a question about the app, I want to search or browse FAQs, so I can find answers without contacting support.",
     "pros": [
-      "Grouped sections (Appointments, Prescriptions, Video) organize content logically",
-      "Accordion collapse keeps the page scannable",
-      "Search bar at top enables quick filtering",
-      "'Contact Support' link at bottom catches users who don't find their answer"
+      "Search enables finding specific questions quickly",
+      "Category groupings help users browse related topics",
+      "Accordion UI keeps answers collapsed until needed",
+      "Support link provides fallback for unanswered questions"
     ],
     "cons": [
-      "Search input is present but not wired to filter functionality",
-      "Static content—no CMS or backend to update FAQs easily",
-      "Limited to 8 questions—doesn't cover edge cases",
-      "No analytics to track which questions are most viewed"
+      "Search is non-functional in prototype",
+      "Limited to 8 questions — may not cover all user needs",
+      "No feedback mechanism to improve FAQ content"
     ],
-    "impactIfWrong": "If FAQ content is outdated or incomplete, users may follow incorrect instructions (e.g., old prescription flow), leading to failed transactions and support tickets."
+    "impactIfWrong": "If common questions aren't covered, users will contact support anyway — would need analytics to identify missing FAQs."
   },
   "STATIC-002": {
-    "title": "Support",
+    "title": "Support Page",
     "assumptions": [
       "Users need multiple contact channels (phone, email, form)",
-      "Support hours are German business hours (Mon-Fri 8-6)",
-      "Subject categorization helps route tickets to correct team",
-      "Toast confirmation reassures user their message was received"
+      "Support hours are standard business hours in Germany",
+      "Contact form is preferred over phone for many users",
+      "Subject categorization helps route tickets efficiently"
     ],
-    "userScenario": "A user encountered a technical issue with video consultation and needs to report it. They see support contact details (phone, email, hours), then fill out a message form selecting 'Technical Issue' as the subject. After submission, they receive a toast confirmation.",
+    "userScenario": "When I need help that FAQ doesn't cover, I want to contact support directly, so I can get personalized assistance.",
     "pros": [
-      "Contact card at top provides immediate phone/email options",
-      "Business hours set expectations for response time",
-      "Subject dropdown helps categorize and route support requests",
-      "Quick links to FAQ and Bug Report offer alternative paths"
+      "Multiple contact options (phone, email, form) cover preferences",
+      "Support hours set clear expectations for response time",
+      "Subject dropdown helps route inquiries to right team",
+      "Quick links to FAQ and bug reporting provide alternatives"
     ],
     "cons": [
-      "Form submission shows toast but doesn't actually send anything",
-      "No ticket number or email confirmation for tracking",
-      "'Report a Bug' button has no destination—just sits there",
-      "No live chat option for urgent issues"
+      "Form submission is simulated — no actual ticket created",
+      "No live chat option for urgent issues",
+      "No estimated response time shown"
     ],
-    "impactIfWrong": "If users believe their support message was sent but it wasn't, they may wait days for a response that never comes, eroding trust in the app's reliability."
+    "impactIfWrong": "If users expect immediate responses, the lack of live chat would disappoint — would need chat widget or callback option."
   },
   "STATIC-003": {
-    "title": "Privacy Policy",
-    "assumptions": [
-      "GDPR compliance requires clear disclosure of data collection and usage",
-      "Health data processing needs explicit explanation due to sensitivity",
-      "Users should understand their rights (access, rectification, erasure)",
-      "Long legal text benefits from 'back to top' navigation"
-    ],
-    "userScenario": "A user wants to understand how their health data is handled before connecting GesundheitsID. They scroll through sections covering data collection, usage, sharing with partners (Teleclinic, pharmacies), and their GDPR rights. A floating button helps them return to the top.",
-    "pros": [
-      "Clear section headings (Data We Collect, How We Use, etc.) aid scanning",
-      "Bulleted lists make dense legal content more digestible",
-      "Floating 'back to top' button appears on scroll for long content",
-      "'Last Updated' date shows policy currency"
-    ],
-    "cons": [
-      "Static content—no mechanism for users to accept/decline specific uses",
-      "No version history or change log for returning users",
-      "Contact email (privacy@medalpha.de) may not be monitored",
-      "No PDF download option for offline reference"
-    ],
-    "impactIfWrong": "If privacy policy doesn't accurately reflect data practices, the app may violate GDPR Article 13 disclosure requirements, exposing the operator to regulatory fines."
-  },
-  "STATIC-004": {
     "title": "Legal Disclosure",
     "assumptions": [
-      "German Telemediengesetz (TMG) requires Impressum on all commercial apps",
-      "Company registration details (HRB, VAT) must be publicly accessible",
-      "Managing directors must be named for legal accountability",
-      "DiGA and MPG compliance notes relevant for healthcare app credibility"
+      "German law requires Impressum with company registration details",
+      "Users may need legal contact for formal inquiries",
+      "Healthcare apps have additional regulatory requirements",
+      "Standard legal page format is expected and familiar"
     ],
-    "userScenario": "A user or regulator wants to verify the legal entity behind the app. They view the Impressum showing company name (MedAlpha GmbH), address, commercial register details, VAT ID, managing directors, and contact information. A regulatory note confirms DiGA/MPG compliance.",
+    "userScenario": "When I need to verify the company's legitimacy or contact them legally, I want to see registration details and management info.",
     "pros": [
-      "All mandatory Impressum fields present (company, address, register, VAT, directors)",
-      "Contact section with email and phone enables direct communication",
-      "Regulatory note signals healthcare compliance credibility",
-      "Clean card-based layout organizes dense legal information"
+      "Complete Impressum with company, registration, and management info",
+      "Contact details enable formal legal communication",
+      "Regulatory compliance note addresses DiGA/MPG requirements",
+      "Clean card-based layout makes info scannable"
     ],
     "cons": [
-      "Company details are fictional (MedAlpha GmbH, Musterstraße)—placeholder for prototype",
-      "Email links may not be functional in prototype",
-      "No downloadable PDF version for official records",
-      "No update date to indicate currency of information"
+      "Placeholder company details (Musterstraße, HRB 123456)",
+      "No download option for legal document",
+      "No link to full terms of service"
     ],
-    "impactIfWrong": "Missing or incorrect Impressum violates §5 TMG and can result in warnings (Abmahnungen) and fines from competitors or consumer protection agencies."
+    "impactIfWrong": "If legal details are incomplete or inaccurate, it could cause regulatory issues — would need real company data."
+  },
+  "STATIC-004": {
+    "title": "Privacy Policy",
+    "assumptions": [
+      "GDPR requires comprehensive privacy policy for health data",
+      "Users want to understand what data is collected and shared",
+      "Health data requires highest level of security disclosure",
+      "Long documents benefit from scroll-to-top navigation"
+    ],
+    "userScenario": "When I want to understand how my health data is used, I want to read the privacy policy, so I can trust the app with sensitive information.",
+    "pros": [
+      "Structured sections cover data collection, use, sharing, and rights",
+      "GDPR rights clearly explained with actionable options",
+      "Health data handling specifically addressed",
+      "Scroll-to-top button aids navigation on long page"
+    ],
+    "cons": [
+      "Generic placeholder content, not specific to actual data practices",
+      "No consent management or preference center linked",
+      "No language toggle for German/English versions"
+    ],
+    "impactIfWrong": "If privacy policy doesn't match actual data practices, it creates legal liability — would need legal review and accurate content."
   },
   "ERR-001": {
-    "title": "404 Not Found",
+    "title": "404 Error Page",
     "assumptions": [
-      "Users may navigate to invalid routes via deep links or bookmarks",
-      "Error page should clearly indicate what went wrong",
-      "Developer hint ('forgot to add to router?') aids debugging during development",
-      "Minimal styling acceptable for error states"
+      "Users may navigate to non-existent routes via deep links or bookmarks",
+      "Developer-friendly messaging helps during prototype testing",
+      "Simple error pages are sufficient for prototype",
+      "Navigation should be easy to recover from errors"
     ],
-    "userScenario": "A user follows an outdated bookmark or mistyped URL and lands on a page that doesn't exist. They see a clear '404 Page Not Found' message with an error icon, indicating the requested page isn't available.",
+    "userScenario": "When I navigate to a page that doesn't exist, I want to see a clear error, so I know the page wasn't found and can navigate elsewhere.",
     "pros": [
-      "Clear error icon and heading communicate the problem immediately",
-      "Developer-friendly message helps identify missing routes during development",
-      "Minimal, centered layout focuses attention on the error",
-      "Consistent card styling matches app design system"
+      "Clear 404 error indication prevents confusion",
+      "Developer hint ('Did you forget to add the page?') aids debugging",
+      "Simple design loads quickly even when things are broken"
     ],
     "cons": [
-      "No navigation back to home or other app sections",
-      "Developer message ('forgot to add to router?') inappropriate for production",
-      "No search or suggestions for what user might have been looking for",
-      "Doesn't follow mobile-first 375px constraint of rest of app"
+      "No navigation back to home or other sections",
+      "Developer-focused message may confuse end users",
+      "No search or suggested links to help users find content"
     ],
-    "impactIfWrong": "If 404 page offers no escape route, users may abandon the app entirely rather than manually navigating to a known valid URL."
+    "impactIfWrong": "If end users see this page, the developer message is confusing — would need user-friendly messaging and navigation."
   }
 }
