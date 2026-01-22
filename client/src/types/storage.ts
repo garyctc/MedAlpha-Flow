@@ -62,6 +62,9 @@ export interface RegistrationDraft {
     city: string;
     postalCode: string;
   };
+  consentPrivacy?: boolean;
+  consentDataProcessing?: boolean;
+  consentTimestamp?: string;
 }
 
 export interface AuthState {

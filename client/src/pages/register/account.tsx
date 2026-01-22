@@ -4,6 +4,7 @@ import { Eye, EyeOff, Check, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import SubPageHeader from "@/components/layout/SubPageHeader";
 import { saveRegistrationDraft } from "@/lib/storage";
 
@@ -15,6 +16,8 @@ export default function RegisterAccount() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [touched, setTouched] = useState({ email: false, password: false, confirm: false });
   const [isLoading, setIsLoading] = useState(false);
+  const [consentPrivacy, setConsentPrivacy] = useState(false);
+  const [consentDataProcessing, setConsentDataProcessing] = useState(false);
 
   const validations = {
     length: password.length >= 8,
@@ -24,7 +27,7 @@ export default function RegisterAccount() {
   };
 
   const isEmailValid = email.includes("@") && email.includes(".");
-  const isFormValid = isEmailValid && validations.length && validations.uppercase && validations.number && validations.match;
+  const isFormValid = isEmailValid && validations.length && validations.uppercase && validations.number && validations.match && consentPrivacy && consentDataProcessing;
 
   return (
     <div className="min-h-screen bg-white pb-6">
@@ -43,7 +46,12 @@ export default function RegisterAccount() {
           setIsLoading(true);
           // Simulate API call
           setTimeout(() => {
-            saveRegistrationDraft({ email });
+            saveRegistrationDraft({
+              email,
+              consentPrivacy,
+              consentDataProcessing,
+              consentTimestamp: new Date().toISOString()
+            });
             setIsLoading(false);
             setLocation("/register/verify");
           }, 500);
@@ -104,6 +112,35 @@ export default function RegisterAccount() {
             {touched.confirm && !validations.match && (
               <p className="text-xs text-red-500 font-medium">Passwords do not match</p>
             )}
+          </div>
+
+          <div className="space-y-3 py-2">
+            <div className="flex items-start gap-3">
+              <Checkbox
+                id="consent-privacy"
+                checked={consentPrivacy}
+                onCheckedChange={(checked) => setConsentPrivacy(checked === true)}
+              />
+              <Label htmlFor="consent-privacy" className="text-sm font-normal cursor-pointer leading-snug pt-0.5">
+                I agree to the{" "}
+                <a href="/static/privacy" target="_blank" rel="noopener noreferrer" className="text-primary font-semibold hover:underline">
+                  Privacy Policy
+                </a>
+              </Label>
+            </div>
+            <div className="flex items-start gap-3">
+              <Checkbox
+                id="consent-data"
+                checked={consentDataProcessing}
+                onCheckedChange={(checked) => setConsentDataProcessing(checked === true)}
+              />
+              <Label htmlFor="consent-data" className="text-sm font-normal cursor-pointer leading-snug pt-0.5">
+                I consent to processing of my health data as described in the{" "}
+                <a href="/static/privacy" target="_blank" rel="noopener noreferrer" className="text-primary font-semibold hover:underline">
+                  Privacy Policy
+                </a>
+              </Label>
+            </div>
           </div>
 
           <Button

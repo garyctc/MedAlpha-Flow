@@ -3,6 +3,16 @@ import { useLocation } from "wouter";
 import { User, MapPin, Calendar, Clock } from "lucide-react";
 import SubPageHeader from "@/components/layout/SubPageHeader";
 import { Button } from "@/components/ui/button";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { getBookingDraft, clearBookingDraft, saveAppointment } from "@/lib/storage";
 import { useTranslation } from "react-i18next";
 import { formatLocalDate, formatLocalTime, getLocale } from "@/i18n";
@@ -12,6 +22,7 @@ import type { Appointment } from "@/types/storage";
 export default function BookingReview() {
   const [, setLocation] = useLocation();
   const [isConfirming, setIsConfirming] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
   const { t } = useTranslation();
   const locale = getLocale();
 
@@ -31,6 +42,7 @@ export default function BookingReview() {
 
   const handleConfirm = () => {
     setIsConfirming(true);
+    setDialogOpen(false);
 
     setTimeout(() => {
       // Create the appointment
@@ -127,17 +139,56 @@ export default function BookingReview() {
         </div>
       </main>
 
+      {/* Booking Confirmation Dialog */}
+      <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
+        <AlertDialogContent className="max-w-sm">
+          <AlertDialogHeader>
+            <AlertDialogTitle>{t("booking.confirm.title") || "Confirm Booking"}</AlertDialogTitle>
+            <AlertDialogDescription className="space-y-3">
+              <div className="space-y-2">
+                <div className="flex items-center gap-2">
+                  <User size={16} className="text-slate-500" />
+                  <span className="text-sm font-medium text-slate-700">{draft.doctor}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Calendar size={16} className="text-slate-500" />
+                  <span className="text-sm text-slate-700">{formatLocalDate(draft.date, locale)}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Clock size={16} className="text-slate-500" />
+                  <span className="text-sm text-slate-700">{formatLocalTime(draft.time, locale)}</span>
+                </div>
+              </div>
+              <p className="text-xs text-slate-600 bg-amber-50 border border-amber-200 rounded p-2">
+                {t("booking.confirm.cancellation") || "Cancellation may incur fees"}
+              </p>
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+            <AlertDialogCancel className="rounded-lg h-11">{t("common.buttons.cancel") || "Cancel"}</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleConfirm}
+              disabled={isConfirming}
+              className="rounded-lg h-11 bg-primary hover:bg-primary/90"
+            >
+              {isConfirming ? "Confirming..." : t("booking.review.confirm") || "Confirm Booking"}
+            </AlertDialogAction>
+          </div>
+        </AlertDialogContent>
+      </AlertDialog>
+
       {/* Sticky Bottom Button */}
       <div className="fixed bottom-[80px] left-0 right-0 z-40 flex justify-center">
         <div className="max-w-[375px] w-full bg-white border-t border-slate-100 px-5 py-4 flex justify-center">
           <div className="w-[315px]">
-            <Button
-              className="w-full h-12 text-base rounded-xl bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/20"
-              onClick={handleConfirm}
-              disabled={isConfirming}
-            >
-              {isConfirming ? "Confirming..." : t("booking.review.confirm")}
-            </Button>
+            <AlertDialogTrigger asChild>
+              <Button
+                className="w-full h-12 text-base rounded-xl bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/20"
+                disabled={isConfirming}
+              >
+                {isConfirming ? "Confirming..." : t("booking.review.confirm")}
+              </Button>
+            </AlertDialogTrigger>
           </div>
         </div>
       </div>
