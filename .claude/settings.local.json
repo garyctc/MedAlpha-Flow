@@ -4,7 +4,9 @@
       "Bash(grep:*)",
       "Bash(git -C /Users/gary/Desktop/MedAlpha-Replit show 5632af3)",
       "Bash(find:*)",
-      "Bash(npm run:*)"
+      "Bash(npm run:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ]
   }
 }
