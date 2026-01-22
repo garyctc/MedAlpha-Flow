@@ -3,7 +3,7 @@
 Canonical rules: `docs/artifacts/visual-artifacts-rules.md`
 
 **Created:** 2026-01-21
-**Last Updated:** 2026-01-22 (video consultation hidden for v1)
+**Last Updated:** 2026-01-22 (video consultation hidden, registration simplified, profile fields conditional)
 **Source of Truth:** `client/src/App.tsx` routes, plus in-page navigation via `useLocation()` and `<Link />`. Planned screens are labeled.
 **Screen Count (v1):** 42 active (39 implemented, 3 planned) — Hides v2 scopes via feature flags: Video Consultation (10), Prescriptions (16), Pharmacy (3); excludes system errors: Not Found (1)
 
@@ -47,13 +47,13 @@ graph TD
 ```
 
 **v1 Structure**
-- 🔵 **Auth Domain**: Splash, Login, Register, SSO, Password Reset (14 screens: 11 implemented, 3 planned)
+- 🔵 **Auth Domain**: Splash, Login, Register (skips insurance collection), SSO, Password Reset (14 screens: 11 implemented, 3 planned)
 - 🟣 **Home**: Central entry point to all features (1 screen)
   - 🟪 **In-Person Visit**: Booking (skips type selection), Curaay (processing/refinement/success), Appointments (12 screens)
   - ⚪ **Notifications**: Alerts & updates (2 screens)
   - ⚪ **History**: Past appointments & activity (1 screen)
-  - 🟠 **Profile**: User settings & account (8 screens)
-    - ⚪ **Static Pages**: FAQ, Privacy, Legal, Support (4 screens)
+  - 🟠 **Profile**: User settings (address hidden, insurance info hidden) (8 screens)
+    - ⚪ **Static Pages**: FAQ, Contact Support, Privacy, Legal (4 screens)
 
 **Total: 42 active screens (39 implemented, 3 planned)**
 

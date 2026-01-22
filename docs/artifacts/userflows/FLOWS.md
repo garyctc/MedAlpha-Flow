@@ -3,7 +3,7 @@
 Canonical rules: `docs/artifacts/visual-artifacts-rules.md`
 
 **Created:** 2026-01-21
-**Last Updated:** 2026-01-22 (video consultation hidden for v1)  
+**Last Updated:** 2026-01-22 (video consultation hidden, registration simplified, profile refined)  
 **Source of Truth:** `client/src/App.tsx` routes, plus in-page navigation via `useLocation()` and `<Link />`  
 
 Exception: this is Mermaid navigation flows for the client app. Not D2 user flows.
@@ -12,6 +12,8 @@ Primary IA map: `docs/artifacts/ia-map/IA.md`.
 
 ## Registration Flow
 
+**V1: Skips insurance collection** — Address fields hidden, personal info only (name/DOB/phone)
+
 ```mermaid
 graph TD
   %% Class palette (domain colors)
@@ -19,13 +21,10 @@ graph TD
   classDef hub fill:#EEF2FF,stroke:#6366F1,color:#312E81;
   classDef booking fill:#F3E8FF,stroke:#A855F7,color:#581C87;
 
-  subgraph REG[Registration]
+  subgraph REG[Registration - V1 Flow]
     reg-account["SCR-010 Register. Account"]
     reg-verify-email["SCR-011 Register. Verify Email"]
-    reg-personal-info["SCR-012 Register. Personal Info"]
-    reg-insurance-type["SCR-013 Register. Insurance Type"]
-    reg-gkv-details["SCR-014 Register. GKV Details"]
-    reg-pkv-details["SCR-015 Register. PKV Details"]
+    reg-personal-info["SCR-012 Register. Personal Info<br/>(name/DOB/phone only)"]
     reg-complete["SCR-016 Register. Complete"]
   end
 
@@ -34,15 +33,13 @@ graph TD
     booking-specialty["SCR-021 Booking. Specialty"]
   end
 
-  reg-account ==> reg-verify-email ==> reg-personal-info ==> reg-insurance-type
-  reg-insurance-type ==> reg-gkv-details ==> reg-complete
-  reg-insurance-type ==> reg-pkv-details ==> reg-complete
+  reg-account ==> reg-verify-email ==> reg-personal-info ==> reg-complete
   reg-verify-email -.-> reg-account
 
   reg-complete ==> hub-home
   reg-complete -.-> booking-specialty
 
-  class reg-account,reg-verify-email,reg-personal-info,reg-insurance-type,reg-gkv-details,reg-pkv-details,reg-complete auth;
+  class reg-account,reg-verify-email,reg-personal-info,reg-complete auth;
   class hub-home hub;
   class booking-specialty booking;
 ```
@@ -163,5 +160,6 @@ graph TD
 
 ### Other v2+ Features
 
+- **Registration Insurance Collection** (SCR-013-015) - Insurance type/details steps (skipped in v1, address also deferred)
 - **Prescriptions Flow** (SCR-050-065) - In-app RX management with GKV/PKV paths (hidden via `prescriptionEnabled: false`)
 - **Pharmacy Search Flow** (SCR-070-072) - Location search & pharmacy details
