@@ -8,6 +8,8 @@ type NotificationsContextValue = {
   promos: CmsNotification[];
   readMap: ReadMap;
   unreadCount: number;
+  unreadPromoCount: number;
+  unreadTipCount: number;
   isRead: (id: string) => boolean;
   markRead: (id: string) => void;
 };
@@ -76,9 +78,19 @@ export function NotificationsProvider({ children }: { children: React.ReactNode 
     [notifications, readMap]
   );
 
+  const unreadPromoCount = React.useMemo(
+    () => promos.reduce((acc, n) => acc + (readMap[n.id] ? 0 : 1), 0),
+    [promos, readMap]
+  );
+
+  const unreadTipCount = React.useMemo(
+    () => notifications.filter((n) => n.kind === "tip").reduce((acc, n) => acc + (readMap[n.id] ? 0 : 1), 0),
+    [notifications, readMap]
+  );
+
   const value = React.useMemo<NotificationsContextValue>(
-    () => ({ notifications, promos, readMap, unreadCount, isRead, markRead }),
-    [notifications, promos, readMap, unreadCount, isRead, markRead]
+    () => ({ notifications, promos, readMap, unreadCount, unreadPromoCount, unreadTipCount, isRead, markRead }),
+    [notifications, promos, readMap, unreadCount, unreadPromoCount, unreadTipCount, isRead, markRead]
   );
 
   return <NotificationsContext.Provider value={value}>{children}</NotificationsContext.Provider>;
