@@ -6,6 +6,7 @@ import { Toaster } from "@/components/ui/toaster";
 import NotFound from "@/pages/not-found";
 import BottomNav from "@/components/layout/BottomNav";
 import { seedDemoData } from "@/lib/storage";
+import { PartnerConfigProvider } from "@/contexts/PartnerConfigContext";
 
 import Splash from "@/pages/splash";
 import Login from "@/pages/login";
@@ -221,15 +222,17 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Router>
-        <div className="min-h-screen font-sans bg-background text-foreground antialiased selection:bg-primary/20 flex items-start justify-center">
-          <div className="w-full max-w-[375px] relative">
-            <AppRoutes />
-            <BottomNav />
+      <PartnerConfigProvider>
+        <Router>
+          <div className="min-h-screen font-sans bg-background text-foreground antialiased selection:bg-primary/20 flex items-start justify-center">
+            <div className="w-full max-w-[375px] relative">
+              <AppRoutes />
+              <BottomNav />
+            </div>
+            <Toaster />
           </div>
-          <Toaster />
-        </div>
-      </Router>
+        </Router>
+      </PartnerConfigProvider>
     </QueryClientProvider>
   );
 }

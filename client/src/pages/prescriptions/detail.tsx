@@ -2,9 +2,11 @@ import { useLocation } from "wouter";
 import { Pill, FileText, Calendar, User, Truck, MapPin, Download, RefreshCw } from "lucide-react";
 import SubPageHeader from "@/components/layout/SubPageHeader";
 import { Button } from "@/components/ui/button";
+import { usePrimarySSOProvider } from "@/hooks/use-sso-providers";
 
 export default function PrescriptionDetail() {
   const [location, setLocation] = useLocation();
+  const primaryProvider = usePrimarySSOProvider();
   
   // Simple check for query param (in a real app use a proper hook or parser)
   const isDelivered = location.includes("status=delivered");
@@ -62,7 +64,7 @@ export default function PrescriptionDetail() {
              <div className="space-y-4">
                 <div className="flex justify-between">
                   <span className="text-slate-500 text-sm">Pharmacy</span>
-                  <span className="text-slate-900 font-medium">{isDelivered ? "Apo Group" : "dm Pharmacy Berlin"}</span>
+                  <span className="text-slate-900 font-medium">{isDelivered ? "Apo Group" : primaryProvider?.pharmacyName || 'Pharmacy'}</span>
                 </div>
                 
                 {isDelivered ? (

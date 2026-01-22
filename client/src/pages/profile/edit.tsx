@@ -7,10 +7,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { getUserProfile, saveUserProfile } from "@/lib/storage";
+import { usePrimarySSOProvider } from "@/hooks/use-sso-providers";
 
 export default function EditProfile() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
+  const primaryProvider = usePrimarySSOProvider();
 
   // Initialize from localStorage
   const profile = getUserProfile();
@@ -93,7 +95,7 @@ export default function EditProfile() {
         <div className="space-y-3">
           <Label htmlFor="firstName" className="text-sm font-medium text-slate-700">First Name</Label>
           <div className="relative">
-            <Input 
+            <Input
               id="firstName"
               value={formData.firstName}
               readOnly
@@ -101,13 +103,13 @@ export default function EditProfile() {
             />
             <Lock className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
           </div>
-          <button className="text-xs text-primary font-medium hover:underline">Managed by dm</button>
+          <button className="text-xs text-primary font-medium hover:underline">Managed by {primaryProvider?.displayName || 'partner'}</button>
         </div>
 
         <div className="space-y-3">
           <Label htmlFor="lastName" className="text-sm font-medium text-slate-700">Last Name</Label>
           <div className="relative">
-             <Input 
+             <Input
               id="lastName"
               value={formData.lastName}
               readOnly
@@ -115,7 +117,7 @@ export default function EditProfile() {
             />
             <Lock className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
           </div>
-          <button className="text-xs text-primary font-medium hover:underline">Managed by dm</button>
+          <button className="text-xs text-primary font-medium hover:underline">Managed by {primaryProvider?.displayName || 'partner'}</button>
         </div>
 
         <div className="space-y-3">
@@ -149,7 +151,7 @@ export default function EditProfile() {
         <div className="space-y-3">
           <Label htmlFor="email" className="text-sm font-medium text-slate-700">Email</Label>
           <div className="relative">
-             <Input 
+             <Input
               id="email"
               value={formData.email}
               readOnly
@@ -157,7 +159,7 @@ export default function EditProfile() {
             />
              <Lock className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
           </div>
-           <button className="text-xs text-primary font-medium hover:underline">Managed by dm</button>
+           <button className="text-xs text-primary font-medium hover:underline">Managed by {primaryProvider?.displayName || 'partner'}</button>
         </div>
 
         <div className="space-y-3">
@@ -196,7 +198,7 @@ export default function EditProfile() {
               No address on file
             </div>
           )}
-          <button className="text-xs text-primary font-medium hover:underline">Managed by dm</button>
+          <button className="text-xs text-primary font-medium hover:underline">Managed by {primaryProvider?.displayName || 'partner'}</button>
         </div>
       </main>
 

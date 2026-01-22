@@ -8,11 +8,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import appLogo from "@/assets/app-logo.svg";
 import { branding } from "@/config/branding";
+import { useSSOProviders } from "@/hooks/use-sso-providers";
 
 export default function Login() {
   const [, setLocation] = useLocation();
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const { providers } = useSSOProviders();
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -91,28 +93,26 @@ export default function Login() {
           </div>
 
           <div className="grid grid-cols-2 gap-3">
-             <Button 
-               type="button" 
-               variant="outline" 
-               className="h-12 border-slate-200 text-slate-700 font-medium hover:bg-slate-50 rounded-xl gap-2"
-               onClick={() => setLocation("/sso/loading")}
-             >
-               <div className="w-6 h-6 bg-slate-100 rounded-full flex items-center justify-center">
-                 <span className="text-[8px] font-bold text-slate-500">dm</span>
-               </div>
-               dm
-             </Button>
-             <Button 
-               type="button" 
-               variant="outline" 
-               className="h-12 border-slate-200 text-slate-700 font-medium hover:bg-slate-50 rounded-xl gap-2"
-               onClick={() => setLocation("/sso/loading")}
-             >
-               <div className="w-6 h-6 bg-blue-50 rounded-full flex items-center justify-center">
-                 <span className="text-[6px] font-bold text-blue-700">PB</span>
-               </div>
-               PAYBACK
-             </Button>
+             {providers.slice(0, 2).map((provider) => (
+               <Button
+                 key={provider.id}
+                 type="button"
+                 variant="outline"
+                 className="h-12 border-slate-200 text-slate-700 font-medium hover:bg-slate-50 rounded-xl gap-2"
+                 onClick={() => setLocation(`/sso/loading?provider=${provider.id}`)}
+               >
+                 <div
+                   className="w-6 h-6 rounded-full flex items-center justify-center"
+                   style={{
+                     backgroundColor: provider.backgroundColor,
+                     color: provider.textColor
+                   }}
+                 >
+                   <span className="text-[6px] font-bold">{provider.logoInitials}</span>
+                 </div>
+                 {provider.displayName}
+               </Button>
+             ))}
           </div>
 
           <div className="text-center">

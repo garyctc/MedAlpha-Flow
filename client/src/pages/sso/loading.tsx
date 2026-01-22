@@ -2,21 +2,28 @@ import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
 import { AlertCircle, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useSSOProviders } from "@/hooks/use-sso-providers";
 
 export default function SSOLoading() {
   const [, setLocation] = useLocation();
   const [error, setError] = useState(false);
+  const { providers, getSSOProvider } = useSSOProviders();
+
+  // Extract provider ID from URL query string
+  const searchParams = new URLSearchParams(typeof window !== 'undefined' ? window.location.search : '');
+  const providerId = searchParams.get('provider') || providers[0]?.id;
+  const provider = getSSOProvider(providerId || '');
 
   useEffect(() => {
     // Simulate API call
     const timer = setTimeout(() => {
       // For prototype, we simulate success and go to complete profile
       // In a real app, this would check if user exists
-      setLocation("/sso/complete-profile");
+      setLocation(`/sso/complete-profile?provider=${providerId}`);
     }, 2000);
 
     return () => clearTimeout(timer);
-  }, [setLocation]);
+  }, [setLocation, providerId]);
 
   if (error) {
     return (
@@ -25,7 +32,7 @@ export default function SSOLoading() {
           <AlertCircle className="text-red-600" size={24} />
         </div>
         <h1 className="text-xl font-bold text-slate-900 mb-2">Connection failed</h1>
-        <p className="text-slate-500 mb-8">Unable to connect with dm. Please try again.</p>
+        <p className="text-slate-500 mb-8">Unable to connect with {provider?.displayName || 'partner'}. Please try again.</p>
         
         <div className="w-full space-y-3 max-w-xs">
           <Button 
@@ -48,12 +55,18 @@ export default function SSOLoading() {
   return (
     <div className="min-h-screen bg-white flex flex-col items-center justify-center p-6 text-center">
       {/* Partner Logo Placeholder */}
-      <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-6">
-        <span className="font-bold text-slate-400">dm</span>
+      <div
+        className="w-16 h-16 rounded-full flex items-center justify-center mb-6"
+        style={{
+          backgroundColor: provider?.backgroundColor,
+          color: provider?.textColor
+        }}
+      >
+        <span className="font-bold text-sm">{provider?.logoInitials}</span>
       </div>
-      
-      <p className="text-slate-500 font-medium mb-8">Connecting with dm...</p>
-      
+
+      <p className="text-slate-500 font-medium mb-8">Connecting with {provider?.displayName || 'partner'}...</p>
+
       <Loader2 className="animate-spin text-primary" size={32} />
     </div>
   );

@@ -4,14 +4,21 @@ import { Lock, ChevronDown, Calendar as CalendarIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useSSOProviders } from "@/hooks/use-sso-providers";
 
 export default function CompleteProfile() {
   const [, setLocation] = useLocation();
+  const { providers, getSSOProvider } = useSSOProviders();
   const [formData, setFormData] = useState({
     phone: "",
     dob: "",
     insurance: ""
   });
+
+  // Extract provider ID from URL query string
+  const searchParams = new URLSearchParams(typeof window !== 'undefined' ? window.location.search : '');
+  const providerId = searchParams.get('provider') || providers[0]?.id;
+  const provider = getSSOProvider(providerId || '');
 
   const handleContinue = () => {
     // Navigate to Terms & Conditions / Legal
@@ -26,13 +33,13 @@ export default function CompleteProfile() {
 
       <main className="p-5 space-y-6">
         <div className="text-sm text-slate-500">
-          <p className="font-medium text-slate-900 mb-1">Welcome from dm</p>
+          <p className="font-medium text-slate-900 mb-1">Welcome from {provider?.displayName || 'partner'}</p>
           <p>We just need a few more details to get you started.</p>
         </div>
 
         {/* Read-only Section */}
         <div className="bg-slate-50 rounded-xl p-4 border border-slate-100 space-y-4">
-          <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">From your dm account:</span>
+          <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">From your {provider?.displayName || 'partner'} account:</span>
           
           <div className="space-y-3">
             <div>
@@ -62,7 +69,7 @@ export default function CompleteProfile() {
           
           <div className="flex items-center gap-1.5 pt-1">
              <div className="w-1.5 h-1.5 rounded-full bg-slate-400"></div>
-             <span className="text-xs text-slate-500 font-medium">Managed by dm</span>
+             <span className="text-xs text-slate-500 font-medium">Managed by {provider?.displayName || 'partner'}</span>
           </div>
         </div>
 

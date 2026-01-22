@@ -3,6 +3,15 @@
  * Allows loading partner-specific overrides at runtime.
  */
 
+type SSOProvider = {
+  id: string;
+  displayName: string;
+  logoInitials: string;
+  backgroundColor?: string;
+  textColor?: string;
+  pharmacyName?: string;
+};
+
 type PartnerConfig = {
   partnerId: string;
   branding?: {
@@ -26,7 +35,41 @@ type PartnerConfig = {
     telemedicineEnabled?: boolean;
     appointmentsEnabled?: boolean;
   };
+  ssoProviders?: SSOProvider[];
 };
+
+const DEFAULT_SSO_PROVIDERS: SSOProvider[] = [
+  {
+    id: "provider-a",
+    displayName: "Partner A",
+    logoInitials: "PA",
+    backgroundColor: "#F1F5F9",
+    textColor: "#64748B",
+    pharmacyName: "Partner A Pharmacy"
+  },
+  {
+    id: "provider-b",
+    displayName: "Partner B",
+    logoInitials: "PB",
+    backgroundColor: "#DBEAFE",
+    textColor: "#1D4ED8",
+    pharmacyName: "Partner B Pharmacy"
+  }
+];
+
+export type { SSOProvider, PartnerConfig };
+export { DEFAULT_SSO_PROVIDERS };
+
+/**
+ * Get SSO providers with defaults.
+ * Merges config providers with defaults if not provided.
+ */
+export function getSSOProviders(config: PartnerConfig | null): SSOProvider[] {
+  if (config?.ssoProviders && config.ssoProviders.length > 0) {
+    return config.ssoProviders;
+  }
+  return DEFAULT_SSO_PROVIDERS;
+}
 
 /**
  * Load partner config from JSON file or fetch endpoint.
