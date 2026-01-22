@@ -1,4 +1,4 @@
-# Information Architecture (IA Map)
+# IA (Info Map)
 
 Canonical rules: `docs/artifacts/visual-artifacts-rules.md`
 

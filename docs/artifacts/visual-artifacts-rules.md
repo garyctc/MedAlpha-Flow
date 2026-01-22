@@ -1,4 +1,4 @@
-# Visual Artifacts Rules (Canonical)
+# Visual Artifacts Rules 
 
 Single source of truth for generating and updating:
 - D2 user flows. Markdown with embedded D2 code blocks.

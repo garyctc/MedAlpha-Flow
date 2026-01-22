@@ -1,4 +1,4 @@
-# FLOWS (Mermaid. Exception)
+# FLOWS
 
 Canonical rules: `docs/artifacts/visual-artifacts-rules.md`
 
