@@ -12,10 +12,12 @@ export default function BottomNav() {
     { name: "Profile", icon: User, path: "/profile" },
   ];
 
-  // Don't show on splash, login, or teleclinic (simulates external browser)
+  // Don't show on splash, login, registration, SSO, teleclinic, or notifications
   if (
     location === "/" ||
     location === "/login" ||
+    location.startsWith("/register") ||
+    location.startsWith("/sso") ||
     location.startsWith("/teleclinic") ||
     location.startsWith("/notifications")
   )
