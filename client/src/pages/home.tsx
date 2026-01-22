@@ -1,74 +1,134 @@
+import * as React from "react";
 import useEmblaCarousel from "embla-carousel-react";
-import Autoplay from "embla-carousel-autoplay";
 import { motion } from "framer-motion";
 import { Link } from "wouter";
-import { Bell, Calendar, Pill, ChevronRight, MapPin, ShoppingBag, Sun, Star, Building, Video } from "lucide-react";
+import { Bell, Calendar, Pill, ChevronLeft, ChevronRight, MapPin, Building, Video } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import avatarImage from "@assets/generated_images/professional_user_avatar_for_healthcare_app.png";
 import { useTranslation } from "react-i18next";
 import { formatLocalDayNumber, formatLocalMonthShort, formatLocalTime, getLocale } from "@/i18n";
 import { FEATURES } from "@/lib/features";
+import { useNotifications } from "@/contexts/NotificationsContext";
 
-function PromoCarousel() {
-  const [emblaRef] = useEmblaCarousel({ loop: true }, [Autoplay({ delay: 5000 })]);
-  const { t } = useTranslation();
+function stableHash(input: string): number {
+  let hash = 0;
+  for (let i = 0; i < input.length; i++) hash = (hash * 31 + input.charCodeAt(i)) >>> 0;
+  return hash;
+}
 
-  const allBanners = [
-    {
-      id: 1,
-      title: t("home.promo.pharmacy.title"),
-      subtitle: t("home.promo.pharmacy.subtitle"),
-      gradient: "from-blue-600 to-cyan-500",
-      icon: ShoppingBag,
-      link: "/pharmacy/map"
-    },
-    {
-      id: 2,
-      title: t("home.promo.immune.title"),
-      subtitle: t("home.promo.immune.subtitle"),
-      gradient: "from-amber-500 to-orange-500",
-      icon: Sun,
-      link: "/prescriptions",
-      requiresPrescription: true
-    },
-    {
-      id: 3,
-      title: t("home.promo.brands.title"),
-      subtitle: t("home.promo.brands.subtitle"),
-      gradient: "from-purple-600 to-pink-500",
-      icon: Star,
-      link: "/pharmacy/list"
-    }
+function DiscoverMoreCarousel() {
+  const { promos } = useNotifications();
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false, align: "start" });
+  const [selectedIndex, setSelectedIndex] = React.useState(0);
+  const [canScrollPrev, setCanScrollPrev] = React.useState(false);
+  const [canScrollNext, setCanScrollNext] = React.useState(false);
+
+  const scrollSnaps = React.useMemo(() => emblaApi?.scrollSnapList() ?? [], [emblaApi]);
+
+  React.useEffect(() => {
+    if (!emblaApi) return;
+    const onSelect = () => {
+      setSelectedIndex(emblaApi.selectedScrollSnap());
+      setCanScrollPrev(emblaApi.canScrollPrev());
+      setCanScrollNext(emblaApi.canScrollNext());
+    };
+    onSelect();
+    emblaApi.on("select", onSelect);
+    emblaApi.on("reInit", onSelect);
+    return () => {
+      emblaApi.off("select", onSelect);
+      emblaApi.off("reInit", onSelect);
+    };
+  }, [emblaApi]);
+
+  const gradients = [
+    "from-sky-700 to-cyan-500",
+    "from-indigo-700 to-sky-500",
+    "from-teal-700 to-sky-500",
   ];
 
-  const banners = allBanners.filter(b => !b.requiresPrescription || FEATURES.prescriptionEnabled);
+  if (promos.length === 0) return null;
 
   return (
-    <div className="overflow-hidden rounded-lg shadow-[var(--shadow-card)]" ref={emblaRef}>
-      <div className="flex">
-        {banners.map((banner) => (
-          <div key={banner.id} className="flex-[0_0_100%] min-w-0">
-             <div className={`relative overflow-hidden bg-gradient-to-br ${banner.gradient} text-white p-6 h-40 flex items-center`}>
-                <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl"></div>
-                <div className="relative z-10 flex-1">
-                  <h2 className="text-xl font-bold font-display mb-1">{banner.title}</h2>
-                  <p className="text-white/90 text-sm mb-3 max-w-[80%]">
-                    {banner.subtitle}
-                  </p>
-                  <Link href={banner.link}>
-                    <Button size="sm" variant="secondary" className="h-8 px-4 text-xs font-bold bg-white/20 hover:bg-white/30 text-white border-none">
-                      {t("home.promo.cta")}
-                    </Button>
-                  </Link>
+    <div className="group relative">
+      <div className="overflow-hidden" ref={emblaRef}>
+        <div className="flex gap-3">
+          {promos.map((promo) => {
+            const gradient = gradients[stableHash(promo.id) % gradients.length];
+            const content = (
+              <div
+                className={`relative overflow-hidden rounded-2xl bg-gradient-to-br ${gradient} text-white p-6 h-40 ring-1 ring-white/10`}
+              >
+                <div className="absolute inset-0 opacity-80 bg-[radial-gradient(280px_140px_at_20%_20%,rgba(255,255,255,0.18),transparent_60%)]" />
+                <div className="relative z-10 flex h-full flex-col justify-between">
+                  <div className="space-y-1">
+                    <h2 className="text-lg font-bold font-display leading-tight line-clamp-1">{promo.title}</h2>
+                    <p className="text-white/90 text-sm leading-snug line-clamp-2 max-w-[90%]">{promo.body}</p>
+                  </div>
+                  {promo.url ? (
+                    <span className="inline-flex w-fit items-center rounded-full bg-white/15 px-3 py-1 text-[11px] font-semibold">
+                      Learn more
+                    </span>
+                  ) : null}
                 </div>
-                <div className="relative z-10 w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm">
-                   <banner.icon size={24} className="text-white" />
-                </div>
-             </div>
-          </div>
-        ))}
+              </div>
+            );
+
+            return (
+              <div key={promo.id} className="flex-[0_0_84%] min-w-0">
+                {promo.url ? (
+                  <a
+                    href={promo.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="block rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
+                  >
+                    {content}
+                  </a>
+                ) : (
+                  <div className="rounded-2xl">{content}</div>
+                )}
+              </div>
+            );
+          })}
+        </div>
       </div>
+
+      <button
+        type="button"
+        aria-label="Previous promo"
+        disabled={!canScrollPrev}
+        onClick={() => emblaApi?.scrollPrev()}
+        className="pointer-events-none absolute left-2 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full bg-white/15 border border-white/20 text-white backdrop-blur-sm opacity-0 transition-opacity group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100 disabled:opacity-40"
+      >
+        <ChevronLeft className="mx-auto" size={18} />
+      </button>
+
+      <button
+        type="button"
+        aria-label="Next promo"
+        disabled={!canScrollNext}
+        onClick={() => emblaApi?.scrollNext()}
+        className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full bg-white/15 border border-white/20 text-white backdrop-blur-sm opacity-0 transition-opacity group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100 disabled:opacity-40"
+      >
+        <ChevronRight className="mx-auto" size={18} />
+      </button>
+
+      {scrollSnaps.length > 1 ? (
+        <div className="mt-3 flex items-center justify-center gap-2" aria-label="Promo carousel pagination">
+          {scrollSnaps.map((_, idx) => (
+            <button
+              key={idx}
+              type="button"
+              aria-label={`Go to promo ${idx + 1}`}
+              onClick={() => emblaApi?.scrollTo(idx)}
+              className={`h-2 w-2 rounded-full transition-colors ${
+                idx === selectedIndex ? "bg-white" : "bg-white/30 hover:bg-white/45"
+              }`}
+            />
+          ))}
+        </div>
+      ) : null}
     </div>
   );
 }
@@ -81,6 +141,7 @@ export default function Home() {
   const hasAppointments = true; 
   const { t } = useTranslation();
   const locale = getLocale();
+  const { unreadCount, promos } = useNotifications();
 
   const upcomingDateIso = "2026-01-24";
   const upcomingTime24 = "10:00";
@@ -90,42 +151,59 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background pb-24" data-testid="home-screen">
-      {/* Header */}
-      <header className="bg-card border-b border-border sticky top-0 z-10">
-        <div className="px-5 py-4 pt-12">
-          <div className="flex justify-between items-center min-h-10">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 flex items-center justify-center">
-                <img src={appLogo} alt={`${branding.appName} Logo`} className="w-full h-full object-contain" />
+      {/* Hero */}
+      <div className="relative overflow-hidden">
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-gradient-to-br from-slate-900 via-sky-900 to-sky-700"
+        />
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 opacity-60 bg-[radial-gradient(900px_400px_at_20%_20%,rgba(255,255,255,0.12),transparent_60%),radial-gradient(700px_320px_at_90%_30%,rgba(255,255,255,0.10),transparent_55%),radial-gradient(800px_380px_at_40%_120%,rgba(255,255,255,0.10),transparent_60%)]"
+        />
+
+        <header className="sticky top-0 z-10 bg-slate-950/35 backdrop-blur border-b border-white/10">
+          <div className="px-5 py-4 pt-12">
+            <div className="flex justify-between items-center min-h-10">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 flex items-center justify-center">
+                  <img src={appLogo} alt={`${branding.appName} Logo`} className="w-full h-full object-contain" />
+                </div>
+                <h1 className="text-xl font-bold text-white font-display tracking-tight">{branding.appName}</h1>
               </div>
-              <h1 className="text-xl font-bold text-foreground font-display tracking-tight">{branding.appName}</h1>
-            </div>
-            <div className="flex items-center gap-4">
-               <button className="text-muted-foreground hover:text-primary transition-colors relative">
-                 <Bell size={24} />
-                 <span className="absolute top-0 right-0 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-card"></span>
-               </button>
-               <Link href="/profile">
-                 <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-border shadow-[var(--shadow-soft)] cursor-pointer">
-                   <img src={avatarImage} alt="Profile" className="w-full h-full object-cover" />
-                 </div>
-               </Link>
+              <div className="flex items-center gap-4">
+                <Link
+                  href="/notifications"
+                  className="text-white/90 hover:text-white transition-colors relative inline-flex items-center justify-center"
+                  aria-label="Notifications"
+                >
+                  <Bell size={24} />
+                  {unreadCount > 0 ? (
+                    <span className="absolute -top-1 -right-1 min-w-5 h-5 px-1 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-slate-950/35">
+                      {unreadCount > 99 ? "99+" : unreadCount}
+                    </span>
+                  ) : null}
+                </Link>
+              </div>
             </div>
           </div>
-        </div>
-      </header>
+        </header>
+
+        {promos.length > 0 ? (
+          <section className="relative px-5 pb-6 pt-4 space-y-3">
+            <h2 className="font-bold text-lg text-white/95">{t("home.sections.discoverMore")}</h2>
+            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="-mr-5">
+              <DiscoverMoreCarousel />
+            </motion.div>
+          </section>
+        ) : null}
+      </div>
 
       <main className="px-5 py-6 space-y-8">
-        {/* Promo Carousel */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-        >
-          <PromoCarousel />
-        </motion.div>
-
-        {/* Feature Cards */}
-        <div className={FEATURES.prescriptionEnabled ? "grid grid-cols-3 gap-4" : "grid grid-cols-2 gap-4"}>
+        {/* Health Services */}
+        <section className="space-y-4">
+          <h2 className="font-bold text-lg text-foreground">{t("home.sections.healthServices")}</h2>
+          <div className={FEATURES.prescriptionEnabled ? "grid grid-cols-3 gap-4" : "grid grid-cols-2 gap-4"}>
           {/* In-Person Appointment (Curaay) */}
           <Link href="/booking/specialty" className="h-full">
             <motion.button
@@ -187,7 +265,8 @@ export default function Home() {
               </motion.button>
             </Link>
           )}
-        </div>
+          </div>
+        </section>
 
         {/* Upcoming Section */}
         <section>

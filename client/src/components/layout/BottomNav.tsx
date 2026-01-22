@@ -17,7 +17,13 @@ export default function BottomNav() {
   const tabs = allTabs.filter(tab => !tab.feature || FEATURES[tab.feature]);
 
   // Don't show on splash, login, or teleclinic (simulates external browser)
-  if (location === "/" || location === "/login" || location.startsWith("/teleclinic")) return null;
+  if (
+    location === "/" ||
+    location === "/login" ||
+    location.startsWith("/teleclinic") ||
+    location.startsWith("/notifications")
+  )
+    return null;
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-slate-200 h-[80px] pb-safe max-w-[375px] mx-auto">

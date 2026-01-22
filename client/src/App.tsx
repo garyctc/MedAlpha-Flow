@@ -7,10 +7,13 @@ import NotFound from "@/pages/not-found";
 import BottomNav from "@/components/layout/BottomNav";
 import { seedDemoData } from "@/lib/storage";
 import { PartnerConfigProvider } from "@/contexts/PartnerConfigContext";
+import { NotificationsProvider } from "@/contexts/NotificationsContext";
 
 import Splash from "@/pages/splash";
 import Login from "@/pages/login";
 import Home from "@/pages/home";
+import NotificationsList from "@/pages/notifications/list";
+import NotificationDetail from "@/pages/notifications/detail";
 
 // Booking Flow
 import BookingType from "@/pages/booking/type";
@@ -111,6 +114,8 @@ function AppRoutes() {
       <Route path="/" component={Splash} />
       <Route path="/login" component={Login} />
       <Route path="/home" component={Home} />
+      <Route path="/notifications/:id" component={NotificationDetail} />
+      <Route path="/notifications" component={NotificationsList} />
 
       {/* Registration Routes */}
       <Route path="/register" component={RegisterAccount} />
@@ -223,15 +228,17 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <PartnerConfigProvider>
-        <Router>
-          <div className="min-h-screen font-sans bg-background text-foreground antialiased selection:bg-primary/20 flex items-start justify-center">
-            <div className="w-full max-w-[375px] relative">
-              <AppRoutes />
-              <BottomNav />
+        <NotificationsProvider>
+          <Router>
+            <div className="min-h-screen font-sans bg-background text-foreground antialiased selection:bg-primary/20 flex items-start justify-center">
+              <div className="w-full max-w-[375px] relative">
+                <AppRoutes />
+                <BottomNav />
+              </div>
+              <Toaster />
             </div>
-            <Toaster />
-          </div>
-        </Router>
+          </Router>
+        </NotificationsProvider>
       </PartnerConfigProvider>
     </QueryClientProvider>
   );
