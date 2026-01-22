@@ -9,7 +9,7 @@ import appLogo from "@/assets/app-logo.svg";
 import { branding } from "@/config/branding";
 import { useToast } from "@/hooks/use-toast";
 import PushNotificationBanner from "@/components/ui/push-notification-banner";
-import { getUserAppointments, saveAppointment, updateAppointment } from "@/lib/storage";
+import { getUserAppointments, saveAppointment, updateAppointment, clearBookingDraft, saveBookingDraft } from "@/lib/storage";
 import { showSuccess } from "@/lib/toast-helpers";
 import type { Appointment as StoredAppointment } from "@/types/storage";
 import { useTranslation } from "react-i18next";
@@ -113,7 +113,6 @@ function convertStoredAppointments(
 export default function AppointmentsPage() {
   const [, setLocation] = useLocation();
   const [activeTab, setActiveTab] = useState<"upcoming" | "past">("upcoming");
-  const [filterType, setFilterType] = useState<"all" | "in-person" | "video">("all");
   const [pendingBooking, setPendingBooking] = useState<Appointment | null>(null);
   const [showPushNotification, setShowPushNotification] = useState(false);
   const [confirmedDoctorName, setConfirmedDoctorName] = useState("");
@@ -217,11 +216,7 @@ export default function AppointmentsPage() {
 
   const filteredAppointments = allAppointments.filter(apt => {
     // Only show upcoming and processing appointments in this view
-    if (apt.status !== "upcoming" && apt.status !== "processing") return false;
-
-    // Filter by type
-    if (filterType === "all") return true;
-    return apt.type === filterType;
+    return apt.status === "upcoming" || apt.status === "processing";
   });
 
   return (
@@ -232,7 +227,11 @@ export default function AppointmentsPage() {
         title={t("appointments.push.title")}
         message={t("appointments.push.message", { doctor: confirmedDoctorName })}
         onDismiss={() => setShowPushNotification(false)}
-        onActionPrimary={() => setLocation("/booking/type")}
+        onActionPrimary={() => {
+          clearBookingDraft();
+          saveBookingDraft({ type: 'in-person' });
+          setLocation("/booking/specialty");
+        }}
         onActionSecondary={() => setLocation("/pharmacy/map")}
         primaryLabel={t("appointments.push.bookAgain")}
         secondaryLabel={t("appointments.push.secondary")}
@@ -240,32 +239,11 @@ export default function AppointmentsPage() {
 
       <header className="bg-white border-b border-slate-100 sticky top-0 z-20">
         <div className="px-5 py-4 pt-12">
-          <div className="flex items-center gap-2 mb-4 min-h-10">
+          <div className="flex items-center gap-2 min-h-10">
             <div className="w-8 h-8 flex items-center justify-center">
               <img src={appLogo} alt={`${branding.appName} Logo`} className="w-full h-full object-contain" />
             </div>
             <h1 className="font-bold text-xl text-slate-900 font-display">{t("appointments.title")}</h1>
-          </div>
-
-          <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
-            {[
-              { id: "all", label: t("appointments.filters.all") },
-              { id: "in-person", label: t("appointments.filters.inPerson") },
-              { id: "video", label: t("appointments.filters.video") }
-            ].map((option) => (
-              <button
-                key={option.id}
-                onClick={() => setFilterType(option.id as any)}
-                className={cn(
-                  "px-3 py-1.5 rounded-full text-xs font-medium border transition-colors whitespace-nowrap",
-                  filterType === option.id
-                    ? "bg-slate-900 text-white border-slate-900"
-                    : "bg-white text-slate-600 border-slate-200 hover:border-slate-300"
-                )}
-              >
-                {option.label}
-              </button>
-            ))}
           </div>
         </div>
       </header>
@@ -304,17 +282,9 @@ export default function AppointmentsPage() {
           ) : (
              <div className="flex flex-col items-center justify-center py-12 text-center text-slate-400">
                <div className="w-12 h-12 bg-slate-50 rounded-full flex items-center justify-center mb-3">
-                 <Filter size={20} className="text-slate-300" />
+                 <Calendar size={20} className="text-slate-300" />
                </div>
-               {filterType === "all" ? (
-                 <p className="text-sm">{t("appointments.empty.noUpcoming")}</p>
-               ) : (
-                 <p className="text-sm">
-                   {t("appointments.empty.noUpcomingWithType", {
-                     type: filterType === "in-person" ? t("appointments.filters.inPerson") : t("appointments.filters.video"),
-                   })}
-                 </p>
-               )}
+               <p className="text-sm">{t("appointments.empty.noUpcoming")}</p>
                <Button variant="link" onClick={() => setLocation("/history")} className="mt-2 text-primary">
                  {t("appointments.empty.viewHistory")}
                </Button>
@@ -329,7 +299,11 @@ export default function AppointmentsPage() {
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          onClick={() => setLocation("/booking/type")}
+          onClick={() => {
+            clearBookingDraft();
+            saveBookingDraft({ type: 'in-person' });
+            setLocation("/booking/specialty");
+          }}
           className="absolute right-5 w-14 h-14 bg-primary text-white rounded-full shadow-lg shadow-primary/30 flex items-center justify-center pointer-events-auto"
         >
           <Plus size={28} />

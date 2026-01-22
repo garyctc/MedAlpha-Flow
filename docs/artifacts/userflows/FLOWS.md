@@ -3,7 +3,7 @@
 Canonical rules: `docs/artifacts/visual-artifacts-rules.md`
 
 **Created:** 2026-01-21
-**Last Updated:** 2026-01-22  
+**Last Updated:** 2026-01-22 (video consultation hidden for v1)  
 **Source of Truth:** `client/src/App.tsx` routes, plus in-page navigation via `useLocation()` and `<Link />`  
 
 Exception: this is Mermaid navigation flows for the client app. Not D2 user flows.
@@ -31,7 +31,7 @@ graph TD
 
   subgraph EXIT[Post-Registration]
     hub-home["SCR-003 Home"]
-    booking-type["SCR-020 Booking. Type"]
+    booking-specialty["SCR-021 Booking. Specialty"]
   end
 
   reg-account ==> reg-verify-email ==> reg-personal-info ==> reg-insurance-type
@@ -40,14 +40,16 @@ graph TD
   reg-verify-email -.-> reg-account
 
   reg-complete ==> hub-home
-  reg-complete -.-> booking-type
+  reg-complete -.-> booking-specialty
 
   class reg-account,reg-verify-email,reg-personal-info,reg-insurance-type,reg-gkv-details,reg-pkv-details,reg-complete auth;
   class hub-home hub;
-  class booking-type booking;
+  class booking-specialty booking;
 ```
 
 ## Booking Flow (In-Person)
+
+**Note:** Type selection (SCR-020) is skipped in v1. Users go directly to specialty selection with `type: 'in-person'` pre-set.
 
 ```mermaid
 graph TD
@@ -55,8 +57,7 @@ graph TD
   classDef appt fill:#DBEAFE,stroke:#2563EB,color:#1E3A8A;
   classDef booking fill:#F3E8FF,stroke:#A855F7,color:#581C87;
 
-  subgraph BOOKING[Booking]
-    booking-type["SCR-020 Booking. Type"]
+  subgraph BOOKING[Booking - v1 starts here]
     booking-specialty["SCR-021 Booking. Specialty Select"]
     booking-location["SCR-022 Booking. Location Select"]
     booking-doctors["SCR-023 Booking. Doctor Select"]
@@ -75,7 +76,7 @@ graph TD
     booking-success["SCR-029 Booking. Success (unused in-app)"]
   end
 
-  booking-type ==> booking-specialty ==> booking-location ==> booking-doctors ==> booking-calendar ==> booking-review
+  booking-specialty ==> booking-location ==> booking-doctors ==> booking-calendar ==> booking-review
   booking-review ==> booking-curaay-processing ==> booking-curaay-success ==> appt-list
   booking-curaay-processing -.-> booking-curaay-refinement
   booking-curaay-refinement -.-> booking-curaay-processing
@@ -84,13 +85,24 @@ graph TD
 
   booking-review -.-> booking-success
 
-  class booking-type,booking-specialty,booking-location,booking-doctors,booking-calendar,booking-review booking;
+  class booking-specialty,booking-location,booking-doctors,booking-calendar,booking-review booking;
   class booking-curaay-processing,booking-curaay-refinement,booking-curaay-success booking;
   class appt-list appt;
   class booking-success booking;
 ```
 
-## Teleclinic Flow (Video Partner)
+---
+
+## v2+ Roadmap (Hidden for v1)
+
+### Video Consultation Flows (Hidden via `videoConsultationEnabled: false`)
+
+**Booking Type Selection** (SCR-020) - Skipped in v1, only in-person available
+**Teleclinic Flow** (SCR-030) - Video partner integration
+**Telehealth Flow** (SCR-040-048) - In-app video consultation
+
+<details>
+<summary>Teleclinic Flow (Video Partner)</summary>
 
 ```mermaid
 graph TD
@@ -101,17 +113,19 @@ graph TD
 
   teleclinic-simulated["SCR-030 Teleclinic. Simulated"]
   appt-list["SCR-080 Appointments"]
-  booking-type["SCR-020 Booking. Type"]
+  booking-specialty["SCR-021 Booking. Specialty"]
 
   teleclinic-simulated ==> appt-list
-  teleclinic-simulated -.-> booking-type
+  teleclinic-simulated -.-> booking-specialty
 
   class teleclinic-simulated teleclinic;
   class appt-list appt;
-  class booking-type booking;
+  class booking-specialty booking;
 ```
+</details>
 
-## Telehealth Flow (In-App)
+<details>
+<summary>Telehealth Flow (In-App)</summary>
 
 ```mermaid
 graph TD
@@ -145,12 +159,9 @@ graph TD
   class telehealth-schedule-type,telehealth-symptoms-intro,telehealth-symptoms-details,telehealth-symptoms-info,telehealth-review,telehealth-confirmation,telehealth-waiting-room,telehealth-call,telehealth-summary telehealth;
   class hub-home hub;
 ```
+</details>
 
----
+### Other v2+ Features
 
-## v2+ Roadmap (Out of Scope)
-
-- **Prescriptions Flow** (SCR-050-065) - In-app RX management with GKV/PKV paths
+- **Prescriptions Flow** (SCR-050-065) - In-app RX management with GKV/PKV paths (hidden via `prescriptionEnabled: false`)
 - **Pharmacy Search Flow** (SCR-070-072) - Location search & pharmacy details
-
-See archived branches or v2 planning docs for detailed flows.

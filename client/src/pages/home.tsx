@@ -8,7 +8,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
 import { formatLocalDayNumber, formatLocalMonthShort, formatLocalTime, getLocale } from "@/i18n";
-import { getUserProfile, getUserAppointments } from "@/lib/storage";
+import { getUserProfile, getUserAppointments, clearBookingDraft, saveBookingDraft } from "@/lib/storage";
 import { LoadingSkeleton } from "@/components/ui/loading-skeleton";
 import { useNotifications } from "@/contexts/NotificationsContext";
 import type { UserProfile, Appointment } from "@/types/storage";
@@ -227,24 +227,33 @@ export default function Home() {
           <LoadingSkeleton variant="page" />
         ) : (
         <>
-        {/* Feature Card */}
-        <Link href="/booking/type">
-          <motion.button
-            whileTap={{ scale: 0.98 }}
-            className="w-full bg-card p-5 rounded-lg shadow-[var(--shadow-soft)] border border-border flex items-center gap-4 text-left hover:border-primary/20 hover:shadow-[var(--shadow-card)] transition-all group"
+        {/* Health Services */}
+        <section>
+          <h3 className="font-bold text-lg text-foreground mb-4">{t("home.sections.healthServices")}</h3>
+          <Link
+            href="/booking/specialty"
+            onClick={() => {
+              clearBookingDraft();
+              saveBookingDraft({ type: 'in-person' });
+            }}
           >
-            <div className="w-12 h-12 bg-accent rounded-xl flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
-              <Calendar size={24} />
-            </div>
-            <div className="flex-1">
-              <span className="block font-bold text-foreground group-hover:text-primary transition-colors">
-                {t("home.features.book.title")}
-              </span>
-              <span className="text-xs text-muted-foreground mt-1 block">{t("home.features.book.subtitle")}</span>
-            </div>
-            <ChevronRight size={20} className="text-muted-foreground group-hover:text-primary transition-colors" />
-          </motion.button>
-        </Link>
+            <motion.button
+              whileTap={{ scale: 0.98 }}
+              className="w-full bg-card p-5 rounded-lg shadow-[var(--shadow-soft)] border border-border flex items-center gap-4 text-left hover:border-primary/20 hover:shadow-[var(--shadow-card)] transition-all group"
+            >
+              <div className="w-12 h-12 bg-accent rounded-xl flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+                <Calendar size={24} />
+              </div>
+              <div className="flex-1">
+                <span className="block font-bold text-foreground group-hover:text-primary transition-colors">
+                  {t("booking.type.inPerson.title")}
+                </span>
+                <span className="text-xs text-muted-foreground mt-1 block">{t("booking.type.inPerson.subtitle")}</span>
+              </div>
+              <ChevronRight size={20} className="text-muted-foreground group-hover:text-primary transition-colors" />
+            </motion.button>
+          </Link>
+        </section>
 
         {/* Upcoming Section */}
         <section>
@@ -291,7 +300,13 @@ export default function Home() {
                 <Calendar size={32} />
               </div>
               <p className="font-medium text-foreground">{t("home.empty.title")}</p>
-              <Link href="/booking/type">
+              <Link
+                href="/booking/specialty"
+                onClick={() => {
+                  clearBookingDraft();
+                  saveBookingDraft({ type: 'in-person' });
+                }}
+              >
                 <Button variant="link" className="text-primary h-auto p-0">{t("home.empty.cta")}</Button>
               </Link>
             </div>

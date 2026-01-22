@@ -33,7 +33,7 @@ export default function SpecialtySelect() {
 
   return (
     <div className="min-h-screen bg-background pb-20">
-      <SubPageHeader title="Select Specialty" backPath="/booking/type" />
+      <SubPageHeader title="Select Specialty" backPath="/home" />
       
       <main className="p-5">
         <div className="relative mb-6">

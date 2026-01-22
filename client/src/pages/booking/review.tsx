@@ -20,7 +20,7 @@ export default function BookingReview() {
   // Redirect to start if draft is incomplete
   useEffect(() => {
     if (!draft?.doctor || !draft?.date || !draft?.time) {
-      setLocation('/booking/type');
+      setLocation('/booking/specialty');
     }
   }, [draft, setLocation]);
 

@@ -4,4 +4,5 @@
  */
 export const FEATURES = {
   prescriptionEnabled: false,
+  videoConsultationEnabled: false,  // Hide video consultation for V1
 } as const;

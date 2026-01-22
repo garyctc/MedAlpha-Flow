@@ -3,7 +3,7 @@ import { useLocation } from "wouter";
 import { Check, Calendar, CreditCard, Smartphone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { getRegistrationDraft, clearRegistrationDraft, saveUserProfile, saveUserInsurance, saveAuthState } from "@/lib/storage";
+import { getRegistrationDraft, clearRegistrationDraft, saveUserProfile, saveUserInsurance, saveAuthState, clearBookingDraft, saveBookingDraft } from "@/lib/storage";
 import { showSuccess } from "@/lib/toast-helpers";
 import { DURATION_DEFAULT, DURATION_SLOW, EASING_DEFAULT, shouldReduceMotion } from "@/lib/motion";
 import { branding } from "@/config/branding";
@@ -135,10 +135,14 @@ export default function RegisterComplete() {
           >
             Explore the App
           </Button>
-          <Button 
+          <Button
             variant="outline"
             className="w-full h-12 text-base font-medium rounded-xl border-slate-200 text-primary hover:bg-slate-50"
-            onClick={() => setLocation("/booking/type")}
+            onClick={() => {
+              clearBookingDraft();
+              saveBookingDraft({ type: 'in-person' });
+              setLocation("/booking/specialty");
+            }}
           >
             Book an Appointment
           </Button>
