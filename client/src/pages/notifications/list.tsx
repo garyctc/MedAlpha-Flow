@@ -1,8 +1,8 @@
 import * as React from "react";
 import { Link } from "wouter";
 import { format } from "date-fns";
+import { ChevronRight } from "lucide-react";
 import SubPageHeader from "@/components/layout/SubPageHeader";
-import { Badge } from "@/components/ui/badge";
 import { useNotifications } from "@/contexts/NotificationsContext";
 import { cn } from "@/lib/utils";
 
@@ -20,16 +20,12 @@ function NotificationRow({
   body,
   createdAt,
   isRead,
-  showKindPill,
-  kindLabel,
 }: {
   id: string;
   title: string;
   body: string;
   createdAt: string;
   isRead: boolean;
-  showKindPill: boolean;
-  kindLabel: string;
 }) {
   return (
     <Link href={`/notifications/${id}`} className="block">
@@ -52,11 +48,7 @@ function NotificationRow({
               </p>
               <p className="text-xs text-muted-foreground mt-1 line-clamp-1">{body}</p>
             </div>
-            {showKindPill ? (
-              <Badge variant="outline" className="text-[10px] px-2 py-0.5">
-                {kindLabel}
-              </Badge>
-            ) : null}
+            <ChevronRight className="h-4 w-4 text-muted-foreground flex-shrink-0 mt-0.5" />
           </div>
           <p className="text-[11px] text-muted-foreground mt-2">{formatTimestamp(createdAt)}</p>
         </div>
@@ -92,8 +84,6 @@ function NotificationsTab({ value }: { value: TabValue }) {
             body={n.body}
             createdAt={n.createdAt}
             isRead={isRead(n.id)}
-            showKindPill={value === "all"}
-            kindLabel={n.kind === "promo" ? "Promo" : "Tip"}
           />
           {idx < filtered.length - 1 ? <div className="h-px bg-border mx-4" /> : null}
         </div>
