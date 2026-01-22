@@ -7,4 +7,4 @@ vite.config.ts.*
 
 # Claude Code working files
 .claude/NOTES.md
-docs/notes/
+docs/notes/.worktrees/
