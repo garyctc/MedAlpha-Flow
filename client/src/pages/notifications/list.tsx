@@ -42,15 +42,15 @@ function NotificationRow({
           <div className="flex items-start justify-between gap-3">
             <div className="min-w-0">
               <p
-                className={`text-sm leading-tight ${isRead ? "font-medium" : "font-bold"} text-foreground line-clamp-1`}
+                className={`text-lg leading-tight ${isRead ? "font-medium" : "font-bold"} text-foreground line-clamp-1`}
               >
                 {title}
               </p>
-              <p className="text-xs text-muted-foreground mt-1 line-clamp-1">{body}</p>
+              <p className="text-sm text-muted-foreground mt-1 line-clamp-1">{body}</p>
             </div>
-            <ChevronRight className="h-4 w-4 text-muted-foreground flex-shrink-0 mt-0.5" />
+            <ChevronRight className="h-5 w-5 text-muted-foreground flex-shrink-0 mt-0.5" />
           </div>
-          <p className="text-[11px] text-muted-foreground mt-2">{formatTimestamp(createdAt)}</p>
+          <p className="text-xs text-muted-foreground mt-2">{formatTimestamp(createdAt)}</p>
         </div>
       </div>
     </Link>

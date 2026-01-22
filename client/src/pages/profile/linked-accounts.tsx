@@ -12,7 +12,7 @@ import type { LinkedAccounts as LinkedAccountsType } from "@/types/storage";
 export default function LinkedAccounts() {
   const [, setLocation] = useLocation();
   const [isLoading, setIsLoading] = useState(true);
-  const [accounts, setAccounts] = useState<LinkedAccountsType>({ dm: true, payback: false, insurance: false });
+  const [accounts, setAccounts] = useState<LinkedAccountsType>({ dm: false, payback: false, insurance: false });
   const { providers } = useSSOProviders();
 
   const insurance = getUserInsurance();

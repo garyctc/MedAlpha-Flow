@@ -262,7 +262,7 @@ export function saveUserSettings(settings: Partial<UserSettings>): void {
 // === Linked Accounts Management ===
 
 const DEFAULT_LINKED_ACCOUNTS: LinkedAccounts = {
-  dm: true, // Default: dm is linked (from SSO flow)
+  dm: false,
   payback: false,
   insurance: false,
 };

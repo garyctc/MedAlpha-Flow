@@ -1,15 +1,15 @@
 import { useState, useEffect, useMemo } from "react";
 import { useLocation } from "wouter";
-import { motion } from "framer-motion";
-import { Calendar, Search, Video, Clock } from "lucide-react";
+import { Calendar, Search, Clock } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import appLogo from "@/assets/app-logo.svg";
 import { branding } from "@/config/branding";
 import { getUserAppointments } from "@/lib/storage";
 import type { Appointment } from "@/types/storage";
-import { formatLocalDate, getLocale } from "@/i18n";
+import { formatLocalDate, formatLocalTime, getLocale } from "@/i18n";
 import { FEATURES } from "@/lib/features";
+import { AppointmentCard } from "@/components/appointment-card";
 
 export default function HistoryPage() {
   const [, setLocation] = useLocation();
@@ -148,17 +148,19 @@ export default function HistoryPage() {
               <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">{monthYear}</h3>
               <div className="space-y-4">
                 {appointments.map((apt) => (
-                  <HistoryCard
+                  <AppointmentCard
                     key={apt.id}
-                    icon={FEATURES.videoConsultationEnabled && apt.type === 'video' ? Video : Calendar}
-                    iconColor={apt.status === 'cancelled' ? "text-red-600" : (FEATURES.videoConsultationEnabled && apt.type === 'video' ? "text-indigo-600" : "text-blue-600")}
-                    iconBg={apt.status === 'cancelled' ? "bg-red-50" : (FEATURES.videoConsultationEnabled && apt.type === 'video' ? "bg-indigo-50" : "bg-blue-50")}
-                    title={apt.doctor}
-                    subtitle={FEATURES.videoConsultationEnabled ? `${apt.specialty} • ${apt.type === 'video' ? 'Video' : 'In-Person'}` : apt.specialty}
-                    date={formatLocalDate(apt.date, locale)}
-                    status={apt.status === 'cancelled' ? 'Cancelled' : 'Completed'}
-                    statusColor={apt.status === 'cancelled' ? "text-red-600" : "text-emerald-600"}
-                    amount="€0.00"
+                    data={{
+                      id: apt.id,
+                      status: "past",
+                      type: apt.type,
+                      doctor: apt.doctor,
+                      role: apt.specialty,
+                      location: apt.clinic,
+                      date: `${formatLocalDate(apt.date, locale)} • ${formatLocalTime(apt.time, locale)}`,
+                      subStatus: apt.status === 'cancelled' ? 'cancelled' : 'completed',
+                      amount: "€0.00"
+                    }}
                     onClick={() => setLocation(`/appointments/${apt.id}`)}
                   />
                 ))}
@@ -168,42 +170,5 @@ export default function HistoryPage() {
         )}
       </main>
     </div>
-  );
-}
-
-function HistoryCard({ 
-  icon: Icon, 
-  iconColor, 
-  iconBg, 
-  title, 
-  subtitle, 
-  date, 
-  status, 
-  statusColor = "text-emerald-600",
-  amount, 
-  onClick 
-}: any) {
-  return (
-    <motion.button
-      whileTap={{ scale: 0.98 }}
-      onClick={onClick}
-      className="w-full bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4 text-left hover:border-slate-300 transition-all group"
-    >
-      <div className={`w-12 h-12 rounded-full ${iconBg} flex items-center justify-center flex-shrink-0`}>
-        <Icon size={20} className={iconColor} />
-      </div>
-      
-      <div className="flex-1 min-w-0">
-        <div className="flex justify-between items-start mb-1">
-          <h4 className="font-bold text-slate-900 truncate pr-2">{title}</h4>
-          <span className="text-xs font-bold text-slate-900">{amount}</span>
-        </div>
-        <p className="text-xs text-slate-500 mb-1">{subtitle}</p>
-        <div className="flex justify-between items-center">
-          <span className="text-xs text-slate-400">{date}</span>
-          <span className={`text-[10px] font-bold uppercase tracking-wider ${statusColor}`}>{status}</span>
-        </div>
-      </div>
-    </motion.button>
   );
 }

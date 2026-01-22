@@ -1,33 +1,24 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
-import { motion, AnimatePresence } from "framer-motion";
-import { Calendar, Filter, ChevronRight, Plus, MapPin, Clock, Video, CheckCircle2, X, Loader2 } from "lucide-react";
+import { motion } from "framer-motion";
+import { Calendar, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { cn } from "@/lib/utils";
 import appLogo from "@/assets/app-logo.svg";
 import { branding } from "@/config/branding";
 import { useToast } from "@/hooks/use-toast";
 import PushNotificationBanner from "@/components/ui/push-notification-banner";
-import { getUserAppointments, saveAppointment, updateAppointment, clearBookingDraft, saveBookingDraft } from "@/lib/storage";
-import { showSuccess } from "@/lib/toast-helpers";
+import { getUserAppointments, saveAppointment, clearBookingDraft, saveBookingDraft } from "@/lib/storage";
 import type { Appointment as StoredAppointment } from "@/types/storage";
 import { useTranslation } from "react-i18next";
 import { formatLocalDate, formatLocalTime, getLocale, type Locale } from "@/i18n";
 import { format, parse } from "date-fns";
 import { enUS } from "date-fns/locale";
+import { AppointmentCard, type AppointmentCardData } from "@/components/appointment-card";
 
-type Appointment = {
-  id: string;
-  status: "upcoming" | "past" | "processing";
-  type: "in-person" | "video";
+type Appointment = AppointmentCardData & {
   badge: string;
   badgeColor: string;
-  doctor: string;
-  role: string;
-  location: string;
-  date: string;
-  subStatus?: "cancelled" | "completed" | "processing";
 };
 
 function parseAnyDate(date: string) {
@@ -69,31 +60,14 @@ function convertStoredAppointments(
   return stored.map((apt) => {
     const statusDisplay = apt.status === "processing" ? "processing" : apt.status === "upcoming" ? "upcoming" : "past";
 
-    let badge = formatStoredDate(apt.date, locale);
-    let badgeColor = "bg-slate-100 text-slate-500";
-
-    if (apt.status === "processing") {
-      badge = t("common.status.processing");
-      badgeColor = "bg-blue-50 text-blue-600";
-    } else if (apt.status === "completed") {
-      badge = t("common.status.completed");
-      badgeColor = "bg-emerald-50 text-emerald-700";
-    } else if (apt.status === "cancelled") {
-      badge = t("common.status.cancelled");
-      badgeColor = "bg-red-50 text-red-600";
-    } else if (apt.type === "video") {
-      badge = t("appointments.type.video");
-      badgeColor = "bg-blue-50 text-blue-700";
-    }
-
     const dateText = `${formatStoredDate(apt.date, locale)} • ${formatStoredTime(apt.time, locale)}`;
 
     return {
       id: apt.id,
       status: statusDisplay,
       type: apt.type,
-      badge,
-      badgeColor,
+      badge: "", // No longer used, replaced by subStatus badges
+      badgeColor: "",
       doctor: apt.doctor,
       role: apt.specialty,
       location: apt.clinic,
@@ -143,8 +117,8 @@ export default function AppointmentsPage() {
         id: booking.id,
         status: "processing",
         type: "in-person",
-        badge: t("common.status.processing"),
-        badgeColor: "bg-blue-50 text-blue-600",
+        badge: "",
+        badgeColor: "",
         doctor: t("appointments.placeholders.doctor"),
         role: t("appointments.placeholders.awaitingConfirmation"),
         location: "MedAlpha Health Center",
@@ -161,8 +135,8 @@ export default function AppointmentsPage() {
           id: booking.id,
           status: "upcoming",
           type: "in-person",
-          badge: t("appointments.badge.tomorrow"),
-          badgeColor: "bg-blue-50 text-blue-600",
+          badge: "",
+          badgeColor: "",
           doctor: doctorName,
           role: t("specialty.generalPractice"),
           location: "MedAlpha Health Center, Downtown Berlin",
@@ -310,75 +284,5 @@ export default function AppointmentsPage() {
         </motion.button>
       </div>
     </div>
-  );
-}
-
-function AppointmentCard({ data, onClick }: { data: Appointment, onClick: () => void }) {
-  const isVideo = data.type === "video";
-  const isProcessing = data.status === "processing";
-  const { t } = useTranslation();
-
-  return (
-    <motion.button
-      whileTap={{ scale: 0.98 }}
-      onClick={onClick}
-      className={`w-full p-4 rounded-2xl border shadow-sm flex flex-col gap-3 text-left transition-all group ${
-        isProcessing
-          ? "bg-purple-50 border-purple-200"
-          : "bg-white border-slate-100 hover:border-primary/30"
-      }`}
-    >
-        <div className="flex justify-between items-start w-full">
-        <div className="flex gap-2">
-          {data.subStatus === "processing" && (
-            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider bg-purple-600 text-white flex items-center gap-1 animate-pulse">
-              <Loader2 size={10} className="animate-spin" /> {t("common.status.processing")}
-            </span>
-          )}
-          {data.subStatus === "completed" && (
-             <span className="text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider bg-emerald-50 text-emerald-700">
-               {t("common.status.completed")}
-             </span>
-          )}
-          {data.subStatus === "cancelled" && (
-             <span className="text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider bg-red-50 text-red-600">
-               {t("common.status.cancelled")}
-             </span>
-          )}
-           {!data.subStatus && (
-            <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider ${data.badgeColor}`}>{data.badge}</span>
-          )}
-
-          {isVideo && !isProcessing && (
-             <span className="text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider bg-cyan-50 text-cyan-600 flex items-center gap-1">
-               <Video size={10} /> {t("appointments.type.video")}
-             </span>
-          )}
-        </div>
-        <span className="text-xs text-slate-400 font-medium">{data.date}</span>
-      </div>
-
-
-      <div className="flex justify-between items-center w-full">
-        <div className="flex-1">
-          <h3 className={`font-bold text-lg transition-colors ${
-            isProcessing ? "text-purple-900" : "text-slate-900 group-hover:text-primary"
-          }`}>{data.doctor}</h3>
-          <p className="text-sm text-slate-500">{data.role}</p>
-          <div className="flex items-center gap-1 mt-1 text-xs text-slate-400">
-             {isVideo ? <Video size={10} /> : <MapPin size={10} />}
-             <span>{data.location}</span>
-          </div>
-          {isProcessing && (
-            <span className="inline-block mt-2 text-[9px] font-bold text-purple-700 bg-purple-100 px-2 py-0.5 rounded-full uppercase tracking-wider">
-              {t("appointments.partner.smartMatch")}
-            </span>
-          )}
-        </div>
-        <ChevronRight size={20} className={`transition-colors ${
-          isProcessing ? "text-purple-400" : "text-slate-300 group-hover:text-primary"
-        }`} />
-      </div>
-    </motion.button>
   );
 }

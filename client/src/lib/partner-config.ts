@@ -38,24 +38,7 @@ type PartnerConfig = {
   ssoProviders?: SSOProvider[];
 };
 
-const DEFAULT_SSO_PROVIDERS: SSOProvider[] = [
-  {
-    id: "provider-a",
-    displayName: "Partner A",
-    logoInitials: "PA",
-    backgroundColor: "#F1F5F9",
-    textColor: "#64748B",
-    pharmacyName: "Partner A Pharmacy"
-  },
-  {
-    id: "provider-b",
-    displayName: "Partner B",
-    logoInitials: "PB",
-    backgroundColor: "#DBEAFE",
-    textColor: "#1D4ED8",
-    pharmacyName: "Partner B Pharmacy"
-  }
-];
+const DEFAULT_SSO_PROVIDERS: SSOProvider[] = [];
 
 export type { SSOProvider, PartnerConfig };
 export { DEFAULT_SSO_PROVIDERS };

@@ -1,17 +1,18 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
+import { useLocation } from "wouter";
 import useEmblaCarousel from "embla-carousel-react";
 import { motion } from "framer-motion";
 import { Link } from "wouter";
-import { Bell, Calendar, ChevronLeft, ChevronRight, MapPin } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
+import { Bell, Calendar, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
-import { formatLocalDayNumber, formatLocalMonthShort, formatLocalTime, getLocale } from "@/i18n";
+import { formatLocalDate, formatLocalTime, getLocale } from "@/i18n";
 import { getUserProfile, getUserAppointments, clearBookingDraft, saveBookingDraft } from "@/lib/storage";
 import { LoadingSkeleton } from "@/components/ui/loading-skeleton";
 import { useNotifications } from "@/contexts/NotificationsContext";
 import type { UserProfile, Appointment } from "@/types/storage";
+import { AppointmentCard } from "@/components/appointment-card";
 
 function stableHash(input: string): number {
   let hash = 0;
@@ -142,6 +143,7 @@ import { branding } from "@/config/branding";
 export default function Home() {
   const { t } = useTranslation();
   const locale = getLocale();
+  const [, setLocation] = useLocation();
   const [isLoading, setIsLoading] = useState(true);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [upcomingAppointment, setUpcomingAppointment] = useState<Appointment | null>(null);
@@ -164,13 +166,6 @@ export default function Home() {
   }, []);
 
   const hasAppointments = !!upcomingAppointment;
-
-  // Format dates for upcoming appointment
-  const upcomingDateIso = upcomingAppointment?.date || "";
-  const upcomingTime24 = upcomingAppointment?.time || "";
-  const upcomingMonth = upcomingDateIso ? formatLocalMonthShort(upcomingDateIso, locale) : "";
-  const upcomingDay = upcomingDateIso ? formatLocalDayNumber(upcomingDateIso, locale) : "";
-  const upcomingTime = upcomingTime24 ? formatLocalTime(upcomingTime24, locale) : "";
 
   return (
     <div className="min-h-screen bg-background pb-24" data-testid="home-screen">
@@ -267,32 +262,19 @@ export default function Home() {
           </div>
 
           {hasAppointments && upcomingAppointment ? (
-            <Link href="/appointments/detail">
-            <Card className="border-none shadow-[var(--shadow-card)] overflow-hidden cursor-pointer hover:scale-[1.01] transition-transform">
-               <CardContent className="p-0">
-                 <div className="flex">
-                    <div className="bg-accent w-20 flex flex-col items-center justify-center border-r border-border p-2">
-                       <span className="text-xs font-bold text-primary uppercase">{upcomingMonth}</span>
-                       <span className="text-2xl font-bold text-foreground">{upcomingDay}</span>
-                       <span className="text-xs font-medium text-muted-foreground mt-1">{upcomingTime}</span>
-                    </div>
-                    <div className="p-4 flex-1 flex justify-between items-center">
-                       <div>
-                         <h4 className="font-bold text-foreground">{upcomingAppointment.doctor}</h4>
-                         <p className="text-sm text-muted-foreground">{upcomingAppointment.specialty}</p>
-                         <div className="flex items-center gap-1 mt-2 text-xs text-muted-foreground">
-                           <MapPin size={12} />
-                           <span>{upcomingAppointment.clinic || t("home.upcoming.subtitle")}</span>
-                         </div>
-                       </div>
-                       <Button size="icon" variant="ghost" className="text-muted-foreground">
-                         <ChevronRight size={20} />
-                       </Button>
-                    </div>
-                 </div>
-               </CardContent>
-            </Card>
-            </Link>
+            <AppointmentCard
+              data={{
+                id: upcomingAppointment.id,
+                status: upcomingAppointment.status as "upcoming" | "past" | "processing",
+                type: upcomingAppointment.type,
+                doctor: upcomingAppointment.doctor,
+                role: upcomingAppointment.specialty,
+                location: upcomingAppointment.clinic,
+                date: `${formatLocalDate(upcomingAppointment.date, locale)} • ${formatLocalTime(upcomingAppointment.time, locale)}`,
+                subStatus: undefined
+              }}
+              onClick={() => setLocation(`/appointments/${upcomingAppointment.id}`)}
+            />
           ) : (
             // Empty State
             <div className="bg-card rounded-lg border border-border border-dashed p-8 text-center flex flex-col items-center justify-center gap-3">

@@ -153,7 +153,6 @@ export default function EditProfile() {
             {primaryProvider && <Lock className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />}
             {errors.firstName && !primaryProvider && <AlertCircle className="absolute right-3 top-1/2 -translate-y-1/2 text-red-500" size={16} />}
           </div>
-          {primaryProvider && <button className="text-xs text-primary font-medium hover:underline">Managed by {primaryProvider.displayName}</button>}
           {errors.firstName && !primaryProvider && <p className="text-xs text-red-600">{errors.firstName}</p>}
         </div>
 
@@ -170,7 +169,6 @@ export default function EditProfile() {
             {primaryProvider && <Lock className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />}
             {errors.lastName && !primaryProvider && <AlertCircle className="absolute right-3 top-1/2 -translate-y-1/2 text-red-500" size={16} />}
           </div>
-          {primaryProvider && <button className="text-xs text-primary font-medium hover:underline">Managed by {primaryProvider.displayName}</button>}
           {errors.lastName && !primaryProvider && <p className="text-xs text-red-600">{errors.lastName}</p>}
         </div>
 
@@ -215,7 +213,6 @@ export default function EditProfile() {
              {primaryProvider && <Lock className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />}
              {errors.email && !primaryProvider && <AlertCircle className="absolute right-3 top-1/2 -translate-y-1/2 text-red-500" size={16} />}
           </div>
-           {primaryProvider && <button className="text-xs text-primary font-medium hover:underline">Managed by {primaryProvider.displayName}</button>}
            {errors.email && !primaryProvider && <p className="text-xs text-red-600">{errors.email}</p>}
         </div>
 
@@ -257,7 +254,6 @@ export default function EditProfile() {
                 No address on file
               </div>
             )}
-            {primaryProvider && <button className="text-xs text-primary font-medium hover:underline">Managed by {primaryProvider.displayName}</button>}
           </div>
         )}
       </main>

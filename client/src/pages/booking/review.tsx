@@ -11,7 +11,6 @@ import {
   AlertDialogDescription,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { getBookingDraft, clearBookingDraft, saveAppointment } from "@/lib/storage";
 import { useTranslation } from "react-i18next";
@@ -181,14 +180,13 @@ export default function BookingReview() {
       <div className="fixed bottom-[80px] left-0 right-0 z-40 flex justify-center">
         <div className="max-w-[375px] w-full bg-white border-t border-slate-100 px-5 py-4 flex justify-center">
           <div className="w-[315px]">
-            <AlertDialogTrigger asChild>
-              <Button
-                className="w-full h-12 text-base rounded-xl bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/20"
-                disabled={isConfirming}
-              >
-                {isConfirming ? "Confirming..." : t("booking.review.confirm")}
-              </Button>
-            </AlertDialogTrigger>
+            <Button
+              onClick={() => setDialogOpen(true)}
+              className="w-full h-12 text-base rounded-xl bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/20"
+              disabled={isConfirming}
+            >
+              {isConfirming ? "Confirming..." : t("booking.review.confirm")}
+            </Button>
           </div>
         </div>
       </div>
