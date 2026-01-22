@@ -23,10 +23,10 @@ export default function PrivacyLegal() {
              onClick={() => setLocation("/static/legal")}
            />
            <div className="h-px bg-slate-50 mx-4"></div>
-           <MenuRow 
-             icon={Check} 
-             label="Terms of Service" 
-             onClick={() => {}} // Placeholder
+           <MenuRow
+             icon={Check}
+             label="Terms of Service"
+             onClick={() => setLocation("/static/legal")}
            />
         </div>
       </main>

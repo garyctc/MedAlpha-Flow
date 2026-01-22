@@ -205,7 +205,7 @@ function AppRoutes() {
 
       {/* Appointment Routes */}
       <Route path="/appointments" component={AppointmentsPage} />
-      <Route path="/appointments/detail" component={FutureAppointmentDetail} />
+      <Route path="/appointments/:id" component={FutureAppointmentDetail} />
 
       {/* Placeholders */}
       
@@ -227,9 +227,9 @@ function App() {
           <div className="w-full max-w-[375px] relative">
             <AppRoutes />
             <BottomNav />
+            <Toaster />
           </div>
           <AnnotationPanel />
-          <Toaster />
         </div>
       </Router>
     </QueryClientProvider>

@@ -14,6 +14,7 @@ export default function RegisterGKVDetails() {
   const [agreed, setAgreed] = useState(false);
   const [provider, setProvider] = useState("");
   const [insuranceNumber, setInsuranceNumber] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const isFormValid = provider && insuranceNumber.length >= 9 && agreed;
 
@@ -111,16 +112,20 @@ export default function RegisterGKVDetails() {
 
         <Button
           className="w-full h-12 text-base font-medium rounded-xl"
-          disabled={!isFormValid}
+          disabled={!isFormValid || isLoading}
           onClick={() => {
-            saveRegistrationDraft({
-              insuranceProvider: provider,
-              insuranceNumber: insuranceNumber
-            });
-            setLocation("/register/complete?type=gkv");
+            setIsLoading(true);
+            setTimeout(() => {
+              saveRegistrationDraft({
+                insuranceProvider: provider,
+                insuranceNumber: insuranceNumber
+              });
+              setIsLoading(false);
+              setLocation("/register/complete?type=gkv");
+            }, 500);
           }}
         >
-          Complete Registration
+          {isLoading ? "Completing..." : "Complete Registration"}
         </Button>
       </div>
     </div>

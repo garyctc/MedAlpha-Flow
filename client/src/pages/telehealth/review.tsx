@@ -1,13 +1,27 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { Clock, Video, FileText, CreditCard } from "lucide-react";
 import SubPageHeader from "@/components/layout/SubPageHeader";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { getBookingDraft } from "@/lib/storage";
+import type { BookingDraft } from "@/types/storage";
+
+const DURATION_LABELS: Record<string, string> = {
+  "<24": "Less than 24 hours",
+  "1-3": "1-3 days",
+  "4-7": "4-7 days",
+  ">7": "More than a week"
+};
 
 export default function TelehealthReview() {
   const [, setLocation] = useLocation();
   const [consent, setConsent] = useState(false);
+  const [draft, setDraft] = useState<BookingDraft | null>(null);
+
+  useEffect(() => {
+    setDraft(getBookingDraft());
+  }, []);
 
   return (
     <div className="min-h-screen bg-background pb-28">
@@ -40,11 +54,13 @@ export default function TelehealthReview() {
              <div className="flex-1 pt-0.5">
                <p className="font-bold text-slate-900 text-sm mb-1">Your Symptoms</p>
                <ul className="text-xs text-slate-600 space-y-1 list-disc list-inside">
-                 <li>Cold/Flu symptoms</li>
-                 <li>Duration: 1-3 days</li>
+                 {draft?.symptoms?.map((symptom, i) => (
+                   <li key={i}>{symptom}</li>
+                 )) || <li>Cold/Flu symptoms</li>}
+                 <li>Duration: {draft?.symptomDuration ? DURATION_LABELS[draft.symptomDuration] || draft.symptomDuration : "1-3 days"}</li>
                </ul>
              </div>
-             <button className="text-sm font-medium text-primary">Edit</button>
+             <button onClick={() => setLocation("/telehealth/symptoms-intro")} className="text-sm font-medium text-primary">Edit</button>
           </div>
 
           <div className="h-px bg-slate-100 mx-4"></div>

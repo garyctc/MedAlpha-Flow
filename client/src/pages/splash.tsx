@@ -2,13 +2,20 @@ import { useEffect } from "react";
 import { useLocation } from "wouter";
 import { motion } from "framer-motion";
 import appLogo from "@/assets/app-logo.svg";
+import { getAuthState } from "@/lib/storage";
 
 export default function Splash() {
   const [, setLocation] = useLocation();
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setLocation("/login");
+      // Check if user is already logged in
+      const authState = getAuthState();
+      if (authState?.isLoggedIn) {
+        setLocation("/home");
+      } else {
+        setLocation("/login");
+      }
     }, 2000);
     return () => clearTimeout(timer);
   }, [setLocation]);

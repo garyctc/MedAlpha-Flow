@@ -28,6 +28,7 @@ export interface Appointment {
   time: string;
   status: 'upcoming' | 'completed' | 'cancelled' | 'processing';
   createdAt: string;
+  cancelledAt?: string;
 }
 
 export interface BookingDraft {
@@ -37,6 +38,11 @@ export interface BookingDraft {
   doctor?: string;
   date?: string;
   time?: string;
+  // Telehealth-specific fields
+  symptoms?: string[];
+  symptomDuration?: string;
+  painLevel?: number;
+  additionalNotes?: string;
 }
 
 export interface RegistrationDraft {
@@ -56,4 +62,20 @@ export interface RegistrationDraft {
     city: string;
     postalCode: string;
   };
+}
+
+export interface AuthState {
+  isLoggedIn: boolean;
+  userId?: string;
+}
+
+export interface UserSettings {
+  language: 'de' | 'en';
+  notifications: boolean;
+}
+
+export interface LinkedAccounts {
+  dm: boolean;
+  payback: boolean;
+  insurance: boolean;
 }

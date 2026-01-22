@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
 import { AlertCircle, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { saveAuthState, saveLinkedAccounts } from "@/lib/storage";
 
 export default function SSOLoading() {
   const [, setLocation] = useLocation();
@@ -10,8 +11,11 @@ export default function SSOLoading() {
   useEffect(() => {
     // Simulate API call
     const timer = setTimeout(() => {
+      // Save partial auth state (not fully logged in until profile complete)
+      saveAuthState({ isLoggedIn: false, userId: "sso-user" });
+      // Mark dm as linked since user came from SSO
+      saveLinkedAccounts({ dm: true });
       // For prototype, we simulate success and go to complete profile
-      // In a real app, this would check if user exists
       setLocation("/sso/complete-profile");
     }, 2000);
 

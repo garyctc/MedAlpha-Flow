@@ -3,11 +3,13 @@ import { useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { Calendar, Filter, ChevronRight, Plus, MapPin, Clock, Video, CheckCircle2, X, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import appLogo from "@/assets/app-logo.svg";
 import { useToast } from "@/hooks/use-toast";
 import PushNotificationBanner from "@/components/ui/push-notification-banner";
-import { getUserAppointments, saveAppointment } from "@/lib/storage";
+import { getUserAppointments, saveAppointment, updateAppointment } from "@/lib/storage";
+import { showSuccess } from "@/lib/toast-helpers";
 import type { Appointment as StoredAppointment } from "@/types/storage";
 import { useTranslation } from "react-i18next";
 import { formatLocalDate, formatLocalTime, getLocale, type Locale } from "@/i18n";
@@ -114,9 +116,21 @@ export default function AppointmentsPage() {
   const [pendingBooking, setPendingBooking] = useState<Appointment | null>(null);
   const [showPushNotification, setShowPushNotification] = useState(false);
   const [confirmedDoctorName, setConfirmedDoctorName] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const [storedAppointments, setStoredAppointments] = useState<Appointment[]>([]);
   const { toast } = useToast();
   const { t } = useTranslation();
   const locale = getLocale();
+
+  // Load appointments from localStorage
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const appointments = convertStoredAppointments(getUserAppointments(), locale, t);
+      setStoredAppointments(appointments);
+      setIsLoading(false);
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [locale, t]);
 
   // Check for pending Smart Match booking on mount
   useEffect(() => {
@@ -196,7 +210,6 @@ export default function AppointmentsPage() {
   }, [locale, t, toast]);
 
   // Combine pending booking with stored appointments
-  const storedAppointments = convertStoredAppointments(getUserAppointments(), locale, t);
   const allAppointments = pendingBooking
     ? [pendingBooking, ...storedAppointments]
     : storedAppointments;
@@ -261,12 +274,30 @@ export default function AppointmentsPage() {
         {/* Note: Removed tabs for Upcoming/Past as History is now in a separate tab */}
 
         <div className="space-y-4">
-          {filteredAppointments.length > 0 ? (
+          {isLoading ? (
+            // Loading Skeleton
+            Array.from({ length: 3 }).map((_, i) => (
+              <div key={i} className="w-full p-4 rounded-2xl border border-slate-100 shadow-sm bg-white">
+                <div className="flex justify-between items-start mb-3">
+                  <Skeleton className="h-5 w-24 rounded-full" />
+                  <Skeleton className="h-4 w-32" />
+                </div>
+                <div className="flex justify-between items-center">
+                  <div className="flex-1 space-y-2">
+                    <Skeleton className="h-5 w-40" />
+                    <Skeleton className="h-4 w-28" />
+                    <Skeleton className="h-3 w-48" />
+                  </div>
+                  <Skeleton className="h-5 w-5 rounded" />
+                </div>
+              </div>
+            ))
+          ) : filteredAppointments.length > 0 ? (
             filteredAppointments.map((apt) => (
               <AppointmentCard
                 key={apt.id}
                 data={apt}
-                onClick={() => setLocation("/appointments/detail")}
+                onClick={() => setLocation(`/appointments/${apt.id}`)}
               />
             ))
           ) : (

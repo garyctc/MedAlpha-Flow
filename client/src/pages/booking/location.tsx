@@ -1,8 +1,10 @@
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useLocation } from "wouter";
 import { MapPin, Star, Navigation } from "lucide-react";
 import SubPageHeader from "@/components/layout/SubPageHeader";
-import { saveBookingDraft } from "@/lib/storage";
+import { Skeleton } from "@/components/ui/skeleton";
+import { saveBookingDraft, getBookingDraft } from "@/lib/storage";
 
 const clinics = [
   {
@@ -33,6 +35,22 @@ const clinics = [
 
 export default function LocationSelect() {
   const [, setLocation] = useLocation();
+  const [isLoading, setIsLoading] = useState(true);
+  const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Load existing draft and simulate location search
+    const draft = getBookingDraft();
+    if (draft?.location) {
+      setSelectedLocation(draft.location);
+    }
+
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleClinicClick = (clinicId: number, clinicName: string) => {
     saveBookingDraft({ location: clinicName });
@@ -53,16 +71,32 @@ export default function LocationSelect() {
         </div>
 
         <div>
-          <h2 className="text-lg font-bold text-slate-900 mb-3">Nearby Clinics</h2>
+          <h2 className="text-lg font-bold text-slate-900 mb-3">
+            {isLoading ? "Finding nearby locations..." : "Nearby Clinics"}
+          </h2>
           <div className="space-y-3">
-            {clinics.map((clinic, index) => (
+            {isLoading ? (
+              Array.from({ length: 3 }).map((_, i) => (
+                <div key={i} className="w-full bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
+                  <Skeleton className="h-5 w-3/4 mb-2" />
+                  <Skeleton className="h-4 w-full mb-3" />
+                  <div className="flex gap-2">
+                    <Skeleton className="h-5 w-16" />
+                    <Skeleton className="h-5 w-20" />
+                  </div>
+                </div>
+              ))
+            ) : (
+            clinics.map((clinic, index) => (
               <motion.button
                 key={clinic.id}
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.1 }}
                 onClick={() => handleClinicClick(clinic.id, clinic.name)}
-                className="w-full bg-white p-4 rounded-2xl border border-slate-100 shadow-sm text-left hover:border-primary/30 transition-all flex justify-between items-center group"
+                className={`w-full bg-white p-4 rounded-2xl border shadow-sm text-left hover:border-primary/30 transition-all flex justify-between items-center group ${
+                  selectedLocation === clinic.name ? 'border-primary ring-2 ring-primary/20' : 'border-slate-100'
+                }`}
               >
                 <div className="w-full">
                   <div className="flex justify-between items-start">
@@ -86,7 +120,8 @@ export default function LocationSelect() {
                   </div>
                 </div>
               </motion.button>
-            ))}
+            ))
+            )}
           </div>
         </div>
       </main>

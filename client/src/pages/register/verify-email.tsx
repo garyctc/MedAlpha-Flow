@@ -4,12 +4,19 @@ import { Mail, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import SubPageHeader from "@/components/layout/SubPageHeader";
+import { getRegistrationDraft, saveRegistrationDraft } from "@/lib/storage";
+import { showError, showSuccess } from "@/lib/toast-helpers";
 
 export default function RegisterVerifyEmail() {
   const [, setLocation] = useLocation();
   const [code, setCode] = useState("");
-  const [timer, setTimer] = useState(45);
+  const [timer, setTimer] = useState(60);
   const [canResend, setCanResend] = useState(false);
+  const [isVerifying, setIsVerifying] = useState(false);
+
+  // Load email from registration draft
+  const draft = getRegistrationDraft();
+  const email = draft?.email || "your email";
 
   useEffect(() => {
     if (timer > 0) {
@@ -21,8 +28,9 @@ export default function RegisterVerifyEmail() {
   }, [timer]);
 
   const handleResend = () => {
-    setTimer(45);
+    setTimer(60);
     setCanResend(false);
+    showSuccess("Verification code sent");
   };
 
   return (
@@ -49,7 +57,7 @@ export default function RegisterVerifyEmail() {
           <h2 className="text-xl font-bold font-display text-slate-900 mb-2">Check your inbox</h2>
           <p className="text-slate-500 text-sm">
             We sent a verification code to<br />
-            <span className="font-bold text-slate-900">max@example.com</span>
+            <span className="font-bold text-slate-900">{email}</span>
           </p>
         </div>
 
@@ -78,12 +86,24 @@ export default function RegisterVerifyEmail() {
             )}
           </div>
 
-          <Button 
+          <Button
             className="w-full h-12 text-base font-medium rounded-xl"
-            disabled={code.length !== 6}
-            onClick={() => setLocation("/register/personal")}
+            disabled={code.length !== 6 || isVerifying}
+            onClick={() => {
+              setIsVerifying(true);
+              // Simulate verification - accept any 6-digit code in demo mode
+              setTimeout(() => {
+                if (code.length === 6) {
+                  showSuccess("Email verified");
+                  setLocation("/register/personal");
+                } else {
+                  showError("Invalid verification code");
+                }
+                setIsVerifying(false);
+              }, 500);
+            }}
           >
-            Verify
+            {isVerifying ? "Verifying..." : "Verify"}
           </Button>
 
           <div className="text-center mt-4">

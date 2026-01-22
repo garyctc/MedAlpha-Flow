@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { motion } from "framer-motion";
@@ -8,6 +9,9 @@ import { Button } from "@/components/ui/button";
 import avatarImage from "@assets/generated_images/professional_user_avatar_for_healthcare_app.png";
 import { useTranslation } from "react-i18next";
 import { formatLocalDayNumber, formatLocalMonthShort, formatLocalTime, getLocale } from "@/i18n";
+import { getUserProfile, getUserAppointments } from "@/lib/storage";
+import { LoadingSkeleton } from "@/components/ui/loading-skeleton";
+import type { UserProfile, Appointment } from "@/types/storage";
 
 function PromoCarousel() {
   const [emblaRef] = useEmblaCarousel({ loop: true }, [Autoplay({ delay: 5000 })]);
@@ -64,16 +68,36 @@ function PromoCarousel() {
 import appLogo from "@/assets/app-logo.svg";
 
 export default function Home() {
-  // Toggle this to see empty state
-  const hasAppointments = true; 
   const { t } = useTranslation();
   const locale = getLocale();
+  const [isLoading, setIsLoading] = useState(true);
+  const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [upcomingAppointment, setUpcomingAppointment] = useState<Appointment | null>(null);
 
-  const upcomingDateIso = "2026-01-24";
-  const upcomingTime24 = "10:00";
-  const upcomingMonth = formatLocalMonthShort(upcomingDateIso, locale);
-  const upcomingDay = formatLocalDayNumber(upcomingDateIso, locale);
-  const upcomingTime = formatLocalTime(upcomingTime24, locale);
+  useEffect(() => {
+    // Simulate loading delay for realism
+    const timer = setTimeout(() => {
+      const userProfile = getUserProfile();
+      const appointments = getUserAppointments();
+      // Find first upcoming appointment
+      const upcoming = appointments.find(a => a.status === 'upcoming');
+
+      setProfile(userProfile);
+      setUpcomingAppointment(upcoming || null);
+      setIsLoading(false);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  const hasAppointments = !!upcomingAppointment;
+
+  // Format dates for upcoming appointment
+  const upcomingDateIso = upcomingAppointment?.date || "";
+  const upcomingTime24 = upcomingAppointment?.time || "";
+  const upcomingMonth = upcomingDateIso ? formatLocalMonthShort(upcomingDateIso, locale) : "";
+  const upcomingDay = upcomingDateIso ? formatLocalDayNumber(upcomingDateIso, locale) : "";
+  const upcomingTime = upcomingTime24 ? formatLocalTime(upcomingTime24, locale) : "";
 
   return (
     <div className="min-h-screen bg-background pb-24" data-testid="home-screen">
@@ -103,6 +127,10 @@ export default function Home() {
       </header>
 
       <main className="px-5 py-6 space-y-8">
+        {isLoading ? (
+          <LoadingSkeleton variant="page" />
+        ) : (
+        <>
         {/* Promo Carousel */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
@@ -141,7 +169,7 @@ export default function Home() {
             )}
           </div>
           
-          {hasAppointments ? (
+          {hasAppointments && upcomingAppointment ? (
             <Link href="/appointments/detail">
             <Card className="border-none shadow-[var(--shadow-card)] overflow-hidden cursor-pointer hover:scale-[1.01] transition-transform">
                <CardContent className="p-0">
@@ -153,11 +181,11 @@ export default function Home() {
                     </div>
                     <div className="p-4 flex-1 flex justify-between items-center">
                        <div>
-                         <h4 className="font-bold text-foreground">Dr. Sarah Johnson</h4>
-                         <p className="text-sm text-muted-foreground">{t("home.upcoming.subtitle")}</p>
+                         <h4 className="font-bold text-foreground">{upcomingAppointment.doctor}</h4>
+                         <p className="text-sm text-muted-foreground">{upcomingAppointment.specialty}</p>
                          <div className="flex items-center gap-1 mt-2 text-xs text-muted-foreground">
                            <MapPin size={12} />
-                           <span>MedAlpha Health Center</span>
+                           <span>{upcomingAppointment.clinic || t("home.upcoming.subtitle")}</span>
                          </div>
                        </div>
                        <Button size="icon" variant="ghost" className="text-muted-foreground">
@@ -200,6 +228,8 @@ export default function Home() {
               </div>
            </div>
         </section>
+        </>
+        )}
       </main>
     </div>
   );

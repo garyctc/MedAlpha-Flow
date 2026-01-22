@@ -1,17 +1,18 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
-import { Check, Calendar, ArrowRight, CreditCard, Smartphone } from "lucide-react";
+import { Check, Calendar, CreditCard, Smartphone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { getRegistrationDraft, clearRegistrationDraft, saveUserProfile, saveUserInsurance } from "@/lib/storage";
+import { getRegistrationDraft, clearRegistrationDraft, saveUserProfile, saveUserInsurance, saveAuthState } from "@/lib/storage";
+import { showSuccess } from "@/lib/toast-helpers";
 import { DURATION_DEFAULT, DURATION_SLOW, EASING_DEFAULT, shouldReduceMotion } from "@/lib/motion";
 
 export default function RegisterComplete() {
-  const [location, setLocation] = useLocation();
+  const [, setLocation] = useLocation();
   const searchParams = new URLSearchParams(window.location.search);
   const type = searchParams.get("type") || "gkv";
   const isGkv = type === "gkv";
-  const [userData, setUserData] = useState({ name: "Max Mustermann", email: "max@example.com" });
+  const [userData, setUserData] = useState({ name: "", email: "" });
   const reduceMotion = shouldReduceMotion();
 
   useEffect(() => {
@@ -34,7 +35,7 @@ export default function RegisterComplete() {
         // Update display data
         setUserData({
           name: `${draft.personalInfo.firstName} ${draft.personalInfo.lastName}`,
-          email: draft.email || "max@example.com"
+          email: draft.email || ""
         });
       }
 
@@ -48,10 +49,16 @@ export default function RegisterComplete() {
         });
       }
 
+      // Save auth state - user is now logged in
+      saveAuthState({ isLoggedIn: true, userId: "user-" + Date.now() });
+
       // Clear registration draft
       clearRegistrationDraft();
+
+      // Show success toast
+      showSuccess("Account created successfully");
     }
-  }, [setLocation]);
+  }, []);
 
   return (
     <div className="min-h-screen bg-white p-6 flex flex-col justify-center items-center text-center">

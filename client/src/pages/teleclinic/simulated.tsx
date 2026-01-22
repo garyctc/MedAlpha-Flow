@@ -1,16 +1,53 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useLocation } from "wouter";
 import { Loader2, Video, Check, Calendar, Lock, RefreshCw, ChevronLeft, ChevronRight, Share, Compass } from "lucide-react";
 import { motion } from "framer-motion";
-import { saveAppointment } from "@/lib/storage";
+import { saveAppointment, getBookingDraft } from "@/lib/storage";
+import { format, addDays, setHours, setMinutes } from "date-fns";
 
 type FlowStep = "loading" | "booking" | "confirming";
+
+const DOCTORS = [
+  "Dr. Weber",
+  "Dr. Schmidt",
+  "Dr. Fischer",
+  "Dr. Bauer"
+];
 
 export default function TeleclinicSimulated() {
   const [, setLocation] = useLocation();
   const [step, setStep] = useState<FlowStep>("loading");
   const [selectedReason, setSelectedReason] = useState<string>("");
   const [selectedTime, setSelectedTime] = useState<string>("");
+
+  // Generate dynamic time slots based on current time
+  const timeSlots = useMemo(() => {
+    const now = new Date();
+    const slots: string[] = [];
+
+    // Add some slots for today if it's early enough
+    const currentHour = now.getHours();
+    if (currentHour < 17) {
+      const todaySlot1 = setMinutes(setHours(now, Math.max(currentHour + 1, 14)), 0);
+      const todaySlot2 = setMinutes(setHours(now, Math.max(currentHour + 2, 15)), 30);
+      if (todaySlot1.getHours() < 18) {
+        slots.push(`Today, ${format(todaySlot1, "h:mm a")}`);
+      }
+      if (todaySlot2.getHours() < 18) {
+        slots.push(`Today, ${format(todaySlot2, "h:mm a")}`);
+      }
+    }
+
+    // Add slots for tomorrow
+    const tomorrow = addDays(now, 1);
+    slots.push(`Tomorrow, ${format(setHours(setMinutes(tomorrow, 0), 10), "h:mm a")}`);
+    slots.push(`Tomorrow, ${format(setHours(setMinutes(tomorrow, 0), 14), "h:mm a")}`);
+
+    return slots.slice(0, 4); // Max 4 slots
+  }, []);
+
+  // Random doctor for this session
+  const doctor = useMemo(() => DOCTORS[Math.floor(Math.random() * DOCTORS.length)], []);
 
   // Auto-advance from loading to booking
   useEffect(() => {
@@ -23,15 +60,34 @@ export default function TeleclinicSimulated() {
   // Auto-advance from confirming to appointments
   useEffect(() => {
     if (step === "confirming") {
+      // Parse time slot to get date and time
+      const [dayPart, timePart] = selectedTime.split(", ");
+      let date = format(new Date(), "yyyy-MM-dd");
+      if (dayPart === "Tomorrow") {
+        date = format(addDays(new Date(), 1), "yyyy-MM-dd");
+      }
+      // Convert time like "2:00 PM" to 24h format "14:00"
+      let time = timePart || "14:00";
+      try {
+        const [hourMin, period] = timePart.split(" ");
+        const [h, m] = hourMin.split(":");
+        let hour = parseInt(h);
+        if (period === "PM" && hour !== 12) hour += 12;
+        if (period === "AM" && hour === 12) hour = 0;
+        time = `${hour.toString().padStart(2, "0")}:${m}`;
+      } catch {
+        // Keep default
+      }
+
       // Save video appointment to persistent storage
       saveAppointment({
         id: `TEL-${Date.now()}`,
         type: "video",
-        doctor: "Dr. Available Doctor",
+        doctor: doctor,
         specialty: selectedReason || "General Consultation",
         clinic: "Teleclinic",
-        date: selectedTime.split(",")[0],
-        time: selectedTime.split(",")[1]?.trim() || "TBD",
+        date,
+        time,
         status: "upcoming",
         createdAt: new Date().toISOString()
       });
@@ -41,7 +97,7 @@ export default function TeleclinicSimulated() {
       }, 1500);
       return () => clearTimeout(timer);
     }
-  }, [step, setLocation, selectedReason, selectedTime]);
+  }, [step, setLocation, selectedReason, selectedTime, doctor]);
 
   const handleBooking = () => {
     if (selectedReason && selectedTime) {
@@ -49,21 +105,22 @@ export default function TeleclinicSimulated() {
     }
   };
 
-  // Booking form data
-  const reasons = [
-    "General Consultation",
-    "Follow-up Appointment",
-    "Prescription Renewal",
-    "Sick Note Request",
-    "Test Results Discussion"
-  ];
-
-  const timeSlots = [
-    "Today, 2:00 PM",
-    "Today, 3:30 PM",
-    "Tomorrow, 10:00 AM",
-    "Tomorrow, 2:00 PM"
-  ];
+  // Load symptoms from draft if available
+  const reasons = useMemo(() => {
+    const draft = getBookingDraft();
+    const baseReasons = [
+      "General Consultation",
+      "Follow-up Appointment",
+      "Prescription Renewal",
+      "Sick Note Request",
+      "Test Results Discussion"
+    ];
+    // If user has symptoms from the telehealth flow, add them
+    if (draft?.symptoms && draft.symptoms.length > 0) {
+      return [...draft.symptoms, ...baseReasons.slice(0, 3)];
+    }
+    return baseReasons;
+  }, []);
 
   // Render content based on current step
   const renderContent = () => {

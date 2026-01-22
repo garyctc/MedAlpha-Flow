@@ -1,50 +1,48 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 import { useLocation } from "wouter";
-import { Star, Clock, ChevronRight } from "lucide-react";
+import { Star, Clock, Calendar } from "lucide-react";
 import SubPageHeader from "@/components/layout/SubPageHeader";
 import { Skeleton } from "@/components/ui/skeleton";
-import { saveBookingDraft } from "@/lib/storage";
+import { saveBookingDraft, getBookingDraft } from "@/lib/storage";
+import { DOCTORS } from "@/lib/constants/doctors";
 
-const doctors = [
-  { 
-    id: 1, 
-    name: "Dr. Anna Schmidt", 
-    specialty: "General Practice", 
-    rating: 4.8, 
-    nextAvailable: "Tomorrow, 9:00 AM",
-    image: null 
-  },
-  { 
-    id: 2, 
-    name: "Dr. Michael Chen", 
-    specialty: "General Practice", 
-    rating: 4.7, 
-    nextAvailable: "Today, 4:30 PM",
-    image: null 
-  },
-  { 
-    id: 3, 
-    name: "Dr. Sarah Weber", 
-    specialty: "General Practice", 
-    rating: 4.9, 
-    nextAvailable: "Tomorrow, 10:00 AM",
-    image: null
-  },
+type FilterType = 'all' | 'available' | 'top-rated';
+
+const filters: { label: string; value: FilterType }[] = [
+  { label: "All", value: "all" },
+  { label: "Available Today", value: "available" },
+  { label: "Highest Rated", value: "top-rated" },
 ];
-
-const filters = ["All", "Available Today", "Highest Rated"];
 
 export default function DoctorSelect() {
   const [, setLocation] = useLocation();
   const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState<FilterType>('all');
+  const [selectedDoctor, setSelectedDoctor] = useState<string | null>(null);
 
   useEffect(() => {
+    const draft = getBookingDraft();
+    if (draft?.doctor) {
+      const doc = DOCTORS.find(d => d.name === draft.doctor);
+      if (doc) setSelectedDoctor(doc.id);
+    }
     const timer = setTimeout(() => setLoading(false), 1500);
     return () => clearTimeout(timer);
   }, []);
 
-  const handleDoctorClick = (doctorId: number, doctorName: string) => {
+  const filteredDoctors = useMemo(() => {
+    switch (filter) {
+      case 'available':
+        return DOCTORS.filter(d => d.availableToday);
+      case 'top-rated':
+        return DOCTORS.filter(d => d.rating >= 4.8);
+      default:
+        return DOCTORS;
+    }
+  }, [filter]);
+
+  const handleDoctorClick = (doctorId: string, doctorName: string) => {
     saveBookingDraft({ doctor: doctorName });
     setLocation(`/booking/calendar?doctor=${doctorId}`);
   };
@@ -56,14 +54,15 @@ export default function DoctorSelect() {
       <main className="p-5 space-y-4">
         {/* Filters */}
         <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
-          {filters.map((filter, i) => (
-            <button 
-              key={filter} 
+          {filters.map((f) => (
+            <button
+              key={f.value}
+              onClick={() => setFilter(f.value)}
               className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
-                i === 0 ? "bg-primary text-white" : "bg-white border border-slate-200 text-slate-600 hover:border-primary/50"
+                filter === f.value ? "bg-primary text-white" : "bg-white border border-slate-200 text-slate-600 hover:border-primary/50"
               }`}
             >
-              {filter}
+              {f.label}
             </button>
           ))}
         </div>
@@ -82,19 +81,30 @@ export default function DoctorSelect() {
                 </div>
               </div>
             ))
+          ) : filteredDoctors.length === 0 ? (
+            // Empty State
+            <div className="bg-white rounded-2xl border border-slate-100 border-dashed p-8 text-center">
+              <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Calendar size={24} className="text-slate-400" />
+              </div>
+              <p className="font-medium text-slate-900 mb-1">No doctors match this filter</p>
+              <p className="text-sm text-slate-500">Try a different filter or check back later</p>
+            </div>
           ) : (
             // Real Data
-            doctors.map((doc, index) => (
+            filteredDoctors.map((doc, index) => (
               <motion.button
                 key={doc.id}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
                 onClick={() => handleDoctorClick(doc.id, doc.name)}
-                className="w-full bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4 text-left hover:border-primary/30 transition-all group"
+                className={`w-full bg-white p-4 rounded-2xl border shadow-sm flex items-center gap-4 text-left hover:border-primary/30 transition-all group ${
+                  selectedDoctor === doc.id ? 'border-primary ring-2 ring-primary/20' : 'border-slate-100'
+                }`}
               >
                 <div className="w-16 h-16 rounded-full bg-slate-200 flex-shrink-0"></div>
-                
+
                 <div className="flex-1 min-w-0">
                   <div className="flex justify-between items-start">
                     <h3 className="font-bold text-slate-900 truncate group-hover:text-primary transition-colors">{doc.name}</h3>

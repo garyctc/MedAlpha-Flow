@@ -1,28 +1,45 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
 import { motion } from "framer-motion";
 import { Check, MapPin, Calendar, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DURATION_DEFAULT, EASING_DEFAULT, shouldReduceMotion } from "@/lib/motion";
+import { saveAppointment, getBookingDraft, clearBookingDraft } from "@/lib/storage";
+import { showSuccess } from "@/lib/toast-helpers";
+import type { Appointment } from "@/types/storage";
+import { formatLocalDate, formatLocalTime, getLocale } from "@/i18n";
 
 export default function SmartMatchSuccess() {
   const [, setLocation] = useLocation();
   const reduceMotion = shouldReduceMotion();
+  const locale = getLocale();
+  const [appointment, setAppointment] = useState<Appointment | null>(null);
 
   useEffect(() => {
-    // Save pending booking to localStorage for appointments page
-    const booking = {
-      id: `MA-${Date.now()}`,
-      status: "processing",
-      doctor: "TBD",
-      clinic: "TBD",
-      dateIso: "2026-01-24",
-      time24: "10:00",
-      date: "January 24, 2026",
-      time: "10:00 AM",
+    const draft = getBookingDraft();
+
+    // Generate a date 3-5 days from now for the smart-matched appointment
+    const futureDate = new Date();
+    futureDate.setDate(futureDate.getDate() + 3 + Math.floor(Math.random() * 3));
+    const dateIso = futureDate.toISOString().split('T')[0];
+
+    // Create the appointment
+    const newAppointment: Appointment = {
+      id: `smart-match-${Date.now()}`,
+      type: draft?.type || 'in-person',
+      doctor: "Dr. Sarah Johnson",
+      specialty: draft?.specialty || "General Practice",
+      clinic: "MedAlpha Health Center",
+      date: dateIso,
+      time: "10:00",
+      status: 'upcoming',
       createdAt: new Date().toISOString(),
     };
-    localStorage.setItem("pending-smart-match-booking", JSON.stringify(booking));
+
+    saveAppointment(newAppointment);
+    setAppointment(newAppointment);
+    clearBookingDraft();
+    showSuccess("Appointment booked successfully!");
 
     // Auto-redirect after 3s
     const timer = setTimeout(() => {
@@ -53,8 +70,8 @@ export default function SmartMatchSuccess() {
         <div className="space-y-4">
           <div>
             <p className="text-xs font-bold text-purple-700 uppercase tracking-wider mb-2">Doctor</p>
-            <p className="text-base font-bold text-slate-900">Dr. Sarah Johnson</p>
-            <p className="text-sm text-slate-500">General Practice</p>
+            <p className="text-base font-bold text-slate-900">{appointment?.doctor || "Dr. Sarah Johnson"}</p>
+            <p className="text-sm text-slate-500">{appointment?.specialty || "General Practice"}</p>
           </div>
 
           <div className="h-px bg-slate-100"></div>
@@ -62,26 +79,26 @@ export default function SmartMatchSuccess() {
           <div className="flex items-start gap-3">
             <MapPin className="text-purple-700 mt-0.5" size={18} />
             <div>
-              <p className="text-sm font-medium text-slate-900">MedAlpha Health Center</p>
+              <p className="text-sm font-medium text-slate-900">{appointment?.clinic || "MedAlpha Health Center"}</p>
               <p className="text-sm text-slate-500">Friedrichstraße 123, 10117 Berlin</p>
             </div>
           </div>
 
           <div className="flex items-center gap-3">
             <Calendar className="text-purple-700" size={18} />
-            <p className="text-sm text-slate-700">January 24, 2026</p>
+            <p className="text-sm text-slate-700">{appointment?.date ? formatLocalDate(appointment.date, locale) : "Loading..."}</p>
           </div>
 
           <div className="flex items-center gap-3">
             <Clock className="text-purple-700" size={18} />
-            <p className="text-sm text-slate-700">10:00 AM</p>
+            <p className="text-sm text-slate-700">{appointment?.time ? formatLocalTime(appointment.time, locale) : "Loading..."}</p>
           </div>
 
           <div className="h-px bg-slate-100"></div>
 
           <div className="flex items-center justify-between">
             <span className="inline-block text-[10px] font-bold text-purple-700 bg-purple-50 px-2 py-1 rounded-full uppercase tracking-wider">
-              MedAlpha Match
+              Smart Match
             </span>
             <span className="inline-block text-xs font-semibold text-purple-700 bg-purple-50 px-3 py-1 rounded-full">
               Confirmed

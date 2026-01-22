@@ -14,6 +14,7 @@ export default function RegisterAccount() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [touched, setTouched] = useState({ email: false, password: false, confirm: false });
+  const [isLoading, setIsLoading] = useState(false);
 
   const validations = {
     length: password.length >= 8,
@@ -39,8 +40,13 @@ export default function RegisterAccount() {
 
         <form className="space-y-6" onSubmit={(e) => {
           e.preventDefault();
-          saveRegistrationDraft({ email });
-          setLocation("/register/verify");
+          setIsLoading(true);
+          // Simulate API call
+          setTimeout(() => {
+            saveRegistrationDraft({ email });
+            setIsLoading(false);
+            setLocation("/register/verify");
+          }, 500);
         }}>
           <div className="space-y-2">
             <Label htmlFor="email">Email address</Label>
@@ -100,12 +106,12 @@ export default function RegisterAccount() {
             )}
           </div>
 
-          <Button 
-            type="submit" 
+          <Button
+            type="submit"
             className="w-full h-12 text-base font-medium rounded-xl mt-4"
-            disabled={!isFormValid}
+            disabled={!isFormValid || isLoading}
           >
-            Continue
+            {isLoading ? "Creating account..." : "Continue"}
           </Button>
 
           <div className="text-center text-sm text-slate-500 mt-4">

@@ -6,6 +6,9 @@ import type {
   Appointment,
   BookingDraft,
   RegistrationDraft,
+  AuthState,
+  UserSettings,
+  LinkedAccounts,
 } from '@/types/storage';
 import { format, parse } from "date-fns";
 import { enUS } from "date-fns/locale";
@@ -18,6 +21,9 @@ const KEYS = {
   APPOINTMENTS_SCHEMA_V2: 'user-appointments-schema-v2',
   BOOKING_DRAFT: 'booking-draft',
   REGISTRATION_DRAFT: 'registration-draft',
+  AUTH_STATE: 'auth-state',
+  SETTINGS: 'user-settings',
+  LINKED_ACCOUNTS: 'linked-accounts',
   // Legacy keys for migration
   LEGACY_ADDRESS: 'user-address',
   LEGACY_INSURANCE_TYPE: 'user-insurance-type',
@@ -206,6 +212,88 @@ export function saveRegistrationDraft(draft: Partial<RegistrationDraft>): void {
 
 export function clearRegistrationDraft(): void {
   localStorage.removeItem(KEYS.REGISTRATION_DRAFT);
+}
+
+// === Auth State Management ===
+
+export function getAuthState(): AuthState | null {
+  const data = localStorage.getItem(KEYS.AUTH_STATE);
+  if (!data) return null;
+
+  try {
+    return JSON.parse(data) as AuthState;
+  } catch {
+    return null;
+  }
+}
+
+export function saveAuthState(state: AuthState): void {
+  localStorage.setItem(KEYS.AUTH_STATE, JSON.stringify(state));
+}
+
+export function clearAuthState(): void {
+  localStorage.removeItem(KEYS.AUTH_STATE);
+}
+
+// === User Settings Management ===
+
+const DEFAULT_SETTINGS: UserSettings = {
+  language: 'de',
+  notifications: true,
+};
+
+export function getUserSettings(): UserSettings {
+  const data = localStorage.getItem(KEYS.SETTINGS);
+  if (!data) return DEFAULT_SETTINGS;
+
+  try {
+    return { ...DEFAULT_SETTINGS, ...JSON.parse(data) } as UserSettings;
+  } catch {
+    return DEFAULT_SETTINGS;
+  }
+}
+
+export function saveUserSettings(settings: Partial<UserSettings>): void {
+  const existing = getUserSettings();
+  const merged = { ...existing, ...settings };
+  localStorage.setItem(KEYS.SETTINGS, JSON.stringify(merged));
+}
+
+// === Linked Accounts Management ===
+
+const DEFAULT_LINKED_ACCOUNTS: LinkedAccounts = {
+  dm: true, // Default: dm is linked (from SSO flow)
+  payback: false,
+  insurance: false,
+};
+
+export function getLinkedAccounts(): LinkedAccounts {
+  const data = localStorage.getItem(KEYS.LINKED_ACCOUNTS);
+  if (!data) return DEFAULT_LINKED_ACCOUNTS;
+
+  try {
+    return { ...DEFAULT_LINKED_ACCOUNTS, ...JSON.parse(data) } as LinkedAccounts;
+  } catch {
+    return DEFAULT_LINKED_ACCOUNTS;
+  }
+}
+
+export function saveLinkedAccounts(accounts: Partial<LinkedAccounts>): void {
+  const existing = getLinkedAccounts();
+  const merged = { ...existing, ...accounts };
+  localStorage.setItem(KEYS.LINKED_ACCOUNTS, JSON.stringify(merged));
+}
+
+// === Appointment Update Helper ===
+
+export function updateAppointment(id: string, updates: Partial<Appointment>): void {
+  const appointments = getUserAppointments();
+  const index = appointments.findIndex(a => a.id === id);
+
+  if (index >= 0) {
+    appointments[index] = { ...appointments[index], ...updates };
+    localStorage.setItem(KEYS.APPOINTMENTS, JSON.stringify(appointments));
+  }
 }
 
 // === Demo Data Seeding ===

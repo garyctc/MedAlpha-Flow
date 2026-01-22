@@ -1,14 +1,28 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import SubPageHeader from "@/components/layout/SubPageHeader";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
+import { getBookingDraft, saveBookingDraft } from "@/lib/storage";
 
 export default function SymptomsInfo() {
   const [, setLocation] = useLocation();
   const [photoUploaded, setPhotoUploaded] = useState(false);
+  const [additionalNotes, setAdditionalNotes] = useState("");
+
+  useEffect(() => {
+    const draft = getBookingDraft();
+    if (draft?.additionalNotes) {
+      setAdditionalNotes(draft.additionalNotes);
+    }
+  }, []);
+
+  const handleNotesChange = (value: string) => {
+    setAdditionalNotes(value);
+    saveBookingDraft({ additionalNotes: value });
+  };
 
   return (
     <div className="min-h-screen bg-background pb-28">
@@ -23,9 +37,11 @@ export default function SymptomsInfo() {
            <span className="text-xs font-bold text-primary uppercase tracking-wider mb-2 block">Step 3 of 3</span>
            <h2 className="text-xl font-bold text-slate-900 mb-4 font-display">Any other details the doctor should know?</h2>
            
-           <Textarea 
-             placeholder="Describe any other symptoms or relevant history..." 
+           <Textarea
+             placeholder="Describe any other symptoms or relevant history..."
              className="min-h-[150px] bg-white text-base rounded-xl border-slate-200 resize-none p-4"
+             value={additionalNotes}
+             onChange={(e) => handleNotesChange(e.target.value)}
            />
         </div>
 
