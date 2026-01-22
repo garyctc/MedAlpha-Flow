@@ -4,7 +4,7 @@ import { MessageSquareText, X, ChevronDown, ChevronUp } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import annotationsData from "../../../../docs/annotations/screen-annotations.json";
 
-// Route to Screen ID mapping
+// Route to Screen ID mapping (exact matches)
 const routeToScreenId: Record<string, string> = {
   "/": "AUTH-001",
   "/login": "AUTH-002",
@@ -29,16 +29,15 @@ const routeToScreenId: Record<string, string> = {
   "/booking/smart-match-success": "BKG-010",
   "/prescriptions": "RX-001",
   "/prescriptions/type": "RX-001",
-  "/prescriptions/redeem-start": "RX-002",
-  "/prescriptions/nfc-intro": "RX-003",
-  "/prescriptions/nfc-scan": "RX-004",
-  "/prescriptions/gkv-sms-verify": "RX-005",
-  "/prescriptions/pkv-auth": "RX-006",
-  "/prescriptions/pkv-insurer-select": "RX-007",
-  "/prescriptions/pkv-redirect": "RX-008",
-  "/prescriptions/pkv-error": "RX-009",
-  "/prescriptions/detail": "RX-010",
-  "/prescriptions/list": "RX-011",
+  "/prescriptions/redeem-start": "RX-004",
+  "/prescriptions/nfc-intro": "RX-005",
+  "/prescriptions/nfc-scan": "RX-006",
+  "/prescriptions/gkv-sms-verify": "RX-007",
+  "/prescriptions/pkv-auth": "RX-008",
+  "/prescriptions/pkv-insurer-select": "RX-009",
+  "/prescriptions/pkv-redirect": "RX-010",
+  "/prescriptions/pkv-error": "RX-011",
+  "/prescriptions/list": "RX-002",
   "/prescriptions/pharmacy": "RX-012",
   "/prescriptions/review": "RX-013",
   "/prescriptions/success": "RX-014",
@@ -55,15 +54,13 @@ const routeToScreenId: Record<string, string> = {
   "/teleclinic/simulated": "TH-010",
   "/pharmacy/map": "PHR-001",
   "/pharmacy/list": "PHR-002",
-  "/pharmacy/detail": "PHR-003",
   "/appointments": "APT-001",
-  "/appointments/detail": "APT-002",
   "/history": "HIST-001",
   "/profile": "PRF-001",
   "/profile/edit": "PRF-002",
-  "/profile/linked-accounts": "PRF-003",
-  "/profile/insurance-gkv": "PRF-004",
-  "/profile/insurance-pkv": "PRF-005",
+  "/profile/linked-accounts": "PRF-005",
+  "/profile/insurance-gkv": "PRF-003",
+  "/profile/insurance-pkv": "PRF-004",
   "/profile/language": "PRF-006",
   "/profile/support": "PRF-007",
   "/profile/legal": "PRF-008",
@@ -71,9 +68,33 @@ const routeToScreenId: Record<string, string> = {
   "/sso/complete-profile": "SSO-002",
   "/static/faq": "STATIC-001",
   "/static/support": "STATIC-002",
-  "/static/privacy": "STATIC-003",
-  "/static/legal": "STATIC-004",
+  "/static/privacy": "STATIC-004",
+  "/static/legal": "STATIC-003",
 };
+
+// Dynamic route patterns (for routes with parameters like /appointments/:id)
+const dynamicRoutePatterns: Array<{ pattern: RegExp; screenId: string }> = [
+  { pattern: /^\/appointments\/[^/]+$/, screenId: "APT-002" },
+  { pattern: /^\/prescriptions\/[^/]+$/, screenId: "RX-003" },
+  { pattern: /^\/pharmacy\/[^/]+$/, screenId: "PHR-003" },
+];
+
+// Get screen ID for a given location
+function getScreenId(location: string): string {
+  // First check exact matches
+  if (routeToScreenId[location]) {
+    return routeToScreenId[location];
+  }
+
+  // Then check dynamic patterns
+  for (const { pattern, screenId } of dynamicRoutePatterns) {
+    if (pattern.test(location)) {
+      return screenId;
+    }
+  }
+
+  return "ERR-001";
+}
 
 interface ScreenAnnotation {
   title: string;
@@ -142,7 +163,7 @@ export default function AnnotationPanel() {
   const [isOpen, setIsOpen] = useState(false);
   const [location] = useLocation();
 
-  const screenId = routeToScreenId[location] || "ERR-001";
+  const screenId = getScreenId(location);
   const annotation = annotations[screenId];
 
   const hasAssumptions = annotation?.assumptions?.length > 0;

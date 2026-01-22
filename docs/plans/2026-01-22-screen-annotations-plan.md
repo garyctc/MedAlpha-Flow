@@ -15,12 +15,77 @@ Populate all 60 screens in `docs/annotations/screen-annotations.json` with desig
 ### For each screen, I will:
 1. Read the screen's implementation in `client/src/pages/`
 2. Cross-reference requirements docs for design intent
-3. Write 5 annotation fields at moderate detail:
-   - **assumptions** (2-4 bullets): What must be true for this screen to work
-   - **userScenario** (2-3 sentences): Who uses it and why (JTBD framing)
-   - **pros** (2-4 bullets): UX benefits of this design
-   - **cons** (2-4 bullets): Honest friction points or limitations
-   - **impactIfWrong** (1-2 sentences): What breaks if assumptions fail
+3. Write 5 annotation fields following the guidelines below
+
+---
+
+## Writing Guidelines
+
+### Voice & Principles
+- **Confident, direct statements** — no hedging ("We believe...", "Perhaps...")
+- **Present tense** — "Users expect..." not "Users will expect..."
+- **UX language** — avoid technical jargon
+- Every field answers "why this design?" not "what does it do?"
+
+### Field-by-Field Instructions
+
+**assumptions** (2-4 bullets)
+Three types of assumptions to consider:
+- **User behavior**: "Users know/expect/have done [X]"
+- **Business/product**: From requirements — integrations, legal requirements, partner expectations
+- **System/context**: What must exist technically for this screen to work
+
+Example patterns:
+- "Users understand the GKV/PKV distinction"
+- "Smart Match API returns real-time availability"
+- "Profile is already completed (required for main features)"
+- "Legal: User must choose online vs offline pharmacy before redemption"
+
+**userScenario** (1-2 sentences)
+- JTBD format: "When I [situation], I want to [action], so I can [outcome]"
+
+**pros** (2-4 bullets)
+- Start with action verbs: "Reduces...", "Eliminates...", "Surfaces..."
+- Focus on UX benefits: speed, clarity, confidence, reduced errors
+
+**cons** (2-4 bullets)
+- Frame as trade-offs: "Adds [friction] but [reason]"
+- Or state limitations: "Requires [X] which not all users have"
+
+**impactIfWrong** (1-2 sentences)
+- Format: "If [assumption] is false → [design change needed]"
+- Focus on what would need to change, not just what breaks
+
+---
+
+## Example: REG-003 — Insurance Type Selection
+
+```json
+{
+  "REG-003": {
+    "title": "Insurance Type Selection",
+    "assumptions": [
+      "Users can identify whether they have public (GKV) or private (PKV) insurance",
+      "Users have their insurance card accessible to check if unsure",
+      "GKV users have NFC-enabled Gesundheitskarte; PKV users have GesundheitsID",
+      "Insurance type determines the entire downstream prescription redemption flow"
+    ],
+    "userScenario": "When I'm setting up my account, I want to specify my insurance type, so I can access the correct prescription redemption flow later.",
+    "pros": [
+      "Reduces confusion by explaining the practical difference (NFC card vs GesundheitsID)",
+      "Provides familiar examples (TK, AOK, Allianz) so users can pattern-match",
+      "Expandable 'Not sure?' helper prevents users from guessing incorrectly",
+      "Visual card design makes abstract insurance concepts concrete"
+    ],
+    "cons": [
+      "Adds a mandatory step even though most users know their insurance type",
+      "Users with dual coverage (e.g., supplemental private) may be unsure which to pick",
+      "Helper text relies on user having physical card nearby"
+    ],
+    "impactIfWrong": "If users don't understand GKV vs PKV, they'll select incorrectly and face a broken prescription flow — would need to add a 'change insurance type' option in profile settings, or detect mismatch during first prescription attempt."
+  }
+}
+```
 
 ---
 
