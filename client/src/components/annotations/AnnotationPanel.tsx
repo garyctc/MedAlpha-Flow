@@ -231,6 +231,14 @@ export default function AnnotationPanel() {
                 </div>
               ) : (
                 <div className="space-y-1">
+                  <Section title="User Scenario" isEmpty={!hasScenario}>
+                    {hasScenario ? (
+                      <p>{annotation.userScenario}</p>
+                    ) : (
+                      <p className="text-gray-400 italic">No scenario documented</p>
+                    )}
+                  </Section>
+
                   <Section title="Assumptions" isEmpty={!hasAssumptions}>
                     {hasAssumptions ? (
                       <ul className="list-disc list-inside space-y-1">
@@ -243,44 +251,41 @@ export default function AnnotationPanel() {
                     )}
                   </Section>
 
-                  <Section title="User Scenario" isEmpty={!hasScenario}>
-                    {hasScenario ? (
-                      <p>{annotation.userScenario}</p>
-                    ) : (
-                      <p className="text-gray-400 italic">No scenario documented</p>
-                    )}
-                  </Section>
-
-                  <Section title="Pros" isEmpty={!hasPros}>
-                    {hasPros ? (
-                      <ul className="list-disc list-inside space-y-1">
-                        {annotation.pros.map((item, i) => (
-                          <li key={i} className="text-green-700">{item}</li>
-                        ))}
-                      </ul>
-                    ) : (
-                      <p className="text-gray-400 italic">No pros documented</p>
-                    )}
-                  </Section>
-
-                  <Section title="Cons" isEmpty={!hasCons}>
-                    {hasCons ? (
-                      <ul className="list-disc list-inside space-y-1">
-                        {annotation.cons.map((item, i) => (
-                          <li key={i} className="text-red-700">{item}</li>
-                        ))}
-                      </ul>
-                    ) : (
-                      <p className="text-gray-400 italic">No cons documented</p>
-                    )}
-                  </Section>
-
                   <Section title="Impact if Wrong" isEmpty={!hasImpact}>
                     {hasImpact ? (
                       <p className="text-amber-700">{annotation.impactIfWrong}</p>
                     ) : (
                       <p className="text-gray-400 italic">No impact documented</p>
                     )}
+                  </Section>
+
+                  <Section title="Pros & Cons" defaultOpen={false} isEmpty={!hasPros && !hasCons}>
+                    <div className="space-y-3">
+                      <div>
+                        <p className="font-medium text-xs text-gray-500 mb-1">Pros</p>
+                        {hasPros ? (
+                          <ul className="list-disc list-inside space-y-1">
+                            {annotation.pros.map((item, i) => (
+                              <li key={i} className="text-green-700">{item}</li>
+                            ))}
+                          </ul>
+                        ) : (
+                          <p className="text-gray-400 italic">No pros documented</p>
+                        )}
+                      </div>
+                      <div>
+                        <p className="font-medium text-xs text-gray-500 mb-1">Cons</p>
+                        {hasCons ? (
+                          <ul className="list-disc list-inside space-y-1">
+                            {annotation.cons.map((item, i) => (
+                              <li key={i} className="text-red-700">{item}</li>
+                            ))}
+                          </ul>
+                        ) : (
+                          <p className="text-gray-400 italic">No cons documented</p>
+                        )}
+                      </div>
+                    </div>
                   </Section>
                 </div>
               )}
