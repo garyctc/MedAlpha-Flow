@@ -116,7 +116,6 @@ export default function ProfilePage() {
                 <MenuRow
                   icon={Link2}
                   label={t("profile.menu.linkedAccounts")}
-                  value={t("profile.menu.linkedAccountsValue", { count: 1 })}
                   onClick={() => setLocation("/profile/linked-accounts")}
                 />
                 <div className="h-px bg-slate-50 mx-4"></div>

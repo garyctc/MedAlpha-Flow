@@ -1,0 +1,70 @@
+root:
+  type: vstack
+  children:
+    - header:
+        type: hstack
+        children:
+          - hstack
+          - image: logo
+          - text: title
+
+    - main:
+        type: vstack
+        children:
+          - user_info:
+              type: vstack
+              alignment: center
+              children:
+                - image: avatar
+                - conditional:
+                    - text: name
+                    - skeleton
+
+          - sections:
+              type: vstack
+              children:
+                - section:
+                    type: vstack
+                    children:
+                      - text: section_title
+                      - card:
+                          type: list
+                          items:
+                            - menu_row
+                            - divider
+                            - menu_row
+                            - divider
+                            - menu_row
+                - section:
+                    type: vstack
+                    children:
+                      - text: section_title
+                      - card:
+                          type: list
+                          items:
+                            - menu_row
+                            - divider
+                            - menu_row
+
+          - button: sign_out
+
+    - dialog:
+        type: alert
+        children:
+          - vstack
+          - text: title
+          - text: description
+          - hstack
+          - button: cancel
+          - button: confirm
+
+menu_row:
+  type: button
+  children:
+    - hstack
+    - hstack
+    - icon_box
+    - text: label
+    - hstack
+    - text: value (optional)
+    - icon: chevron
