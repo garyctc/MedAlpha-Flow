@@ -103,7 +103,7 @@ export default function Login() {
 
           <Button 
             type="submit" 
-            className="w-full h-12 text-base font-medium bg-primary hover:bg-primary/90 rounded-xl shadow-lg shadow-primary/20"
+            className="w-full h-12 text-base font-medium bg-primary hover:bg-primary/90 rounded-xl"
             disabled={loading}
           >
             {loading ? "Signing in..." : "Sign In"}

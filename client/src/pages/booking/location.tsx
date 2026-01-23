@@ -65,7 +65,7 @@ export default function LocationSelect() {
         {/* Map Placeholder */}
         <div className="w-full h-48 bg-slate-200 rounded-2xl relative overflow-hidden flex items-center justify-center">
            <div className="absolute inset-0 opacity-10" style={{ backgroundImage: "radial-gradient(hsl(var(--primary)) 1px, transparent 1px)", backgroundSize: "20px 20px" }}></div>
-           <div className="w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center shadow-lg animate-bounce">
+           <div className="w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center animate-bounce">
              <MapPin size={24} fill="currentColor" />
            </div>
         </div>
@@ -85,8 +85,8 @@ export default function LocationSelect() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.1 }}
                 onClick={() => handleClinicClick(clinic.id, clinic.name)}
-                className={`w-full bg-white p-4 rounded-2xl border shadow-sm text-left hover:border-primary/30 transition-all flex justify-between items-center group ${
-                  selectedLocation === clinic.name ? 'border-primary ring-2 ring-primary/20' : 'border-slate-100'
+                className={`w-full bg-white p-4 rounded-2xl border text-left hover:border-primary/30 transition-all flex justify-between items-center group ${
+                  selectedLocation === clinic.name ? 'border-primary ring-2 ring-primary/20' : 'border-border'
                 }`}
               >
                 <div className="w-full">

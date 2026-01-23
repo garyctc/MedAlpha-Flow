@@ -40,7 +40,7 @@ export default function TelehealthConfirmation() {
         transition={reduceMotion ? { duration: 0 } : { duration: DURATION_SLOW, ease: EASING_DEFAULT }}
         className="w-24 h-24 bg-green-50 rounded-full flex items-center justify-center mb-6"
       >
-        <div className="w-16 h-16 bg-success rounded-full flex items-center justify-center shadow-lg shadow-green-200">
+        <div className="w-16 h-16 bg-success rounded-full flex items-center justify-center">
           <Check size={40} className="text-white" strokeWidth={3} />
         </div>
       </motion.div>
@@ -59,7 +59,7 @@ export default function TelehealthConfirmation() {
         <p className="text-slate-500 mb-8 max-w-[280px] mx-auto">You'll be connected with a doctor shortly.</p>
 
         {/* Info Card */}
-        <div className="bg-slate-50 rounded-2xl border border-slate-100 p-6 mb-8 text-left relative overflow-hidden">
+        <div className="bg-slate-50 rounded-2xl border border-border p-6 mb-8 text-left relative overflow-hidden">
            <div className="flex items-start gap-4 mb-4">
              <Clock className="text-primary mt-1" size={20} />
              <div>

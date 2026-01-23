@@ -310,7 +310,7 @@ export default function AppointmentsPage() {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => setLocation("/booking/type")}
-          className="absolute right-5 w-14 h-14 bg-primary text-white rounded-full shadow-lg shadow-primary/30 flex items-center justify-center pointer-events-auto"
+          className="absolute right-5 w-14 h-14 bg-primary text-white rounded-full flex items-center justify-center pointer-events-auto"
         >
           <Plus size={28} />
         </motion.button>
@@ -328,10 +328,10 @@ function AppointmentCard({ data, onClick }: { data: Appointment, onClick: () => 
     <motion.button
       whileTap={{ scale: 0.98 }}
       onClick={onClick}
-      className={`w-full p-4 rounded-2xl border shadow-sm flex flex-col gap-3 text-left transition-all group ${
+      className={`w-full p-4 rounded-2xl border flex flex-col gap-3 text-left transition-all group ${
         isProcessing
           ? "bg-purple-50 border-purple-200"
-          : "bg-white border-slate-100 hover:border-primary/30"
+          : "bg-white border-border hover:border-primary/30"
       }`}
     >
         <div className="flex justify-between items-start w-full">

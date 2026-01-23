@@ -56,7 +56,7 @@ export default function SmartMatchProcessing() {
   return (
     <div className="min-h-screen bg-white flex flex-col items-center justify-center p-5 text-center">
       {/* MedAlpha Match Logo */}
-      <div className="w-20 h-20 bg-purple-600 rounded-full mb-6 flex items-center justify-center shadow-lg">
+      <div className="w-20 h-20 bg-purple-600 rounded-full mb-6 flex items-center justify-center">
         <span className="text-white text-3xl font-bold">M</span>
       </div>
 

@@ -144,7 +144,7 @@ export default function AppointmentDetail() {
         </div>
 
         {/* Summary Card */}
-        <div className="bg-card rounded-lg border border-border shadow-[var(--shadow-card)] overflow-hidden">
+        <div className="bg-card rounded-lg border border-border  overflow-hidden">
            {/* Doctor */}
            <div className="p-5 flex items-center gap-4">
               <div className="w-14 h-14 bg-muted rounded-full flex items-center justify-center text-muted-foreground font-bold text-xl">

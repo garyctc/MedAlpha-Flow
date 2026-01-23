@@ -39,9 +39,6 @@
 /* Override tokens for cleaner UI */
 :root {
   --background: 0 0% 100%;
-  --shadow-soft: 0 1px 3px rgba(0, 0, 0, 0.06);
-  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.06);
-  --shadow-elevated: 0 4px 16px rgba(0, 0, 0, 0.08);
 }
 
 body {
@@ -61,7 +58,8 @@ body {
   background-color: hsl(var(--background));
   min-height: 100vh;
   position: relative;
-  box-shadow: var(--shadow-elevated);
+  border-left: 1px solid hsl(var(--border));
+  border-right: 1px solid hsl(var(--border));
   overflow-x: hidden;
 }
 

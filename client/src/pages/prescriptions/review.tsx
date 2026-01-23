@@ -20,7 +20,7 @@ export default function OrderReview() {
       
       <main className="p-5 space-y-6">
         {/* Pharmacy Card */}
-        <div className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+        <div className="bg-white rounded-2xl p-5 border border-border">
            <div className="flex justify-between items-center mb-4">
              <h3 className="font-bold text-slate-900 text-sm uppercase tracking-wide text-slate-400">Delivery Address</h3>
              <button className="text-primary text-sm font-medium flex items-center gap-1">
@@ -36,7 +36,7 @@ export default function OrderReview() {
         </div>
 
         {/* Order Summary */}
-        <div className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+        <div className="bg-white rounded-2xl p-5 border border-border">
            <h3 className="font-bold text-slate-900 text-sm uppercase tracking-wide text-slate-400 mb-4">Order Summary</h3>
            
            <div className="space-y-4">
@@ -124,10 +124,10 @@ export default function OrderReview() {
       </main>
 
       {/* Sticky Bottom Button */}
-      <div className="fixed bottom-0 left-0 right-0 p-5 bg-white border-t border-slate-100 pb-safe z-[60]">
+      <div className="fixed bottom-0 left-0 right-0 p-5 bg-white border-t border-border pb-safe z-[60]">
         <div className="max-w-[375px] mx-auto">
            <Button 
-            className="w-full h-12 text-base rounded-xl bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/20"
+            className="w-full h-12 text-base rounded-xl bg-primary hover:bg-primary/90 text-white"
             onClick={() => setLocation("/prescriptions/success")}
            >
              {insuranceType === "gkv" 

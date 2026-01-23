@@ -56,7 +56,7 @@ export default function BookingSuccess() {
         transition={reduceMotion ? { duration: 0 } : { duration: DURATION_SLOW, ease: EASING_DEFAULT }}
         className="w-24 h-24 bg-green-50 rounded-full flex items-center justify-center mb-6"
       >
-        <div className="w-16 h-16 bg-success rounded-full flex items-center justify-center shadow-lg shadow-green-200">
+        <div className="w-16 h-16 bg-success rounded-full flex items-center justify-center">
           <Check size={40} className="text-white" strokeWidth={3} />
         </div>
       </motion.div>
@@ -75,7 +75,7 @@ export default function BookingSuccess() {
         <p className="text-slate-500 mb-8 max-w-[280px] mx-auto">{t("booking.success.subtitle")}</p>
 
         {/* Summary Card (Compact) */}
-        <div className="bg-slate-50 rounded-2xl border border-slate-100 p-4 mb-8 text-center mx-auto max-w-xs">
+        <div className="bg-slate-50 rounded-2xl border border-border p-4 mb-8 text-center mx-auto max-w-xs">
            <p className="font-bold text-slate-900 text-lg mb-1">{doctorName}</p>
            <p className="text-primary font-medium text-sm mb-3">
              {t("booking.success.summaryDateTime", { date: dateLabel, time: timeLabel })}

@@ -32,21 +32,21 @@ export default function SupportPage() {
            
            <div className="space-y-3">
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center text-primary shadow-sm">
+                <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center text-primary">
                   <Phone size={16} />
                 </div>
                 <p className="text-sm font-medium text-slate-700">+49 800 123 4567</p>
               </div>
               
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center text-primary shadow-sm">
+                <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center text-primary">
                   <Mail size={16} />
                 </div>
                 <p className="text-sm font-medium text-slate-700">support@medalpha.de</p>
               </div>
 
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center text-primary shadow-sm">
+                <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center text-primary">
                   <Clock size={16} />
                 </div>
                 <p className="text-sm font-medium text-slate-700">Mon - Fri, 8 AM - 6 PM</p>
@@ -81,7 +81,7 @@ export default function SupportPage() {
              />
            </div>
 
-           <Button type="submit" className="w-full h-12 rounded-xl bg-primary text-white shadow-lg shadow-primary/20 flex items-center gap-2">
+           <Button type="submit" className="w-full h-12 rounded-xl bg-primary text-white flex items-center gap-2">
              <Send size={18} /> Send Message
            </Button>
         </form>

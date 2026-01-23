@@ -22,7 +22,7 @@ export default function BottomNav() {
     return null;
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-border shadow-[0_-1px_3px_rgba(0,0,0,0.04)] max-w-[375px] mx-auto safe-area-bottom">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-border max-w-[375px] mx-auto safe-area-bottom">
       <div className="grid grid-cols-4 items-center pt-3 pb-2 w-full">
         {tabs.map((tab) => {
           const isActive = location === tab.path || location.startsWith(tab.path + "/");

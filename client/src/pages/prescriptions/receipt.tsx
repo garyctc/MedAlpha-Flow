@@ -11,7 +11,7 @@ export default function PrescriptionReceipt() {
       <SubPageHeader title="Reimbursement Receipt" backPath="/history" />
       
       <main className="p-5 space-y-6">
-        <div className="bg-white rounded-2xl border border-slate-100 p-5 shadow-sm">
+        <div className="bg-white rounded-2xl border border-border p-5">
           <div className="flex justify-between items-start mb-4">
             <div>
               <p className="text-xs font-bold text-slate-400 uppercase mb-1">Order #MED-2026-0119</p>

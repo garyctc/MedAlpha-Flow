@@ -82,7 +82,7 @@ export default function LinkedAccounts() {
 
             <div className="space-y-3">
               {connectedAccounts.map((account) => (
-                <div key={account.key} className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                <div key={account.key} className="bg-white p-4 rounded-xl border border-slate-200">
                   <div className="flex items-start justify-between">
                     <div className="flex gap-3">
                       <div className={`w-10 h-10 ${account.bgColor} rounded-lg flex items-center justify-center flex-shrink-0`}>
@@ -113,7 +113,7 @@ export default function LinkedAccounts() {
 
             <div className="space-y-3">
               {availableAccounts.map((account) => (
-                <div key={account.key} className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
+                <div key={account.key} className="bg-white p-4 rounded-xl border border-slate-200 flex items-center justify-between">
                   <div className="flex gap-3">
                     <div className={`w-10 h-10 ${account.bgColor} rounded-lg flex items-center justify-center flex-shrink-0 ${account.textColor} font-bold text-[10px]`}>
                       {account.icon}

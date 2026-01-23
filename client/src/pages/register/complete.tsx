@@ -88,7 +88,7 @@ export default function RegisterComplete() {
         </div>
 
         {/* User Card */}
-        <div className="bg-slate-50 rounded-2xl p-5 border border-slate-100 text-left">
+        <div className="bg-slate-50 rounded-2xl p-5 border border-border text-left">
           <div className="flex items-center gap-4 mb-4">
              <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-slate-400 border border-slate-200 font-bold text-lg">
                {userData.name.split(' ').map(n => n[0]).join('').toUpperCase()}
@@ -110,14 +110,14 @@ export default function RegisterComplete() {
         <div className="space-y-3">
           <h3 className="text-sm font-bold text-slate-900 text-left">What's next?</h3>
           
-          <div className="flex items-center gap-3 text-left text-sm text-slate-600 bg-white border border-slate-100 p-3 rounded-xl">
+          <div className="flex items-center gap-3 text-left text-sm text-slate-600 bg-white border border-border p-3 rounded-xl">
             <div className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center shrink-0">
                <Calendar size={16} />
             </div>
             Book your first appointment
           </div>
 
-          <div className="flex items-center gap-3 text-left text-sm text-slate-600 bg-white border border-slate-100 p-3 rounded-xl">
+          <div className="flex items-center gap-3 text-left text-sm text-slate-600 bg-white border border-border p-3 rounded-xl">
              <div className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center shrink-0">
                {isGkv ? <CreditCard size={16} /> : <Smartphone size={16} />}
              </div>

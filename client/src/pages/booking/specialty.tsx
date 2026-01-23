@@ -53,8 +53,8 @@ export default function SpecialtySelect() {
               transition={{ delay: index * 0.05 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => handleSpecialtyClick(item.id)}
-              className={`bg-white p-5 rounded-2xl border shadow-sm flex flex-col items-center justify-center gap-3 hover:border-primary/30 transition-all aspect-square ${
-                selectedSpecialty === item.id ? 'border-primary ring-2 ring-primary/20' : 'border-slate-100'
+              className={`bg-white p-5 rounded-2xl border flex flex-col items-center justify-center gap-3 hover:border-primary/30 transition-all aspect-square ${
+                selectedSpecialty === item.id ? 'border-primary ring-2 ring-primary/20' : 'border-border'
               }`}
             >
               <div className={`w-14 h-14 rounded-full ${item.bg} flex items-center justify-center ${item.color}`}>

@@ -62,7 +62,7 @@ export default function BookingReview() {
       <SubPageHeader title={t("booking.review.title")} backPath="/booking/calendar" />
       
       <main className="p-5">
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+        <div className="bg-white rounded-2xl border border-border overflow-hidden">
           
           {/* Doctor Section */}
           <div className="p-4 flex items-center gap-4">
@@ -129,10 +129,10 @@ export default function BookingReview() {
 
       {/* Sticky Bottom Button */}
       <div className="fixed bottom-[80px] left-0 right-0 z-40 flex justify-center">
-        <div className="max-w-[375px] w-full bg-white border-t border-slate-100 px-5 py-4 flex justify-center">
+        <div className="max-w-[375px] w-full bg-white border-t border-border px-5 py-4 flex justify-center">
           <div className="w-[315px]">
             <Button
-              className="w-full h-12 text-base rounded-xl bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/20"
+              className="w-full h-12 text-base rounded-xl bg-primary hover:bg-primary/90 text-white"
               onClick={handleConfirm}
               disabled={isConfirming}
             >

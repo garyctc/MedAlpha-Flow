@@ -44,7 +44,7 @@ export default function PkvInsurerSelect() {
             <div 
               key={insurer.name}
               onClick={() => setLocation(`/prescriptions/pkv-redirect?insurer=${encodeURIComponent(insurer.name)}`)}
-              className="bg-white p-4 rounded-xl border border-slate-100 shadow-sm flex items-center gap-4 active:scale-[0.98] transition-all cursor-pointer"
+              className="bg-white p-4 rounded-xl border border-border flex items-center gap-4 active:scale-[0.98] transition-all cursor-pointer"
             >
               <div className="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center font-bold text-slate-500">
                 {insurer.logo}

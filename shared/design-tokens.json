@@ -217,21 +217,6 @@
     }
   },
 
-  "shadows": {
-    "card": {
-      "value": "0 2px 8px rgba(12, 61, 145, 0.08)",
-      "usage": "Card elevation, default shadow"
-    },
-    "elevated": {
-      "value": "0 4px 16px rgba(12, 61, 145, 0.12)",
-      "usage": "Modals, bottom sheets, elevated surfaces"
-    },
-    "soft": {
-      "value": "0 1px 3px rgba(12, 61, 145, 0.06)",
-      "usage": "Subtle depth, list items"
-    }
-  },
-
   "typography": {
     "fontFamily": {
       "sans": ["Open Sans", "system-ui", "sans-serif"]
@@ -358,8 +343,7 @@
     "fixed": {
       "spacing": "Spacing scale must remain consistent for layout integrity",
       "borderRadius": "Radius system maintains visual consistency",
-      "shadows": "Shadow depth hierarchy should not change",
-      "accessibility": "Accessibility tokens are non-negotiable"
+            "accessibility": "Accessibility tokens are non-negotiable"
     },
     "partnerExample": {
       "partnerId": "example-partner",

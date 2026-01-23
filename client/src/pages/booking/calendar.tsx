@@ -96,7 +96,7 @@ export default function BookingCalendar() {
       
       <main className="p-5 space-y-6">
         {/* Calendar Card */}
-        <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-3">
+        <div className="bg-white rounded-2xl border border-border p-3">
           <Calendar
             mode="single"
             selected={date}
@@ -137,7 +137,7 @@ export default function BookingCalendar() {
                   onClick={() => setSelectedTime(time)}
                   className={`py-3 px-2 rounded-lg text-sm font-medium transition-all border ${
                     selectedTime === time
-                      ? "bg-primary text-white border-primary shadow-md shadow-primary/20"
+                      ? "bg-primary text-white border-primary"
                       : "bg-white text-slate-600 border-primary/20 hover:border-primary/50"
                   }`}
                 >
@@ -151,10 +151,10 @@ export default function BookingCalendar() {
 
       {/* Sticky Bottom Button */}
       <div className="fixed bottom-[80px] left-0 right-0 z-40 flex justify-center">
-        <div className="max-w-[375px] w-full bg-white border-t border-slate-100 px-5 py-4 flex justify-center">
+        <div className="max-w-[375px] w-full bg-white border-t border-border px-5 py-4 flex justify-center">
           <div className="w-[315px]">
             <Button
-              className="w-full h-12 text-base rounded-xl bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/20"
+              className="w-full h-12 text-base rounded-xl bg-primary hover:bg-primary/90 text-white"
               disabled={!date || !selectedTime}
               onClick={handleContinue}
             >

@@ -46,7 +46,7 @@ export default function GkvSmsVerify() {
           maxLength={6}
           value={code}
           onChange={(e) => setCode(e.target.value.replace(/[^0-9]/g, ''))}
-          className="h-16 text-center text-2xl font-bold tracking-[0.5em] bg-white border-slate-200 shadow-sm mb-6 rounded-2xl"
+          className="h-16 text-center text-2xl font-bold tracking-[0.5em] bg-white border-slate-200 mb-6 rounded-2xl"
         />
 
         <div className="flex justify-center mb-8">

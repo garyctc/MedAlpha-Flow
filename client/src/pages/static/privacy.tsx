@@ -91,7 +91,7 @@ export default function PrivacyPolicy() {
         {showScrollTop && (
           <Button
             onClick={scrollToTop}
-            className="fixed bottom-6 right-5 w-12 h-12 rounded-full shadow-lg bg-white hover:bg-slate-50 text-slate-900 z-50 transition-all border border-slate-100"
+            className="fixed bottom-6 right-5 w-12 h-12 rounded-full bg-white hover:bg-slate-50 text-slate-900 z-50 transition-all border border-border"
           >
             <ArrowUp size={24} />
           </Button>

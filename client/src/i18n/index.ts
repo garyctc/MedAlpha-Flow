@@ -23,7 +23,7 @@ function getInitialLocale(): Locale {
   return normalizeLocale(window.localStorage.getItem(STORAGE_KEY)) ?? DEFAULT_LOCALE;
 }
 
-i18n.use(initReactI18next).init({
+export const i18nInitPromise = i18n.use(initReactI18next).init({
   resources: {
     en: { translation: en },
     de: { translation: de },
@@ -33,6 +33,7 @@ i18n.use(initReactI18next).init({
   interpolation: {
     escapeValue: false,
   },
+  initImmediate: false,
 });
 
 export function setLocale(locale: Locale) {

@@ -127,7 +127,7 @@ export default function TeleclinicSimulated() {
     if (step === "loading") {
       return (
         <div className="min-h-full bg-slate-50 flex flex-col items-center justify-center p-5 text-center">
-          <div className="w-16 h-16 bg-white rounded-2xl mb-6 flex items-center justify-center shadow-sm">
+          <div className="w-16 h-16 bg-white rounded-2xl mb-6 flex items-center justify-center">
             <Video className="text-cyan-500" size={32} />
           </div>
           <h2 className="text-2xl font-bold text-slate-900 mb-2">Opening Teleclinic...</h2>
@@ -143,7 +143,7 @@ export default function TeleclinicSimulated() {
           <motion.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
-            className="w-20 h-20 bg-green-500 rounded-full mb-6 flex items-center justify-center shadow-lg"
+            className="w-20 h-20 bg-green-500 rounded-full mb-6 flex items-center justify-center"
           >
             <Check className="text-white" size={40} />
           </motion.div>
@@ -233,7 +233,7 @@ export default function TeleclinicSimulated() {
             disabled={!selectedReason || !selectedTime}
             className={`w-full py-4 rounded-lg font-semibold text-base transition-all ${
               selectedReason && selectedTime
-                ? "bg-cyan-500 text-white shadow-sm"
+                ? "bg-cyan-500 text-white"
                 : "bg-slate-200 text-slate-400 cursor-not-allowed"
             }`}
           >

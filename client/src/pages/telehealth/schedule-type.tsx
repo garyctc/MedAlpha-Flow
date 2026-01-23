@@ -21,7 +21,7 @@ export default function ScheduleType() {
         <motion.button
           whileTap={{ scale: 0.98 }}
           onClick={() => setLocation("/telehealth/symptoms-intro")}
-          className="w-full bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between group hover:border-primary/30 transition-all text-left"
+          className="w-full bg-white p-6 rounded-2xl border border-border flex items-center justify-between group hover:border-primary/30 transition-all text-left"
         >
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 bg-blue-50 text-primary rounded-xl flex items-center justify-center shrink-0">
@@ -39,7 +39,7 @@ export default function ScheduleType() {
         <motion.button
           whileTap={{ scale: 0.98 }}
           onClick={() => setLocation("/booking/calendar")} // Reuse simplify flow or mock it
-          className="w-full bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between group hover:border-primary/30 transition-all text-left"
+          className="w-full bg-white p-6 rounded-2xl border border-border flex items-center justify-between group hover:border-primary/30 transition-all text-left"
         >
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center shrink-0">

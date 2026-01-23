@@ -164,7 +164,7 @@ function HistoryCard({
     <motion.button
       whileTap={{ scale: 0.98 }}
       onClick={onClick}
-      className="w-full bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4 text-left hover:border-slate-300 transition-all group"
+      className="w-full bg-white p-4 rounded-2xl border border-border flex items-center gap-4 text-left hover:border-slate-300 transition-all group"
     >
       <div className={`w-12 h-12 rounded-full ${iconBg} flex items-center justify-center flex-shrink-0`}>
         <Icon size={20} className={iconColor} />

@@ -28,7 +28,7 @@ export default function TelehealthReview() {
       <SubPageHeader title="Review Consultation" backPath="/telehealth/symptoms-info" />
       
       <main className="p-5">
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden mb-6">
+        <div className="bg-white rounded-2xl border border-border overflow-hidden mb-6">
           
           {/* Type Section */}
           <div className="p-4 flex items-start gap-4">
@@ -99,10 +99,10 @@ export default function TelehealthReview() {
       </main>
 
       {/* Sticky Bottom Button */}
-      <div className="fixed bottom-0 left-0 right-0 p-5 bg-white border-t border-slate-100 pb-safe z-[60]">
+      <div className="fixed bottom-0 left-0 right-0 p-5 bg-white border-t border-border pb-safe z-[60]">
         <div className="max-w-[375px] mx-auto">
            <Button 
-            className="w-full h-12 text-base rounded-xl bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/20"
+            className="w-full h-12 text-base rounded-xl bg-primary hover:bg-primary/90 text-white"
             disabled={!consent}
             onClick={() => setLocation("/telehealth/confirmation")}
            >

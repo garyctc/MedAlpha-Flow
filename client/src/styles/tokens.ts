@@ -12,11 +12,6 @@ export const TOKENS = {
       defaultBezier: [0.4,0,0.2,1],
     },
   },
-  shadows: {
-    soft: "0 1px 3px rgba(12, 61, 145, 0.06)",
-    card: "0 2px 8px rgba(12, 61, 145, 0.08)",
-    elevated: "0 4px 16px rgba(12, 61, 145, 0.12)",
-  },
   touchTargets: {
     minimum: "44px",
     comfortable: "48px",

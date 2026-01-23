@@ -25,7 +25,7 @@ export default function PkvAuth() {
           <p className="text-slate-500 text-sm">Authenticate securely to access your e-prescriptions</p>
         </div>
 
-        <div className="bg-white rounded-2xl p-5 border border-slate-100 space-y-4">
+        <div className="bg-white rounded-2xl p-5 border border-border space-y-4">
           <div className="flex gap-3">
             <div className="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center flex-shrink-0">
               <Check size={14} className="text-emerald-600" strokeWidth={3} />
@@ -53,10 +53,10 @@ export default function PkvAuth() {
         </div>
       </main>
 
-      <div className="fixed bottom-0 left-0 right-0 p-5 bg-white border-t border-slate-100 pb-safe z-10">
+      <div className="fixed bottom-0 left-0 right-0 p-5 bg-white border-t border-border pb-safe z-10">
         <div className="max-w-[375px] mx-auto">
           <Button 
-            className="w-full h-12 text-base rounded-xl bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/20"
+            className="w-full h-12 text-base rounded-xl bg-primary hover:bg-primary/90 text-white"
             onClick={() => setLocation("/prescriptions/pkv-insurer-select")}
           >
             Continue to PKV Login

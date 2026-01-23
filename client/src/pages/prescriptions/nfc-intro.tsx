@@ -24,7 +24,7 @@ export default function NfcIntro() {
              <motion.div 
                animate={{ y: [0, -5, 0] }}
                transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
-               className="absolute bottom-6 -right-2 bg-primary text-white p-2 rounded-lg shadow-xl z-20"
+               className="absolute bottom-6 -right-2 bg-primary text-white p-2 rounded-lg z-20"
              >
                <CreditCard size={32} />
              </motion.div>
@@ -37,7 +37,7 @@ export default function NfcIntro() {
 
           <h2 className="text-xl font-bold text-slate-900 text-center mb-6">Position your Gesundheitskarte</h2>
           
-          <div className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 w-full space-y-4 mb-6">
+          <div className="bg-white rounded-2xl p-5 border border-border w-full space-y-4 mb-6">
              <div className="flex gap-4">
                <div className="w-6 h-6 rounded-full bg-blue-100 text-primary flex items-center justify-center font-bold text-sm flex-shrink-0">1</div>
                <p className="text-slate-600 text-sm font-medium">Have your health card (eGK) ready</p>
@@ -70,7 +70,7 @@ export default function NfcIntro() {
           </div>
 
           <Button 
-            className="w-full h-12 text-base font-bold rounded-xl shadow-lg shadow-primary/20"
+            className="w-full h-12 text-base font-bold rounded-xl"
             onClick={() => setLocation("/prescriptions/nfc-scan")}
             disabled={can.length !== 6}
           >

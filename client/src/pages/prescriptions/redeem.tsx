@@ -12,7 +12,7 @@ export default function PrescriptionRedeem() {
         <motion.div
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          className="bg-white rounded-3xl p-8 w-full shadow-2xl shadow-black/20 text-center relative mt-4"
+          className="bg-white rounded-3xl p-8 w-full text-center relative mt-4"
         >
           <div className="w-16 h-1 bg-slate-200 rounded-full mx-auto mb-6"></div>
           
@@ -31,7 +31,7 @@ export default function PrescriptionRedeem() {
 
           <p className="text-slate-600 font-medium mb-6">Scan at any Cardlink pharmacy</p>
 
-          <div className="flex items-center justify-between bg-slate-50 rounded-xl p-3 border border-slate-100 mb-6">
+          <div className="flex items-center justify-between bg-slate-50 rounded-xl p-3 border border-border mb-6">
              <div className="text-left">
                <span className="text-xs text-slate-400 block uppercase tracking-wider">Expires</span>
                <span className="text-sm font-bold text-slate-800">Jan 28, 2026</span>

@@ -23,7 +23,7 @@ export default function LanguageSelection() {
       <main className="p-4 space-y-6">
         {/* Section 1 - Current Language */}
         <section>
-          <div className="bg-white rounded-lg shadow-sm p-4 flex items-center justify-between">
+          <div className="bg-white rounded-lg p-4 flex items-center justify-between border border-border">
             <span className="text-slate-900 font-medium">{t("profile.language.currentLabel")}</span>
             <div className="flex items-center gap-2">
               <span className="text-primary font-bold">

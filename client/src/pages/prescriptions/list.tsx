@@ -94,7 +94,7 @@ export default function PrescriptionList() {
 
       <main className="p-5 pt-0 space-y-6">
         {/* Success Banner */}
-        <div className="bg-success rounded-xl p-4 flex items-center gap-3 shadow-md shadow-green-900/10 text-white">
+        <div className="bg-success rounded-xl p-4 flex items-center gap-3 text-white">
           <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
             <Check size={18} strokeWidth={3} />
           </div>
@@ -128,8 +128,8 @@ export default function PrescriptionList() {
                 onClick={() => toggleSelection(item.id)}
                 className={`bg-white p-5 rounded-2xl border transition-all cursor-pointer relative overflow-hidden ${
                   item.selected 
-                    ? "border-primary shadow-md shadow-primary/10 ring-1 ring-primary" 
-                    : "border-slate-100 shadow-sm hover:border-slate-300"
+                    ? "border-primary ring-1 ring-primary"
+                    : "border-border hover:border-slate-300"
                 }`}
               >
                 <div className="flex items-start gap-4">
@@ -177,10 +177,10 @@ export default function PrescriptionList() {
       </PageContent>
 
       {/* Sticky Bottom Button */}
-      <div className="fixed bottom-0 left-0 right-0 p-5 bg-white border-t border-slate-100 pb-safe z-[60]">
+      <div className="fixed bottom-0 left-0 right-0 p-5 bg-white border-t border-border pb-safe z-[60]">
         <div className="max-w-[375px] mx-auto">
            <Button 
-            className="w-full h-12 text-base rounded-xl bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/20"
+            className="w-full h-12 text-base rounded-xl bg-primary hover:bg-primary/90 text-white"
             disabled={selectedCount === 0 || loading}
             onClick={() => setLocation("/prescriptions/detail")} // Should probably go to review/pharmacy first? Prompt says 05 -> ... -> 07. Existing flow has pharmacy confirm in between.
            >

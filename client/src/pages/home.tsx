@@ -10,18 +10,13 @@ import { useTranslation } from "react-i18next";
 import { formatLocalDayNumber, formatLocalMonthShort, formatLocalTime, getLocale } from "@/i18n";
 import { getUserProfile, getUserAppointments } from "@/lib/storage";
 import { LoadingSkeleton } from "@/components/ui/loading-skeleton";
+import { PromoCard, type PromoCardProps } from "@/components/ui/promo-card";
 import { useNotifications } from "@/contexts/NotificationsContext";
 import type { UserProfile, Appointment } from "@/types/storage";
 
-function stableHash(input: string): number {
-  let hash = 0;
-  for (let i = 0; i < input.length; i++) hash = (hash * 31 + input.charCodeAt(i)) >>> 0;
-  return hash;
-}
-
 const MAX_CAROUSEL_ITEMS = 5;
 
-function DiscoverMoreCarousel({ promos }: { promos: Array<{ id: string; title: string; body: string; url?: string }> }) {
+function DiscoverMoreCarousel({ promos }: { promos: PromoCardProps[] }) {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false, align: "start" });
   const [selectedIndex, setSelectedIndex] = React.useState(0);
 
@@ -42,56 +37,17 @@ function DiscoverMoreCarousel({ promos }: { promos: Array<{ id: string; title: s
     };
   }, [emblaApi]);
 
-  const gradients = [
-    "from-sky-700 to-cyan-500",
-    "from-indigo-700 to-sky-500",
-    "from-teal-700 to-sky-500",
-  ];
-
   if (displayedPromos.length === 0) return null;
 
   return (
     <div className="relative">
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex gap-3">
-          {displayedPromos.map((promo) => {
-            const gradient = gradients[stableHash(promo.id) % gradients.length];
-            const content = (
-              <div
-                className={`relative overflow-hidden rounded-2xl bg-gradient-to-br ${gradient} text-white p-6 h-40 ring-1 ring-white/10`}
-              >
-                <div className="absolute inset-0 opacity-80 bg-[radial-gradient(280px_140px_at_20%_20%,rgba(255,255,255,0.18),transparent_60%)]" />
-                <div className="relative z-10 flex h-full flex-col justify-between">
-                  <div className="space-y-1">
-                    <h2 className="text-lg font-bold font-display leading-tight line-clamp-1">{promo.title}</h2>
-                    <p className="text-white/90 text-base leading-snug line-clamp-2 max-w-[90%]">{promo.body}</p>
-                  </div>
-                  {promo.url ? (
-                    <span className="inline-flex w-fit items-center rounded-full bg-white/15 px-3 py-1 text-xs font-semibold">
-                      Learn more
-                    </span>
-                  ) : null}
-                </div>
-              </div>
-            );
-
-            return (
-              <div key={promo.id} className="flex-[0_0_84%] min-w-0">
-                {promo.url ? (
-                  <a
-                    href={promo.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="block rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
-                  >
-                    {content}
-                  </a>
-                ) : (
-                  <div className="rounded-2xl">{content}</div>
-                )}
-              </div>
-            );
-          })}
+          {displayedPromos.map((promo) => (
+            <div key={promo.id} className="flex-[0_0_84%] min-w-0">
+              <PromoCard {...promo} />
+            </div>
+          ))}
         </div>
       </div>
 
@@ -104,7 +60,7 @@ function DiscoverMoreCarousel({ promos }: { promos: Array<{ id: string; title: s
               aria-label={`Go to promo ${idx + 1}`}
               onClick={() => emblaApi?.scrollTo(idx)}
               className={`h-2 w-2 rounded-full transition-colors ${
-                idx === selectedIndex ? "bg-white" : "bg-white/30 hover:bg-white/45"
+                idx === selectedIndex ? "bg-primary" : "bg-gray-300 hover:bg-gray-400"
               }`}
             />
           ))}
@@ -116,6 +72,7 @@ function DiscoverMoreCarousel({ promos }: { promos: Array<{ id: string; title: s
 
 import appLogo from "@/assets/app-logo.svg";
 import { branding } from "@/config/branding";
+import { BookingIllustration } from "@/components/illustrations/BookingIllustration";
 
 export default function Home() {
   const { t } = useTranslation();
@@ -212,22 +169,18 @@ export default function Home() {
           <LoadingSkeleton variant="page" />
         ) : (
         <>
-        {/* Feature Card */}
+        {/* Feature Card - Book Appointment Hero CTA */}
         <Link href="/booking/type" className="block">
           <motion.button
             whileTap={{ scale: 0.98 }}
-            className="w-full bg-primary p-4 rounded-xl shadow-[var(--shadow-card)] flex items-center gap-4 text-left hover:bg-primary/90 transition-all"
+            className="w-full bg-primary p-4 rounded-xl text-left hover:bg-primary/90 transition-all shadow-md"
           >
-            <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center text-white">
-              <Calendar size={24} />
-            </div>
-            <div className="flex-1">
-              <span className="block font-bold text-white">
+            <div className="flex items-center justify-between gap-3">
+              <span className="font-semibold text-primary-foreground">
                 {t("home.features.book.title")}
               </span>
-              <span className="text-sm text-white/80 mt-1 block">{t("home.features.book.subtitle")}</span>
+              <BookingIllustration className="w-20 h-16 flex-shrink-0 text-primary-foreground" />
             </div>
-            <ChevronRight size={20} className="text-white/80" />
           </motion.button>
         </Link>
 
@@ -244,7 +197,7 @@ export default function Home() {
 
           {hasAppointments && upcomingAppointment ? (
             <Link href="/appointments/detail">
-            <Card className="border-none shadow-[var(--shadow-card)] overflow-hidden cursor-pointer hover:scale-[1.01] transition-transform">
+            <Card className="border border-border overflow-hidden cursor-pointer hover:scale-[1.01] transition-transform">
                <CardContent className="p-0">
                  <div className="flex">
                     <div className="bg-accent w-20 flex flex-col items-center justify-center border-r border-border p-2">
@@ -286,7 +239,7 @@ export default function Home() {
         {/* Recent Activity Mini-List */}
         <section>
            <h3 className="font-bold text-lg text-foreground mb-3">{t("home.sections.recent")}</h3>
-           <div className="bg-card rounded-lg border border-border shadow-[var(--shadow-card)] p-4">
+           <div className="bg-card rounded-lg border border-border  p-4">
               <div className="flex items-center gap-4">
                  <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center text-muted-foreground">
                     <Calendar size={18} />

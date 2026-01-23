@@ -40,7 +40,7 @@ export default function PharmacyDetail() {
            <div className="w-full h-32 bg-slate-200 rounded-2xl mb-4 overflow-hidden relative">
               <div className="absolute inset-0 opacity-30" style={{ backgroundImage: "radial-gradient(hsl(var(--primary)) 1px, transparent 1px)", backgroundSize: "16px 16px" }}></div>
               <div className="absolute inset-0 flex items-center justify-center">
-                <MapPin className="text-red-500 drop-shadow-md" size={32} fill="currentColor" />
+                <MapPin className="text-red-500" size={32} fill="currentColor" />
               </div>
            </div>
 
@@ -60,7 +60,7 @@ export default function PharmacyDetail() {
         {/* Info Cards */}
         <div className="space-y-4">
            {/* Address */}
-           <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex gap-4 items-start">
+           <div className="bg-white p-4 rounded-2xl border border-border flex gap-4 items-start">
               <div className="w-10 h-10 bg-slate-50 text-slate-500 rounded-full flex items-center justify-center flex-shrink-0">
                 <MapPin size={20} />
               </div>
@@ -72,7 +72,7 @@ export default function PharmacyDetail() {
            </div>
 
            {/* Hours */}
-           <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex gap-4 items-start">
+           <div className="bg-white p-4 rounded-2xl border border-border flex gap-4 items-start">
               <div className="w-10 h-10 bg-slate-50 text-slate-500 rounded-full flex items-center justify-center flex-shrink-0">
                 <Clock size={20} />
               </div>
@@ -96,7 +96,7 @@ export default function PharmacyDetail() {
            </div>
 
            {/* Contact */}
-           <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm space-y-3">
+           <div className="bg-white p-4 rounded-2xl border border-border space-y-3">
               <div className="flex gap-4 items-center">
                  <div className="w-10 h-10 bg-slate-50 text-slate-500 rounded-full flex items-center justify-center flex-shrink-0">
                    <Phone size={20} />
@@ -121,7 +121,7 @@ export default function PharmacyDetail() {
 
         {/* Action Buttons */}
         <div className="space-y-3 pt-2">
-           <Button onClick={handleReserve} className="w-full h-12 rounded-xl bg-primary shadow-lg shadow-primary/20 flex items-center gap-2">
+           <Button onClick={handleReserve} className="w-full h-12 rounded-xl bg-primary flex items-center gap-2">
              <ShoppingBag size={18} /> Reserve Prescription
            </Button>
            <Button variant="outline" className="w-full h-12 rounded-xl border-slate-200 text-slate-700 hover:bg-slate-50 flex items-center gap-2">

@@ -125,7 +125,7 @@ function Section({
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
   return (
-    <div className="border-b border-gray-200 last:border-b-0">
+    <div className="border-b border-border last:border-b-0">
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="w-full flex items-center justify-between py-2 text-left hover:bg-gray-50 transition-colors"
@@ -202,7 +202,7 @@ export default function AnnotationPanel() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 20 }}
             transition={{ duration: 0.2 }}
-            className="fixed z-40 bg-white rounded-lg shadow-xl border border-gray-200 overflow-hidden"
+            className="fixed z-40 bg-white rounded-lg shadow-xl border border-border overflow-hidden"
             style={{
               right: "calc(50% - 187.5px - 380px)",
               top: "20px",

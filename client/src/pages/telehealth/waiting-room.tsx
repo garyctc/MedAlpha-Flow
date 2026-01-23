@@ -18,7 +18,7 @@ export default function WaitingRoom() {
   return (
     <div className="min-h-screen bg-white flex flex-col">
       {/* Header */}
-      <header className="px-5 py-4 flex justify-between items-center border-b border-slate-100">
+      <header className="px-5 py-4 flex justify-between items-center border-b border-border">
         <h1 className="font-bold text-lg text-slate-900">Waiting Room</h1>
         <button onClick={() => setLocation("/home")} className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500">
           <X size={18} />
@@ -34,7 +34,7 @@ export default function WaitingRoom() {
          </div>
 
          {/* Camera Preview */}
-         <div className="w-full aspect-[4/5] bg-slate-900 rounded-3xl relative overflow-hidden mb-2 shadow-inner flex items-center justify-center">
+         <div className="w-full aspect-[4/5] bg-slate-900 rounded-3xl relative overflow-hidden mb-2 flex items-center justify-center">
             {/* Fake Camera Feed Animation */}
             <div className="absolute inset-0 bg-gradient-to-br from-slate-800 to-slate-900 animate-pulse"></div>
             <div className="relative z-10 flex flex-col items-center gap-2 text-white/50">

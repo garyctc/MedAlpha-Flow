@@ -142,7 +142,7 @@ export default function InsuranceInfoGKV() {
         </div>
       </main>
 
-      <div className="fixed bottom-0 left-0 right-0 p-5 bg-white border-t border-slate-100 pb-safe z-[60] max-w-[375px] mx-auto">
+      <div className="fixed bottom-0 left-0 right-0 p-5 bg-white border-t border-border pb-safe z-[60] max-w-[375px] mx-auto">
         <div className="space-y-2">
            <Button
             className="w-full h-12 text-base rounded-xl bg-primary hover:bg-primary/90 text-white"

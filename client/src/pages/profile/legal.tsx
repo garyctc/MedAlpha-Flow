@@ -10,7 +10,7 @@ export default function PrivacyLegal() {
       <SubPageHeader title="Privacy & Legal" backPath="/profile" />
       
       <main className="p-5">
-        <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+        <div className="bg-white rounded-2xl border border-border overflow-hidden">
            <MenuRow 
              icon={Shield} 
              label="Privacy Policy" 

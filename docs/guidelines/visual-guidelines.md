@@ -53,10 +53,11 @@ MedAlpha Connect extends the dm-drogerie markt brand into healthcare services. T
 - Softer than clinical/corporate, but not playful.
 - Balances trust (older users) with modernity (younger users).
 
-**Why blue-tinted shadows:**
-- Subtle depth without warmth. Maintains clinical feel.
-- Consistent with primary color palette.
-- Differentiates from competitors using gray or warm shadows.
+**Why flat design (no shadows):**
+- Clean, modern aesthetic with clear visual boundaries.
+- Borders and background contrast provide hierarchy without depth effects.
+- Reduces visual noise and improves focus on content.
+- Consistent with modern mobile design trends.
 
 **Why Open Sans:**
 - Clean, highly readable at all sizes.
@@ -237,23 +238,30 @@ When Accessibility Mode is enabled:
 
 ---
 
-## 7. Shadows & Elevation
+## 7. Flat Design & Visual Hierarchy
 
-### 7a. Shadow System
+### 7a. Design Approach
 
-All shadows use blue tint (rgba(12, 61, 145, *)) for consistency with primary color.
+MedAlpha Connect uses a **pure flat design** approach. Visual hierarchy is achieved through:
 
-| Token | Value | Usage |
-|-------|-------|-------|
-| `soft` | 0 1px 3px rgba(12, 61, 145, 0.06) | Subtle depth, list items |
-| `card` | 0 2px 8px rgba(12, 61, 145, 0.08) | Cards, default elevation |
-| `elevated` | 0 4px 16px rgba(12, 61, 145, 0.12) | Modals, sheets, overlays |
+- **Borders**: Cards and containers use `border border-gray-200` for separation
+- **Background contrast**: White cards on gray background (#F5F7FA)
+- **Active states**: Buttons darken on press (no shadow glow)
 
 ### 7b. Elevation Hierarchy
 
-1. **Background (0)**: Screen background, no shadow
-2. **Surface (1)**: Cards, panels (`shadow-card`)
-3. **Elevated (2)**: Modals, bottom sheets (`shadow-elevated`)
+1. **Background (0)**: Screen background (#F5F7FA)
+2. **Surface (1)**: Cards, panels (white background, gray border)
+3. **Elevated (2)**: Modals, sheets (border-top for bottom sheets, backdrop overlay for modals)
+
+### 7c. Button Feedback
+
+| Variant | Active State |
+|---------|-------------|
+| Primary | `active:bg-primaryDark` |
+| Destructive | `active:bg-red-700` |
+| Outline/Secondary | `active:bg-primary/10` |
+| Ghost | `active:bg-gray-100` |
 
 ---
 
@@ -423,7 +431,7 @@ When customizing for partners:
 
 - White background (#FFFFFF)
 - Rounded-lg (16px)
-- Shadow-card
+- Border: `border border-gray-200`
 - Padding 16-20px
 
 ### Inputs
@@ -436,7 +444,7 @@ When customizing for partners:
 ### Bottom Sheets
 
 - Rounded-xl top corners (20px)
-- Shadow-elevated
+- Border-top: `border-t border-gray-200`
 - White background
 - Drag handle indicator
 

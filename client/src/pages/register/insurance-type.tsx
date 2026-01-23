@@ -35,7 +35,7 @@ export default function RegisterInsuranceType() {
             className={`relative p-5 rounded-2xl border-2 transition-all cursor-pointer ${
               selectedType === "gkv" 
                 ? "border-blue-600 bg-blue-50/50" 
-                : "border-slate-100 bg-white hover:border-slate-200"
+                : "border-border bg-white hover:border-slate-200"
             }`}
           >
             <div className="flex items-start gap-4">
@@ -74,7 +74,7 @@ export default function RegisterInsuranceType() {
             className={`relative p-5 rounded-2xl border-2 transition-all cursor-pointer ${
               selectedType === "pkv" 
                 ? "border-purple-600 bg-purple-50/50" 
-                : "border-slate-100 bg-white hover:border-slate-200"
+                : "border-border bg-white hover:border-slate-200"
             }`}
           >
             <div className="flex items-start gap-4">

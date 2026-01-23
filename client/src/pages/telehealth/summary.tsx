@@ -26,13 +26,13 @@ export default function TelehealthSummary() {
 
   return (
     <div className="min-h-screen bg-background pb-20">
-      <header className="px-5 py-4 pt-12 text-center bg-white border-b border-slate-100">
+      <header className="px-5 py-4 pt-12 text-center bg-white border-b border-border">
         <h1 className="font-bold text-lg text-slate-900">Consultation Complete</h1>
       </header>
       
       <main className="p-5 space-y-6">
         {/* Summary Card */}
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 text-center">
+        <div className="bg-white rounded-2xl border border-border p-6 text-center">
           <div className="w-16 h-16 bg-purple-50 text-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
             <Video size={32} />
           </div>
@@ -56,7 +56,7 @@ export default function TelehealthSummary() {
         </div>
 
         {/* Action Card */}
-        <div className="bg-white p-4 rounded-xl border border-slate-100 flex items-center justify-between shadow-sm">
+        <div className="bg-white p-4 rounded-xl border border-border flex items-center justify-between">
            <div className="flex items-center gap-3">
              <div className="w-10 h-10 bg-blue-50 text-primary rounded-full flex items-center justify-center">
                <Calendar size={20} />
@@ -85,10 +85,10 @@ export default function TelehealthSummary() {
       </main>
 
       {/* Sticky Bottom Button */}
-      <div className="fixed bottom-0 left-0 right-0 p-5 bg-white border-t border-slate-100 pb-safe z-10">
+      <div className="fixed bottom-0 left-0 right-0 p-5 bg-white border-t border-border pb-safe z-10">
         <div className="max-w-[375px] mx-auto">
           <Link href="/home">
-            <Button className="w-full h-12 text-base rounded-xl bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/20">
+            <Button className="w-full h-12 text-base rounded-xl bg-primary hover:bg-primary/90 text-white">
               Done
             </Button>
           </Link>

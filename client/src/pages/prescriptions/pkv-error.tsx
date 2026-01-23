@@ -11,7 +11,7 @@ export default function PkvError() {
       <SubPageHeader title="Setup Required" backPath="/prescriptions/pkv-auth" />
       
       <main className="p-5 flex flex-col items-center justify-center min-h-[60vh]">
-        <div className="w-full bg-white border border-orange-200 rounded-2xl p-6 shadow-sm mb-6">
+        <div className="w-full bg-white border border-orange-200 rounded-2xl p-6 mb-6">
           <div className="w-12 h-12 bg-orange-50 rounded-full flex items-center justify-center mb-4 text-orange-500">
             <AlertTriangle size={24} />
           </div>

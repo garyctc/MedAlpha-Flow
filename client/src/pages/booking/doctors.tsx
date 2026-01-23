@@ -73,7 +73,7 @@ export default function DoctorSelect() {
             <LoadingSkeleton variant="card" count={3} />
           ) : filteredDoctors.length === 0 ? (
             // Empty State
-            <div className="bg-white rounded-2xl border border-slate-100 border-dashed p-8 text-center">
+            <div className="bg-white rounded-2xl border border-border border-dashed p-8 text-center">
               <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Calendar size={24} className="text-slate-400" />
               </div>
@@ -89,8 +89,8 @@ export default function DoctorSelect() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
                 onClick={() => handleDoctorClick(doc.id, doc.name)}
-                className={`w-full bg-white p-4 rounded-2xl border shadow-sm flex items-center gap-4 text-left hover:border-primary/30 transition-all group ${
-                  selectedDoctor === doc.id ? 'border-primary ring-2 ring-primary/20' : 'border-slate-100'
+                className={`w-full bg-white p-4 rounded-2xl border flex items-center gap-4 text-left hover:border-primary/30 transition-all group ${
+                  selectedDoctor === doc.id ? 'border-primary ring-2 ring-primary/20' : 'border-border'
                 }`}
               >
                 <div className="w-16 h-16 rounded-full bg-slate-200 flex-shrink-0"></div>
@@ -109,7 +109,7 @@ export default function DoctorSelect() {
                       <Clock size={12} />
                       Next: {doc.nextAvailable}
                     </div>
-                    <span className="text-xs font-bold bg-primary text-white px-3 py-1.5 rounded-lg shadow-sm shadow-primary/20">
+                    <span className="text-xs font-bold bg-primary text-white px-3 py-1.5 rounded-lg">
                       Book
                     </span>
                   </div>

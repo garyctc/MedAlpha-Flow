@@ -6,6 +6,7 @@ export type CmsNotification = {
   title: string;
   body: string;
   url?: string;
+  imageUrl?: string;
   createdAt: string; // ISO
 };
 
@@ -16,6 +17,7 @@ export const demoNotifications: CmsNotification[] = [
     title: "Free health check week",
     body: "Book a basic screening this week. Limited slots.",
     url: "https://example.com/free-health-check",
+    imageUrl: "https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=400&h=225&fit=crop",
     createdAt: "2026-01-20T14:01:00Z",
   },
   {
@@ -24,6 +26,7 @@ export const demoNotifications: CmsNotification[] = [
     title: "New clinic partner",
     body: "MedAlpha now available at Riverside Clinic.",
     url: "https://example.com/clinic-partner",
+    imageUrl: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=400&h=225&fit=crop",
     createdAt: "2026-01-12T09:15:00Z",
   },
   {
@@ -31,6 +34,7 @@ export const demoNotifications: CmsNotification[] = [
     kind: "promo",
     title: "Refer a friend",
     body: "Invite a friend to join MedAlpha Connect.",
+    imageUrl: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=400&h=225&fit=crop",
     createdAt: "2026-01-08T16:54:00Z",
   },
   {

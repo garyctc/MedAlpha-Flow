@@ -103,7 +103,7 @@ export default function PharmacyList() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
                 onClick={() => setLocation(`/pharmacy/detail?id=${pharmacy.id}`)}
-                className="w-full bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex items-start gap-4 text-left hover:border-primary/30 transition-all group"
+                className="w-full bg-white p-4 rounded-2xl border border-border flex items-start gap-4 text-left hover:border-primary/30 transition-all group"
               >
                 <div className="w-16 h-16 bg-slate-100 rounded-xl flex items-center justify-center flex-shrink-0 font-bold text-slate-400 text-xl border border-slate-200">
                   {pharmacy.name.charAt(0)}

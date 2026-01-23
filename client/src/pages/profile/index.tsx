@@ -76,7 +76,7 @@ export default function ProfilePage() {
       <main className="p-5 space-y-8">
         {/* User Info Card */}
         <div className="flex flex-col items-center text-center">
-           <div className="w-24 h-24 rounded-full border-4 border-white shadow-md overflow-hidden mb-4">
+           <div className="w-24 h-24 rounded-full border-4 border-white overflow-hidden mb-4">
              <img src={avatarImage} alt="Profile" className="w-full h-full object-cover" />
            </div>
            {isLoading ? (
@@ -93,7 +93,7 @@ export default function ProfilePage() {
         <div className="space-y-6">
            <section>
              <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 px-1">{t("profile.sections.account")}</h3>
-             <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+             <div className="bg-white rounded-2xl border border-border overflow-hidden">
                 <MenuRow icon={User} label={t("profile.menu.personalInfo")} onClick={() => setLocation("/profile/edit")} />
                 <div className="h-px bg-slate-50 mx-4"></div>
                 <MenuRow icon={Shield} label={t("profile.menu.insuranceInfo")} onClick={handleInsuranceClick} />
@@ -113,7 +113,7 @@ export default function ProfilePage() {
 
            <section>
              <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 px-1">{t("profile.sections.support")}</h3>
-             <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+             <div className="bg-white rounded-2xl border border-border overflow-hidden">
                 <MenuRow icon={HelpCircle} label={t("profile.menu.help")} onClick={() => setLocation("/profile/support")} />
                 <div className="h-px bg-slate-50 mx-4"></div>
                 <MenuRow icon={Shield} label={t("profile.menu.privacyLegal")} onClick={() => setLocation("/profile/legal")} />

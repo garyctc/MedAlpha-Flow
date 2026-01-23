@@ -73,7 +73,7 @@ export default function CompleteProfile() {
 
   return (
     <div className="min-h-screen bg-background pb-safe">
-      <header className="px-5 py-4 pt-12 bg-white border-b border-slate-100 sticky top-0 z-10">
+      <header className="px-5 py-4 pt-12 bg-white border-b border-border sticky top-0 z-10">
         <h1 className="font-bold text-xl text-slate-900 font-display">Complete Your Profile</h1>
       </header>
 
@@ -84,7 +84,7 @@ export default function CompleteProfile() {
         </div>
 
         {/* Read-only Section */}
-        <div className="bg-slate-50 rounded-xl p-4 border border-slate-100 space-y-4">
+        <div className="bg-slate-50 rounded-xl p-4 border border-border space-y-4">
           <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">From your {provider?.displayName || 'partner'} account:</span>
           
           <div className="space-y-3">
@@ -168,7 +168,7 @@ export default function CompleteProfile() {
         </div>
 
         <Button
-          className="w-full h-12 text-base font-medium bg-primary hover:bg-primary/90 rounded-xl shadow-lg shadow-primary/20 mt-8"
+          className="w-full h-12 text-base font-medium bg-primary hover:bg-primary/90 rounded-xl mt-8"
           onClick={handleContinue}
           disabled={isSaving}
         >

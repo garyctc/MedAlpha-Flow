@@ -15,7 +15,7 @@ export default function PharmacyConfirm() {
       
       <main className="p-5 space-y-6">
         {/* Partner Card */}
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-blue-100 ring-2 ring-blue-50">
+        <div className="bg-white rounded-2xl p-6 border border-blue-100 ring-2 ring-blue-50">
            <div className="flex items-center gap-3 mb-4">
              {/* Logo Placeholder */}
              <div className="w-10 h-10 bg-primary text-white rounded-lg flex items-center justify-center font-bold text-xs">
@@ -29,7 +29,7 @@ export default function PharmacyConfirm() {
         </div>
 
         {/* Delivery Info */}
-        <div className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+        <div className="bg-white rounded-2xl p-5 border border-border">
            <div className="flex items-center gap-3 mb-2">
              <Truck className="text-primary" size={24} />
              <h3 className="font-bold text-slate-900">Standard Delivery</h3>
@@ -57,10 +57,10 @@ export default function PharmacyConfirm() {
       </main>
 
       {/* Sticky Bottom Button */}
-      <div className="fixed bottom-0 left-0 right-0 p-5 bg-white border-t border-slate-100 pb-safe z-[60]">
+      <div className="fixed bottom-0 left-0 right-0 p-5 bg-white border-t border-border pb-safe z-[60]">
         <div className="max-w-[375px] mx-auto">
            <Button 
-            className="w-full h-12 text-base rounded-xl bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/20"
+            className="w-full h-12 text-base rounded-xl bg-primary hover:bg-primary/90 text-white"
             disabled={!agreed}
             onClick={() => setLocation("/prescriptions/review")}
            >
