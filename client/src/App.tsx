@@ -9,6 +9,7 @@ import AnnotationPanel from "@/components/annotations/AnnotationPanel";
 import { seedDemoData } from "@/lib/storage";
 import { PartnerConfigProvider } from "@/contexts/PartnerConfigContext";
 import { NotificationsProvider } from "@/contexts/NotificationsContext";
+import { Agentation } from "agentation";
 
 import Splash from "@/pages/splash";
 import Login from "@/pages/login";
@@ -246,6 +247,7 @@ function App() {
               </div>
               <AnnotationPanel />
               <Toaster />
+              {import.meta.env.DEV && <Agentation />}
             </div>
           </Router>
         </NotificationsProvider>

@@ -86,7 +86,7 @@ export default function AboutPage() {
             </div>
             <div>
               <p className="text-xs text-slate-500 uppercase tracking-wider font-bold mb-1">Founded</p>
-              <p className="text-sm text-slate-700">2024</p>
+              <p className="text-sm text-slate-700">2026</p>
             </div>
             <div>
               <p className="text-xs text-slate-500 uppercase tracking-wider font-bold mb-1">Focus</p>
@@ -95,16 +95,6 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* Tech Stack */}
-        <section>
-          <h2 className="text-lg font-bold text-slate-900 mb-3 font-display">Built With</h2>
-          <div className="bg-slate-50 rounded-2xl border border-slate-100 p-5 space-y-2 text-sm text-slate-700">
-            <p><span className="font-semibold">Frontend:</span> React, TypeScript, Tailwind CSS, Framer Motion</p>
-            <p><span className="font-semibold">Backend:</span> Node.js, Express, Drizzle ORM</p>
-            <p><span className="font-semibold">Database:</span> PostgreSQL</p>
-            <p><span className="font-semibold">UI Components:</span> Radix UI, shadcn/ui</p>
-          </div>
-        </section>
       </main>
     </div>
   );
