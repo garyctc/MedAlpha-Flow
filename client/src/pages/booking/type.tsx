@@ -12,7 +12,7 @@ export default function BookingType() {
   const handleInPersonClick = () => {
     clearBookingDraft();
     saveBookingDraft({ type: 'in-person' });
-    setLocation("/booking/specialty");
+    setLocation("/booking/entry");
   };
 
   const handleVideoClick = () => {

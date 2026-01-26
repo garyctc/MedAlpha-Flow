@@ -43,8 +43,9 @@ export default function DoctorSelect() {
   }, [filter]);
 
   const handleDoctorClick = (doctorId: string, doctorName: string) => {
-    saveBookingDraft({ doctor: doctorName });
-    setLocation(`/booking/calendar?doctor=${doctorId}`);
+    const doc = DOCTORS.find(d => d.id === doctorId);
+    saveBookingDraft({ doctor: doctorName, specialty: doc?.specialty });
+    setLocation(`/booking/location?doctor=${doctorId}`);
   };
 
   return (

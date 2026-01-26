@@ -92,6 +92,17 @@
         "partner": "Powered by Teleclinic"
       }
     },
+    "entry": {
+      "title": "Book an Appointment",
+      "selectSpecialty": "Select Specialty",
+      "selectDoctor": "Select Doctor",
+      "fastest": "Fastest available appointment"
+    },
+    "slots": {
+      "title": "Select a Slot",
+      "makeRecurring": "Make recurring",
+      "cadence": "Follow-up cadence"
+    },
     "review": {
       "title": "Review booking",
       "confirm": "Confirm booking"
