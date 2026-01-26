@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+
+<html class="" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DocliQ Booking Step 4</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style type="text/tailwindcss">
+        :root {
+            --primary-teal: #13A3B5;
+            --bg-cream: #FAF8F5;
+            --slate-text: #334155;
+            --slate-light: #64748b;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-cream);
+            color: var(--slate-text);
+            -webkit-tap-highlight-color: transparent;
+        }
+        .ios-shadow {
+            box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+<style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="min-h-screen flex flex-col">
+<header class="px-6 pt-12 pb-6 flex items-center justify-between">
+<button aria-label="Back" class="w-10 h-10 flex items-center justify-start text-slate-700">
+<span class="material-symbols-outlined text-2xl">arrow_back_ios</span>
+</button>
+<div class="flex-1 text-center">
+<span class="text-xs font-bold tracking-widest uppercase text-slate-400">Step 4 of 4</span>
+<h1 class="text-lg font-bold text-slate-900 leading-none">Appointment Overview</h1>
+</div>
+<div class="w-10"></div>
+</header>
+<main class="flex-1 px-6 space-y-8 pb-32">
+<section class="bg-white rounded-3xl p-6 ios-shadow border border-slate-100/50">
+<div class="flex items-center space-y-4 flex-col text-center">
+<div class="relative">
+<img alt="Dr. Schmidt" class="w-24 h-24 rounded-2xl object-cover ring-4 ring-[#13A3B5]/10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAyC6NVbVBsIw0G7lxQnnZVwro6Rvj_Ks5eE6AuQ2-Yv8F2aHQ9rltrWF_A57enw809zfaBBsZ7edOcPoX0nLBUSxLcNhIJGOJS040-LL1-mF2TjVS54RUZWHWsZmFNyM7u1kHxeN4QUk36VZJan0AiKauMV1G8-QXi-bUFywSOt5UjToJly9Z2Dp6fm7ErhuUgvr6275cOcgf8f2wwEOEHQ2cQPp4XsjsH29Td5wfBfEKvovQ25XmQCowmsCZVO6aUVrT_NNheAaA"/>
+<div class="absolute -bottom-2 -right-2 bg-[#13A3B5] text-white p-1 rounded-lg">
+<span class="material-symbols-outlined text-lg block">verified</span>
+</div>
+</div>
+<div>
+<h2 class="text-xl font-bold text-slate-900">Dr. med. Schmidt</h2>
+<p class="text-sm font-medium text-[var(--primary-teal)]">General Medicine</p>
+</div>
+</div>
+<div class="mt-8 pt-8 border-t border-slate-50 space-y-6">
+<div class="flex items-start gap-4">
+<div class="bg-slate-50 p-3 rounded-2xl">
+<span class="material-symbols-outlined text-[var(--primary-teal)]">calendar_today</span>
+</div>
+<div>
+<p class="text-sm text-slate-400 font-medium">Date &amp; Time</p>
+<p class="text-lg font-bold text-slate-900">Monday, Feb 5</p>
+<p class="text-base font-semibold text-slate-600">2:30 PM</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<div class="bg-slate-50 p-3 rounded-2xl">
+<span class="material-symbols-outlined text-[var(--primary-teal)]">location_on</span>
+</div>
+<div>
+<p class="text-sm text-slate-400 font-medium">Location</p>
+<p class="text-base font-bold text-slate-900">Medical Center Mitte</p>
+<p class="text-sm text-slate-600">Hauptstraße 12, 10115 Berlin</p>
+</div>
+</div>
+</div>
+</section>
+<section class="space-y-4">
+<h3 class="text-sm font-bold uppercase tracking-wider text-slate-500 flex items-center gap-2 px-1">
+<span class="material-symbols-outlined text-lg">info</span>
+                WHAT YOU NEED TO KNOW
+            </h3>
+<div class="bg-slate-100/50 rounded-2xl p-5 space-y-4">
+<div class="flex gap-3">
+<span class="material-symbols-outlined text-[var(--slate-light)] text-xl">id_card</span>
+<p class="text-sm text-[var(--slate-text)] leading-relaxed">Please bring your <b>insurance card</b> and a referral if applicable.</p>
+</div>
+<div class="flex gap-3">
+<span class="material-symbols-outlined text-[var(--slate-light)] text-xl">schedule</span>
+<p class="text-sm text-[var(--slate-text)] leading-relaxed">Arrive approx. <b>10 minutes</b> before your appointment for registration.</p>
+</div>
+<div class="flex gap-3">
+<span class="material-symbols-outlined text-[var(--slate-light)] text-xl">cancel</span>
+<p class="text-sm text-[var(--slate-text)] leading-relaxed">Free cancellation up to 24 hours before the appointment.</p>
+</div>
+</div>
+</section>
+</main>
+<footer class="fixed bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-[var(--bg-cream)] via-[var(--bg-cream)] to-transparent pt-10">
+<div class="max-w-md mx-auto space-y-4">
+<button class="w-full bg-[var(--primary-teal)] text-white py-4 rounded-2xl font-bold text-lg shadow-lg shadow-[#13A3B5]/30 active:scale-[0.98] transition-all flex items-center justify-center gap-2">
+                Confirm appointment
+                <span class="material-symbols-outlined">check_circle</span>
+</button>
+<p class="text-center text-xs text-slate-400 px-4">
+                By confirming you accept our T&amp;Cs and Privacy Policy.
+            </p>
+</div>
+<div class="h-4"></div>
+</footer>
+</body></html>
