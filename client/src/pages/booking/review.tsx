@@ -12,7 +12,13 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { getBookingDraft, clearBookingDraft, saveAppointment } from "@/lib/storage";
+import {
+  getBookingDraft,
+  clearBookingDraft,
+  saveAppointment,
+  updateAppointment,
+} from "@/lib/storage";
+import { buildDraftAppointmentSeries } from "@/lib/booking/review";
 import { useTranslation } from "react-i18next";
 import { formatLocalDate, formatLocalTime, getLocale } from "@/i18n";
 import { showSuccess } from "@/lib/toast-helpers";
@@ -44,23 +50,48 @@ export default function BookingReview() {
     setDialogOpen(false);
 
     setTimeout(() => {
-      // Create the appointment
-      const newAppointment: Appointment = {
-        id: `appt-${Date.now()}`,
-        type: draft.type || 'in-person',
-        doctor: draft.doctor!,
-        specialty: draft.specialty || 'General Practice',
-        clinic: draft.location || 'Health Center Berlin',
-        date: draft.date!,
-        time: draft.time!,
-        status: 'upcoming',
-        createdAt: new Date().toISOString(),
-      };
+      if (draft.intent === "reschedule" && draft.rescheduleId) {
+        updateAppointment(draft.rescheduleId, {
+          date: draft.date!,
+          time: draft.time!,
+          doctor: draft.doctor!,
+          clinic: draft.location || "Health Center Berlin",
+        });
+        sessionStorage.setItem("last-booked-appointment", draft.rescheduleId);
+      } else if (draft.recurring && draft.recurrenceCount && draft.recurrenceIntervalWeeks) {
+        const series = buildDraftAppointmentSeries(draft, `appt-${Date.now()}`);
+        series.forEach((item) => {
+          saveAppointment({
+            id: item.id,
+            type: draft.type || "in-person",
+            doctor: draft.doctor!,
+            specialty: draft.specialty || "General Practice",
+            clinic: draft.location || "Health Center Berlin",
+            date: item.date,
+            time: item.time,
+            status: "upcoming",
+            createdAt: new Date().toISOString(),
+          });
+        });
+        if (series[0]) {
+          sessionStorage.setItem("last-booked-appointment", series[0].id);
+        }
+      } else {
+        const newAppointment: Appointment = {
+          id: `appt-${Date.now()}`,
+          type: draft.type || "in-person",
+          doctor: draft.doctor!,
+          specialty: draft.specialty || "General Practice",
+          clinic: draft.location || "Health Center Berlin",
+          date: draft.date!,
+          time: draft.time!,
+          status: "upcoming",
+          createdAt: new Date().toISOString(),
+        };
 
-      saveAppointment(newAppointment);
-
-      // Store the new appointment ID for the success page
-      sessionStorage.setItem('last-booked-appointment', newAppointment.id);
+        saveAppointment(newAppointment);
+        sessionStorage.setItem("last-booked-appointment", newAppointment.id);
+      }
 
       clearBookingDraft();
       showSuccess(t("booking.success.title"));
