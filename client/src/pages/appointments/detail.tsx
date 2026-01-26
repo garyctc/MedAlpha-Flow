@@ -217,27 +217,33 @@ export default function AppointmentDetail() {
 
         {/* Actions */}
         <div className="space-y-3">
-           <Button
-             variant="outline"
-             className="w-full h-12 rounded-md text-primary hover:bg-accent"
-             onClick={handleBookAgain}
-           >
-             {t("appointments.detail.bookAgain", { defaultValue: "Book Again" })}
-           </Button>
-           <Button 
-             variant="outline" 
-             className="w-full h-12 rounded-md text-primary hover:bg-accent"
-             onClick={handleReschedule}
-           >
-             {t("appointments.detail.reschedule")}
-           </Button>
-           <Button 
-             variant="outline" 
-             className="w-full h-12 rounded-md text-destructive border-destructive/30 hover:bg-destructive/10"
-             onClick={() => setShowCancelDialog(true)}
-           >
-             {t("appointments.detail.cancel.action")}
-           </Button>
+           {(appointment.status === "completed" || appointment.status === "cancelled") && (
+             <Button
+               variant="outline"
+               className="w-full h-12 rounded-md text-primary hover:bg-accent"
+               onClick={handleBookAgain}
+             >
+               {t("appointments.detail.bookAgain", { defaultValue: "Book Again" })}
+             </Button>
+           )}
+           {(appointment.status === "upcoming" || appointment.status === "processing") && (
+             <>
+               <Button
+                 variant="outline"
+                 className="w-full h-12 rounded-md text-primary hover:bg-accent"
+                 onClick={handleReschedule}
+               >
+                 {t("appointments.detail.reschedule")}
+               </Button>
+               <Button
+                 variant="outline"
+                 className="w-full h-12 rounded-md text-destructive border-destructive/30 hover:bg-destructive/10"
+                 onClick={() => setShowCancelDialog(true)}
+               >
+                 {t("appointments.detail.cancel.action")}
+               </Button>
+             </>
+           )}
         </div>
 
         {/* Info */}

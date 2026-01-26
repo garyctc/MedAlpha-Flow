@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 import { useLocation, useSearch } from "wouter";
-import { Star, Clock, Calendar, MapPin, ChevronRight } from "lucide-react";
+import { Star, Clock, Calendar, MapPin, ChevronRight, Search } from "lucide-react";
 import SubPageHeader from "@/components/layout/SubPageHeader";
 import { Skeleton } from "@/components/ui/skeleton";
 import { saveBookingDraft, getBookingDraft } from "@/lib/storage";
@@ -31,6 +31,7 @@ export default function DoctorSelect() {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<FilterType>('all');
   const [selectedDoctor, setSelectedDoctor] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
   // Check if coming from location selection (specialty path)
   const searchParams = new URLSearchParams(search);
@@ -54,6 +55,14 @@ export default function DoctorSelect() {
       ? DOCTORS.filter(d => d.clinics.includes(locationIdNum))
       : DOCTORS;
 
+    // Apply search filter
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      doctors = doctors.filter(d =>
+        d.name.toLowerCase().includes(query)
+      );
+    }
+
     // Then apply the selected filter
     switch (filter) {
       case 'available':
@@ -63,7 +72,7 @@ export default function DoctorSelect() {
       default:
         return doctors;
     }
-  }, [filter, locationIdNum]);
+  }, [filter, locationIdNum, searchQuery]);
 
   const handleSkipDoctor = () => {
     // Go to slots without setting a doctor
@@ -114,6 +123,18 @@ export default function DoctorSelect() {
             </motion.button>
           </div>
         )}
+
+        {/* Search */}
+        <div className="relative">
+          <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+          <input
+            type="text"
+            placeholder="Search doctors..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+          />
+        </div>
 
         {/* Filters */}
         <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
@@ -166,7 +187,15 @@ export default function DoctorSelect() {
                   selectedDoctor === doc.id ? 'border-primary ring-2 ring-primary/20' : 'border-slate-100'
                 }`}
               >
-                <div className="w-16 h-16 rounded-full bg-slate-200 flex-shrink-0"></div>
+                {doc.image ? (
+                  <img
+                    src={doc.image}
+                    alt={doc.name}
+                    className="w-16 h-16 rounded-full object-cover flex-shrink-0"
+                  />
+                ) : (
+                  <div className="w-16 h-16 rounded-full bg-slate-200 flex-shrink-0" />
+                )}
 
                 <div className="flex-1 min-w-0">
                   <div className="flex justify-between items-start">

@@ -12,17 +12,13 @@ export default function BottomNav() {
     { name: "Profile", icon: User, path: "/profile" },
   ];
 
-  // Don't show on splash, login, flows (registration, booking, prescriptions, telehealth), SSO, teleclinic, or notifications
+  // Only hide on auth screens and video calls
   if (
     location === "/" ||
     location === "/login" ||
     location.startsWith("/register") ||
     location.startsWith("/sso") ||
-    location.startsWith("/teleclinic") ||
-    location.startsWith("/booking") ||
-    location.startsWith("/prescriptions") ||
-    location.startsWith("/telehealth") ||
-    location.startsWith("/notifications")
+    location.startsWith("/teleclinic")
   )
     return null;
 
