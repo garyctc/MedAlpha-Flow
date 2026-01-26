@@ -92,6 +92,17 @@
         "partner": "Powered by Teleclinic"
       }
     },
+    "entry": {
+      "title": "Termin buchen",
+      "selectSpecialty": "Fachgebiet wählen",
+      "selectDoctor": "Ärztin oder Arzt auswählen",
+      "fastest": "Schnellster verfügbarer Termin"
+    },
+    "slots": {
+      "title": "Zeitfenster auswählen",
+      "makeRecurring": "Wiederkehrend buchen",
+      "cadence": "Nachsorgeintervall"
+    },
     "review": {
       "title": "Buchung prüfen",
       "confirm": "Buchung bestätigen"
