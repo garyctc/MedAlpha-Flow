@@ -9,7 +9,9 @@
       "done": "Done",
       "retry": "Try again",
       "close": "Close",
-      "seeAll": "See all"
+      "seeAll": "See all",
+      "learnMore": "Learn more",
+      "learnMoreRequirements": "Learn more about these requirements"
     },
     "status": {
       "loading": "Loading",
@@ -25,6 +27,7 @@
   "nav": {
     "home": "Home",
     "appointments": "Appointments",
+    "history": "History",
     "booking": "Booking",
     "profile": "Profile",
     "language": "Language"
@@ -132,7 +135,7 @@
       "awaitingConfirmation": "Awaiting confirmation"
     },
     "partner": {
-      "smartMatch": "MedAlpha Match"
+      "smartMatch": "DocliQ Match"
     },
     "toast": {
       "confirmed": {

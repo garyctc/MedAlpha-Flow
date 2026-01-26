@@ -42,7 +42,7 @@ export default function SupportPage() {
                 <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center text-primary shadow-sm">
                   <Mail size={16} />
                 </div>
-                <p className="text-sm font-medium text-slate-700">support@medalpha.de</p>
+                <p className="text-sm font-medium text-slate-700">support@docliq.de</p>
               </div>
 
               <div className="flex items-center gap-3">

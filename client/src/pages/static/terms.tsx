@@ -30,7 +30,7 @@ export default function TermsOfService() {
           <section>
             <h2 className="text-lg font-bold text-slate-900 mb-3 font-display">Acceptance of Terms</h2>
             <p className="mb-4">
-              By creating an account and using MedAlpha, you agree to be bound by these Terms of Service. If you do not accept these terms, please do not use our services.
+              By creating an account and using DocliQ, you agree to be bound by these Terms of Service. If you do not accept these terms, please do not use our services.
             </p>
           </section>
 
@@ -51,7 +51,7 @@ export default function TermsOfService() {
           <section>
             <h2 className="text-lg font-bold text-slate-900 mb-3 font-display">Service Description</h2>
             <p className="mb-4">
-              MedAlpha provides a digital healthcare platform enabling users to:
+              DocliQ provides a digital healthcare platform enabling users to:
             </p>
             <ul className="list-disc pl-5 space-y-2">
               <li>Book appointments with healthcare providers.</li>
@@ -74,10 +74,10 @@ export default function TermsOfService() {
           <section>
             <h2 className="text-lg font-bold text-slate-900 mb-3 font-display">Limitation of Liability</h2>
             <p className="mb-4">
-              MedAlpha is provided "as is" without warranties. To the fullest extent permitted by law, we are not liable for indirect, incidental, special, or consequential damages arising from use of or inability to use the service. This includes damages for lost profits, data, or medical decisions made relying on our platform.
+              DocliQ is provided "as is" without warranties. To the fullest extent permitted by law, we are not liable for indirect, incidental, special, or consequential damages arising from use of or inability to use the service. This includes damages for lost profits, data, or medical decisions made relying on our platform.
             </p>
             <p className="mt-2">
-              <strong>Medical Disclaimer:</strong> MedAlpha is not a substitute for professional medical advice. Always consult with qualified healthcare providers for medical diagnosis and treatment.
+              <strong>Medical Disclaimer:</strong> DocliQ is not a substitute for professional medical advice. Always consult with qualified healthcare providers for medical diagnosis and treatment.
             </p>
           </section>
 

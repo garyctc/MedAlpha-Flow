@@ -29,7 +29,7 @@ export default function SmartMatchSuccess() {
       type: draft?.type || 'in-person',
       doctor: "Dr. Sarah Johnson",
       specialty: draft?.specialty || "General Practice",
-      clinic: "MedAlpha Health Center",
+      clinic: "DocliQ Health Center",
       date: dateIso,
       time: "10:00",
       status: 'upcoming',
@@ -79,7 +79,7 @@ export default function SmartMatchSuccess() {
           <div className="flex items-start gap-3">
             <MapPin className="text-purple-700 mt-0.5" size={18} />
             <div>
-              <p className="text-sm font-medium text-slate-900">{appointment?.clinic || "MedAlpha Health Center"}</p>
+              <p className="text-sm font-medium text-slate-900">{appointment?.clinic || "DocliQ Health Center"}</p>
               <p className="text-sm text-slate-500">Friedrichstraße 123, 10117 Berlin</p>
             </div>
           </div>

@@ -122,7 +122,7 @@ export default function AppointmentsPage() {
         badgeColor: "",
         doctor: t("appointments.placeholders.doctor"),
         role: t("appointments.placeholders.awaitingConfirmation"),
-        location: "MedAlpha Health Center",
+        location: "DocliQ Health Center",
         date: `${bookingDate} • ${bookingTime}`,
         subStatus: "processing",
       });
@@ -140,7 +140,7 @@ export default function AppointmentsPage() {
           badgeColor: "",
           doctor: doctorName,
           role: t("specialty.generalPractice"),
-          location: "MedAlpha Health Center, Downtown Berlin",
+          location: "DocliQ Health Center, Downtown Berlin",
           date: `${formatLocalDate("2026-01-24", locale)} • ${formatLocalTime("10:00", locale)}`,
           subStatus: undefined
         };
@@ -153,7 +153,7 @@ export default function AppointmentsPage() {
           type: "in-person",
           doctor: doctorName,
           specialty: "General Practice",
-          clinic: "MedAlpha Health Center, Downtown Berlin",
+          clinic: "DocliQ Health Center, Downtown Berlin",
           date: "2026-01-24",
           time: "10:00",
           status: "upcoming",
@@ -208,7 +208,7 @@ export default function AppointmentsPage() {
             type: "in-person",
             doctor: confirmedDoctorName || "Unknown",
             specialty: "General Practice",
-            clinic: "MedAlpha Health Center",
+            clinic: "DocliQ Health Center",
             date: "2026-01-24",
             time: "10:00",
             status: "upcoming",
@@ -287,7 +287,7 @@ export default function AppointmentsPage() {
           onClick={() => {
             clearBookingDraft();
             saveBookingDraft({ type: 'in-person' });
-            setLocation("/booking/specialty");
+            setLocation("/booking/entry");
           }}
           className="absolute right-5 w-14 h-14 bg-primary text-white rounded-full shadow-lg shadow-primary/30 flex items-center justify-center pointer-events-auto"
         >

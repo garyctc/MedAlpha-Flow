@@ -9,7 +9,7 @@ describe("appointments actions", () => {
       type: "in-person",
       doctor: "Dr. Anna Schmidt",
       specialty: "General Practice",
-      clinic: "MedAlpha Health Center",
+      clinic: "DocliQ Health Center",
       date: "2026-01-10",
       time: "09:00",
       status: "upcoming",

@@ -16,7 +16,7 @@ const filters: { label: string; value: FilterType }[] = [
 ];
 
 const CLINIC_NAMES: Record<number, string> = {
-  1: "MedAlpha Health Center",
+  1: "DocliQ Health Center",
   2: "MedCore Health Center",
   3: "City West Medical",
 };

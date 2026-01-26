@@ -9,7 +9,7 @@ export default function BookingEntry() {
 
   return (
     <div className="min-h-screen bg-background pb-20">
-      <SubPageHeader title="Book an Appointment" backPath="/booking/type" />
+      <SubPageHeader title="Book an Appointment" backPath="/home" />
       <main className="p-5 space-y-4">
         <motion.button
           whileTap={{ scale: 0.98 }}

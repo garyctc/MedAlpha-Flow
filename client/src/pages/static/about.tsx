@@ -28,7 +28,7 @@ export default function AboutPage() {
 
   return (
     <div className="min-h-screen bg-background pb-20">
-      <SubPageHeader title="About MedAlpha" backPath="/profile/support" />
+      <SubPageHeader title="About DocliQ" backPath="/profile/support" />
 
       <main className="p-5 space-y-8">
         {/* App Info */}
@@ -71,7 +71,7 @@ export default function AboutPage() {
           </div>
           <div className="mt-4 p-4 bg-blue-50 rounded-xl border border-blue-100">
             <p className="text-xs text-blue-900 leading-relaxed">
-              <strong>MDR Class I:</strong> MedAlpha is classified as a Class I medical device under the Medical Device Regulation (MDR) 2017/745, requiring CE marking but not notified body approval.
+              <strong>MDR Class I:</strong> DocliQ is classified as a Class I medical device under the Medical Device Regulation (MDR) 2017/745, requiring CE marking but not notified body approval.
             </p>
           </div>
         </section>
@@ -82,7 +82,7 @@ export default function AboutPage() {
           <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-5 space-y-3">
             <div>
               <p className="text-xs text-slate-500 uppercase tracking-wider font-bold mb-1">Name</p>
-              <p className="text-sm text-slate-700">MedAlpha GmbH</p>
+              <p className="text-sm text-slate-700">DocliQ GmbH</p>
             </div>
             <div>
               <p className="text-xs text-slate-500 uppercase tracking-wider font-bold mb-1">Founded</p>

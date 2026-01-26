@@ -150,7 +150,7 @@ export default function DataPrivacy() {
         {/* Contact */}
         <section>
           <p className="text-xs text-slate-500 text-center">
-            For data requests or questions, contact: <span className="font-medium text-slate-700">privacy@medalpha.de</span>
+            For data requests or questions, contact: <span className="font-medium text-slate-700">privacy@docliq.de</span>
           </p>
         </section>
       </main>

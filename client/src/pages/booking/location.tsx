@@ -10,7 +10,7 @@ import { DOCTORS } from "@/lib/constants/doctors";
 const clinics = [
   {
     id: 1,
-    name: "MedAlpha Health Center",
+    name: "DocliQ Health Center",
     address: "Friedrichstraße 123, Berlin",
     distance: "1.2 km",
     rating: 4.8,

@@ -83,7 +83,7 @@ export default function PrivacyPolicy() {
             <p>
               If you have any questions about this Privacy Policy or wish to exercise your rights, please contact our Data Protection Officer at:
             </p>
-            <p className="mt-2 font-medium">privacy@medalpha.de</p>
+            <p className="mt-2 font-medium">privacy@docliq.de</p>
           </section>
         </div>
 

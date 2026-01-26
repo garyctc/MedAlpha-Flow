@@ -11,6 +11,13 @@ export type CmsNotification = {
 
 export const demoNotifications: CmsNotification[] = [
   {
+    id: "promo-vaccination-program",
+    kind: "promo",
+    title: "Vaccination Program",
+    body: "Stay protected with our comprehensive vaccination services. Book your appointment today.",
+    createdAt: "2026-01-26T12:00:00Z",
+  },
+  {
     id: "promo-free-check-week",
     kind: "promo",
     title: "Free health check week",
@@ -22,7 +29,7 @@ export const demoNotifications: CmsNotification[] = [
     id: "promo-new-clinic-partner",
     kind: "promo",
     title: "New clinic partner",
-    body: "MedAlpha now available at Riverside Clinic.",
+    body: "DocliQ now available at Riverside Clinic.",
     url: "https://example.com/clinic-partner",
     createdAt: "2026-01-12T09:15:00Z",
   },
@@ -30,7 +37,7 @@ export const demoNotifications: CmsNotification[] = [
     id: "promo-refer-friend",
     kind: "promo",
     title: "Refer a friend",
-    body: "Invite a friend to join MedAlpha Connect.",
+    body: "Invite a friend to join DocliQ Connect.",
     createdAt: "2026-01-08T16:54:00Z",
   },
   {
