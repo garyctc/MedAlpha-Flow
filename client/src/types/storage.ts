@@ -33,6 +33,12 @@ export interface Appointment {
 
 export interface BookingDraft {
   type?: 'in-person' | 'video';
+  entryMode?: 'specialty' | 'doctor';
+  intent?: 'new' | 'reschedule' | 'book-again';
+  rescheduleId?: string;
+  recurring?: boolean;
+  recurrenceCount?: number;
+  recurrenceIntervalWeeks?: number;
   specialty?: string;
   location?: string;
   doctor?: string;
