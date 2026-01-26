@@ -4,6 +4,7 @@ dist
 server/public
 vite.config.ts.*
 *.tar.gz
+.worktrees/
 
 # Claude Code working files
 .claude/NOTES.md
