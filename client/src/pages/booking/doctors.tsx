@@ -91,8 +91,13 @@ export default function DoctorSelect() {
       saveBookingDraft({ location: clinicName });
       setLocation("/booking/slots");
     } else {
-      // Multiple clinics: let user choose location
-      setLocation(`/booking/location?doctor=${doctorId}`);
+      // Multiple clinics: check if location already selected (specialty flow)
+      const draft = getBookingDraft();
+      if (draft?.entryMode === 'specialty' && draft?.location) {
+        setLocation("/booking/slots");
+      } else {
+        setLocation(`/booking/location?doctor=${doctorId}`);
+      }
     }
   };
 

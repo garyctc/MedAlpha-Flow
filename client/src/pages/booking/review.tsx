@@ -101,7 +101,7 @@ export default function BookingReview() {
 
   return (
     <div className="min-h-screen bg-background pb-28">
-      <SubPageHeader title={t("booking.review.title")} backPath="/booking/calendar" />
+      <SubPageHeader title={t("booking.review.title")} backPath="/booking/slots" />
       
       <main className="p-5">
         <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
@@ -159,7 +159,7 @@ export default function BookingReview() {
                 </div>
              </div>
              <button
-               onClick={() => setLocation('/booking/calendar')}
+               onClick={() => setLocation('/booking/slots')}
                className="text-sm font-medium text-primary hover:underline"
              >
                {t("common.buttons.edit")}
