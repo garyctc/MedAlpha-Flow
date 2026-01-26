@@ -10,6 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 import PushNotificationBanner from "@/components/ui/push-notification-banner";
 import { getUserAppointments, saveAppointment, clearBookingDraft, saveBookingDraft } from "@/lib/storage";
 import type { Appointment as StoredAppointment } from "@/types/storage";
+import { seedBookAgainDraft } from "@/lib/booking/intent";
 import { useTranslation } from "react-i18next";
 import { formatLocalDate, formatLocalTime, getLocale, type Locale } from "@/i18n";
 import { format, parse } from "date-fns";
@@ -202,9 +203,19 @@ export default function AppointmentsPage() {
         message={t("appointments.push.message", { doctor: confirmedDoctorName })}
         onDismiss={() => setShowPushNotification(false)}
         onActionPrimary={() => {
-          clearBookingDraft();
-          saveBookingDraft({ type: 'in-person' });
-          setLocation("/booking/specialty");
+          const bookAgainAppointment: StoredAppointment = {
+            id: pendingBooking?.id || `appt-${Date.now()}`,
+            type: "in-person",
+            doctor: confirmedDoctorName || "Unknown",
+            specialty: "General Practice",
+            clinic: "MedAlpha Health Center",
+            date: "2026-01-24",
+            time: "10:00",
+            status: "upcoming",
+            createdAt: new Date().toISOString(),
+          };
+          seedBookAgainDraft(bookAgainAppointment);
+          setLocation("/booking/slots");
         }}
         onActionSecondary={() => setLocation("/pharmacy/map")}
         primaryLabel={t("appointments.push.bookAgain")}

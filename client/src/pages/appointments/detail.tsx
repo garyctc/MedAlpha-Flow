@@ -21,6 +21,7 @@ import type { Locale } from "@/i18n";
 import { getUserAppointments, updateAppointment } from "@/lib/storage";
 import type { Appointment } from "@/types/storage";
 import { showSuccess } from "@/lib/toast-helpers";
+import { seedBookAgainDraft, seedRescheduleDraft } from "@/lib/booking/intent";
 
 export default function AppointmentDetail() {
   const [, setLocation] = useLocation();
@@ -68,6 +69,18 @@ export default function AppointmentDetail() {
 
   const handleAddToCalendar = () => {
     showSuccess(t("appointments.detail.addedToCalendar", { defaultValue: "Added to calendar" }));
+  };
+
+  const handleBookAgain = () => {
+    if (!appointment) return;
+    seedBookAgainDraft(appointment);
+    setLocation("/booking/slots");
+  };
+
+  const handleReschedule = () => {
+    if (!appointment) return;
+    seedRescheduleDraft(appointment);
+    setLocation("/booking/slots");
   };
 
   const handleGetDirections = () => {
@@ -204,10 +217,17 @@ export default function AppointmentDetail() {
 
         {/* Actions */}
         <div className="space-y-3">
+           <Button
+             variant="outline"
+             className="w-full h-12 rounded-md text-primary hover:bg-accent"
+             onClick={handleBookAgain}
+           >
+             {t("appointments.detail.bookAgain", { defaultValue: "Book Again" })}
+           </Button>
            <Button 
              variant="outline" 
              className="w-full h-12 rounded-md text-primary hover:bg-accent"
-             onClick={() => setLocation("/booking/calendar")}
+             onClick={handleReschedule}
            >
              {t("appointments.detail.reschedule")}
            </Button>
