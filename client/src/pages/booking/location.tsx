@@ -54,7 +54,7 @@ export default function LocationSelect() {
 
   const handleClinicClick = (clinicId: number, clinicName: string) => {
     saveBookingDraft({ location: clinicName });
-    setLocation(`/booking/doctors?clinic=${clinicId}`);
+    setLocation("/booking/slots");
   };
 
   return (
