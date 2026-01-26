@@ -4,7 +4,8 @@ Complete appointment booking wizard for in-person clinic visits with Smart Match
 
 ## Flow Summary
 
-Home → Booking Type → Specialty → Location → Doctor → Calendar → Review → Smart Match Processing → Success → Home
+Home → Booking Type → Booking Entry → (Specialty → Location → Slots) or (Doctor → Location → Slots) → Review → Smart Match Processing → Success → Home
+Appointments → Appointment Detail → Book Again/Reschedule → Slots → Review → Success
 
 ```d2
 direction: down
@@ -17,6 +18,7 @@ start: Start {
 }
 
 start -> home-screen
+start -> appointments-list
 
 # Entry from Home
 home-screen: Home {
@@ -46,9 +48,32 @@ select-inperson: Tap "In-Person" option {
   style.fill: "#ADD8E6"
 }
 
-select-inperson -> specialty-selection
+select-inperson -> booking-entry
 
-# Step 2: Specialty Selection
+# Step 2: Booking Entry
+booking-entry: Booking - Entry {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+booking-entry -> choose-specialty
+booking-entry -> choose-doctor
+
+choose-specialty: Select "Specialty" {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+choose-specialty -> specialty-selection
+
+choose-doctor: Select "Doctor" {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+choose-doctor -> doctors-selection
+
+# Step 3: Specialty Selection
 specialty-selection: Booking - Specialty {
   shape: document
   style.fill: "#90EE90"
@@ -63,22 +88,7 @@ select-specialty: Select medical specialty {
 
 select-specialty -> location-selection
 
-# Step 3: Location Selection
-location-selection: Booking - Location {
-  shape: document
-  style.fill: "#90EE90"
-}
-
-location-selection -> select-location
-
-select-location: Select clinic/city {
-  shape: rectangle
-  style.fill: "#ADD8E6"
-}
-
-select-location -> doctors-selection
-
-# Step 4: Doctor Selection
+# Step 3b: Doctor Selection
 doctors-selection: Booking - Doctors {
   shape: document
   style.fill: "#90EE90"
@@ -91,22 +101,74 @@ select-doctor: Select available doctor {
   style.fill: "#ADD8E6"
 }
 
-select-doctor -> calendar-selection
+select-doctor -> location-selection
 
-# Step 5: Date/Time Selection
-calendar-selection: Booking - Calendar {
+# Step 4: Location Selection
+location-selection: Booking - Location {
   shape: document
   style.fill: "#90EE90"
 }
 
-calendar-selection -> select-datetime
+location-selection -> select-location
 
-select-datetime: Select date and time slot {
+select-location: Select clinic/city {
   shape: rectangle
   style.fill: "#ADD8E6"
 }
 
-select-datetime -> booking-review
+select-location -> slots-selection
+
+# Step 5: Slots Selection
+slots-selection: Booking - Slots {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+slots-selection -> select-slot
+
+select-slot: Select date and time slot {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+select-slot -> booking-review
+
+# Alternate entry from Appointments
+appointments-list: Appointments {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+appointments-list -> open-appointment
+
+open-appointment: Open appointment detail {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+open-appointment -> appointment-detail
+
+appointment-detail: Appointment Details {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+appointment-detail -> tap-book-again
+appointment-detail -> tap-reschedule
+
+tap-book-again: Tap "Book Again" {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+tap-reschedule: Tap "Reschedule" {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+tap-book-again -> slots-selection
+
+tap-reschedule -> slots-selection
 
 # Step 6: Review
 booking-review: Booking - Review {
