@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
-import { useLocation } from "wouter";
+import { useLocation, useSearch } from "wouter";
 import { MapPin, Star, Navigation } from "lucide-react";
 import SubPageHeader from "@/components/layout/SubPageHeader";
 import { Skeleton } from "@/components/ui/skeleton";
 import { saveBookingDraft, getBookingDraft } from "@/lib/storage";
+import { DOCTORS } from "@/lib/constants/doctors";
 
 const clinics = [
   {
@@ -35,8 +36,22 @@ const clinics = [
 
 export default function LocationSelect() {
   const [, setLocation] = useLocation();
+  const search = useSearch();
   const [isLoading, setIsLoading] = useState(true);
   const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
+
+  // Check if coming from doctor path (has ?doctor param)
+  const searchParams = new URLSearchParams(search);
+  const doctorId = searchParams.get("doctor");
+  const selectedDoctor = doctorId ? DOCTORS.find(d => d.id === doctorId) : null;
+
+  // Filter clinics if doctor is selected
+  const filteredClinics = useMemo(() => {
+    if (selectedDoctor) {
+      return clinics.filter(c => selectedDoctor.clinics.includes(c.id));
+    }
+    return clinics;
+  }, [selectedDoctor]);
 
   useEffect(() => {
     // Load existing draft and simulate location search
@@ -54,12 +69,22 @@ export default function LocationSelect() {
 
   const handleClinicClick = (clinicId: number, clinicName: string) => {
     saveBookingDraft({ location: clinicName });
-    setLocation("/booking/slots");
+
+    if (doctorId) {
+      // Doctor path: already have a doctor, go to slots
+      setLocation("/booking/slots");
+    } else {
+      // Specialty path: go to doctor selection filtered by location
+      setLocation(`/booking/doctors?location=${clinicId}`);
+    }
   };
 
   return (
     <div className="min-h-screen bg-background pb-20">
-      <SubPageHeader title="Select Location" backPath="/booking/specialty" />
+      <SubPageHeader
+        title="Select Location"
+        backPath={doctorId ? "/booking/doctors" : "/booking/specialty"}
+      />
       
       <main className="p-5 space-y-6">
         {/* Map Placeholder */}
@@ -72,7 +97,11 @@ export default function LocationSelect() {
 
         <div>
           <h2 className="text-lg font-bold text-slate-900 mb-3">
-            {isLoading ? "Finding nearby locations..." : "Nearby Clinics"}
+            {isLoading
+              ? "Finding nearby locations..."
+              : selectedDoctor
+                ? `Locations for ${selectedDoctor.name}`
+                : "Nearby Clinics"}
           </h2>
           <div className="space-y-3">
             {isLoading ? (
@@ -87,7 +116,7 @@ export default function LocationSelect() {
                 </div>
               ))
             ) : (
-            clinics.map((clinic, index) => (
+            filteredClinics.map((clinic, index) => (
               <motion.button
                 key={clinic.id}
                 initial={{ opacity: 0, x: -10 }}

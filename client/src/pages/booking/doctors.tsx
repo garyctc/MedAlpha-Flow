@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
-import { useLocation } from "wouter";
-import { Star, Clock, Calendar } from "lucide-react";
+import { useLocation, useSearch } from "wouter";
+import { Star, Clock, Calendar, MapPin, ChevronRight } from "lucide-react";
 import SubPageHeader from "@/components/layout/SubPageHeader";
 import { Skeleton } from "@/components/ui/skeleton";
 import { saveBookingDraft, getBookingDraft } from "@/lib/storage";
@@ -15,11 +15,28 @@ const filters: { label: string; value: FilterType }[] = [
   { label: "Highest Rated", value: "top-rated" },
 ];
 
+const CLINIC_NAMES: Record<number, string> = {
+  1: "MedAlpha Health Center",
+  2: "MedCore Health Center",
+  3: "City West Medical",
+};
+
+function getClinicNames(clinicIds: number[]): string {
+  return clinicIds.map(id => CLINIC_NAMES[id] || `Clinic ${id}`).join(", ");
+}
+
 export default function DoctorSelect() {
   const [, setLocation] = useLocation();
+  const search = useSearch();
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<FilterType>('all');
   const [selectedDoctor, setSelectedDoctor] = useState<string | null>(null);
+
+  // Check if coming from location selection (specialty path)
+  const searchParams = new URLSearchParams(search);
+  const locationId = searchParams.get("location");
+  const locationIdNum = locationId ? parseInt(locationId) : null;
+  const locationName = locationIdNum ? CLINIC_NAMES[locationIdNum] : null;
 
   useEffect(() => {
     const draft = getBookingDraft();
@@ -32,27 +49,72 @@ export default function DoctorSelect() {
   }, []);
 
   const filteredDoctors = useMemo(() => {
+    // First filter by location if coming from specialty path
+    let doctors = locationIdNum
+      ? DOCTORS.filter(d => d.clinics.includes(locationIdNum))
+      : DOCTORS;
+
+    // Then apply the selected filter
     switch (filter) {
       case 'available':
-        return DOCTORS.filter(d => d.availableToday);
+        return doctors.filter(d => d.availableToday);
       case 'top-rated':
-        return DOCTORS.filter(d => d.rating >= 4.8);
+        return doctors.filter(d => d.rating >= 4.8);
       default:
-        return DOCTORS;
+        return doctors;
     }
-  }, [filter]);
+  }, [filter, locationIdNum]);
+
+  const handleSkipDoctor = () => {
+    // Go to slots without setting a doctor
+    setLocation("/booking/slots");
+  };
 
   const handleDoctorClick = (doctorId: string, doctorName: string) => {
     const doc = DOCTORS.find(d => d.id === doctorId);
-    saveBookingDraft({ doctor: doctorName, specialty: doc?.specialty });
-    setLocation(`/booking/location?doctor=${doctorId}`);
+    if (!doc) return;
+
+    saveBookingDraft({ doctor: doctorName, specialty: doc.specialty });
+
+    if (doc.clinics.length === 1) {
+      // Single clinic: auto-save location and go straight to slots
+      const clinicName = CLINIC_NAMES[doc.clinics[0]];
+      saveBookingDraft({ location: clinicName });
+      setLocation("/booking/slots");
+    } else {
+      // Multiple clinics: let user choose location
+      setLocation(`/booking/location?doctor=${doctorId}`);
+    }
   };
 
   return (
     <div className="min-h-screen bg-background pb-20">
-      <SubPageHeader title="Select Doctor" backPath="/booking/location" />
+      <SubPageHeader
+        title="Select Doctor"
+        backPath={locationId ? "/booking/location" : "/booking/entry"}
+      />
       
       <main className="p-5 space-y-4">
+        {/* Location-filtered heading and skip button */}
+        {locationName && (
+          <div className="space-y-3">
+            <h2 className="text-lg font-bold text-slate-900">
+              Doctors at {locationName}
+            </h2>
+            <motion.button
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              onClick={handleSkipDoctor}
+              className="w-full bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between hover:border-primary/30 transition-all group"
+            >
+              <span className="font-medium text-slate-900 group-hover:text-primary transition-colors">
+                Any available doctor
+              </span>
+              <ChevronRight size={20} className="text-slate-400 group-hover:text-primary transition-colors" />
+            </motion.button>
+          </div>
+        )}
+
         {/* Filters */}
         <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
           {filters.map((f) => (
@@ -115,6 +177,12 @@ export default function DoctorSelect() {
                     </div>
                   </div>
                   <p className="text-xs text-slate-500 font-medium">{doc.specialty}</p>
+                  {!locationName && (
+                    <p className="flex items-center gap-1 text-xs text-slate-500 mt-1">
+                      <MapPin size={10} />
+                      {getClinicNames(doc.clinics)}
+                    </p>
+                  )}
                   <div className="flex items-center justify-between mt-2">
                     <div className="flex items-center gap-1.5 text-xs text-primary font-medium">
                       <Clock size={12} />

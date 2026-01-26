@@ -6,6 +6,7 @@ export interface Doctor {
   nextAvailable: string;
   availableToday: boolean;
   image: string | null;
+  clinics: number[];
 }
 
 export const DOCTORS: Doctor[] = [
@@ -14,35 +15,39 @@ export const DOCTORS: Doctor[] = [
     name: "Dr. Anna Schmidt",
     specialty: "General Practice",
     rating: 4.8,
-    nextAvailable: "Tomorrow, 9:00 AM",
+    nextAvailable: "Tomorrow",
     availableToday: false,
-    image: null
+    image: null,
+    clinics: [1, 2],
   },
   {
     id: '2',
     name: "Dr. Michael Chen",
     specialty: "General Practice",
     rating: 4.7,
-    nextAvailable: "Today, 4:30 PM",
+    nextAvailable: "Today",
     availableToday: true,
-    image: null
+    image: null,
+    clinics: [1],
   },
   {
     id: '3',
     name: "Dr. Sarah Weber",
     specialty: "General Practice",
     rating: 4.9,
-    nextAvailable: "Tomorrow, 10:00 AM",
+    nextAvailable: "Tomorrow",
     availableToday: false,
-    image: null
+    image: null,
+    clinics: [2, 3],
   },
   {
     id: '4',
     name: "Dr. Thomas Müller",
     specialty: "General Practice",
     rating: 4.5,
-    nextAvailable: "Today, 2:00 PM",
+    nextAvailable: "Today",
     availableToday: true,
-    image: null
+    image: null,
+    clinics: [3],
   },
 ];
