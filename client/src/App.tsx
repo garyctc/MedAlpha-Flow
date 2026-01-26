@@ -19,6 +19,7 @@ import NotificationDetail from "@/pages/notifications/detail";
 
 // Booking Flow
 import BookingType from "@/pages/booking/type";
+import BookingEntry from "@/pages/booking/entry";
 import SpecialtySelect from "@/pages/booking/specialty";
 import LocationSelect from "@/pages/booking/location";
 import DoctorSelect from "@/pages/booking/doctors";
@@ -135,6 +136,7 @@ function AppRoutes() {
       {/* Booking Routes */}
       <Route path="/booking" component={BookingType} />
       <Route path="/booking/type" component={BookingType} />
+      <Route path="/booking/entry" component={BookingEntry} />
       <Route path="/booking/specialty" component={SpecialtySelect} />
       <Route path="/booking/location" component={LocationSelect} />
       <Route path="/booking/doctors" component={DoctorSelect} />

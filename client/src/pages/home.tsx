@@ -226,7 +226,7 @@ export default function Home() {
         <section>
           <h3 className="font-bold text-lg text-foreground mb-4">{t("home.sections.healthServices")}</h3>
           <Link
-            href="/booking/specialty"
+            href="/booking/entry"
             onClick={() => {
               clearBookingDraft();
               saveBookingDraft({ type: 'in-person' });
@@ -283,7 +283,7 @@ export default function Home() {
               </div>
               <p className="font-medium text-foreground">{t("home.empty.title")}</p>
               <Link
-                href="/booking/specialty"
+                href="/booking/entry"
                 onClick={() => {
                   clearBookingDraft();
                   saveBookingDraft({ type: 'in-person' });
