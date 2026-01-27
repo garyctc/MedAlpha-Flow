@@ -43,7 +43,7 @@ export default function NfcScan() {
            <Smartphone size={80} className="text-white" />
          </motion.div>
 
-         <h2 className="text-2xl font-bold mb-2">Scanning...</h2>
+         <h2 className="text-2xl font-semibold mb-2">Scanning...</h2>
          <p className="text-white/60 mb-2">Hold your card still</p>
          <p className="text-white/40 text-sm">This may take up to 20 seconds</p>
 

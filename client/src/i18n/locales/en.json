@@ -10,6 +10,8 @@
       "retry": "Try again",
       "close": "Close",
       "seeAll": "See all",
+      "showAll": "Show all",
+      "viewDetails": "View details now",
       "learnMore": "Learn more",
       "learnMoreRequirements": "Learn more about these requirements"
     },
@@ -33,6 +35,13 @@
     "language": "Language"
   },
   "home": {
+    "greeting": {
+      "welcome": "Welcome back",
+      "goodDay": "Good day, {{name}}"
+    },
+    "cta": {
+      "bookAppointment": "Book appointment"
+    },
     "promo": {
       "pharmacy": {
         "title": "Pharmacy products",
@@ -59,8 +68,10 @@
       }
     },
     "sections": {
+      "suggested": "Suggested",
+      "nextAppointment": "Next Appointment",
       "discoverMore": "Discover more",
-      "healthServices": "Health services",
+      "healthServices": "Health Services",
       "upcoming": "Upcoming",
       "recent": "Recent activity"
     },

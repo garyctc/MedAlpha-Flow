@@ -50,57 +50,57 @@ export default function SmartMatchSuccess() {
   }, [setLocation]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-purple-50 to-white flex flex-col items-center justify-center p-5 text-center">
+    <div className="min-h-screen bg-gradient-to-b from-primary/5 to-background flex flex-col items-center justify-center p-5 text-center">
       {/* Success Checkmark */}
       <motion.div
         initial={reduceMotion ? false : { scale: 0 }}
         animate={{ scale: 1 }}
         transition={reduceMotion ? { duration: 0 } : { duration: DURATION_DEFAULT, ease: EASING_DEFAULT }}
-        className="w-24 h-24 bg-purple-600 rounded-full mb-6 flex items-center justify-center shadow-lg"
+        className="w-24 h-24 bg-primary rounded-full mb-6 flex items-center justify-center shadow-lg"
       >
         <Check className="text-white" size={48} />
       </motion.div>
 
       {/* Heading */}
-      <h2 className="text-2xl font-bold text-slate-900 mb-2">Booking confirmed</h2>
-      <p className="text-slate-600 text-sm mb-8">Your appointment is scheduled</p>
+      <h2 className="text-2xl font-semibold text-foreground mb-2">Booking confirmed</h2>
+      <p className="text-muted-foreground text-sm mb-8">Your appointment is scheduled</p>
 
       {/* Booking Details Card */}
-      <div className="w-full max-w-sm bg-white rounded-2xl shadow-lg border border-slate-100 p-6 mb-6 text-left">
+      <div className="w-full max-w-sm bg-card rounded-3xl shadow-[var(--shadow-card)] border border-border p-6 mb-6 text-left">
         <div className="space-y-4">
           <div>
-            <p className="text-xs font-bold text-purple-700 uppercase tracking-wider mb-2">Doctor</p>
-            <p className="text-base font-bold text-slate-900">{appointment?.doctor || "Dr. Sarah Johnson"}</p>
-            <p className="text-sm text-slate-500">{appointment?.specialty || "General Practice"}</p>
+            <p className="text-xs font-semibold text-primary uppercase tracking-wider mb-2">Doctor</p>
+            <p className="text-base font-semibold text-foreground">{appointment?.doctor || "Dr. Sarah Johnson"}</p>
+            <p className="text-sm text-muted-foreground">{appointment?.specialty || "General Practice"}</p>
           </div>
 
-          <div className="h-px bg-slate-100"></div>
+          <div className="h-px bg-border"></div>
 
           <div className="flex items-start gap-3">
-            <MapPin className="text-purple-700 mt-0.5" size={18} />
+            <MapPin className="text-primary mt-0.5" size={18} />
             <div>
-              <p className="text-sm font-medium text-slate-900">{appointment?.clinic || "DocliQ Health Center"}</p>
-              <p className="text-sm text-slate-500">Friedrichstraße 123, 10117 Berlin</p>
+              <p className="text-sm font-medium text-foreground">{appointment?.clinic || "DocliQ Health Center"}</p>
+              <p className="text-sm text-muted-foreground">Friedrichstraße 123, 10117 Berlin</p>
             </div>
           </div>
 
           <div className="flex items-center gap-3">
-            <Calendar className="text-purple-700" size={18} />
-            <p className="text-sm text-slate-700">{appointment?.date ? formatLocalDate(appointment.date, locale) : "Loading..."}</p>
+            <Calendar className="text-primary" size={18} />
+            <p className="text-sm text-foreground">{appointment?.date ? formatLocalDate(appointment.date, locale) : "Loading..."}</p>
           </div>
 
           <div className="flex items-center gap-3">
-            <Clock className="text-purple-700" size={18} />
-            <p className="text-sm text-slate-700">{appointment?.time ? formatLocalTime(appointment.time, locale) : "Loading..."}</p>
+            <Clock className="text-primary" size={18} />
+            <p className="text-sm text-foreground">{appointment?.time ? formatLocalTime(appointment.time, locale) : "Loading..."}</p>
           </div>
 
-          <div className="h-px bg-slate-100"></div>
+          <div className="h-px bg-border"></div>
 
           <div className="flex items-center justify-between">
-            <span className="inline-block text-[10px] font-bold text-purple-700 bg-purple-50 px-2 py-1 rounded-full uppercase tracking-wider">
+            <span className="inline-block text-[10px] font-semibold text-primary bg-primary/10 px-2 py-1 rounded-full uppercase tracking-wider">
               Smart Match
             </span>
-            <span className="inline-block text-xs font-semibold text-purple-700 bg-purple-50 px-3 py-1 rounded-full">
+            <span className="inline-block text-xs font-semibold text-primary bg-primary/10 px-3 py-1 rounded-full">
               Confirmed
             </span>
           </div>
@@ -109,13 +109,13 @@ export default function SmartMatchSuccess() {
 
       {/* Action Button */}
       <Button
-        className="w-full max-w-sm h-12 text-base font-semibold rounded-xl bg-purple-600 hover:bg-purple-700 text-white mb-4"
+        className="w-full max-w-sm h-12 text-base font-semibold rounded-3xl mb-4"
         onClick={() => setLocation("/appointments")}
       >
         View Appointment
       </Button>
 
-      <p className="text-xs text-slate-500">Redirecting to appointments...</p>
+      <p className="text-xs text-muted-foreground">Redirecting to appointments...</p>
     </div>
   );
 }

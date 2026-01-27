@@ -1,11 +1,12 @@
 import { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 import { useLocation, useSearch } from "wouter";
-import { MapPin, Star, Navigation } from "lucide-react";
+import { MapPin, Star, Navigation, ChevronRight } from "lucide-react";
 import SubPageHeader from "@/components/layout/SubPageHeader";
 import { Skeleton } from "@/components/ui/skeleton";
 import { saveBookingDraft, getBookingDraft } from "@/lib/storage";
 import { DOCTORS } from "@/lib/constants/doctors";
+import { useTranslation } from "react-i18next";
 
 const clinics = [
   {
@@ -39,6 +40,7 @@ export default function LocationSelect() {
   const search = useSearch();
   const [isLoading, setIsLoading] = useState(true);
   const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
+  const { t } = useTranslation();
 
   // Check if coming from doctor path (has ?doctor param)
   const searchParams = new URLSearchParams(search);
@@ -82,13 +84,13 @@ export default function LocationSelect() {
   return (
     <div className="min-h-screen bg-background pb-20">
       <SubPageHeader
-        title="Select Location"
+        title={t("booking.location.title", { defaultValue: "Select Location" })}
         backPath={doctorId ? "/booking/doctors" : "/booking/specialty"}
       />
-      
+
       <main className="p-5 space-y-6">
         {/* Map Placeholder */}
-        <div className="w-full h-48 bg-slate-200 rounded-2xl relative overflow-hidden flex items-center justify-center">
+        <div className="w-full h-48 bg-muted rounded-3xl relative overflow-hidden flex items-center justify-center border border-border">
            <div className="absolute inset-0 opacity-10" style={{ backgroundImage: "radial-gradient(hsl(var(--primary)) 1px, transparent 1px)", backgroundSize: "20px 20px" }}></div>
            <div className="w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center shadow-lg animate-bounce">
              <MapPin size={24} fill="currentColor" />
@@ -96,17 +98,17 @@ export default function LocationSelect() {
         </div>
 
         <div>
-          <h2 className="text-lg font-bold text-slate-900 mb-3">
+          <h2 className="text-lg font-semibold text-foreground mb-3">
             {isLoading
-              ? "Finding nearby locations..."
+              ? t("booking.location.searching", { defaultValue: "Finding nearby locations..." })
               : selectedDoctor
-                ? `Locations for ${selectedDoctor.name}`
-                : "Nearby Clinics"}
+                ? t("booking.location.forDoctor", { name: selectedDoctor.name, defaultValue: `Locations for ${selectedDoctor.name}` })
+                : t("booking.location.nearby", { defaultValue: "Nearby Clinics" })}
           </h2>
           <div className="space-y-3">
             {isLoading ? (
               Array.from({ length: 3 }).map((_, i) => (
-                <div key={i} className="w-full bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
+                <div key={i} className="w-full bg-card p-4 rounded-3xl border border-border shadow-[var(--shadow-card)]">
                   <Skeleton className="h-5 w-3/4 mb-2" />
                   <Skeleton className="h-4 w-full mb-3" />
                   <div className="flex gap-2">
@@ -123,30 +125,26 @@ export default function LocationSelect() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.1 }}
                 onClick={() => handleClinicClick(clinic.id, clinic.name)}
-                className={`w-full bg-white p-4 rounded-2xl border shadow-sm text-left hover:border-primary/30 transition-all flex justify-between items-center group ${
-                  selectedLocation === clinic.name ? 'border-primary ring-2 ring-primary/20' : 'border-slate-100'
+                className={`w-full bg-card p-4 rounded-3xl border shadow-[var(--shadow-card)] text-left hover:border-primary/30 transition-all group ${
+                  selectedLocation === clinic.name ? 'border-primary ring-2 ring-primary/20' : 'border-border'
                 }`}
               >
-                <div className="w-full">
-                  <div className="flex justify-between items-start">
-                    <h3 className="font-bold text-slate-900 group-hover:text-primary transition-colors">{clinic.name}</h3>
-                  </div>
-                  <p className="text-sm text-slate-500 mt-1">{clinic.address}</p>
-                  <div className="flex items-center justify-between mt-3">
-                    <div className="flex items-center gap-3">
-                      <span className="text-xs font-medium text-primary bg-blue-50 px-2 py-0.5 rounded flex items-center gap-1">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors">{clinic.name}</h3>
+                    <p className="text-sm text-muted-foreground mt-1">{clinic.address}</p>
+                    <div className="flex items-center gap-2 mt-3">
+                      <span className="text-xs font-medium text-primary bg-primary/10 px-2 py-1 rounded-lg flex items-center gap-1">
                         <Navigation size={10} />
                         {clinic.distance}
                       </span>
-                      <span className="text-xs font-medium text-amber-700 bg-amber-50 px-2 py-0.5 rounded flex items-center gap-1">
+                      <span className="text-xs font-medium text-amber-700 bg-amber-50 px-2 py-1 rounded-lg flex items-center gap-1">
                         <Star size={10} className="fill-current" />
                         {clinic.rating} ({clinic.reviews})
                       </span>
                     </div>
-                    <span className="text-xs font-bold text-primary border border-primary/20 px-3 py-1.5 rounded-lg group-hover:bg-primary group-hover:text-white transition-colors">
-                      Select
-                    </span>
                   </div>
+                  <ChevronRight size={20} className="text-muted-foreground group-hover:text-primary transition-colors mt-1 flex-shrink-0" />
                 </div>
               </motion.button>
             ))

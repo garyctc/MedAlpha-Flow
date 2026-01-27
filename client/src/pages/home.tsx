@@ -1,144 +1,91 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
-import { useLocation } from "wouter";
+import { useLocation, Link } from "wouter";
 import useEmblaCarousel from "embla-carousel-react";
 import { motion } from "framer-motion";
-import { Link } from "wouter";
-import { Bell, Calendar, ChevronLeft, ChevronRight } from "lucide-react";
+import { Bell, Plus, User, Stethoscope, Pill, Video, FileText, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { DateBadge } from "@/components/ui/date-badge";
 import { useTranslation } from "react-i18next";
 import { formatLocalDate, formatLocalTime, getLocale } from "@/i18n";
 import { getUserProfile, getUserAppointments, clearBookingDraft, saveBookingDraft } from "@/lib/storage";
 import { LoadingSkeleton } from "@/components/ui/loading-skeleton";
 import { useNotifications } from "@/contexts/NotificationsContext";
 import type { UserProfile, Appointment } from "@/types/storage";
-import { AppointmentCard } from "@/components/appointment-card";
+import userAvatar from "@assets/generated_images/professional_user_avatar_for_healthcare_app.png";
 
-function stableHash(input: string): number {
-  let hash = 0;
-  for (let i = 0; i < input.length; i++) hash = (hash * 31 + input.charCodeAt(i)) >>> 0;
-  return hash;
-}
+// Suggested cards data with images
+const suggestedCards = [
+  {
+    id: "prevention",
+    category: "PREVENTION",
+    title: "Free health check",
+    description: "Take advantage of your annual preventive screening.",
+    image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=300&fit=crop",
+  },
+  {
+    id: "nutrition",
+    category: "NUTRITION",
+    title: "Dietary Consultation",
+    description: "Personalized meal plans from our nutritionists.",
+    image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&h=300&fit=crop",
+  },
+  {
+    id: "mental-health",
+    category: "MENTAL HEALTH",
+    title: "Stress Management",
+    description: "Learn techniques to manage daily stress effectively.",
+    image: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=400&h=300&fit=crop",
+  },
+];
 
-function DiscoverMoreCarousel() {
-  const { promos } = useNotifications();
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false, align: "start" });
-  const [selectedIndex, setSelectedIndex] = React.useState(0);
-  const [canScrollPrev, setCanScrollPrev] = React.useState(false);
-  const [canScrollNext, setCanScrollNext] = React.useState(false);
+// Health service tiles
+const healthServices = [
+  { id: "gp", label: "GP", icon: Stethoscope, path: "/booking/entry" },
+  { id: "prescriptions", label: "Prescriptions", icon: Pill, path: "/prescriptions" },
+  { id: "telemedicine", label: "Telemedicine", icon: Video, path: "/telehealth/schedule-type" },
+  { id: "records", label: "Records", icon: FileText, path: "/history" },
+];
 
-  const scrollSnaps = React.useMemo(() => emblaApi?.scrollSnapList() ?? [], [emblaApi]);
-
-  React.useEffect(() => {
-    if (!emblaApi) return;
-    const onSelect = () => {
-      setSelectedIndex(emblaApi.selectedScrollSnap());
-      setCanScrollPrev(emblaApi.canScrollPrev());
-      setCanScrollNext(emblaApi.canScrollNext());
-    };
-    onSelect();
-    emblaApi.on("select", onSelect);
-    emblaApi.on("reInit", onSelect);
-    return () => {
-      emblaApi.off("select", onSelect);
-      emblaApi.off("reInit", onSelect);
-    };
-  }, [emblaApi]);
-
-  const gradients = [
-    "from-sky-700 to-cyan-500",
-    "from-indigo-700 to-sky-500",
-    "from-teal-700 to-sky-500",
-  ];
-
-  if (promos.length === 0) return null;
+function SuggestedCarousel() {
+  const { t } = useTranslation();
+  const [emblaRef] = useEmblaCarousel({ loop: false, align: "start" });
 
   return (
-    <div className="group relative">
-      <div className="overflow-hidden" ref={emblaRef}>
-        <div className="flex gap-3">
-          {promos.map((promo) => {
-            const gradient = gradients[stableHash(promo.id) % gradients.length];
-            const content = (
-              <div
-                className={`relative overflow-hidden rounded-2xl bg-gradient-to-br ${gradient} text-white p-6 h-40 ring-1 ring-white/10`}
-              >
-                <div className="absolute inset-0 opacity-80 bg-[radial-gradient(280px_140px_at_20%_20%,rgba(255,255,255,0.18),transparent_60%)]" />
-                <div className="relative z-10 flex h-full flex-col justify-between">
-                  <div className="space-y-1">
-                    <h2 className="text-lg font-bold font-display leading-tight line-clamp-1">{promo.title}</h2>
-                    <p className="text-white/90 text-sm leading-snug line-clamp-2 max-w-[90%]">{promo.body}</p>
-                  </div>
-                  {promo.url ? (
-                    <span className="inline-flex w-fit items-center rounded-full bg-white/15 px-3 py-1 text-[11px] font-semibold">
-                      Learn more
-                    </span>
-                  ) : null}
-                </div>
+    <div className="overflow-hidden -mx-5" ref={emblaRef}>
+      <div className="flex gap-3 px-5">
+        {suggestedCards.map((card) => (
+          <div key={card.id} className="flex-[0_0_72%] min-w-0">
+            <div className="bg-card rounded-3xl overflow-hidden shadow-[var(--shadow-card)] border border-border">
+              {/* Image with gradient overlay on left */}
+              <div className="relative h-32 overflow-hidden">
+                <img
+                  src={card.image}
+                  alt={card.title}
+                  className="w-full h-full object-cover"
+                />
+                {/* Gradient overlay on left edge for text readability */}
+                <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-transparent" />
+                {/* Category tag */}
+                <span className="absolute top-3 left-3 px-2 py-1 bg-primary text-white text-[10px] font-semibold tracking-wide rounded-md">
+                  {card.category}
+                </span>
               </div>
-            );
-
-            return (
-              <div key={promo.id} className="flex-[0_0_84%] min-w-0">
-                {promo.url ? (
-                  <a
-                    href={promo.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="block rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
-                  >
-                    {content}
-                  </a>
-                ) : (
-                  <div className="rounded-2xl">{content}</div>
-                )}
+              {/* Content */}
+              <div className="p-4 space-y-2">
+                <h3 className="font-semibold text-foreground">{card.title}</h3>
+                <p className="text-sm text-muted-foreground line-clamp-2">{card.description}</p>
+                <Button variant="link" className="text-primary h-auto p-0 text-sm font-medium">
+                  {t("common.buttons.viewDetails")}
+                </Button>
               </div>
-            );
-          })}
-        </div>
+            </div>
+          </div>
+        ))}
       </div>
-
-      <button
-        type="button"
-        aria-label="Previous promo"
-        disabled={!canScrollPrev}
-        onClick={() => emblaApi?.scrollPrev()}
-        className="pointer-events-none absolute left-2 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full bg-white/15 border border-white/20 text-white backdrop-blur-sm opacity-0 transition-opacity group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100 disabled:opacity-40"
-      >
-        <ChevronLeft className="mx-auto" size={18} />
-      </button>
-
-      <button
-        type="button"
-        aria-label="Next promo"
-        disabled={!canScrollNext}
-        onClick={() => emblaApi?.scrollNext()}
-        className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full bg-white/15 border border-white/20 text-white backdrop-blur-sm opacity-0 transition-opacity group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100 disabled:opacity-40"
-      >
-        <ChevronRight className="mx-auto" size={18} />
-      </button>
-
-      {scrollSnaps.length > 1 ? (
-        <div className="mt-3 flex items-center justify-center gap-2" aria-label="Promo carousel pagination">
-          {scrollSnaps.map((_, idx) => (
-            <button
-              key={idx}
-              type="button"
-              aria-label={`Go to promo ${idx + 1}`}
-              onClick={() => emblaApi?.scrollTo(idx)}
-              className={`h-2 w-2 rounded-full transition-colors ${
-                idx === selectedIndex ? "bg-white" : "bg-white/30 hover:bg-white/45"
-              }`}
-            />
-          ))}
-        </div>
-      ) : null}
     </div>
   );
 }
-
-import appLogo from "@/assets/app-logo.svg";
-import { branding } from "@/config/branding";
 
 export default function Home() {
   const { t } = useTranslation();
@@ -147,175 +94,191 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [upcomingAppointment, setUpcomingAppointment] = useState<Appointment | null>(null);
-  const { unreadCount, promos } = useNotifications();
+  const { unreadCount } = useNotifications();
 
   useEffect(() => {
-    // Simulate loading delay for realism
     const timer = setTimeout(() => {
       const userProfile = getUserProfile();
       const appointments = getUserAppointments();
-      // Find first upcoming appointment
       const upcoming = appointments.find(a => a.status === 'upcoming');
 
       setProfile(userProfile);
       setUpcomingAppointment(upcoming || null);
       setIsLoading(false);
-    }, 500);
+    }, 400);
 
     return () => clearTimeout(timer);
   }, []);
 
-  const hasAppointments = !!upcomingAppointment;
+  const firstName = profile?.firstName || "Alex";
 
   return (
-    <div className="min-h-screen bg-background pb-24" data-testid="home-screen">
-      {/* Hero */}
-      <div className="relative overflow-hidden">
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 bg-gradient-to-br from-slate-900 via-sky-900 to-sky-700"
-        />
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 opacity-60 bg-[radial-gradient(900px_400px_at_20%_20%,rgba(255,255,255,0.12),transparent_60%),radial-gradient(700px_320px_at_90%_30%,rgba(255,255,255,0.10),transparent_55%),radial-gradient(800px_380px_at_40%_120%,rgba(255,255,255,0.10),transparent_60%)]"
-        />
-
-        <header className="sticky top-0 z-10 bg-slate-950/35 backdrop-blur border-b border-white/10">
-          <div className="px-5 py-4 pt-12">
-            <div className="flex justify-between items-center min-h-10">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 flex items-center justify-center">
-                  <img src={appLogo} alt={`${branding.appName} Logo`} className="w-full h-full object-contain" />
-                </div>
-                <h1 className="text-xl font-bold text-white font-display tracking-tight">{branding.appName}</h1>
-              </div>
-              <div className="flex items-center gap-4">
-                <Link
-                  href="/notifications"
-                  className="text-white/90 hover:text-white transition-colors relative inline-flex items-center justify-center"
-                  aria-label="Notifications"
-                >
-                  <Bell size={24} />
-                  {unreadCount > 0 ? (
-                    <span className="absolute -top-1 -right-1 min-w-5 h-5 px-1 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-slate-950/35">
-                      {unreadCount > 99 ? "99+" : unreadCount}
-                    </span>
-                  ) : null}
-                </Link>
-              </div>
-            </div>
+    <div className="min-h-screen bg-background pb-32" data-testid="home-screen">
+      {/* Header */}
+      <header className="px-5 pt-12 pb-4">
+        <div className="flex items-start justify-between">
+          <div>
+            <p className="text-sm text-muted-foreground">{t("home.greeting.welcome")}</p>
+            <h1 className="text-2xl font-semibold text-foreground mt-0.5">
+              {t("home.greeting.goodDay", { name: firstName })}
+            </h1>
           </div>
-        </header>
-
-        {promos.length > 0 ? (
-          <section className="relative px-5 pb-6 pt-4 space-y-3">
-            <h2 className="font-bold text-lg text-white/95">{t("home.sections.discoverMore")}</h2>
-            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="-mr-5">
-              <DiscoverMoreCarousel />
-            </motion.div>
-          </section>
-        ) : null}
-      </div>
-
-      <main className="px-5 py-6 space-y-8">
-        {isLoading ? (
-          <LoadingSkeleton variant="page" />
-        ) : (
-        <>
-        {/* Health Services */}
-        <section>
-          <h3 className="font-bold text-lg text-foreground mb-4">{t("home.sections.healthServices")}</h3>
-          <Link
-            href="/booking/entry"
-            onClick={() => {
-              clearBookingDraft();
-              saveBookingDraft({ type: 'in-person' });
-            }}
-          >
-            <motion.button
-              whileTap={{ scale: 0.98 }}
-              className="w-full bg-card p-5 rounded-lg shadow-[var(--shadow-soft)] border border-border flex items-center gap-4 text-left hover:border-primary/20 hover:shadow-[var(--shadow-card)] transition-all group"
+          <div className="flex items-center gap-3">
+            <Link
+              href="/notifications"
+              className="relative text-foreground hover:text-primary transition-colors"
+              aria-label="Notifications"
             >
-              <div className="w-12 h-12 bg-accent rounded-xl flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
-                <Calendar size={24} />
-              </div>
-              <div className="flex-1">
-                <span className="block font-bold text-foreground group-hover:text-primary transition-colors">
-                  {t("booking.type.inPerson.title")}
+              <Bell size={24} strokeWidth={1.5} />
+              {unreadCount > 0 && (
+                <span className="absolute -top-1 -right-1 min-w-4 h-4 px-1 bg-destructive text-white text-[10px] font-bold rounded-full flex items-center justify-center">
+                  {unreadCount > 9 ? "9+" : unreadCount}
                 </span>
-                <span className="text-xs text-muted-foreground mt-1 block">{t("booking.type.inPerson.subtitle")}</span>
+              )}
+            </Link>
+            <Link href="/profile" className="block">
+              <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-primary/20">
+                <img
+                  src={userAvatar}
+                  alt="Profile"
+                  className="w-full h-full object-cover"
+                />
               </div>
-              <ChevronRight size={20} className="text-muted-foreground group-hover:text-primary transition-colors" />
-            </motion.button>
-          </Link>
-        </section>
-
-        {/* Upcoming Section */}
-        <section>
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="font-bold text-lg text-foreground">{t("home.sections.upcoming")}</h3>
-            {hasAppointments && (
-              <Link href="/appointments" className="text-sm font-medium text-primary hover:underline">
-                {t("common.buttons.seeAll")}
-              </Link>
-            )}
+            </Link>
           </div>
+        </div>
+      </header>
 
-          {hasAppointments && upcomingAppointment ? (
-            <AppointmentCard
-              data={{
-                id: upcomingAppointment.id,
-                status: upcomingAppointment.status as "upcoming" | "past" | "processing",
-                type: upcomingAppointment.type,
-                doctor: upcomingAppointment.doctor,
-                role: upcomingAppointment.specialty,
-                location: upcomingAppointment.clinic,
-                date: `${formatLocalDate(upcomingAppointment.date, locale)} • ${formatLocalTime(upcomingAppointment.time, locale)}`,
-                subStatus: undefined
-              }}
-              onClick={() => setLocation(`/appointments/${upcomingAppointment.id}`)}
-            />
-          ) : (
-            // Empty State
-            <div className="bg-card rounded-lg border border-border border-dashed p-8 text-center flex flex-col items-center justify-center gap-3">
-              <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center text-muted-foreground mb-2">
-                <Calendar size={32} />
+      <main className="space-y-6">
+        {isLoading ? (
+          <div className="px-5">
+            <LoadingSkeleton variant="page" />
+          </div>
+        ) : (
+          <>
+            {/* Suggested Section */}
+            <section className="space-y-3">
+              <div className="flex items-center justify-between px-5">
+                <h2 className="font-semibold text-lg text-foreground">{t("home.sections.suggested")}</h2>
+                <button className="text-sm font-medium text-primary">{t("common.buttons.showAll")}</button>
               </div>
-              <p className="font-medium text-foreground">{t("home.empty.title")}</p>
-              <Link
-                href="/booking/entry"
-                onClick={() => {
-                  clearBookingDraft();
-                  saveBookingDraft({ type: 'in-person' });
-                }}
-              >
-                <Button variant="link" className="text-primary h-auto p-0">{t("home.empty.cta")}</Button>
-              </Link>
-            </div>
-          )}
-        </section>
+              <SuggestedCarousel />
+            </section>
 
-        {/* Recent Activity Mini-List */}
-        <section>
-           <h3 className="font-bold text-lg text-foreground mb-4">{t("home.sections.recent")}</h3>
-           <div className="bg-card rounded-lg border border-border shadow-[var(--shadow-card)] p-4">
-              <div className="flex items-center gap-4">
-                 <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center text-muted-foreground">
-                    <Calendar size={18} />
-                 </div>
-                 <div className="flex-1">
-                    <p className="font-medium text-sm text-foreground">{t("home.recent.appointment.title")}</p>
-                    <p className="text-xs text-muted-foreground">{t("home.recent.appointment.subtitle")}</p>
-                 </div>
-                 <span className="text-xs font-medium text-muted-foreground bg-muted px-2 py-1 rounded-full">
-                   {t("common.status.confirmed")}
-                 </span>
+            {/* Next Appointment Section */}
+            <section className="px-5 space-y-3">
+              <div className="flex items-center justify-between">
+                <h2 className="font-semibold text-lg text-foreground">{t("home.sections.nextAppointment")}</h2>
+                {upcomingAppointment && (
+                  <Link href="/appointments" className="text-sm font-medium text-primary">
+                    {t("common.buttons.seeAll")}
+                  </Link>
+                )}
               </div>
-           </div>
-        </section>
-        </>
+
+              {upcomingAppointment ? (
+                <motion.button
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => setLocation(`/appointments/${upcomingAppointment.id}`)}
+                  className="w-full bg-card rounded-3xl p-4 shadow-[var(--shadow-card)] border border-border flex items-center gap-4 text-left"
+                >
+                  {/* Doctor photo */}
+                  <div className="relative flex-shrink-0">
+                    <div className="w-14 h-14 rounded-full overflow-hidden bg-muted">
+                      <img
+                        src={userAvatar}
+                        alt={upcomingAppointment.doctor}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    {/* Verification badge */}
+                    <div className="absolute -bottom-0.5 -right-0.5 w-5 h-5 bg-primary rounded-full flex items-center justify-center border-2 border-card">
+                      <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                        <path d="M2 5L4 7L8 3" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    </div>
+                  </div>
+
+                  {/* Info */}
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold text-foreground truncate">{upcomingAppointment.doctor}</p>
+                    <p className="text-sm text-muted-foreground truncate">
+                      {upcomingAppointment.specialty} • {upcomingAppointment.type === 'video' ? 'Video' : 'Check-up'}
+                    </p>
+                  </div>
+
+                  {/* Date badge with time */}
+                  <div className="flex-shrink-0 text-center">
+                    <DateBadge date={new Date(upcomingAppointment.date)} />
+                    <p className="text-xs text-muted-foreground mt-1">
+                      {formatLocalTime(upcomingAppointment.time, locale)}
+                    </p>
+                  </div>
+                </motion.button>
+              ) : (
+                <div className="bg-card rounded-3xl border border-dashed border-border p-8 text-center">
+                  <p className="text-muted-foreground">{t("home.empty.title")}</p>
+                  <Link
+                    href="/booking/entry"
+                    onClick={() => {
+                      clearBookingDraft();
+                      saveBookingDraft({ type: 'in-person' });
+                    }}
+                  >
+                    <Button variant="link" className="text-primary mt-2">{t("home.empty.cta")}</Button>
+                  </Link>
+                </div>
+              )}
+            </section>
+
+            {/* Health Services Grid */}
+            <section className="px-5 space-y-3">
+              <h2 className="font-semibold text-lg text-foreground">{t("home.sections.healthServices")}</h2>
+              <div className="grid grid-cols-2 gap-3">
+                {healthServices.map((service) => (
+                  <Link
+                    key={service.id}
+                    href={service.path}
+                    onClick={() => {
+                      if (service.id === 'gp') {
+                        clearBookingDraft();
+                        saveBookingDraft({ type: 'in-person' });
+                      }
+                    }}
+                  >
+                    <motion.div
+                      whileTap={{ scale: 0.97 }}
+                      className="bg-card rounded-2xl p-4 shadow-[var(--shadow-soft)] border border-border flex flex-col items-center gap-3 text-center hover:border-primary/20 transition-colors"
+                    >
+                      <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                        <service.icon size={24} className="text-primary" strokeWidth={1.5} />
+                      </div>
+                      <span className="text-sm font-medium text-foreground">{service.label}</span>
+                    </motion.div>
+                  </Link>
+                ))}
+              </div>
+            </section>
+          </>
         )}
       </main>
+
+      {/* Fixed Book Appointment CTA */}
+      <div className="fixed bottom-24 left-0 right-0 px-5 max-w-[375px] mx-auto z-40">
+        <Link
+          href="/booking/entry"
+          onClick={() => {
+            clearBookingDraft();
+            saveBookingDraft({ type: 'in-person' });
+          }}
+          className="block"
+        >
+          <Button className="w-full h-12 rounded-2xl text-base font-semibold gap-2">
+            <Plus size={20} strokeWidth={2} />
+            {t("home.cta.bookAppointment")}
+          </Button>
+        </Link>
+      </div>
     </div>
   );
 }

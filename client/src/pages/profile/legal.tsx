@@ -10,19 +10,19 @@ export default function PrivacyLegal() {
       <SubPageHeader title="Privacy & Legal" backPath="/profile" />
       
       <main className="p-5">
-        <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+        <div className="bg-card rounded-3xl border border-border shadow-[var(--shadow-card)] overflow-hidden">
            <MenuRow
              icon={Shield}
              label="Privacy Policy"
              onClick={() => setLocation("/static/privacy")}
            />
-           <div className="h-px bg-slate-50 mx-4"></div>
+           <div className="h-px bg-border mx-4"></div>
            <MenuRow
              icon={Check}
              label="Terms of Service"
              onClick={() => setLocation("/static/terms")}
            />
-           <div className="h-px bg-slate-50 mx-4"></div>
+           <div className="h-px bg-border mx-4"></div>
            <MenuRow
              icon={FileText}
              label="Legal Disclosure"
@@ -36,14 +36,14 @@ export default function PrivacyLegal() {
 
 function MenuRow({ icon: Icon, label, onClick }: any) {
   return (
-    <button onClick={onClick} className="w-full px-4 py-4 flex items-center justify-between hover:bg-slate-50 transition-colors group">
+    <button onClick={onClick} className="w-full px-4 py-4 flex items-center justify-between hover:bg-muted/50 transition-colors group">
       <div className="flex items-center gap-3">
-        <div className="w-8 h-8 rounded-full bg-slate-50 text-slate-500 flex items-center justify-center group-hover:bg-blue-50 group-hover:text-primary transition-colors">
+        <div className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center">
           <Icon size={16} />
         </div>
-        <span className="font-medium text-slate-700 text-sm group-hover:text-slate-900">{label}</span>
+        <span className="font-medium text-foreground text-sm">{label}</span>
       </div>
-      <ChevronRight size={18} className="text-slate-300 group-hover:text-primary" />
+      <ChevronRight size={18} className="text-muted-foreground group-hover:text-primary" />
     </button>
   );
 }

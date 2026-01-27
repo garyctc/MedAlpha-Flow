@@ -40,13 +40,13 @@ export default function LinkedAccounts() {
   };
 
   const connectedAccounts = [
-    accounts.dm && { key: 'dm', name: 'dm', icon: 'dm', bgColor: 'bg-slate-100', textColor: 'text-slate-500' },
+    accounts.dm && { key: 'dm', name: 'dm', icon: 'dm', bgColor: 'bg-muted', textColor: 'text-muted-foreground' },
     accounts.payback && { key: 'payback', name: 'PAYBACK', icon: 'PAYBACK', bgColor: 'bg-blue-50', textColor: 'text-blue-700' },
     accounts.insurance && { key: 'insurance', name: insuranceLabel, icon: 'TK', bgColor: 'bg-green-50', textColor: 'text-green-700' },
   ].filter(Boolean) as { key: string; name: string; icon: string; bgColor: string; textColor: string }[];
 
   const availableAccounts = [
-    !accounts.dm && { key: 'dm', name: 'dm', desc: 'Sign in with your dm account', icon: 'dm', bgColor: 'bg-slate-100', textColor: 'text-slate-500' },
+    !accounts.dm && { key: 'dm', name: 'dm', desc: 'Sign in with your dm account', icon: 'dm', bgColor: 'bg-muted', textColor: 'text-muted-foreground' },
     !accounts.payback && { key: 'payback', name: 'PAYBACK', desc: 'Earn points on health bookings', icon: 'PAYBACK', bgColor: 'bg-blue-50', textColor: 'text-blue-700' },
     !accounts.insurance && { key: 'insurance', name: insuranceLabel, desc: 'Access digital health card', icon: 'TK', bgColor: 'bg-green-50', textColor: 'text-green-700' },
   ].filter(Boolean) as { key: string; name: string; desc: string; icon: string; bgColor: string; textColor: string }[];
@@ -71,26 +71,26 @@ export default function LinkedAccounts() {
       <SubPageHeader title="Linked Accounts" backPath="/profile" />
 
       <main className="p-5 space-y-8">
-        <p className="text-sm text-slate-500 leading-relaxed px-1">
+        <p className="text-sm text-muted-foreground leading-relaxed px-1">
           Connect partner accounts to sign in faster and sync your benefits.
         </p>
 
         {/* Connected Accounts */}
         {connectedAccounts.length > 0 && (
           <section className="space-y-3">
-            <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider px-1">Connected</h3>
+            <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider px-1">Connected</h3>
 
             <div className="space-y-3">
               {connectedAccounts.map((account) => (
-                <div key={account.key} className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                <div key={account.key} className="bg-card p-4 rounded-3xl border border-border shadow-[var(--shadow-card)]">
                   <div className="flex items-start justify-between">
                     <div className="flex gap-3">
-                      <div className={`w-10 h-10 ${account.bgColor} rounded-lg flex items-center justify-center flex-shrink-0`}>
-                        <span className={`font-bold ${account.textColor} text-xs`}>{account.icon}</span>
+                      <div className={`w-10 h-10 ${account.bgColor} rounded-xl flex items-center justify-center flex-shrink-0`}>
+                        <span className={`font-semibold ${account.textColor} text-xs`}>{account.icon}</span>
                       </div>
                       <div>
-                        <h4 className="font-bold text-slate-900">{account.name}</h4>
-                        <p className="text-xs text-slate-500 mt-0.5">Connected January 15, 2026</p>
+                        <h4 className="font-semibold text-foreground">{account.name}</h4>
+                        <p className="text-xs text-muted-foreground mt-0.5">Connected January 15, 2026</p>
                       </div>
                     </div>
                     <button
@@ -109,24 +109,24 @@ export default function LinkedAccounts() {
         {/* Available Accounts */}
         {availableAccounts.length > 0 && (
           <section className="space-y-3">
-            <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider px-1">Available</h3>
+            <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider px-1">Available</h3>
 
             <div className="space-y-3">
               {availableAccounts.map((account) => (
-                <div key={account.key} className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
+                <div key={account.key} className="bg-card p-4 rounded-3xl border border-border shadow-[var(--shadow-card)] flex items-center justify-between">
                   <div className="flex gap-3">
-                    <div className={`w-10 h-10 ${account.bgColor} rounded-lg flex items-center justify-center flex-shrink-0 ${account.textColor} font-bold text-[10px]`}>
+                    <div className={`w-10 h-10 ${account.bgColor} rounded-xl flex items-center justify-center flex-shrink-0 ${account.textColor} font-semibold text-[10px]`}>
                       {account.icon}
                     </div>
                     <div>
-                      <h4 className="font-bold text-slate-900">{account.name}</h4>
-                      <p className="text-xs text-slate-500 mt-0.5">{account.desc}</p>
+                      <h4 className="font-semibold text-foreground">{account.name}</h4>
+                      <p className="text-xs text-muted-foreground mt-0.5">{account.desc}</p>
                     </div>
                   </div>
                   <Button
                     variant="outline"
                     size="sm"
-                    className="h-8 text-primary border-primary/20 hover:bg-primary/5"
+                    className="h-8 text-primary border-primary/20 hover:bg-primary/10 rounded-full"
                     onClick={() => handleToggleAccount(account.key as keyof LinkedAccountsType)}
                   >
                     Connect

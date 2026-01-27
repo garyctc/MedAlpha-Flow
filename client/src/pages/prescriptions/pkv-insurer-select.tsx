@@ -26,34 +26,34 @@ export default function PkvInsurerSelect() {
       
       <main className="p-5 space-y-6">
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
-          <Input 
-            className="pl-10 h-12 bg-white border-slate-200" 
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={20} />
+          <Input
+            className="pl-10 h-12 bg-card border-border"
             placeholder="Search insurance company..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
 
-        <p className="text-sm text-slate-500 px-1">
+        <p className="text-sm text-muted-foreground px-1">
           You'll be redirected to your insurer's app to authenticate
         </p>
 
         <div className="space-y-3">
           {filteredInsurers.map((insurer) => (
-            <div 
+            <div
               key={insurer.name}
               onClick={() => setLocation(`/prescriptions/pkv-redirect?insurer=${encodeURIComponent(insurer.name)}`)}
-              className="bg-white p-4 rounded-xl border border-slate-100 shadow-sm flex items-center gap-4 active:scale-[0.98] transition-all cursor-pointer"
+              className="bg-card p-4 rounded-3xl border border-border shadow-[var(--shadow-card)] flex items-center gap-4 active:scale-[0.98] transition-all cursor-pointer"
             >
-              <div className="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center font-bold text-slate-500">
+              <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center font-semibold text-muted-foreground">
                 {insurer.logo}
               </div>
-              <span className="flex-1 font-medium text-slate-900">{insurer.name}</span>
-              <ChevronRight className="text-slate-300" size={20} />
+              <span className="flex-1 font-medium text-foreground">{insurer.name}</span>
+              <ChevronRight className="text-muted-foreground" size={20} />
             </div>
           ))}
-          
+
           <button className="w-full py-4 text-center text-primary font-medium text-sm">
             Show all insurers...
           </button>

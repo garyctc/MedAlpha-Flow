@@ -68,22 +68,22 @@ export default function HistoryPage() {
 
   return (
     <div className="min-h-screen bg-background pb-24">
-      <header className="px-5 py-4 pt-12 bg-white border-b border-slate-100 sticky top-0 z-10">
+      <header className="px-5 py-4 pt-12 bg-card border-b border-border sticky top-0 z-10">
         <div className="flex items-center gap-2 mb-4 min-h-10">
           <div className="w-8 h-8 flex items-center justify-center">
             <img src={appLogo} alt={`${branding.appName} Logo`} className="w-full h-full object-contain" />
           </div>
-          <h1 className="font-bold text-xl text-slate-900 font-display">History</h1>
+          <h1 className="font-semibold text-xl text-foreground">History</h1>
         </div>
-        
+
         {/* Search */}
         <div className="relative mb-4">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={18} />
           <Input
             placeholder="Search history..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10 bg-slate-50 border-slate-200 focus:bg-white transition-colors"
+            className="pl-10"
           />
         </div>
 
@@ -100,8 +100,8 @@ export default function HistoryPage() {
                 onClick={() => setActiveTab(tab.id as any)}
                 className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors whitespace-nowrap ${
                   activeTab === tab.id
-                    ? "bg-slate-900 text-white border-slate-900"
-                    : "bg-white text-slate-600 border-slate-200 hover:border-slate-300"
+                    ? "bg-primary text-white border-primary"
+                    : "bg-card text-muted-foreground border-border hover:border-primary/50"
                 }`}
               >
                 {tab.label}
@@ -116,7 +116,7 @@ export default function HistoryPage() {
           // Loading Skeleton
           <div className="space-y-4">
             {Array.from({ length: 4 }).map((_, i) => (
-              <div key={i} className="w-full bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4">
+              <div key={i} className="w-full bg-card p-4 rounded-3xl border border-border shadow-[var(--shadow-card)] flex items-center gap-4">
                 <Skeleton className="w-12 h-12 rounded-full flex-shrink-0" />
                 <div className="flex-1 space-y-2">
                   <div className="flex justify-between">
@@ -135,17 +135,17 @@ export default function HistoryPage() {
         ) : filteredHistory.length === 0 ? (
           // Empty State
           <div className="flex flex-col items-center justify-center py-12 text-center">
-            <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4">
-              <Clock size={28} className="text-slate-400" />
+            <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mb-4">
+              <Clock size={28} className="text-muted-foreground" />
             </div>
-            <h3 className="font-bold text-slate-900 mb-1">No past appointments</h3>
-            <p className="text-sm text-slate-500">Your appointment history will appear here</p>
+            <h3 className="font-semibold text-foreground mb-1">No past appointments</h3>
+            <p className="text-sm text-muted-foreground">Your appointment history will appear here</p>
           </div>
         ) : (
           // Grouped History
           Object.entries(groupedHistory).map(([monthYear, appointments]) => (
             <section key={monthYear}>
-              <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">{monthYear}</h3>
+              <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">{monthYear}</h3>
               <div className="space-y-4">
                 {appointments.map((apt) => (
                   <AppointmentCard

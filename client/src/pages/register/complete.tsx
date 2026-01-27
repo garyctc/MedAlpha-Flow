@@ -59,7 +59,7 @@ export default function RegisterComplete() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-white p-6 flex flex-col justify-center items-center text-center">
+    <div className="min-h-screen bg-background p-6 flex flex-col justify-center items-center text-center">
       <motion.div
         initial={reduceMotion ? false : { scale: 0.8, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
@@ -80,45 +80,45 @@ export default function RegisterComplete() {
         className="space-y-8 w-full max-w-sm"
       >
         <div>
-          <h1 className="text-2xl font-bold font-display text-slate-900 mb-2">Welcome to {branding.appName}</h1>
-          <p className="text-slate-500">Your account has been created</p>
+          <h1 className="text-2xl font-semibold font-display text-foreground mb-2">Welcome to {branding.appName}</h1>
+          <p className="text-muted-foreground">Your account has been created</p>
         </div>
 
         {/* User Card */}
-        <div className="bg-slate-50 rounded-2xl p-5 border border-slate-100 text-left">
+        <div className="bg-muted rounded-3xl p-5 border border-border text-left">
           <div className="flex items-center gap-4">
-             <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-slate-400 border border-slate-200 font-bold text-lg">
+             <div className="w-12 h-12 bg-card rounded-full flex items-center justify-center text-muted-foreground border border-border font-semibold text-lg">
                {userData.name.split(' ').map(n => n[0]).join('').toUpperCase()}
              </div>
              <div>
-               <h3 className="font-bold text-slate-900">{userData.name}</h3>
-               <p className="text-xs text-slate-500">{userData.email}</p>
+               <h3 className="font-semibold text-foreground">{userData.name}</h3>
+               <p className="text-xs text-muted-foreground">{userData.email}</p>
              </div>
           </div>
         </div>
 
         {/* Next Steps */}
         <div className="space-y-3">
-          <h3 className="text-sm font-bold text-slate-900 text-left">What's next?</h3>
+          <h3 className="text-sm font-semibold text-foreground text-left">What's next?</h3>
 
-          <div className="flex items-center gap-3 text-left text-sm text-slate-600 bg-white border border-slate-100 p-3 rounded-xl">
-            <div className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center shrink-0">
-               <Calendar size={16} />
+          <div className="flex items-center gap-3 text-left text-sm text-muted-foreground bg-card border border-border p-3 rounded-3xl">
+            <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+               <Calendar size={16} className="text-primary" />
             </div>
             Book your first appointment
           </div>
         </div>
 
         <div className="space-y-3 pt-4">
-          <Button 
-            className="w-full h-12 text-base font-medium rounded-xl"
+          <Button
+            className="w-full h-12 text-base font-medium rounded-3xl"
             onClick={() => setLocation("/home")}
           >
             Explore the App
           </Button>
           <Button
             variant="outline"
-            className="w-full h-12 text-base font-medium rounded-xl border-slate-200 text-primary hover:bg-slate-50"
+            className="w-full h-12 text-base font-medium rounded-3xl border-border text-primary hover:bg-muted"
             onClick={() => {
               clearBookingDraft();
               saveBookingDraft({ type: 'in-person' });

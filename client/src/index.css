@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400;1,9..40,500&display=swap');
+
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -6,34 +8,34 @@
 @theme inline {
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
-  
+
   --color-primary: hsl(var(--primary));
   --color-primary-foreground: hsl(var(--primary-foreground));
-  
+
   --color-secondary: hsl(var(--secondary));
   --color-secondary-foreground: hsl(var(--secondary-foreground));
-  
+
   --color-muted: hsl(var(--muted));
   --color-muted-foreground: hsl(var(--muted-foreground));
-  
+
   --color-accent: hsl(var(--accent));
   --color-accent-foreground: hsl(var(--accent-foreground));
-  
+
   --color-destructive: hsl(var(--destructive));
   --color-destructive-foreground: hsl(var(--destructive-foreground));
-  
+
   --color-border: hsl(var(--border));
   --color-input: hsl(var(--input));
   --color-ring: hsl(var(--ring));
-  
+
   --color-card: hsl(var(--card));
   --color-card-foreground: hsl(var(--card-foreground));
 
   --color-popover: hsl(var(--popover));
   --color-popover-foreground: hsl(var(--popover-foreground));
 
-  --font-sans: 'Inter', sans-serif;
-  --font-display: 'DM Sans', sans-serif;
+  /* DocliQ brand font - DM Sans */
+  --font-sans: 'DM Sans', system-ui, sans-serif;
 }
 
 body {
@@ -42,7 +44,7 @@ body {
   display: flex;
   justify-content: center;
   min-height: 100vh;
-  background-color: hsl(var(--border)); /* Outer background */
+  background-color: hsl(220 13% 91%); /* Outer background - light gray */
 }
 
 #root {
@@ -55,12 +57,35 @@ body {
   overflow-x: hidden;
 }
 
-/* Typography Utilities */
-.font-display {
-  font-family: var(--font-display);
-}
-
 /* Custom Utilities for Prototype */
 .safe-area-bottom {
   padding-bottom: env(safe-area-inset-bottom, 24px);
+}
+
+/* Teal color utilities for direct use */
+.text-teal {
+  color: hsl(var(--primary));
+}
+
+.bg-teal {
+  background-color: hsl(var(--primary));
+}
+
+/* Coral accent utilities */
+.text-coral {
+  color: hsl(var(--accent));
+}
+
+.bg-coral {
+  background-color: hsl(var(--accent));
+}
+
+/* Charcoal text utility */
+.text-charcoal {
+  color: hsl(var(--foreground));
+}
+
+/* Slate text utility */
+.text-slate-secondary {
+  color: hsl(var(--muted-foreground));
 }

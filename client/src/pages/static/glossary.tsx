@@ -131,28 +131,28 @@ export default function MedicalGlossary() {
 
       <main className="p-5">
         <div className="mb-6 relative">
-          <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+          <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
           <Input
             placeholder="Search terms..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="h-12 pl-10 bg-white border-slate-200"
+            className="h-12 pl-10 bg-card border-border rounded-3xl shadow-[var(--shadow-card)]"
           />
         </div>
 
         {filteredSections.length === 0 ? (
           <div className="text-center py-8">
-            <p className="text-slate-500 text-sm">No terms match your search.</p>
+            <p className="text-muted-foreground text-sm">No terms match your search.</p>
           </div>
         ) : (
           <div className="space-y-6">
             {filteredSections.map((section) => (
-              <section key={section.title} className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
-                <div className="px-5 py-4 bg-slate-50 border-b border-slate-100">
-                  <h2 className="font-semibold text-slate-900 text-sm uppercase tracking-wide">{section.title}</h2>
+              <section key={section.title} className="bg-card rounded-3xl border border-border shadow-[var(--shadow-card)] overflow-hidden">
+                <div className="px-5 py-4 bg-muted border-b border-border">
+                  <h2 className="font-semibold text-foreground text-sm uppercase tracking-wide">{section.title}</h2>
                 </div>
 
-                <div className="divide-y divide-slate-100">
+                <div className="divide-y divide-border">
                   {section.terms.map((term, idx) => {
                     const termId = `${section.title}-${idx}`;
                     const isExpanded = expandedTerms.has(termId);
@@ -161,21 +161,21 @@ export default function MedicalGlossary() {
                       <button
                         key={termId}
                         onClick={() => toggleTerm(termId)}
-                        className="w-full px-5 py-4 flex items-start justify-between hover:bg-slate-50 transition-colors text-left"
+                        className="w-full px-5 py-4 flex items-start justify-between hover:bg-muted transition-colors text-left"
                       >
                         <div className="flex-1">
                           <div className="flex items-baseline gap-2 mb-1">
-                            <p className="font-semibold text-slate-900 text-sm">{term.german}</p>
-                            <p className="text-xs text-slate-500 font-normal">({term.english})</p>
+                            <p className="font-semibold text-foreground text-sm">{term.german}</p>
+                            <p className="text-xs text-muted-foreground font-normal">({term.english})</p>
                           </div>
                           {isExpanded && (
-                            <p className="text-slate-600 text-sm leading-relaxed mt-2">{term.definition}</p>
+                            <p className="text-muted-foreground text-sm leading-relaxed mt-2">{term.definition}</p>
                           )}
                         </div>
                         <div className="ml-3 flex-shrink-0">
                           <ChevronDown
                             size={18}
-                            className={`text-slate-400 transition-transform duration-200 ${isExpanded ? "rotate-180" : ""}`}
+                            className={`text-muted-foreground transition-transform duration-200 ${isExpanded ? "rotate-180" : ""}`}
                           />
                         </div>
                       </button>

@@ -39,11 +39,11 @@ export default function NotificationDetail({ params }: { params: { id: string } 
 
       <main className="p-5 space-y-6">
         <div className="space-y-2">
-          <h1 className="text-lg font-bold text-foreground">{notification.title}</h1>
+          <h1 className="text-lg font-semibold text-foreground">{notification.title}</h1>
           <p className="text-xs text-muted-foreground">{formatTimestamp(notification.createdAt)}</p>
         </div>
 
-        <div className="bg-card rounded-lg border border-border p-4">
+        <div className="bg-card rounded-3xl border border-border shadow-[var(--shadow-card)] p-4">
           <p className="text-sm text-foreground leading-relaxed whitespace-pre-wrap">{notification.body}</p>
         </div>
 

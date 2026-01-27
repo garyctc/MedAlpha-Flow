@@ -31,48 +31,48 @@ export default function GkvSmsVerify() {
       <SubPageHeader title="Verify Your Identity" backPath="/prescriptions/nfc-scan" />
       
       <main className="p-6 text-center">
-        <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-6 text-primary">
+        <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6 text-primary">
           <MessageSquare size={32} />
         </div>
-        
-        <h2 className="text-xl font-bold text-slate-900 mb-2">Check your messages</h2>
-        <p className="text-slate-500 mb-8">
-          We sent a code to <span className="font-bold text-slate-900">+49 *** ***78</span>
+
+        <h2 className="text-xl font-semibold text-foreground mb-2">Check your messages</h2>
+        <p className="text-muted-foreground mb-8">
+          We sent a code to <span className="font-semibold text-foreground">+49 *** ***78</span>
         </p>
 
-        <Input 
-          type="text" 
+        <Input
+          type="text"
           placeholder="000000"
           maxLength={6}
           value={code}
           onChange={(e) => setCode(e.target.value.replace(/[^0-9]/g, ''))}
-          className="h-16 text-center text-2xl font-bold tracking-[0.5em] bg-white border-slate-200 shadow-sm mb-6 rounded-2xl"
+          className="h-16 text-center text-2xl font-semibold tracking-[0.5em] bg-card border-border shadow-[var(--shadow-card)] mb-6 rounded-3xl"
         />
 
         <div className="flex justify-center mb-8">
           {canResend ? (
-            <button 
+            <button
               onClick={() => { setTimer(45); setCanResend(false); }}
               className="text-primary font-medium text-sm flex items-center gap-2 hover:underline"
             >
               <RefreshCw size={14} /> Resend code
             </button>
           ) : (
-            <span className="text-slate-400 text-sm font-medium">
+            <span className="text-muted-foreground text-sm font-medium">
               Resend in 0:{timer.toString().padStart(2, '0')}
             </span>
           )}
         </div>
 
-        <Button 
-          className="w-full h-12 text-base font-medium rounded-xl mb-4"
+        <Button
+          className="w-full h-12 text-base font-medium rounded-3xl mb-4"
           disabled={code.length !== 6}
           onClick={handleVerify}
         >
           Verify
         </Button>
 
-        <button className="text-slate-400 text-sm hover:text-slate-600">
+        <button className="text-muted-foreground text-sm hover:text-foreground">
           Didn't receive it? Check your number in profile
         </button>
       </main>

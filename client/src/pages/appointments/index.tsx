@@ -20,6 +20,8 @@ import { AppointmentCard, type AppointmentCardData } from "@/components/appointm
 type Appointment = AppointmentCardData & {
   badge: string;
   badgeColor: string;
+  rawDate?: string;
+  rawTime?: string;
 };
 
 function parseAnyDate(date: string) {
@@ -67,12 +69,14 @@ function convertStoredAppointments(
       id: apt.id,
       status: statusDisplay,
       type: apt.type,
-      badge: "", // No longer used, replaced by subStatus badges
+      badge: "",
       badgeColor: "",
       doctor: apt.doctor,
       role: apt.specialty,
       location: apt.clinic,
       date: dateText,
+      rawDate: apt.date,
+      rawTime: formatStoredTime(apt.time, locale),
       subStatus:
         apt.status === "completed"
           ? "completed"
@@ -222,15 +226,8 @@ export default function AppointmentsPage() {
         secondaryLabel={t("appointments.push.secondary")}
       />
 
-      <header className="bg-white border-b border-slate-100 sticky top-0 z-20">
-        <div className="px-5 py-4 pt-12">
-          <div className="flex items-center gap-2 min-h-10">
-            <div className="w-8 h-8 flex items-center justify-center">
-              <img src={appLogo} alt={`${branding.appName} Logo`} className="w-full h-full object-contain" />
-            </div>
-            <h1 className="font-bold text-xl text-slate-900 font-display">{t("appointments.title")}</h1>
-          </div>
-        </div>
+      <header className="px-5 pt-12 pb-4">
+        <h1 className="text-2xl font-semibold text-foreground">{t("appointments.title")}</h1>
       </header>
 
       <main className="p-5 relative">
@@ -241,18 +238,15 @@ export default function AppointmentsPage() {
           {isLoading ? (
             // Loading Skeleton
             Array.from({ length: 3 }).map((_, i) => (
-              <div key={i} className="w-full p-4 rounded-2xl border border-slate-100 shadow-sm bg-white">
-                <div className="flex justify-between items-start mb-3">
-                  <Skeleton className="h-5 w-24 rounded-full" />
-                  <Skeleton className="h-4 w-32" />
+              <div key={i} className="w-full p-4 rounded-3xl border border-border shadow-[var(--shadow-card)] bg-card flex items-center gap-4">
+                <Skeleton className="w-14 h-14 rounded-full" />
+                <div className="flex-1 space-y-2">
+                  <Skeleton className="h-5 w-32" />
+                  <Skeleton className="h-4 w-24" />
                 </div>
-                <div className="flex justify-between items-center">
-                  <div className="flex-1 space-y-2">
-                    <Skeleton className="h-5 w-40" />
-                    <Skeleton className="h-4 w-28" />
-                    <Skeleton className="h-3 w-48" />
-                  </div>
-                  <Skeleton className="h-5 w-5 rounded" />
+                <div className="space-y-1">
+                  <Skeleton className="h-12 w-12 rounded-xl" />
+                  <Skeleton className="h-3 w-12" />
                 </div>
               </div>
             ))
@@ -260,16 +254,20 @@ export default function AppointmentsPage() {
             filteredAppointments.map((apt) => (
               <AppointmentCard
                 key={apt.id}
-                data={apt}
+                data={{
+                  ...apt,
+                  rawDate: apt.rawDate,
+                  rawTime: apt.rawTime,
+                }}
                 onClick={() => setLocation(`/appointments/${apt.id}`)}
               />
             ))
           ) : (
-             <div className="flex flex-col items-center justify-center py-12 text-center text-slate-400">
-               <div className="w-12 h-12 bg-slate-50 rounded-full flex items-center justify-center mb-3">
-                 <Calendar size={20} className="text-slate-300" />
+             <div className="flex flex-col items-center justify-center py-12 text-center">
+               <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mb-4">
+                 <Calendar size={28} className="text-muted-foreground" />
                </div>
-               <p className="text-sm">{t("appointments.empty.noUpcoming")}</p>
+               <p className="text-muted-foreground">{t("appointments.empty.noUpcoming")}</p>
                <Button variant="link" onClick={() => setLocation("/history")} className="mt-2 text-primary">
                  {t("appointments.empty.viewHistory")}
                </Button>

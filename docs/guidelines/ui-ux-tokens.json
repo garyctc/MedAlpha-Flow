@@ -18,7 +18,7 @@
     },
     "typography": {
       "fontFamily": {
-        "primary": { "value": "TODO_GEOMETRIC_SANS", "type": "fontFamily" }
+        "primary": { "value": "DM Sans", "type": "fontFamily" }
       },
       "fontWeight": {
         "regular": { "value": 400, "type": "fontWeight" },

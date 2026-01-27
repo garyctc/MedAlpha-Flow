@@ -92,24 +92,26 @@ export default function InsuranceInfoGKV() {
       <main className="p-5 space-y-8">
         {/* Insurance Type */}
         <div className="space-y-2">
-          <div className="flex items-center justify-between bg-blue-50 text-primary p-3 rounded-2xl border border-blue-100">
+          <div className="flex items-center justify-between bg-primary/10 text-primary p-3 rounded-3xl border border-border">
              <div className="flex items-center gap-3">
-               <Shield size={20} className="fill-current" />
-               <span className="font-bold">Public Insurance (GKV)</span>
+               <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                 <Shield size={16} className="text-primary" />
+               </div>
+               <span className="font-semibold text-foreground">Public Insurance (GKV)</span>
              </div>
-             <Lock size={14} className="opacity-50" />
+             <Lock size={14} className="text-muted-foreground" />
           </div>
           <div className="flex justify-between items-center px-1">
-             <p className="text-xs text-slate-400">Change only possible via support</p>
+             <p className="text-xs text-muted-foreground">Change only possible via support</p>
              <button onClick={() => setLocation("/profile/support")} className="text-xs text-primary underline">Contact Support</button>
           </div>
         </div>
 
         {/* Provider */}
         <div className="space-y-3">
-          <Label className="text-sm font-medium text-slate-700">Insurance Provider</Label>
+          <Label className="text-sm font-medium text-foreground">Insurance Provider</Label>
           <Select value={provider} onValueChange={setProvider}>
-            <SelectTrigger className="h-12 rounded-xl bg-white border-slate-200">
+            <SelectTrigger className="h-12 rounded-xl bg-card border-border">
               <SelectValue placeholder="Select your provider" />
             </SelectTrigger>
             <SelectContent>
@@ -125,27 +127,27 @@ export default function InsuranceInfoGKV() {
         {/* Card Info */}
         <div className="space-y-4">
            <div className="space-y-3">
-              <Label className="text-sm font-medium text-slate-700">Insurance Number</Label>
+              <Label className="text-sm font-medium text-foreground">Insurance Number</Label>
               <Input
                 value={insuranceNumber}
                 onChange={(e) => setInsuranceNumber(e.target.value)}
                 placeholder="A123456789"
-                className="h-12 rounded-xl bg-white border-slate-200"
+                className="h-12 rounded-xl bg-card border-border"
               />
-              <p className="text-xs text-slate-400">10 characters: Letter + 9 Digits</p>
+              <p className="text-xs text-muted-foreground">10 characters: Letter + 9 Digits</p>
            </div>
 
-           <Button variant="outline" className="w-full h-12 rounded-xl border-primary text-primary hover:bg-blue-50 gap-2">
+           <Button variant="outline" className="w-full h-12 rounded-3xl border-primary text-primary hover:bg-primary/10 gap-2">
              <Camera size={18} />
              Rescan Health Card
            </Button>
         </div>
       </main>
 
-      <div className="fixed bottom-0 left-0 right-0 p-5 bg-white border-t border-slate-100 pb-safe z-[60] max-w-[375px] mx-auto">
+      <div className="fixed bottom-0 left-0 right-0 p-5 bg-card border-t border-border pb-safe z-[60] max-w-[375px] mx-auto">
         <div className="space-y-2">
            <Button
-            className="w-full h-12 text-base rounded-xl bg-primary hover:bg-primary/90 text-white"
+            className="w-full h-12 text-base rounded-3xl bg-primary hover:bg-primary/90 text-white"
             onClick={handleSave}
             disabled={isSaving}
            >
@@ -160,7 +162,7 @@ export default function InsuranceInfoGKV() {
            </Button>
            <Button
             variant="ghost"
-            className="w-full h-12 text-base rounded-xl text-slate-600"
+            className="w-full h-12 text-base rounded-3xl text-muted-foreground"
             onClick={() => setLocation("/profile")}
            >
              Cancel

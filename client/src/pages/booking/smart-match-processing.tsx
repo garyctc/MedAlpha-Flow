@@ -54,21 +54,21 @@ export default function SmartMatchProcessing() {
   ];
 
   return (
-    <div className="min-h-screen bg-white flex flex-col items-center justify-center p-5 text-center">
+    <div className="min-h-screen bg-background flex flex-col items-center justify-center p-5 text-center">
       {/* MedAlpha Match Logo */}
-      <div className="w-20 h-20 bg-purple-600 rounded-full mb-6 flex items-center justify-center shadow-lg">
-        <span className="text-white text-3xl font-bold">M</span>
+      <div className="w-20 h-20 bg-primary rounded-full mb-6 flex items-center justify-center shadow-lg">
+        <span className="text-white text-3xl font-semibold">M</span>
       </div>
 
       {/* Heading */}
-      <h2 className="text-2xl font-bold text-slate-900 mb-2">Processing your request...</h2>
-      <p className="text-slate-500 mb-8 text-sm">This usually takes 10-30 seconds</p>
+      <h2 className="text-2xl font-semibold text-foreground mb-2">Processing your request...</h2>
+      <p className="text-muted-foreground mb-8 text-sm">This usually takes 10-30 seconds</p>
 
       {/* Progress Bar */}
       <div className="w-full max-w-xs mb-8">
-        <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
+        <div className="h-2 bg-muted rounded-full overflow-hidden">
           <div
-            className="h-full bg-purple-600 transition-all duration-300 ease-out"
+            className="h-full bg-primary transition-all duration-300 ease-out"
             style={{ width: `${progress}%` }}
           ></div>
         </div>
@@ -86,10 +86,10 @@ export default function SmartMatchProcessing() {
               <div
                 className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${
                   isCompleted
-                    ? "bg-purple-600 text-white"
+                    ? "bg-primary text-white"
                     : isCurrent
-                    ? "bg-purple-100 text-purple-600"
-                    : "bg-slate-100 text-slate-400"
+                    ? "bg-primary/10 text-primary"
+                    : "bg-muted text-muted-foreground"
                 }`}
               >
                 {isCompleted ? (
@@ -100,7 +100,7 @@ export default function SmartMatchProcessing() {
               </div>
               <span
                 className={`text-sm font-medium ${
-                  isCompleted || isCurrent ? "text-slate-900" : "text-slate-400"
+                  isCompleted || isCurrent ? "text-foreground" : "text-muted-foreground"
                 }`}
               >
                 {s.label}
@@ -111,7 +111,7 @@ export default function SmartMatchProcessing() {
       </div>
 
       {/* Spinner */}
-      <Loader2 className="animate-spin text-purple-600 mb-8" size={32} />
+      <Loader2 className="animate-spin text-primary mb-8" size={32} />
 
       {/* Cancel Button */}
       <button
@@ -119,7 +119,7 @@ export default function SmartMatchProcessing() {
           sessionStorage.removeItem("smart-match-retry");
           setLocation("/booking/review");
         }}
-        className="text-slate-400 font-medium text-sm hover:text-slate-600"
+        className="text-muted-foreground font-medium text-sm hover:text-foreground"
       >
         Cancel
       </button>

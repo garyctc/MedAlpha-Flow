@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useLocation } from "wouter";
 import { Smartphone, Info, ExternalLink } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -10,6 +11,7 @@ import { saveRegistrationDraft } from "@/lib/storage";
 
 export default function RegisterPKVDetails() {
   const [, setLocation] = useLocation();
+  const { t } = useTranslation();
   const [checks, setChecks] = useState({
     kvnr: false,
     app: false,
@@ -19,24 +21,24 @@ export default function RegisterPKVDetails() {
   const [isLoading, setIsLoading] = useState(false);
 
   return (
-    <div className="min-h-screen bg-white pb-6">
+    <div className="min-h-screen bg-background pb-6">
       <SubPageHeader title="Private Insurance Setup" backPath="/register/insurance" />
-      
+
       <div className="px-5 py-4">
-        <div className="flex items-center gap-2 text-sm font-medium text-slate-500 mb-6">
+        <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground mb-6">
           <span className="text-primary">Step 4</span> of 5
-          <div className="flex-1 h-1 bg-slate-100 rounded-full">
+          <div className="flex-1 h-1 bg-muted rounded-full">
             <div className="w-4/5 h-full bg-primary rounded-full"></div>
           </div>
         </div>
 
         <div className="flex items-center gap-4 mb-6">
-          <div className="w-12 h-12 bg-purple-50 rounded-xl flex items-center justify-center text-purple-600">
+          <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
             <Smartphone size={24} />
           </div>
           <div>
-            <h2 className="text-lg font-bold font-display text-slate-900">Set up GesundheitsID access</h2>
-            <p className="text-slate-500 text-sm">You'll sign in through your insurer's app</p>
+            <h2 className="text-lg font-semibold font-display text-foreground">Set up GesundheitsID access</h2>
+            <p className="text-muted-foreground text-sm">You'll sign in through your insurer's app</p>
           </div>
         </div>
 
@@ -44,7 +46,7 @@ export default function RegisterPKVDetails() {
           <div className="space-y-2">
             <Label>Insurance provider</Label>
             <Select onValueChange={setProvider} value={provider}>
-              <SelectTrigger className="h-12 bg-slate-50 border-slate-200">
+              <SelectTrigger className="h-12 bg-muted border-border">
                 <SelectValue placeholder="Search your provider..." />
               </SelectTrigger>
               <SelectContent>
@@ -58,7 +60,7 @@ export default function RegisterPKVDetails() {
           </div>
 
           <div className="space-y-4">
-            <h3 className="font-bold text-slate-900 text-sm">Before you can redeem prescriptions:</h3>
+            <h3 className="font-semibold text-foreground text-sm">Before you can redeem prescriptions:</h3>
             
             <div className="flex items-start gap-3">
               <Checkbox 
@@ -67,7 +69,7 @@ export default function RegisterPKVDetails() {
                 onCheckedChange={(c) => setChecks({...checks, kvnr: c as boolean})}
                 className="mt-1"
               />
-              <Label htmlFor="kvnr" className="text-sm font-normal text-slate-600 leading-snug">
+              <Label htmlFor="kvnr" className="text-sm font-normal text-muted-foreground leading-snug">
                 I have requested my KVNR from my insurer
               </Label>
             </div>
@@ -79,7 +81,7 @@ export default function RegisterPKVDetails() {
                 onCheckedChange={(c) => setChecks({...checks, app: c as boolean})}
                 className="mt-1"
               />
-              <Label htmlFor="app" className="text-sm font-normal text-slate-600 leading-snug">
+              <Label htmlFor="app" className="text-sm font-normal text-muted-foreground leading-snug">
                 I have my insurer's app with GesundheitsID enabled
               </Label>
             </div>
@@ -91,48 +93,48 @@ export default function RegisterPKVDetails() {
                 onCheckedChange={(c) => setChecks({...checks, checkin: c as boolean})}
                 className="mt-1"
               />
-              <Label htmlFor="checkin" className="text-sm font-normal text-slate-600 leading-snug">
+              <Label htmlFor="checkin" className="text-sm font-normal text-muted-foreground leading-snug">
                 I have completed Online Check-in at my doctor
               </Label>
             </div>
 
             <button className="text-primary text-xs font-bold flex items-center gap-1 hover:underline">
-              <ExternalLink size={12} /> Learn more about these requirements
+              <ExternalLink size={12} /> {t("common.buttons.learnMoreRequirements")}
             </button>
           </div>
         </div>
 
         {/* Info Card */}
-        <div className="bg-purple-50 rounded-xl p-5 mb-6">
-          <h3 className="font-bold text-purple-900 mb-3 flex items-center gap-2">
-            <Info size={16} /> How prescriptions work with PKV
+        <div className="bg-primary/5 rounded-3xl p-5 mb-6">
+          <h3 className="font-semibold text-foreground mb-3 flex items-center gap-2">
+            <Info size={16} className="text-primary" /> How prescriptions work with PKV
           </h3>
-          <ul className="space-y-2 text-sm text-purple-800">
+          <ul className="space-y-2 text-sm text-muted-foreground">
             <li className="flex gap-2 items-start">
-              <span className="bg-purple-200 text-purple-800 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">1</span>
+              <span className="bg-primary/20 text-primary w-5 h-5 rounded-full flex items-center justify-center text-xs font-semibold shrink-0 mt-0.5">1</span>
               Sign in through your insurer's app
             </li>
             <li className="flex gap-2 items-start">
-              <span className="bg-purple-200 text-purple-800 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">2</span>
+              <span className="bg-primary/20 text-primary w-5 h-5 rounded-full flex items-center justify-center text-xs font-semibold shrink-0 mt-0.5">2</span>
               Select prescriptions and pay full price
             </li>
             <li className="flex gap-2 items-start">
-              <span className="bg-purple-200 text-purple-800 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">3</span>
+              <span className="bg-primary/20 text-primary w-5 h-5 rounded-full flex items-center justify-center text-xs font-semibold shrink-0 mt-0.5">3</span>
               Download Kostenbeleg (receipt)
             </li>
             <li className="flex gap-2 items-start">
-              <span className="bg-purple-200 text-purple-800 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">4</span>
+              <span className="bg-primary/20 text-primary w-5 h-5 rounded-full flex items-center justify-center text-xs font-semibold shrink-0 mt-0.5">4</span>
               Submit to insurer for reimbursement
             </li>
           </ul>
         </div>
 
-        <p className="text-xs text-slate-500 mb-6 text-center">
+        <p className="text-xs text-muted-foreground mb-6 text-center">
           Not ready yet? You can still use local pharmacies. Complete GesundheitsID setup later in Settings.
         </p>
 
         <Button
-          className="w-full h-12 text-base font-medium rounded-xl"
+          className="w-full h-12 text-base font-medium rounded-3xl"
           disabled={isLoading}
           onClick={() => {
             setIsLoading(true);

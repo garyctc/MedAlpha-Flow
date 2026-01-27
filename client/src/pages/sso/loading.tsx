@@ -31,22 +31,22 @@ export default function SSOLoading() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-white flex flex-col items-center justify-center p-6 text-center">
-        <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mb-4">
-          <AlertCircle className="text-red-600" size={24} />
+      <div className="min-h-screen bg-background flex flex-col items-center justify-center p-6 text-center">
+        <div className="w-12 h-12 bg-destructive/10 rounded-full flex items-center justify-center mb-4">
+          <AlertCircle className="text-destructive" size={24} />
         </div>
-        <h1 className="text-xl font-bold text-slate-900 mb-2">Connection failed</h1>
-        <p className="text-slate-500 mb-8">Unable to connect with {provider?.displayName || 'partner'}. Please try again.</p>
-        
+        <h1 className="text-xl font-semibold text-foreground mb-2">Connection failed</h1>
+        <p className="text-muted-foreground mb-8">Unable to connect with {provider?.displayName || 'partner'}. Please try again.</p>
+
         <div className="w-full space-y-3 max-w-xs">
-          <Button 
-            className="w-full bg-primary hover:bg-primary/90 text-white rounded-xl h-12"
+          <Button
+            className="w-full h-12"
             onClick={() => window.location.reload()}
           >
             Try Again
           </Button>
-          <button 
-            className="w-full text-slate-500 font-medium text-sm p-2"
+          <button
+            className="w-full text-muted-foreground font-medium text-sm p-2"
             onClick={() => setLocation("/login")}
           >
             Back to Login
@@ -57,7 +57,7 @@ export default function SSOLoading() {
   }
 
   return (
-    <div className="min-h-screen bg-white flex flex-col items-center justify-center p-6 text-center">
+    <div className="min-h-screen bg-background flex flex-col items-center justify-center p-6 text-center">
       {/* Partner Logo Placeholder */}
       <div
         className="w-16 h-16 rounded-full flex items-center justify-center mb-6"
@@ -69,7 +69,7 @@ export default function SSOLoading() {
         <span className="font-bold text-sm">{provider?.logoInitials}</span>
       </div>
 
-      <p className="text-slate-500 font-medium mb-8">Connecting with {provider?.displayName || 'partner'}...</p>
+      <p className="text-muted-foreground font-medium mb-8">Connecting with {provider?.displayName || 'partner'}...</p>
 
       <Loader2 className="animate-spin text-primary" size={32} />
     </div>

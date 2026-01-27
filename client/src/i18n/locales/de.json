@@ -10,6 +10,8 @@
       "retry": "Erneut versuchen",
       "close": "Schließen",
       "seeAll": "Alle ansehen",
+      "showAll": "Alle anzeigen",
+      "viewDetails": "Details ansehen",
       "learnMore": "Mehr erfahren",
       "learnMoreRequirements": "Mehr über diese Anforderungen erfahren"
     },
@@ -33,6 +35,13 @@
     "language": "Sprache"
   },
   "home": {
+    "greeting": {
+      "welcome": "Willkommen zurück",
+      "goodDay": "Guten Tag, {{name}}"
+    },
+    "cta": {
+      "bookAppointment": "Termin buchen"
+    },
     "promo": {
       "pharmacy": {
         "title": "Apothekenprodukte",
@@ -59,6 +68,8 @@
       }
     },
     "sections": {
+      "suggested": "Empfohlen",
+      "nextAppointment": "Nächster Termin",
       "discoverMore": "Mehr entdecken",
       "healthServices": "Gesundheitsservices",
       "upcoming": "Anstehend",

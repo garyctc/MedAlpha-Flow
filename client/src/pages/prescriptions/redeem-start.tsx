@@ -49,14 +49,16 @@ export default function PrescriptionRedeemStart() {
         </div>
 
         {/* Info Banner */}
-        <div className={`border rounded-xl p-4 flex gap-3 items-start ${
-          insuranceType === "gkv" 
-            ? "bg-blue-50 border-blue-100" 
+        <div className={`border rounded-3xl p-4 flex gap-3 items-start ${
+          insuranceType === "gkv"
+            ? "bg-primary/5 border-primary/10"
             : "bg-purple-50 border-purple-100"
         }`}>
-          <Info className={`${insuranceType === "gkv" ? "text-blue-600" : "text-purple-600"} shrink-0 mt-0.5`} size={20} />
-          <p className="text-sm text-slate-700 font-medium">
-            {insuranceType === "gkv" 
+          <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center shrink-0">
+            <Info className="text-primary" size={16} />
+          </div>
+          <p className="text-sm text-foreground font-medium">
+            {insuranceType === "gkv"
               ? "Scan your health card to retrieve prescriptions"
               : "Use GesundheitsID to retrieve prescriptions"
             }
@@ -68,39 +70,39 @@ export default function PrescriptionRedeemStart() {
           <motion.button
             whileTap={{ scale: 0.98 }}
             onClick={handleOnlineClick}
-            className="w-full bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between group hover:border-primary/30 transition-all text-left relative overflow-hidden"
+            className="w-full bg-card p-6 rounded-3xl shadow-[var(--shadow-card)] border border-border flex items-center justify-between group hover:border-primary/30 transition-all text-left relative overflow-hidden"
           >
             <div className="flex items-center gap-4 relative z-10">
-              <div className="w-12 h-12 bg-blue-50 text-primary rounded-xl flex items-center justify-center shrink-0">
+              <div className="w-12 h-12 bg-primary/10 text-primary rounded-full flex items-center justify-center shrink-0">
                 <Truck size={24} />
               </div>
               <div>
-                <h3 className="font-bold text-slate-900 text-lg">Online Pharmacy</h3>
-                <p className="text-slate-500 text-sm mt-1">Get your medication delivered to your door</p>
-                <span className="inline-block mt-2 text-[10px] font-bold text-primary bg-blue-50 px-2 py-0.5 rounded-full uppercase tracking-wider">
+                <h3 className="font-semibold text-foreground text-lg">Online Pharmacy</h3>
+                <p className="text-muted-foreground text-sm mt-1">Get your medication delivered to your door</p>
+                <span className="inline-block mt-2 text-[10px] font-semibold text-primary bg-primary/10 px-2 py-0.5 rounded-full uppercase tracking-wider">
                   Powered by Apo Group
                 </span>
               </div>
             </div>
-            <ChevronRight size={20} className="text-slate-300 group-hover:text-primary transition-colors relative z-10" />
+            <ChevronRight size={20} className="text-muted-foreground group-hover:text-primary transition-colors relative z-10" />
           </motion.button>
 
           {/* Local Pharmacy Card */}
           <motion.button
             whileTap={{ scale: 0.98 }}
             onClick={() => setLocation("/pharmacy/map")}
-            className="w-full bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between group hover:border-primary/30 transition-all text-left"
+            className="w-full bg-card p-6 rounded-3xl shadow-[var(--shadow-card)] border border-border flex items-center justify-between group hover:border-primary/30 transition-all text-left"
           >
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center shrink-0">
+              <div className="w-12 h-12 bg-primary/10 text-primary rounded-full flex items-center justify-center shrink-0">
                 <MapPin size={24} />
               </div>
               <div>
-                <h3 className="font-bold text-slate-900 text-lg">Local Pharmacy</h3>
-                <p className="text-slate-500 text-sm mt-1">Find a pharmacy near you</p>
+                <h3 className="font-semibold text-foreground text-lg">Local Pharmacy</h3>
+                <p className="text-muted-foreground text-sm mt-1">Find a pharmacy near you</p>
               </div>
             </div>
-            <ChevronRight size={20} className="text-slate-300 group-hover:text-primary transition-colors" />
+            <ChevronRight size={20} className="text-muted-foreground group-hover:text-primary transition-colors" />
           </motion.button>
         </div>
       </main>

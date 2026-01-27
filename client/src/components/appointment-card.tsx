@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
-import { ChevronRight, MapPin, Video, Loader2 } from "lucide-react";
+import { Check, Video, Loader2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { DateBadge } from "@/components/ui/date-badge";
+import userAvatar from "@assets/generated_images/professional_user_avatar_for_healthcare_app.png";
 
 export type AppointmentCardData = {
   id: string;
@@ -10,6 +12,8 @@ export type AppointmentCardData = {
   role: string;
   location: string;
   date: string;
+  rawDate?: string;
+  rawTime?: string;
   subStatus?: "cancelled" | "completed" | "processing";
   amount?: string;
 };
@@ -25,67 +29,92 @@ export function AppointmentCard({
   const isProcessing = data.status === "processing";
   const { t } = useTranslation();
 
+  // Try to parse date for DateBadge
+  let dateObj: Date | null = null;
+  if (data.rawDate) {
+    dateObj = new Date(data.rawDate);
+  }
+
   return (
     <motion.button
       whileTap={{ scale: 0.98 }}
       onClick={onClick}
-      className={`w-full p-4 rounded-2xl border shadow-sm flex flex-col gap-3 text-left transition-all group ${
+      className={`w-full p-4 rounded-3xl shadow-[var(--shadow-card)] border flex items-center gap-4 text-left transition-all ${
         isProcessing
-          ? "bg-purple-50 border-purple-200"
-          : "bg-white border-slate-100 hover:border-primary/30"
+          ? "bg-primary/5 border-primary/20"
+          : "bg-card border-border hover:border-primary/30"
       }`}
     >
-      <div className="flex flex-col gap-2 w-full">
-        <span className="text-xs text-slate-400 font-medium">{data.date}</span>
-        <div className="flex gap-2">
+      {/* Doctor Photo with Badge */}
+      <div className="relative flex-shrink-0">
+        <div className="w-14 h-14 rounded-full overflow-hidden bg-muted">
+          <img
+            src={userAvatar}
+            alt={data.doctor}
+            className="w-full h-full object-cover"
+          />
+        </div>
+        {!isProcessing && (
+          <div className="absolute -bottom-0.5 -right-0.5 w-5 h-5 bg-primary rounded-full flex items-center justify-center border-2 border-card">
+            <Check size={10} className="text-white" strokeWidth={3} />
+          </div>
+        )}
+        {isProcessing && (
+          <div className="absolute -bottom-0.5 -right-0.5 w-5 h-5 bg-primary rounded-full flex items-center justify-center border-2 border-card">
+            <Loader2 size={10} className="text-white animate-spin" />
+          </div>
+        )}
+      </div>
+
+      {/* Info */}
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center gap-2 mb-0.5">
           {data.subStatus === "processing" && (
-            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider bg-purple-600 text-white flex items-center gap-1 animate-pulse">
-              <Loader2 size={10} className="animate-spin" /> {t("common.status.processing")}
+            <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full uppercase tracking-wider bg-primary/10 text-primary">
+              {t("common.status.processing")}
             </span>
           )}
           {data.subStatus === "completed" && (
-            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider bg-emerald-50 text-emerald-700">
+            <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full uppercase tracking-wider bg-green-50 text-green-700">
               {t("common.status.completed")}
             </span>
           )}
           {data.subStatus === "cancelled" && (
-            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider bg-red-50 text-red-600">
+            <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full uppercase tracking-wider bg-red-50 text-red-600">
               {t("common.status.cancelled")}
             </span>
           )}
-
           {isVideo && !isProcessing && (
-            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider bg-cyan-50 text-cyan-600 flex items-center gap-1">
+            <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full uppercase tracking-wider bg-primary/10 text-primary flex items-center gap-1">
               <Video size={10} /> {t("appointments.type.video")}
             </span>
           )}
         </div>
+
+        <p className="font-semibold text-foreground truncate">{data.doctor}</p>
+        <p className="text-sm text-muted-foreground truncate">
+          {data.role} • {isVideo ? "Video" : "Check-up"}
+        </p>
+
+        {isProcessing && (
+          <span className="inline-block mt-1 text-[9px] font-semibold text-primary bg-primary/10 px-2 py-0.5 rounded-full uppercase tracking-wider">
+            {t("appointments.partner.smartMatch")}
+          </span>
+        )}
       </div>
 
-      <div className="flex justify-between items-center w-full">
-        <div className="flex-1">
-          <h3 className={`font-bold text-lg transition-colors ${
-            isProcessing ? "text-purple-900" : "text-slate-900 group-hover:text-primary"
-          }`}>{data.doctor}</h3>
-          <p className="text-sm text-slate-500">{data.role}</p>
-          <div className="flex items-center gap-1 mt-1 text-xs text-slate-400">
-            {isVideo ? <Video size={10} /> : <MapPin size={10} />}
-            <span>{data.location}</span>
-          </div>
-          {data.amount && (
-            <div className="mt-2 text-sm font-bold text-slate-900">
-              {data.amount}
-            </div>
-          )}
-          {isProcessing && (
-            <span className="inline-block mt-2 text-[9px] font-bold text-purple-700 bg-purple-100 px-2 py-0.5 rounded-full uppercase tracking-wider">
-              {t("appointments.partner.smartMatch")}
-            </span>
-          )}
-        </div>
-        <ChevronRight size={20} className={`transition-colors ${
-          isProcessing ? "text-purple-400" : "text-slate-300 group-hover:text-primary"
-        }`} />
+      {/* Date Badge */}
+      <div className="flex-shrink-0 text-center">
+        {dateObj ? (
+          <>
+            <DateBadge date={dateObj} size="compact" />
+            {data.rawTime && (
+              <p className="text-xs text-muted-foreground mt-1">{data.rawTime}</p>
+            )}
+          </>
+        ) : (
+          <p className="text-xs text-muted-foreground">{data.date}</p>
+        )}
       </div>
     </motion.button>
   );

@@ -1,12 +1,12 @@
 import { useState, useMemo } from "react";
 import { useLocation } from "wouter";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
-import SubPageHeader from "@/components/layout/SubPageHeader";
+import { ProgressBar } from "@/components/ui/progress-bar";
 import { DOCTORS } from "@/lib/constants/doctors";
 import { saveBookingDraft, getBookingDraft } from "@/lib/storage";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "react-i18next";
 
 const CLINIC_NAMES: Record<number, string> = {
   1: "DocliQ Health Center",
@@ -20,19 +20,18 @@ function getClinicIdByName(name: string | undefined): number | null {
   return entry ? parseInt(entry[0]) : null;
 }
 
-const MORNING_SLOTS = ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30"];
-const AFTERNOON_SLOTS = ["14:00", "14:30", "15:00", "15:30", "16:00", "16:30"];
+const TIME_SLOTS = ["08:00", "09:00", "10:30", "11:15", "13:45", "15:00"];
 
-const MONTH_NAMES_DE = [
-  "Januar", "Februar", "März", "April", "Mai", "Juni",
-  "Juli", "August", "September", "Oktober", "November", "Dezember"
+const MONTH_NAMES = [
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
 ];
 
-const DAY_NAMES_DE = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"];
+const DAY_NAMES = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
 
 interface CalendarDay {
-  date: string;        // YYYY-MM-DD
-  dayNumber: number;   // 1-31
+  date: string;
+  dayNumber: number;
   isCurrentMonth: boolean;
   isPast: boolean;
   isToday: boolean;
@@ -44,21 +43,16 @@ function generateCalendarDays(month: Date): CalendarDay[] {
   today.setHours(0, 0, 0, 0);
   const todayStr = today.toISOString().split('T')[0];
 
-  // Get first day of the month
   const firstOfMonth = new Date(month.getFullYear(), month.getMonth(), 1);
-  // Get weekday (0=Sunday, convert to 0=Monday)
   let startWeekday = firstOfMonth.getDay() - 1;
-  if (startWeekday < 0) startWeekday = 6; // Sunday becomes 6
+  if (startWeekday < 0) startWeekday = 6;
 
-  // Get last day of month
   const lastOfMonth = new Date(month.getFullYear(), month.getMonth() + 1, 0);
   const daysInMonth = lastOfMonth.getDate();
 
-  // Get last day of previous month
   const lastOfPrevMonth = new Date(month.getFullYear(), month.getMonth(), 0);
   const daysInPrevMonth = lastOfPrevMonth.getDate();
 
-  // Fill in days from previous month
   for (let i = startWeekday - 1; i >= 0; i--) {
     const dayNum = daysInPrevMonth - i;
     const date = new Date(month.getFullYear(), month.getMonth() - 1, dayNum);
@@ -72,7 +66,6 @@ function generateCalendarDays(month: Date): CalendarDay[] {
     });
   }
 
-  // Fill in current month days
   for (let dayNum = 1; dayNum <= daysInMonth; dayNum++) {
     const date = new Date(month.getFullYear(), month.getMonth(), dayNum);
     const dateStr = date.toISOString().split('T')[0];
@@ -85,7 +78,6 @@ function generateCalendarDays(month: Date): CalendarDay[] {
     });
   }
 
-  // Fill remaining days from next month (to complete 6 weeks = 42 days)
   const remaining = 42 - days.length;
   for (let dayNum = 1; dayNum <= remaining; dayNum++) {
     const date = new Date(month.getFullYear(), month.getMonth() + 1, dayNum);
@@ -116,11 +108,10 @@ function canNavigateForward(currentMonth: Date, maxMonthsAhead: number): boolean
 }
 
 export default function BookingSlots() {
+  const { t } = useTranslation();
   const [, setLocation] = useLocation();
   const draft = getBookingDraft();
-  const [recurring, setRecurring] = useState(Boolean(draft?.recurring));
 
-  // Calendar state
   const [currentMonth, setCurrentMonth] = useState(() => new Date());
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
@@ -156,7 +147,6 @@ export default function BookingSlots() {
     });
   };
 
-  // Find selected doctor from draft
   const selectedDoctor = useMemo(() => {
     if (draft?.doctor) {
       return DOCTORS.find(d => d.name === draft.doctor);
@@ -164,7 +154,6 @@ export default function BookingSlots() {
     return null;
   }, [draft?.doctor]);
 
-  // Determine back path based on entry mode
   const backPath = useMemo(() => {
     if (draft?.entryMode === 'specialty') {
       const clinicId = getClinicIdByName(draft?.location);
@@ -187,52 +176,66 @@ export default function BookingSlots() {
   };
 
   return (
-    <div className="min-h-screen bg-background pb-36">
-      <SubPageHeader title="Select a Slot" backPath={backPath} />
+    <div className="min-h-screen bg-background pb-32">
+      {/* Header */}
+      <header className="px-5 pt-6 pb-4">
+        <div className="flex items-center gap-3 mb-4">
+          <button
+            onClick={() => setLocation(backPath)}
+            className="w-10 h-10 flex items-center justify-center text-foreground hover:text-primary transition-colors -ml-2"
+          >
+            <ChevronLeft size={24} strokeWidth={1.5} />
+          </button>
+          <h1 className="text-lg font-semibold text-foreground flex-1 text-center pr-8">
+            Select appointment
+          </h1>
+        </div>
+        <ProgressBar currentStep={3} totalSteps={4} />
+      </header>
 
-      <main className="p-5 space-y-6">
-        {/* Calendar */}
-        <div className="bg-white rounded-2xl border border-slate-100 p-4">
-          {/* Header */}
+      <main className="px-5 space-y-6">
+        {/* Calendar Card */}
+        <div className="bg-card rounded-3xl shadow-[var(--shadow-card)] border border-border p-5">
+          {/* Month Header */}
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-bold text-slate-900">
-              {MONTH_NAMES_DE[currentMonth.getMonth()]} {currentMonth.getFullYear()}
+            <h2 className="text-lg font-semibold text-foreground">
+              {MONTH_NAMES[currentMonth.getMonth()]} {currentMonth.getFullYear()}
             </h2>
-            <div className="flex gap-2">
+            <div className="flex gap-1">
               <button
                 onClick={goToPrevMonth}
                 disabled={!canGoBack}
                 className={cn(
-                  "p-2 rounded-lg",
-                  canGoBack ? "hover:bg-slate-100" : "opacity-30 cursor-not-allowed"
+                  "w-8 h-8 flex items-center justify-center rounded-lg transition-colors",
+                  canGoBack ? "text-foreground hover:bg-muted" : "text-muted-foreground/30 cursor-not-allowed"
                 )}
               >
-                <ChevronLeft size={20} />
+                <ChevronLeft size={20} strokeWidth={1.5} />
               </button>
               <button
                 onClick={goToNextMonth}
                 disabled={!canGoForward}
                 className={cn(
-                  "p-2 rounded-lg",
-                  canGoForward ? "hover:bg-slate-100" : "opacity-30 cursor-not-allowed"
+                  "w-8 h-8 flex items-center justify-center rounded-lg transition-colors",
+                  canGoForward ? "text-foreground hover:bg-muted" : "text-muted-foreground/30 cursor-not-allowed"
                 )}
               >
-                <ChevronRight size={20} />
+                <ChevronRight size={20} strokeWidth={1.5} />
               </button>
             </div>
           </div>
 
-          {/* Day headers */}
+          {/* Day Headers */}
           <div className="grid grid-cols-7 mb-2">
-            {DAY_NAMES_DE.map(day => (
-              <div key={day} className="text-center text-xs font-medium text-slate-500 py-2">
+            {DAY_NAMES.map(day => (
+              <div key={day} className="text-center text-[11px] font-medium text-muted-foreground py-2">
                 {day}
               </div>
             ))}
           </div>
 
-          {/* Day grid */}
-          <div className="grid grid-cols-7 gap-1">
+          {/* Day Grid */}
+          <div className="grid grid-cols-7 gap-y-1">
             {calendarDays.map((day, i) => (
               <button
                 key={i}
@@ -244,12 +247,12 @@ export default function BookingSlots() {
                 }}
                 disabled={day.isPast || !day.isCurrentMonth}
                 className={cn(
-                  "aspect-square flex items-center justify-center text-sm rounded-full transition-colors",
-                  !day.isCurrentMonth && "text-slate-300",
-                  day.isCurrentMonth && day.isPast && "text-slate-300 cursor-not-allowed",
-                  day.isCurrentMonth && !day.isPast && "text-slate-900 hover:bg-slate-100",
-                  day.isToday && "font-bold",
-                  selectedDate === day.date && "bg-primary text-white hover:bg-primary"
+                  "aspect-square flex items-center justify-center text-sm rounded-full transition-colors mx-auto w-10 h-10",
+                  !day.isCurrentMonth && "text-muted-foreground/30",
+                  day.isCurrentMonth && day.isPast && "text-muted-foreground/40 cursor-not-allowed",
+                  day.isCurrentMonth && !day.isPast && "text-foreground hover:bg-muted",
+                  day.isToday && day.isCurrentMonth && "font-semibold",
+                  selectedDate === day.date && "bg-primary text-white hover:bg-primary font-medium"
                 )}
               >
                 {day.dayNumber}
@@ -258,96 +261,38 @@ export default function BookingSlots() {
           </div>
         </div>
 
-        {/* Time Slots - only show when date selected */}
+        {/* Time Slots */}
         {selectedDate && (
-          <div className="space-y-4">
-            <h3 className="text-sm font-medium text-slate-500">Verfügbare Zeiten</h3>
-
-            <div>
-              <p className="text-xs font-medium text-slate-400 mb-2">Vormittag</p>
-              <div className="grid grid-cols-4 gap-2">
-                {MORNING_SLOTS.map((time) => (
-                  <button
-                    key={time}
-                    onClick={() => setSelectedTime(time)}
-                    className={cn(
-                      "py-2.5 px-3 rounded-lg text-sm font-medium transition-colors",
-                      selectedTime === time
-                        ? "bg-primary text-white"
-                        : "bg-white border border-slate-200 hover:border-primary"
-                    )}
-                  >
-                    {time}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <p className="text-xs font-medium text-slate-400 mb-2">Nachmittag</p>
-              <div className="grid grid-cols-4 gap-2">
-                {AFTERNOON_SLOTS.map((time) => (
-                  <button
-                    key={time}
-                    onClick={() => setSelectedTime(time)}
-                    className={cn(
-                      "py-2.5 px-3 rounded-lg text-sm font-medium transition-colors",
-                      selectedTime === time
-                        ? "bg-primary text-white"
-                        : "bg-white border border-slate-200 hover:border-primary"
-                    )}
-                  >
-                    {time}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Recurring Toggle */}
-        <div className="flex items-center justify-between bg-white border border-slate-100 rounded-xl p-4">
-          <span className="text-sm font-medium">Make recurring</span>
-          <Switch
-            checked={recurring}
-            onCheckedChange={(val) => {
-              setRecurring(val);
-              saveBookingDraft({ recurring: val });
-            }}
-          />
-        </div>
-
-        {recurring && (
-          <div className="bg-white border border-slate-100 rounded-xl p-4">
-            <p className="text-sm font-medium mb-2">Follow-up cadence</p>
-            <div className="flex gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => saveBookingDraft({ recurrenceCount: 3, recurrenceIntervalWeeks: 4 })}
-              >
-                3 visits / 4 weeks
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => saveBookingDraft({ recurrenceCount: 6, recurrenceIntervalWeeks: 4 })}
-              >
-                6 visits / 4 weeks
-              </Button>
+          <div className="space-y-3">
+            <h3 className="text-lg font-semibold text-foreground">Available times</h3>
+            <div className="grid grid-cols-3 gap-3">
+              {TIME_SLOTS.map((time) => (
+                <button
+                  key={time}
+                  onClick={() => setSelectedTime(time)}
+                  className={cn(
+                    "h-12 rounded-2xl text-sm font-medium transition-colors",
+                    selectedTime === time
+                      ? "bg-primary text-white"
+                      : "bg-card border border-border text-foreground hover:border-primary/30"
+                  )}
+                >
+                  {time}
+                </button>
+              ))}
             </div>
           </div>
         )}
       </main>
 
       {/* Continue Button */}
-      <div className="fixed bottom-24 left-0 right-0 p-5 bg-gradient-to-t from-background via-background to-transparent max-w-[375px] mx-auto">
+      <div className="fixed bottom-24 left-0 right-0 px-5 max-w-[375px] mx-auto z-40">
         <Button
-          className="w-full h-12"
+          className="w-full h-12 rounded-2xl text-base font-semibold"
           disabled={!selectedDate || !selectedTime}
           onClick={handleContinue}
         >
-          Continue to Review
+          {t("common.buttons.continue")}
         </Button>
       </div>
     </div>
