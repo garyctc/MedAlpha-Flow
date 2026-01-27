@@ -12,6 +12,7 @@ import type {
 } from '@/types/storage';
 import { format, parse } from "date-fns";
 import { enUS } from "date-fns/locale";
+import { DOCTORS } from '@/lib/constants/doctors';
 
 // Storage keys
 const KEYS = {
@@ -324,12 +325,16 @@ export function seedDemoData(): void {
   };
   localStorage.setItem(KEYS.INSURANCE, JSON.stringify(demoInsurance));
 
-  // Seed appointments
+  // Seed appointments with proper doctor avatars from DOCTORS list
+  const drWeber = DOCTORS.find(d => d.name.includes('Weber'));
+  const drSchmidt = DOCTORS.find(d => d.name.includes('Schmidt'));
+
   const demoAppointments: Appointment[] = [
     {
       id: 'appt-1',
       type: 'video',
-      doctor: 'Dr. Weber',
+      doctor: 'Dr. Sarah Weber',
+      doctorImage: drWeber?.image || undefined,
       specialty: 'Dermatology',
       clinic: 'Teleclinic',
       date: 'Jan 10, 2026',
@@ -340,7 +345,8 @@ export function seedDemoData(): void {
     {
       id: 'appt-2',
       type: 'in-person',
-      doctor: 'Dr. Schmidt',
+      doctor: 'Dr. Anna Schmidt',
+      doctorImage: drSchmidt?.image || undefined,
       specialty: 'General Practice',
       clinic: 'Praxis am Park',
       date: 'Feb 5, 2026',

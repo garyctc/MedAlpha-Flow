@@ -8,6 +8,7 @@ import { saveAppointment, getBookingDraft, clearBookingDraft } from "@/lib/stora
 import { showSuccess } from "@/lib/toast-helpers";
 import type { Appointment } from "@/types/storage";
 import { formatLocalDate, formatLocalTime, getLocale } from "@/i18n";
+import { DOCTORS } from "@/lib/constants/doctors";
 
 export default function SmartMatchSuccess() {
   const [, setLocation] = useLocation();
@@ -23,11 +24,15 @@ export default function SmartMatchSuccess() {
     futureDate.setDate(futureDate.getDate() + 3 + Math.floor(Math.random() * 3));
     const dateIso = futureDate.toISOString().split('T')[0];
 
+    // Use Dr. Sarah Weber with her consistent avatar
+    const drWeber = DOCTORS.find(d => d.name.includes('Weber'));
+
     // Create the appointment
     const newAppointment: Appointment = {
       id: `smart-match-${Date.now()}`,
       type: draft?.type || 'in-person',
-      doctor: "Dr. Sarah Johnson",
+      doctor: drWeber?.name || "Dr. Sarah Weber",
+      doctorImage: drWeber?.image || undefined,
       specialty: draft?.specialty || "General Practice",
       clinic: "DocliQ Health Center",
       date: dateIso,
@@ -70,7 +75,7 @@ export default function SmartMatchSuccess() {
         <div className="space-y-4">
           <div>
             <p className="text-xs font-semibold text-primary uppercase tracking-wider mb-2">Doctor</p>
-            <p className="text-base font-semibold text-foreground">{appointment?.doctor || "Dr. Sarah Johnson"}</p>
+            <p className="text-base font-semibold text-foreground">{appointment?.doctor || "Dr. Sarah Weber"}</p>
             <p className="text-sm text-muted-foreground">{appointment?.specialty || "General Practice"}</p>
           </div>
 

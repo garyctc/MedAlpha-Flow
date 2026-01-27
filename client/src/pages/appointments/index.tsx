@@ -16,6 +16,7 @@ import { formatLocalDate, formatLocalTime, getLocale, type Locale } from "@/i18n
 import { format, parse } from "date-fns";
 import { enUS } from "date-fns/locale";
 import { AppointmentCard, type AppointmentCardData } from "@/components/appointment-card";
+import { DOCTORS } from "@/lib/constants/doctors";
 
 type Appointment = AppointmentCardData & {
   badge: string;
@@ -132,9 +133,11 @@ export default function AppointmentsPage() {
         subStatus: "processing",
       });
 
-      // Simulate webhook after 5 seconds
+      // Simulate webhook after 5 seconds - use Dr. Sarah Weber with her consistent avatar
       const webhookTimer = setTimeout(() => {
-        const doctorName = "Dr. Sarah Johnson";
+        const drWeber = DOCTORS.find(d => d.name.includes('Weber'));
+        const doctorName = drWeber?.name || "Dr. Sarah Weber";
+        const doctorImage = drWeber?.image || undefined;
 
         // Update to confirmed
         const confirmedAppointment: Appointment = {
@@ -144,6 +147,7 @@ export default function AppointmentsPage() {
           badge: "",
           badgeColor: "",
           doctor: doctorName,
+          doctorImage: doctorImage,
           role: t("specialty.generalPractice"),
           location: "DocliQ Health Center, Downtown Berlin",
           date: `${formatLocalDate("2026-01-24", locale)} • ${formatLocalTime("10:00", locale)}`,
@@ -152,11 +156,12 @@ export default function AppointmentsPage() {
 
         setPendingBooking(confirmedAppointment);
 
-        // Save to persistent storage
+        // Save to persistent storage with doctor image
         saveAppointment({
           id: booking.id,
           type: "in-person",
           doctor: doctorName,
+          doctorImage: doctorImage,
           specialty: "General Practice",
           clinic: "DocliQ Health Center, Downtown Berlin",
           date: "2026-01-24",

@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { DURATION_DEFAULT, DURATION_SLOW, EASING_DEFAULT, shouldReduceMotion } from "@/lib/motion";
 import { saveAppointment, getBookingDraft, clearBookingDraft } from "@/lib/storage";
 import { format } from "date-fns";
+import { DOCTORS } from "@/lib/constants/doctors";
 
 export default function TelehealthConfirmation() {
   const [, setLocation] = useLocation();
@@ -15,11 +16,15 @@ export default function TelehealthConfirmation() {
     const today = format(new Date(), "yyyy-MM-dd");
     const now = format(new Date(), "HH:mm");
 
+    // Use Dr. Thomas Müller with his consistent avatar
+    const drMueller = DOCTORS.find(d => d.name.includes('Müller'));
+
     // Save video appointment
     saveAppointment({
       id: `VID-${Date.now()}`,
       type: "video",
-      doctor: "Dr. Müller",
+      doctor: drMueller?.name || "Dr. Thomas Müller",
+      doctorImage: drMueller?.image || undefined,
       specialty: draft?.symptoms?.[0] || "General Consultation",
       clinic: "Teleclinic",
       date: today,

@@ -5,15 +5,9 @@ import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { saveAppointment, getBookingDraft } from "@/lib/storage";
 import { format, addDays, setHours, setMinutes } from "date-fns";
+import { DOCTORS, getRandomDoctor } from "@/lib/constants/doctors";
 
 type FlowStep = "loading" | "booking" | "confirming";
-
-const DOCTORS = [
-  "Dr. Weber",
-  "Dr. Schmidt",
-  "Dr. Fischer",
-  "Dr. Bauer"
-];
 
 export default function TeleclinicSimulated() {
   const [, setLocation] = useLocation();
@@ -50,8 +44,8 @@ export default function TeleclinicSimulated() {
     return slots.slice(0, 4); // Max 4 slots
   }, [locale]);
 
-  // Random doctor for this session
-  const doctor = useMemo(() => DOCTORS[Math.floor(Math.random() * DOCTORS.length)], []);
+  // Random doctor for this session (from centralized list with consistent avatars)
+  const selectedDoctor = useMemo(() => getRandomDoctor(), []);
 
   // Auto-advance from loading to booking
   useEffect(() => {
@@ -83,11 +77,12 @@ export default function TeleclinicSimulated() {
         // Keep default
       }
 
-      // Save video appointment to persistent storage
+      // Save video appointment to persistent storage with consistent doctor avatar
       saveAppointment({
         id: `TEL-${Date.now()}`,
         type: "video",
-        doctor: doctor,
+        doctor: selectedDoctor.name,
+        doctorImage: selectedDoctor.image || undefined,
         specialty: selectedReason || "General Consultation",
         clinic: "Teleclinic",
         date,
@@ -101,7 +96,7 @@ export default function TeleclinicSimulated() {
       }, 1500);
       return () => clearTimeout(timer);
     }
-  }, [step, setLocation, selectedReason, selectedTime, doctor]);
+  }, [step, setLocation, selectedReason, selectedTime, selectedDoctor]);
 
   const handleBooking = () => {
     if (selectedReason && selectedTime) {
