@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useLocation, Link } from "wouter";
 import useEmblaCarousel from "embla-carousel-react";
 import { motion } from "framer-motion";
-import { Bell, Plus, Stethoscope, FileText } from "lucide-react";
+import { Bell, Plus, Stethoscope, Pill, Video, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DateBadge } from "@/components/ui/date-badge";
 import { useTranslation } from "react-i18next";
@@ -42,6 +42,8 @@ const suggestedCards = [
 // Health service tiles
 const healthServices = [
   { id: "gp", label: "GP", icon: Stethoscope, path: "/booking/entry" },
+  { id: "prescriptions", label: "Prescriptions", icon: Pill, path: "/prescriptions" },
+  { id: "telemedicine", label: "Telemedicine", icon: Video, path: "/telehealth/schedule-type" },
   { id: "records", label: "Records", icon: FileText, path: "/history" },
 ];
 
