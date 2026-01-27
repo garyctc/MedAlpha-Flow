@@ -1,10 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import { User, Shield, HelpCircle, LogOut, ChevronRight, CreditCard, Bell, FileText, Globe, Link2, Database } from "lucide-react";
-import SubPageHeader from "@/components/layout/SubPageHeader";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -16,8 +14,6 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import avatarImage from "@assets/generated_images/professional_user_avatar_for_healthcare_app.png";
-import appLogo from "@/assets/app-logo.svg";
-import { branding } from "@/config/branding";
 import { getUserProfile, getUserInsurance, clearAuthState } from "@/lib/storage";
 import { showSuccess } from "@/lib/toast-helpers";
 import { useTranslation } from "react-i18next";
@@ -72,13 +68,8 @@ export default function ProfilePage() {
 
   return (
     <div className="min-h-screen bg-background pb-24">
-      <header className="px-5 py-4 pt-12 bg-card border-b border-border flex justify-between items-center sticky top-0 z-10">
-        <div className="flex items-center gap-2 min-h-10">
-          <div className="w-8 h-8 flex items-center justify-center">
-            <img src={appLogo} alt={`${branding.appName} Logo`} className="w-full h-full object-contain" />
-          </div>
-          <h1 className="font-semibold text-xl text-foreground">{t("profile.title")}</h1>
-        </div>
+      <header className="pt-12 pb-4 px-5">
+        <h1 className="text-2xl font-semibold text-foreground">{t("profile.title")}</h1>
       </header>
 
       <main className="p-5 space-y-8">

@@ -1,10 +1,9 @@
 import { useState, useEffect, useMemo } from "react";
 import { useLocation } from "wouter";
-import { Calendar, Search, Clock } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import { Search, Clock } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
-import appLogo from "@/assets/app-logo.svg";
-import { branding } from "@/config/branding";
 import { getUserAppointments } from "@/lib/storage";
 import type { Appointment } from "@/types/storage";
 import { formatLocalDate, formatLocalTime, getLocale } from "@/i18n";
@@ -12,6 +11,7 @@ import { FEATURES } from "@/lib/features";
 import { AppointmentCard } from "@/components/appointment-card";
 
 export default function HistoryPage() {
+  const { t } = useTranslation();
   const [, setLocation] = useLocation();
   const [activeTab, setActiveTab] = useState<"all" | "in-person" | "video">("all");
   const [isLoading, setIsLoading] = useState(true);
@@ -68,16 +68,13 @@ export default function HistoryPage() {
 
   return (
     <div className="min-h-screen bg-background pb-24">
-      <header className="px-5 py-4 pt-12 bg-card border-b border-border sticky top-0 z-10">
-        <div className="flex items-center gap-2 mb-4 min-h-10">
-          <div className="w-8 h-8 flex items-center justify-center">
-            <img src={appLogo} alt={`${branding.appName} Logo`} className="w-full h-full object-contain" />
-          </div>
-          <h1 className="font-semibold text-xl text-foreground">History</h1>
-        </div>
+      <header className="pt-12 pb-4 px-5">
+        <h1 className="text-2xl font-semibold text-foreground">{t("history.title")}</h1>
+      </header>
 
+      <main className="px-5 pb-5 space-y-6">
         {/* Search */}
-        <div className="relative mb-4">
+        <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={18} />
           <Input
             placeholder="Search history..."
@@ -109,9 +106,6 @@ export default function HistoryPage() {
             ))}
           </div>
         )}
-      </header>
-
-      <main className="p-5 space-y-6">
         {isLoading ? (
           // Loading Skeleton
           <div className="space-y-4">
