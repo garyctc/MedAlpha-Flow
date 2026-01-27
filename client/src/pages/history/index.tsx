@@ -151,6 +151,8 @@ export default function HistoryPage() {
                       role: apt.specialty,
                       location: apt.clinic,
                       date: `${formatLocalDate(apt.date, locale)} • ${formatLocalTime(apt.time, locale)}`,
+                      rawDate: apt.date,
+                      rawTime: formatLocalTime(apt.time, locale),
                       subStatus: apt.status === 'cancelled' ? 'cancelled' : 'completed',
                       amount: "€0.00"
                     }}
