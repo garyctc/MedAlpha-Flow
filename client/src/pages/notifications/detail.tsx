@@ -1,16 +1,19 @@
 import * as React from "react";
 import { format } from "date-fns";
+import { useTranslation } from "react-i18next";
 import SubPageHeader from "@/components/layout/SubPageHeader";
 import { Button } from "@/components/ui/button";
 import { useNotifications } from "@/contexts/NotificationsContext";
 
-function formatTimestamp(iso: string): string {
+function formatTimestamp(iso: string, locale: string): string {
   const dt = new Date(iso);
   if (Number.isNaN(dt.getTime())) return "";
-  return format(dt, "dd MMM yyyy HH:mm");
+  return format(dt, locale === 'de' ? "dd.MM.yyyy HH:mm" : "MMM dd, yyyy h:mm a");
 }
 
 export default function NotificationDetail({ params }: { params: { id: string } }) {
+  const { i18n } = useTranslation();
+  const locale = i18n.language;
   const { notifications, markRead } = useNotifications();
   const notification = React.useMemo(
     () => notifications.find((n) => n.id === params.id) ?? null,
@@ -40,7 +43,7 @@ export default function NotificationDetail({ params }: { params: { id: string } 
       <main className="p-5 space-y-6">
         <div className="space-y-2">
           <h1 className="text-lg font-semibold text-foreground">{notification.title}</h1>
-          <p className="text-xs text-muted-foreground">{formatTimestamp(notification.createdAt)}</p>
+          <p className="text-xs text-muted-foreground">{formatTimestamp(notification.createdAt, locale)}</p>
         </div>
 
         <div className="bg-card rounded-3xl border border-border shadow-[var(--shadow-card)] p-4">

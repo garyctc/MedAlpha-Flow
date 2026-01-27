@@ -89,8 +89,9 @@ export default function BookingReview() {
 
   // Format the date for display
   const appointmentDate = new Date(draft.date);
-  const dayName = appointmentDate.toLocaleDateString("en-US", { weekday: "long" });
-  const formattedDate = `${dayName}, ${appointmentDate.toLocaleDateString("en-US", { month: "long", day: "numeric" })}`;
+  const localeCode = locale === 'de' ? 'de-DE' : 'en-US';
+  const dayName = appointmentDate.toLocaleDateString(localeCode, { weekday: "long" });
+  const formattedDate = `${dayName}, ${appointmentDate.toLocaleDateString(localeCode, { month: "long", day: "numeric" })}`;
 
   return (
     <div className="min-h-screen bg-background pb-36">

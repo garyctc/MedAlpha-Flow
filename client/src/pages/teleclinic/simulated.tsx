@@ -2,6 +2,7 @@ import { useEffect, useState, useMemo } from "react";
 import { useLocation } from "wouter";
 import { Loader2, Video, Check, Calendar, Lock, RefreshCw, ChevronLeft, ChevronRight, Share, Compass } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import { saveAppointment, getBookingDraft } from "@/lib/storage";
 import { format, addDays, setHours, setMinutes } from "date-fns";
 
@@ -16,6 +17,8 @@ const DOCTORS = [
 
 export default function TeleclinicSimulated() {
   const [, setLocation] = useLocation();
+  const { i18n } = useTranslation();
+  const locale = i18n.language;
   const [step, setStep] = useState<FlowStep>("loading");
   const [selectedReason, setSelectedReason] = useState<string>("");
   const [selectedTime, setSelectedTime] = useState<string>("");
@@ -24,6 +27,7 @@ export default function TeleclinicSimulated() {
   const timeSlots = useMemo(() => {
     const now = new Date();
     const slots: string[] = [];
+    const timeFormat = locale === 'de' ? "HH:mm" : "h:mm a";
 
     // Add some slots for today if it's early enough
     const currentHour = now.getHours();
@@ -31,20 +35,20 @@ export default function TeleclinicSimulated() {
       const todaySlot1 = setMinutes(setHours(now, Math.max(currentHour + 1, 14)), 0);
       const todaySlot2 = setMinutes(setHours(now, Math.max(currentHour + 2, 15)), 30);
       if (todaySlot1.getHours() < 18) {
-        slots.push(`Today, ${format(todaySlot1, "h:mm a")}`);
+        slots.push(`Today, ${format(todaySlot1, timeFormat)}`);
       }
       if (todaySlot2.getHours() < 18) {
-        slots.push(`Today, ${format(todaySlot2, "h:mm a")}`);
+        slots.push(`Today, ${format(todaySlot2, timeFormat)}`);
       }
     }
 
     // Add slots for tomorrow
     const tomorrow = addDays(now, 1);
-    slots.push(`Tomorrow, ${format(setHours(setMinutes(tomorrow, 0), 10), "h:mm a")}`);
-    slots.push(`Tomorrow, ${format(setHours(setMinutes(tomorrow, 0), 14), "h:mm a")}`);
+    slots.push(`Tomorrow, ${format(setHours(setMinutes(tomorrow, 0), 10), timeFormat)}`);
+    slots.push(`Tomorrow, ${format(setHours(setMinutes(tomorrow, 0), 14), timeFormat)}`);
 
     return slots.slice(0, 4); // Max 4 slots
-  }, []);
+  }, [locale]);
 
   // Random doctor for this session
   const doctor = useMemo(() => DOCTORS[Math.floor(Math.random() * DOCTORS.length)], []);
