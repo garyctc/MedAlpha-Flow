@@ -24,7 +24,7 @@ export const DOCTORS: Doctor[] = [
     rating: 4.8,
     nextAvailable: "Tomorrow",
     availableToday: false,
-    image: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=150&h=150&fit=crop&crop=face",
+    image: "https://images.unsplash.com/photo-1651008376811-b90baee60c1f?w=150&h=150&fit=crop&crop=face",
     clinics: [1, 2],
   },
   {
@@ -34,7 +34,7 @@ export const DOCTORS: Doctor[] = [
     rating: 4.7,
     nextAvailable: "Today",
     availableToday: true,
-    image: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=150&h=150&fit=crop&crop=face",
+    image: "https://images.unsplash.com/photo-1537368910025-700350fe46c7?w=150&h=150&fit=crop&crop=face",
     clinics: [1],
   },
   {

@@ -18,18 +18,18 @@ import { DEFAULT_DOCTOR_AVATAR } from "@/lib/constants/doctors";
 // Suggested cards data with images
 const suggestedCards = [
   {
-    id: "prevention",
-    category: "PREVENTION",
-    title: "Free health check",
-    description: "Take advantage of your annual preventive screening.",
-    image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=300&fit=crop",
+    id: "vaccination",
+    category: "VACCINATION",
+    title: "Stay protected",
+    description: "Book your seasonal vaccinations and keep your immunization records up to date.",
+    image: "https://images.unsplash.com/photo-1632053001332-2f0e82df8c53?w=400&h=300&fit=crop",
   },
   {
-    id: "nutrition",
-    category: "NUTRITION",
-    title: "Dietary Consultation",
-    description: "Personalized meal plans from our nutritionists.",
-    image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&h=300&fit=crop",
+    id: "vaccination",
+    category: "VACCINATION",
+    title: "Flu Shot Available",
+    description: "Protect yourself this season with a free flu vaccination.",
+    image: "https://images.unsplash.com/photo-1615631648086-325025c9e51e?w=400&h=300&fit=crop",
   },
   {
     id: "mental-health",

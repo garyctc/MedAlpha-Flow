@@ -12,7 +12,7 @@ import type {
 } from '@/types/storage';
 import { format, parse } from "date-fns";
 import { enUS } from "date-fns/locale";
-import { DOCTORS } from '@/lib/constants/doctors';
+import { DOCTORS, findDoctorByName } from '@/lib/constants/doctors';
 
 // Storage keys
 const KEYS = {
@@ -20,6 +20,7 @@ const KEYS = {
   INSURANCE: 'user-insurance',
   APPOINTMENTS: 'user-appointments',
   APPOINTMENTS_SCHEMA_V2: 'user-appointments-schema-v2',
+  DOCTOR_AVATARS_V2: 'doctor-avatars-v2',
   BOOKING_DRAFT: 'booking-draft',
   REGISTRATION_DRAFT: 'registration-draft',
   AUTH_STATE: 'auth-state',
@@ -75,6 +76,7 @@ export function saveUserInsurance(insurance: Partial<UserInsurance>): void {
 
 export function getUserAppointments(): Appointment[] {
   migrateAppointmentsToIsoV2();
+  migrateDoctorAvatars();
 
   const data = localStorage.getItem(KEYS.APPOINTMENTS);
   if (!data) return [];
@@ -111,6 +113,52 @@ export function removeAppointment(id: string): void {
   const appointments = getUserAppointments();
   const filtered = appointments.filter(a => a.id !== id);
   localStorage.setItem(KEYS.APPOINTMENTS, JSON.stringify(filtered));
+}
+
+function migrateDoctorAvatars(): void {
+  if (localStorage.getItem(KEYS.DOCTOR_AVATARS_V2) === "1") return;
+
+  const raw = localStorage.getItem(KEYS.APPOINTMENTS);
+  if (!raw) {
+    localStorage.setItem(KEYS.DOCTOR_AVATARS_V2, "1");
+    return;
+  }
+
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(raw);
+  } catch {
+    localStorage.setItem(KEYS.DOCTOR_AVATARS_V2, "1");
+    return;
+  }
+
+  if (!Array.isArray(parsed)) {
+    localStorage.setItem(KEYS.DOCTOR_AVATARS_V2, "1");
+    return;
+  }
+
+  const migrated = parsed.map((apt) => {
+    if (!apt || typeof apt !== "object") return apt;
+    const next = { ...(apt as Record<string, unknown>) };
+
+    // Look up doctor by name and update the image
+    const doctorName = typeof next.doctor === "string" ? next.doctor : null;
+    if (doctorName) {
+      const doctor = findDoctorByName(doctorName);
+      if (doctor?.image) {
+        next.doctorImage = doctor.image;
+      }
+    }
+
+    return next;
+  });
+
+  try {
+    localStorage.setItem(KEYS.APPOINTMENTS, JSON.stringify(migrated));
+    localStorage.setItem(KEYS.DOCTOR_AVATARS_V2, "1");
+  } catch {
+    // ignore write failures
+  }
 }
 
 function migrateAppointmentsToIsoV2(): void {
