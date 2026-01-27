@@ -56,10 +56,6 @@ export default function Login() {
           </div>
           <h1 className="text-2xl font-semibold text-foreground mb-2">Welcome Back</h1>
           <p className="text-muted-foreground">Sign in to manage your health</p>
-          <div className="mt-3 inline-flex items-center gap-1.5 text-xs font-medium text-amber-700 bg-amber-50 px-3 py-1.5 rounded-full border border-amber-200">
-            <span className="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
-            Demo Mode - credentials pre-filled
-          </div>
         </div>
 
         <form onSubmit={handleLogin} className="space-y-6">

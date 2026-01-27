@@ -12,7 +12,7 @@ import { getUserProfile, getUserAppointments, clearBookingDraft, saveBookingDraf
 import { LoadingSkeleton } from "@/components/ui/loading-skeleton";
 import { useNotifications } from "@/contexts/NotificationsContext";
 import type { UserProfile, Appointment } from "@/types/storage";
-import userAvatar from "@assets/generated_images/professional_user_avatar_for_healthcare_app.png";
+import appLogo from "@/assets/app-logo.svg";
 import { DEFAULT_DOCTOR_AVATAR } from "@/lib/constants/doctors";
 
 // Suggested cards data with images
@@ -116,35 +116,27 @@ export default function Home() {
       {/* Header */}
       <header className="px-5 pt-12 pb-4">
         <div className="flex items-start justify-between">
-          <div>
-            <p className="text-sm text-muted-foreground">{t("home.greeting.welcome")}</p>
-            <h1 className="text-2xl font-semibold text-foreground mt-0.5">
-              {t("home.greeting.goodDay", { name: firstName })}
-            </h1>
-          </div>
           <div className="flex items-center gap-3">
-            <Link
-              href="/notifications"
-              className="relative text-foreground hover:text-primary transition-colors"
-              aria-label="Notifications"
-            >
-              <Bell size={24} strokeWidth={1.5} />
-              {unreadCount > 0 && (
-                <span className="absolute -top-1 -right-1 min-w-4 h-4 px-1 bg-destructive text-white text-[10px] font-bold rounded-full flex items-center justify-center">
-                  {unreadCount > 9 ? "9+" : unreadCount}
-                </span>
-              )}
-            </Link>
-            <Link href="/profile" className="block">
-              <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-primary/20">
-                <img
-                  src={userAvatar}
-                  alt="Profile"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </Link>
+            <img src={appLogo} alt="DoctoliQ" className="w-10 h-10" />
+            <div>
+              <p className="text-sm text-muted-foreground">{t("home.greeting.welcome")}</p>
+              <h1 className="text-2xl font-semibold text-foreground mt-0.5">
+                {t("home.greeting.goodDay", { name: firstName })}
+              </h1>
+            </div>
           </div>
+          <Link
+            href="/notifications"
+            className="relative text-foreground hover:text-primary transition-colors"
+            aria-label="Notifications"
+          >
+            <Bell size={24} strokeWidth={1.5} />
+            {unreadCount > 0 && (
+              <span className="absolute -top-1 -right-1 min-w-4 h-4 px-1 bg-destructive text-white text-[10px] font-bold rounded-full flex items-center justify-center">
+                {unreadCount > 9 ? "9+" : unreadCount}
+              </span>
+            )}
+          </Link>
         </div>
       </header>
 
