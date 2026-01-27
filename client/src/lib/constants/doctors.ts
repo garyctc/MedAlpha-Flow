@@ -1,3 +1,6 @@
+// Default doctor avatar for fallback when no image is available
+export const DEFAULT_DOCTOR_AVATAR = "https://images.unsplash.com/photo-1537368910025-700350fe46c7?w=150&h=150&fit=crop&crop=face";
+
 export interface Doctor {
   id: string;
   name: string;

@@ -7,7 +7,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Input } from "@/components/ui/input";
 import { Chip } from "@/components/ui/chip";
 import { saveBookingDraft, getBookingDraft } from "@/lib/storage";
-import { DOCTORS } from "@/lib/constants/doctors";
+import { DOCTORS, DEFAULT_DOCTOR_AVATAR } from "@/lib/constants/doctors";
 import { useTranslation } from "react-i18next";
 
 type FilterType = 'all' | 'available' | 'top-rated';
@@ -196,17 +196,11 @@ export default function DoctorSelect() {
                 }`}
               >
                 <div className="relative flex-shrink-0">
-                  {doc.image ? (
-                    <img
-                      src={doc.image}
+                  <img
+                      src={doc.image || DEFAULT_DOCTOR_AVATAR}
                       alt={doc.name}
                       className="w-16 h-16 rounded-full object-cover"
                     />
-                  ) : (
-                    <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold text-lg">
-                      {doc.name.split(' ').map(n => n[0]).join('').slice(0, 2)}
-                    </div>
-                  )}
                   {/* Verification badge */}
                   <div className="absolute -bottom-0.5 -right-0.5 w-5 h-5 bg-primary rounded-full flex items-center justify-center border-2 border-card">
                     <BadgeCheck className="w-3 h-3 text-white" strokeWidth={2.5} />

@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Check, Video, Loader2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { DateBadge } from "@/components/ui/date-badge";
+import { DEFAULT_DOCTOR_AVATAR } from "@/lib/constants/doctors";
 
 export type AppointmentCardData = {
   id: string;
@@ -48,17 +49,11 @@ export function AppointmentCard({
       {/* Doctor Photo with Badge */}
       <div className="relative flex-shrink-0">
         <div className="w-14 h-14 rounded-full overflow-hidden bg-muted flex items-center justify-center">
-          {data.doctorImage ? (
-            <img
-              src={data.doctorImage}
+          <img
+              src={data.doctorImage || DEFAULT_DOCTOR_AVATAR}
               alt={data.doctor}
               className="w-full h-full object-cover"
             />
-          ) : (
-            <span className="text-primary font-semibold text-lg">
-              {data.doctor.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()}
-            </span>
-          )}
         </div>
         {!isProcessing && (
           <div className="absolute -bottom-0.5 -right-0.5 w-5 h-5 bg-primary rounded-full flex items-center justify-center border-2 border-card">

@@ -14,6 +14,7 @@ import { useTranslation } from "react-i18next";
 import { formatLocalDate, formatLocalTime, getLocale } from "@/i18n";
 import { showSuccess } from "@/lib/toast-helpers";
 import type { Appointment } from "@/types/storage";
+import { DEFAULT_DOCTOR_AVATAR } from "@/lib/constants/doctors";
 
 export default function BookingReview() {
   const [, setLocation] = useLocation();
@@ -119,17 +120,11 @@ export default function BookingReview() {
           {/* Doctor Photo with Verification Badge */}
           <div className="relative mb-3">
             <div className="w-20 h-20 rounded-full overflow-hidden bg-muted flex items-center justify-center">
-              {draft.doctorImage ? (
-                <img
-                  src={draft.doctorImage}
+              <img
+                  src={draft.doctorImage || DEFAULT_DOCTOR_AVATAR}
                   alt={draft.doctor}
                   className="w-full h-full object-cover"
                 />
-              ) : (
-                <span className="text-primary font-semibold text-2xl">
-                  {draft.doctor!.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()}
-                </span>
-              )}
             </div>
             {/* Verification Badge */}
             <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-primary rounded-full flex items-center justify-center border-2 border-background">

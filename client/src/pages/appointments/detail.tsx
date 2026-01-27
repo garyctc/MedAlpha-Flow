@@ -18,6 +18,7 @@ import { useTranslation } from "react-i18next";
 import { formatLocalDate, formatLocalTime, getLocale } from "@/i18n";
 import type { Locale } from "@/i18n";
 import { getUserAppointments, updateAppointment } from "@/lib/storage";
+import { DEFAULT_DOCTOR_AVATAR } from "@/lib/constants/doctors";
 import type { Appointment } from "@/types/storage";
 import { showSuccess } from "@/lib/toast-helpers";
 import { seedBookAgainDraft, seedRescheduleDraft } from "@/lib/booking/intent";
@@ -143,15 +144,11 @@ export default function AppointmentDetail() {
         <div className="flex flex-col items-center text-center py-4">
           <div className="relative mb-4">
             <div className="w-20 h-20 rounded-full overflow-hidden bg-primary/10 flex items-center justify-center">
-              {appointment.doctorImage ? (
-                <img
-                  src={appointment.doctorImage}
+              <img
+                  src={appointment.doctorImage || DEFAULT_DOCTOR_AVATAR}
                   alt={doctorName}
                   className="w-full h-full object-cover"
                 />
-              ) : (
-                <span className="text-primary font-semibold text-2xl">{initials}</span>
-              )}
             </div>
             {/* Verification badge */}
             <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-primary rounded-full flex items-center justify-center border-2 border-background">

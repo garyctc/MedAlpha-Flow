@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 import { formatLocalDate, formatLocalTime, getLocale } from "@/i18n";
 import { getUserAppointments, clearBookingDraft } from "@/lib/storage";
 import type { Appointment } from "@/types/storage";
+import { DEFAULT_DOCTOR_AVATAR } from "@/lib/constants/doctors";
 
 export default function BookingSuccess() {
   const reduceMotion = shouldReduceMotion();
@@ -47,8 +48,8 @@ export default function BookingSuccess() {
   const dateLabel = formatLocalDate(dateIso, locale);
   const timeLabel = formatLocalTime(time24, locale);
 
-  // Get initials for avatar
-  const initials = doctorName.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
+  // Get doctor image
+  const doctorImage = appointment?.doctorImage || DEFAULT_DOCTOR_AVATAR;
 
   return (
     <div className="min-h-screen bg-background flex flex-col items-center justify-center p-6 text-center" data-testid="success-screen">
@@ -80,9 +81,11 @@ export default function BookingSuccess() {
         <div className="bg-card rounded-3xl border border-border shadow-[var(--shadow-card)] p-5 mb-8 text-center mx-auto max-w-xs">
           {/* Doctor avatar with verification badge */}
           <div className="relative w-16 h-16 mx-auto mb-4">
-            <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold text-xl">
-              {initials}
-            </div>
+            <img
+              src={doctorImage}
+              alt={doctorName}
+              className="w-16 h-16 rounded-full object-cover"
+            />
             <div className="absolute -bottom-0.5 -right-0.5 w-5 h-5 bg-primary rounded-full flex items-center justify-center border-2 border-card">
               <BadgeCheck className="w-3 h-3 text-white" strokeWidth={2.5} />
             </div>

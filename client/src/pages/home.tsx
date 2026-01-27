@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useLocation, Link } from "wouter";
 import useEmblaCarousel from "embla-carousel-react";
 import { motion } from "framer-motion";
-import { Bell, Plus, Stethoscope, Pill, Video, FileText } from "lucide-react";
+import { Bell, Plus, Stethoscope, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DateBadge } from "@/components/ui/date-badge";
 import { useTranslation } from "react-i18next";
@@ -13,6 +13,7 @@ import { LoadingSkeleton } from "@/components/ui/loading-skeleton";
 import { useNotifications } from "@/contexts/NotificationsContext";
 import type { UserProfile, Appointment } from "@/types/storage";
 import userAvatar from "@assets/generated_images/professional_user_avatar_for_healthcare_app.png";
+import { DEFAULT_DOCTOR_AVATAR } from "@/lib/constants/doctors";
 
 // Suggested cards data with images
 const suggestedCards = [
@@ -42,8 +43,6 @@ const suggestedCards = [
 // Health service tiles
 const healthServices = [
   { id: "gp", label: "GP", icon: Stethoscope, path: "/booking/entry" },
-  { id: "prescriptions", label: "Prescriptions", icon: Pill, path: "/prescriptions" },
-  { id: "telemedicine", label: "Telemedicine", icon: Video, path: "/telehealth/schedule-type" },
   { id: "records", label: "Records", icon: FileText, path: "/history" },
 ];
 
@@ -185,17 +184,11 @@ export default function Home() {
                   {/* Doctor photo */}
                   <div className="relative flex-shrink-0">
                     <div className="w-14 h-14 rounded-full overflow-hidden bg-muted flex items-center justify-center">
-                      {upcomingAppointment.doctorImage ? (
-                        <img
-                          src={upcomingAppointment.doctorImage}
+                      <img
+                          src={upcomingAppointment.doctorImage || DEFAULT_DOCTOR_AVATAR}
                           alt={upcomingAppointment.doctor}
                           className="w-full h-full object-cover"
                         />
-                      ) : (
-                        <span className="text-primary font-semibold text-lg">
-                          {upcomingAppointment.doctor.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()}
-                        </span>
-                      )}
                     </div>
                     {/* Verification badge */}
                     <div className="absolute -bottom-0.5 -right-0.5 w-5 h-5 bg-primary rounded-full flex items-center justify-center border-2 border-card">
