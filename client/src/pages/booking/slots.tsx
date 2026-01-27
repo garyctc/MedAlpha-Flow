@@ -2,7 +2,6 @@ import { useState, useMemo } from "react";
 import { useLocation } from "wouter";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { ProgressBar } from "@/components/ui/progress-bar";
 import { DOCTORS } from "@/lib/constants/doctors";
 import { saveBookingDraft, getBookingDraft } from "@/lib/storage";
 import { cn } from "@/lib/utils";
@@ -180,17 +179,21 @@ export default function BookingSlots() {
       {/* Header */}
       <header className="px-5 pt-6 pb-4">
         <div className="flex items-center gap-3 mb-4">
-          <button
-            onClick={() => setLocation(backPath)}
-            className="w-10 h-10 flex items-center justify-center text-foreground hover:text-primary transition-colors -ml-2"
-          >
-            <ChevronLeft size={24} strokeWidth={1.5} />
-          </button>
-          <h1 className="text-lg font-semibold text-foreground flex-1 text-center pr-8">
+          {draft?.intent !== "reschedule" && (
+            <button
+              onClick={() => setLocation(backPath)}
+              className="w-10 h-10 flex items-center justify-center text-foreground hover:text-primary transition-colors -ml-2"
+            >
+              <ChevronLeft size={24} strokeWidth={1.5} />
+            </button>
+          )}
+          <h1 className={cn(
+            "text-lg font-semibold text-foreground flex-1 text-center",
+            draft?.intent !== "reschedule" && "pr-8"
+          )}>
             Select appointment
           </h1>
         </div>
-        <ProgressBar currentStep={3} totalSteps={4} />
       </header>
 
       <main className="px-5 space-y-6">

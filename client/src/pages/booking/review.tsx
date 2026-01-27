@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { ChevronLeft, Calendar, MapPin, FileText, Clock, XCircle, Check } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { ProgressBar } from "@/components/ui/progress-bar";
 import {
   getBookingDraft,
   clearBookingDraft,
@@ -101,14 +101,15 @@ export default function BookingReview() {
       {/* Header */}
       <header className="px-5 pt-6 pb-4">
         <div className="flex items-center gap-3 mb-4">
-          <button
-            onClick={() => setLocation("/booking/slots")}
-            className="w-10 h-10 flex items-center justify-center text-foreground hover:text-primary transition-colors -ml-2"
-          >
-            <ChevronLeft size={24} strokeWidth={1.5} />
-          </button>
-          <div className="flex-1 text-center pr-8">
-            <ProgressBar currentStep={4} totalSteps={4} showLabel={true} showPercentage={false} className="mb-2" />
+          {draft?.intent !== "reschedule" && (
+            <button
+              onClick={() => setLocation("/booking/slots")}
+              className="w-10 h-10 flex items-center justify-center text-foreground hover:text-primary transition-colors -ml-2"
+            >
+              <ChevronLeft size={24} strokeWidth={1.5} />
+            </button>
+          )}
+          <div className={cn("flex-1 text-center", draft?.intent !== "reschedule" && "pr-8")}>
             <h1 className="text-lg font-semibold text-foreground">Appointment Overview</h1>
           </div>
         </div>

@@ -20,9 +20,9 @@ const suggestedCards = [
   {
     id: "vaccination",
     category: "VACCINATION",
-    title: "Stay protected",
+    title: "Vaccination program",
     description: "Book your seasonal vaccinations and keep your immunization records up to date.",
-    image: "https://images.unsplash.com/photo-1632053001332-2f0e82df8c53?w=400&h=300&fit=crop",
+    image: "https://images.unsplash.com/photo-1615631648086-325025c9e51e?w=400&h=300&fit=crop",
   },
   {
     id: "vaccination",
