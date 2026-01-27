@@ -142,8 +142,16 @@ export default function AppointmentDetail() {
         {/* Centered Doctor Card */}
         <div className="flex flex-col items-center text-center py-4">
           <div className="relative mb-4">
-            <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold text-2xl">
-              {initials}
+            <div className="w-20 h-20 rounded-full overflow-hidden bg-primary/10 flex items-center justify-center">
+              {appointment.doctorImage ? (
+                <img
+                  src={appointment.doctorImage}
+                  alt={doctorName}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <span className="text-primary font-semibold text-2xl">{initials}</span>
+              )}
             </div>
             {/* Verification badge */}
             <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-primary rounded-full flex items-center justify-center border-2 border-background">

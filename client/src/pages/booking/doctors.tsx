@@ -87,7 +87,7 @@ export default function DoctorSelect() {
     const doc = DOCTORS.find(d => d.id === doctorId);
     if (!doc) return;
 
-    saveBookingDraft({ doctor: doctorName, specialty: doc.specialty });
+    saveBookingDraft({ doctor: doctorName, doctorImage: doc.image || undefined, specialty: doc.specialty });
 
     if (doc.clinics.length === 1) {
       // Single clinic: auto-save location and go straight to slots

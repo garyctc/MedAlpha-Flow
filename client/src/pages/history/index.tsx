@@ -155,6 +155,7 @@ export default function HistoryPage() {
                       status: "past",
                       type: apt.type,
                       doctor: apt.doctor,
+                      doctorImage: apt.doctorImage,
                       role: apt.specialty,
                       location: apt.clinic,
                       date: `${formatLocalDate(apt.date, locale)} • ${formatLocalTime(apt.time, locale)}`,

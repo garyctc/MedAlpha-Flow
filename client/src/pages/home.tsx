@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useLocation, Link } from "wouter";
 import useEmblaCarousel from "embla-carousel-react";
 import { motion } from "framer-motion";
-import { Bell, Plus, User, Stethoscope, Pill, Video, FileText, ChevronRight } from "lucide-react";
+import { Bell, Plus, Stethoscope, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DateBadge } from "@/components/ui/date-badge";
 import { useTranslation } from "react-i18next";
@@ -42,8 +42,6 @@ const suggestedCards = [
 // Health service tiles
 const healthServices = [
   { id: "gp", label: "GP", icon: Stethoscope, path: "/booking/entry" },
-  { id: "prescriptions", label: "Prescriptions", icon: Pill, path: "/prescriptions" },
-  { id: "telemedicine", label: "Telemedicine", icon: Video, path: "/telehealth/schedule-type" },
   { id: "records", label: "Records", icon: FileText, path: "/history" },
 ];
 
@@ -52,8 +50,8 @@ function SuggestedCarousel() {
   const [emblaRef] = useEmblaCarousel({ loop: false, align: "start" });
 
   return (
-    <div className="overflow-hidden -mx-5" ref={emblaRef}>
-      <div className="flex gap-3 px-5">
+    <div className="overflow-hidden px-5" ref={emblaRef}>
+      <div className="flex gap-3">
         {suggestedCards.map((card) => (
           <div key={card.id} className="flex-[0_0_72%] min-w-0">
             <div className="bg-card rounded-3xl overflow-hidden shadow-[var(--shadow-card)] border border-border">
@@ -184,12 +182,18 @@ export default function Home() {
                 >
                   {/* Doctor photo */}
                   <div className="relative flex-shrink-0">
-                    <div className="w-14 h-14 rounded-full overflow-hidden bg-muted">
-                      <img
-                        src={userAvatar}
-                        alt={upcomingAppointment.doctor}
-                        className="w-full h-full object-cover"
-                      />
+                    <div className="w-14 h-14 rounded-full overflow-hidden bg-muted flex items-center justify-center">
+                      {upcomingAppointment.doctorImage ? (
+                        <img
+                          src={upcomingAppointment.doctorImage}
+                          alt={upcomingAppointment.doctor}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <span className="text-primary font-semibold text-lg">
+                          {upcomingAppointment.doctor.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()}
+                        </span>
+                      )}
                     </div>
                     {/* Verification badge */}
                     <div className="absolute -bottom-0.5 -right-0.5 w-5 h-5 bg-primary rounded-full flex items-center justify-center border-2 border-card">

@@ -2,13 +2,13 @@ import { motion } from "framer-motion";
 import { Check, Video, Loader2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { DateBadge } from "@/components/ui/date-badge";
-import userAvatar from "@assets/generated_images/professional_user_avatar_for_healthcare_app.png";
 
 export type AppointmentCardData = {
   id: string;
   status: "upcoming" | "past" | "processing";
   type: "in-person" | "video";
   doctor: string;
+  doctorImage?: string;
   role: string;
   location: string;
   date: string;
@@ -47,12 +47,18 @@ export function AppointmentCard({
     >
       {/* Doctor Photo with Badge */}
       <div className="relative flex-shrink-0">
-        <div className="w-14 h-14 rounded-full overflow-hidden bg-muted">
-          <img
-            src={userAvatar}
-            alt={data.doctor}
-            className="w-full h-full object-cover"
-          />
+        <div className="w-14 h-14 rounded-full overflow-hidden bg-muted flex items-center justify-center">
+          {data.doctorImage ? (
+            <img
+              src={data.doctorImage}
+              alt={data.doctor}
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <span className="text-primary font-semibold text-lg">
+              {data.doctor.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()}
+            </span>
+          )}
         </div>
         {!isProcessing && (
           <div className="absolute -bottom-0.5 -right-0.5 w-5 h-5 bg-primary rounded-full flex items-center justify-center border-2 border-card">

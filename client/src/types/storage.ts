@@ -22,6 +22,7 @@ export interface Appointment {
   id: string;
   type: 'in-person' | 'video';
   doctor: string;
+  doctorImage?: string;
   specialty: string;
   clinic: string;
   date: string;
@@ -42,6 +43,7 @@ export interface BookingDraft {
   specialty?: string;
   location?: string;
   doctor?: string;
+  doctorImage?: string;
   date?: string;
   time?: string;
   // Telehealth-specific fields

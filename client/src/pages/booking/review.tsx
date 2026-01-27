@@ -14,7 +14,6 @@ import { useTranslation } from "react-i18next";
 import { formatLocalDate, formatLocalTime, getLocale } from "@/i18n";
 import { showSuccess } from "@/lib/toast-helpers";
 import type { Appointment } from "@/types/storage";
-import userAvatar from "@assets/generated_images/professional_user_avatar_for_healthcare_app.png";
 
 export default function BookingReview() {
   const [, setLocation] = useLocation();
@@ -43,6 +42,7 @@ export default function BookingReview() {
           date: draft.date!,
           time: draft.time!,
           doctor: draft.doctor!,
+          doctorImage: draft.doctorImage,
           clinic: draft.location || "Medical Center Mitte",
         });
         sessionStorage.setItem("last-booked-appointment", draft.rescheduleId);
@@ -53,6 +53,7 @@ export default function BookingReview() {
             id: item.id,
             type: draft.type || "in-person",
             doctor: draft.doctor!,
+            doctorImage: draft.doctorImage,
             specialty: draft.specialty || "General Practice",
             clinic: draft.location || "Medical Center Mitte",
             date: item.date,
@@ -69,6 +70,7 @@ export default function BookingReview() {
           id: `appt-${Date.now()}`,
           type: draft.type || "in-person",
           doctor: draft.doctor!,
+          doctorImage: draft.doctorImage,
           specialty: draft.specialty || "General Practice",
           clinic: draft.location || "Medical Center Mitte",
           date: draft.date!,
@@ -116,12 +118,18 @@ export default function BookingReview() {
         <div className="flex flex-col items-center text-center py-4">
           {/* Doctor Photo with Verification Badge */}
           <div className="relative mb-3">
-            <div className="w-20 h-20 rounded-full overflow-hidden bg-muted">
-              <img
-                src={userAvatar}
-                alt={draft.doctor}
-                className="w-full h-full object-cover"
-              />
+            <div className="w-20 h-20 rounded-full overflow-hidden bg-muted flex items-center justify-center">
+              {draft.doctorImage ? (
+                <img
+                  src={draft.doctorImage}
+                  alt={draft.doctor}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <span className="text-primary font-semibold text-2xl">
+                  {draft.doctor!.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()}
+                </span>
+              )}
             </div>
             {/* Verification Badge */}
             <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-primary rounded-full flex items-center justify-center border-2 border-background">

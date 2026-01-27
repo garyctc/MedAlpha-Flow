@@ -72,6 +72,7 @@ function convertStoredAppointments(
       badge: "",
       badgeColor: "",
       doctor: apt.doctor,
+      doctorImage: apt.doctorImage,
       role: apt.specialty,
       location: apt.clinic,
       date: dateText,
