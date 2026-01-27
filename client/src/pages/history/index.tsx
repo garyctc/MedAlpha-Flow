@@ -145,7 +145,7 @@ export default function HistoryPage() {
                     data={{
                       id: apt.id,
                       status: "past",
-                      type: apt.type,
+                      type: "in-person",
                       doctor: apt.doctor,
                       doctorImage: apt.doctorImage,
                       role: apt.specialty,

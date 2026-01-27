@@ -65,17 +65,13 @@ function SuggestedCarousel() {
                 />
                 {/* Gradient overlay on left edge for text readability */}
                 <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-transparent" />
-                {/* Category tag */}
-                <span className="absolute top-3 left-3 px-2 py-1 bg-primary text-white text-[10px] font-semibold tracking-wide rounded-md">
-                  {card.category}
-                </span>
               </div>
               {/* Content */}
               <div className="p-4 space-y-2">
                 <h3 className="font-semibold text-foreground">{card.title}</h3>
                 <p className="text-sm text-muted-foreground line-clamp-2">{card.description}</p>
                 <Button variant="link" className="text-primary h-auto p-0 text-sm font-medium">
-                  {t("common.buttons.viewDetails")}
+                  {t("common.buttons.learnMore")}
                 </Button>
               </div>
             </div>
@@ -150,8 +146,7 @@ export default function Home() {
             {/* Suggested Section */}
             <section className="space-y-3">
               <div className="flex items-center justify-between px-5">
-                <h2 className="font-semibold text-lg text-foreground">{t("home.sections.suggested")}</h2>
-                <button className="text-sm font-medium text-primary">{t("common.buttons.showAll")}</button>
+                <h2 className="font-semibold text-lg text-foreground">{t("home.sections.discoverMore")}</h2>
               </div>
               <SuggestedCarousel />
             </section>

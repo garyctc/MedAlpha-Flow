@@ -104,14 +104,6 @@ export default function ProfilePage() {
                 </>
               )}
               <div className="h-px bg-border mx-4"></div>
-              <MenuRow
-                icon={Link2}
-                label={t("profile.menu.linkedAccounts")}
-                onClick={() => setLocation("/profile/linked-accounts")}
-              />
-              <div className="h-px bg-border mx-4"></div>
-              <MenuRow icon={Bell} label={t("profile.menu.notifications")} onClick={handleNotificationsClick} />
-              <div className="h-px bg-border mx-4"></div>
               <MenuRow icon={Database} label={t("profile.menu.myData", { defaultValue: "My Data" })} onClick={() => setLocation("/profile/data")} />
               <div className="h-px bg-border mx-4"></div>
               <MenuRow icon={Globe} label={t("nav.language")} value={languageLabel} onClick={() => setLocation("/profile/language")} />
