@@ -11,34 +11,10 @@ import { formatLocalDate, formatLocalTime, getLocale } from "@/i18n";
 import { getUserProfile, getUserAppointments, clearBookingDraft, saveBookingDraft } from "@/lib/storage";
 import { LoadingSkeleton } from "@/components/ui/loading-skeleton";
 import { useNotifications } from "@/contexts/NotificationsContext";
+import type { CmsNotification } from "@/lib/notifications";
 import type { UserProfile, Appointment } from "@/types/storage";
 import appLogo from "@/assets/app-logo.svg";
 import { DEFAULT_DOCTOR_AVATAR } from "@/lib/constants/doctors";
-
-// Suggested cards data with images
-const suggestedCards = [
-  {
-    id: "vaccination",
-    category: "VACCINATION",
-    title: "Vaccination program",
-    description: "Book your seasonal vaccinations and keep your immunization records up to date.",
-    image: "https://images.unsplash.com/photo-1615631648086-325025c9e51e?w=400&h=300&fit=crop",
-  },
-  {
-    id: "vaccination",
-    category: "VACCINATION",
-    title: "Flu Shot Available",
-    description: "Protect yourself this season with a free flu vaccination.",
-    image: "https://images.unsplash.com/photo-1615631648086-325025c9e51e?w=400&h=300&fit=crop",
-  },
-  {
-    id: "mental-health",
-    category: "MENTAL HEALTH",
-    title: "Stress Management",
-    description: "Learn techniques to manage daily stress effectively.",
-    image: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=400&h=300&fit=crop",
-  },
-];
 
 // Health service tiles
 const healthServices = [
@@ -46,21 +22,26 @@ const healthServices = [
   { id: "records", label: "Records", icon: FileText, path: "/history" },
 ];
 
-function SuggestedCarousel() {
+function PromoCarousel({ promos }: { promos: CmsNotification[] }) {
   const { t } = useTranslation();
   const [emblaRef] = useEmblaCarousel({ loop: false, align: "start" });
+
+  // Show max 5 recent promos with images
+  const displayPromos = promos.filter((p) => p.image).slice(0, 5);
+
+  if (displayPromos.length === 0) return null;
 
   return (
     <div className="overflow-hidden px-5" ref={emblaRef}>
       <div className="flex gap-3">
-        {suggestedCards.map((card) => (
-          <div key={card.id} className="flex-[0_0_72%] min-w-0">
+        {displayPromos.map((promo) => (
+          <div key={promo.id} className="flex-[0_0_72%] min-w-0">
             <div className="bg-card rounded-3xl overflow-hidden shadow-[var(--shadow-card)] border border-border">
               {/* Image with gradient overlay on left */}
               <div className="relative h-32 overflow-hidden">
                 <img
-                  src={card.image}
-                  alt={card.title}
+                  src={promo.image}
+                  alt={promo.title}
                   className="w-full h-full object-cover"
                 />
                 {/* Gradient overlay on left edge for text readability */}
@@ -68,8 +49,8 @@ function SuggestedCarousel() {
               </div>
               {/* Content */}
               <div className="p-4 space-y-2">
-                <h3 className="font-semibold text-foreground">{card.title}</h3>
-                <p className="text-sm text-muted-foreground line-clamp-2">{card.description}</p>
+                <h3 className="font-semibold text-foreground">{promo.title}</h3>
+                <p className="text-sm text-muted-foreground line-clamp-2">{promo.body}</p>
                 <Button variant="link" className="text-primary h-auto p-0 text-sm font-medium">
                   {t("common.buttons.learnMore")}
                 </Button>
@@ -89,7 +70,7 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [upcomingAppointment, setUpcomingAppointment] = useState<Appointment | null>(null);
-  const { unreadCount } = useNotifications();
+  const { unreadCount, promos } = useNotifications();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -148,7 +129,7 @@ export default function Home() {
               <div className="flex items-center justify-between px-5">
                 <h2 className="font-semibold text-lg text-foreground">{t("home.sections.discoverMore")}</h2>
               </div>
-              <SuggestedCarousel />
+              <PromoCarousel promos={promos} />
             </section>
 
             {/* Next Appointment Section */}
