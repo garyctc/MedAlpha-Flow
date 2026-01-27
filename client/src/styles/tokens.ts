@@ -13,9 +13,9 @@ export const TOKENS = {
     },
   },
   shadows: {
-    soft: "0 1px 3px rgba(12, 61, 145, 0.06)",
-    card: "0 2px 8px rgba(12, 61, 145, 0.08)",
-    elevated: "0 4px 16px rgba(12, 61, 145, 0.12)",
+    soft: "0 1px 3px rgba(28, 42, 48, 0.04)",
+    card: "0 2px 8px rgba(28, 42, 48, 0.06)",
+    elevated: "0 4px 16px rgba(28, 42, 48, 0.08)",
   },
   touchTargets: {
     minimum: "44px",

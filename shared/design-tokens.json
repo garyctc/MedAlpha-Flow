@@ -1,14 +1,14 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "version": "1.0.0",
-  "lastUpdated": "2026-01-16",
+  "lastUpdated": "2026-01-27",
   "description": "Machine-readable design tokens for MedAlpha Connect. Source of truth for AI agents and build tools.",
   "designVariation": "A - dm Clinical Trust",
 
   "colors": {
     "primitives": {
       "blue": {
-        "10": "#F0F4FA",
+        "10": "#E88A73",
         "20": "#D6E2F5",
         "30": "#A8C4EA",
         "40": "#6A9AD8",
@@ -20,7 +20,7 @@
       },
       "gray": {
         "10": "#F5F7FA",
-        "20": "#E2E8F0",
+        "20": "#E5E7EB",
         "30": "#CBD5E1",
         "40": "#94A3B8",
         "50": "#64748B",
@@ -101,17 +101,17 @@
 
     "semantic": {
       "primary": {
-        "value": "#0C3D91",
-        "reference": "blue-70 (dmBlue)",
+        "value": "#13A3B5",
+        "reference": "DocliQ teal",
         "usage": "Primary CTAs, headers, navigation, links"
       },
       "primaryLight": {
-        "value": "#1E5BB8",
-        "reference": "blue-60"
+        "value": "#1DB5C6",
+        "reference": "DocliQ teal light"
       },
       "primaryDark": {
-        "value": "#082B6A",
-        "reference": "blue-80"
+        "value": "#0F7F8C",
+        "reference": "DocliQ teal dark"
       },
       "secondary": {
         "value": "#EE161F",
@@ -123,20 +123,20 @@
         "reference": "red-40"
       },
       "accent": {
-        "value": "#FFC603",
-        "reference": "dmYellow",
-        "usage": "Highlights, badges, promotions"
+        "value": "#E88A73",
+        "reference": "DocliQ coral",
+        "usage": "Highlights, badges, subtle accents"
       },
       "background": {
-        "value": "#F5F7FA",
-        "reference": "gray-10"
+        "value": "#FAF8F5",
+        "reference": "DocliQ cream"
       },
       "backgroundCard": {
         "value": "#FFFFFF",
         "reference": "white"
       },
       "foreground": {
-        "value": "#1A1A2E",
+        "value": "#1C2A30",
         "usage": "Primary text"
       },
       "foregroundSecondary": {
@@ -144,12 +144,12 @@
         "usage": "Secondary text, labels"
       },
       "foregroundMuted": {
-        "value": "#8E94A7",
+        "value": "#5E7A86",
         "usage": "Placeholders, disabled text, metadata"
       },
       "success": {
-        "value": "#2E7D32",
-        "reference": "green-80",
+        "value": "#10B77F",
+        "reference": "DocliQ teal-green",
         "usage": "Confirmation, completed states, positive feedback"
       },
       "warning": {
@@ -163,12 +163,12 @@
         "usage": "Validation errors, failed states, critical alerts"
       },
       "border": {
-        "value": "#E2E8F0",
+        "value": "#E5E7EB",
         "reference": "gray-20"
       },
       "ring": {
-        "value": "#0C3D91",
-        "reference": "blue-70",
+        "value": "#13A3B5",
+        "reference": "DocliQ teal",
         "usage": "Focus ring for accessibility"
       }
     }
@@ -191,22 +191,22 @@
 
   "borderRadius": {
     "sm": {
-      "value": "8px",
+      "value": "12px",
       "tailwindClass": "rounded-sm",
       "usage": "Chips, badges, small elements"
     },
     "md": {
-      "value": "12px",
+      "value": "16px",
       "tailwindClass": "rounded-md",
       "usage": "Input fields, buttons, small cards"
     },
     "lg": {
-      "value": "16px",
+      "value": "20px",
       "tailwindClass": "rounded-lg",
       "usage": "Cards, panels"
     },
     "xl": {
-      "value": "20px",
+      "value": "24px",
       "tailwindClass": "rounded-xl",
       "usage": "Bottom sheets, modals, large cards"
     },
@@ -219,15 +219,15 @@
 
   "shadows": {
     "card": {
-      "value": "0 2px 8px rgba(12, 61, 145, 0.08)",
+      "value": "0 2px 8px rgba(28, 42, 48, 0.06)",
       "usage": "Card elevation, default shadow"
     },
     "elevated": {
-      "value": "0 4px 16px rgba(12, 61, 145, 0.12)",
+      "value": "0 4px 16px rgba(28, 42, 48, 0.08)",
       "usage": "Modals, bottom sheets, elevated surfaces"
     },
     "soft": {
-      "value": "0 1px 3px rgba(12, 61, 145, 0.06)",
+      "value": "0 1px 3px rgba(28, 42, 48, 0.04)",
       "usage": "Subtle depth, list items"
     }
   },
