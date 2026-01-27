@@ -1,6 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
 import { useLocation } from "wouter";
-import { useTranslation } from "react-i18next";
 import { Search, Clock } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -11,7 +10,6 @@ import { FEATURES } from "@/lib/features";
 import { AppointmentCard } from "@/components/appointment-card";
 
 export default function HistoryPage() {
-  const { t } = useTranslation();
   const [, setLocation] = useLocation();
   const [activeTab, setActiveTab] = useState<"all" | "in-person" | "video">("all");
   const [isLoading, setIsLoading] = useState(true);
@@ -69,7 +67,7 @@ export default function HistoryPage() {
   return (
     <div className="min-h-screen bg-background pb-24">
       <header className="pt-12 pb-4 px-5">
-        <h1 className="text-2xl font-semibold text-foreground">{t("history.title")}</h1>
+        <h1 className="text-2xl font-semibold text-foreground">History</h1>
       </header>
 
       <main className="px-5 pb-5 space-y-6">
