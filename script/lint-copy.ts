@@ -17,7 +17,7 @@ const BANNED_STARTERS = [
   { pattern: /^hey\b/i, reason: 'Avoid slang starter "Hey"' },
 ];
 
-const BANNED_EXCLAMATION = { pattern: /!/, reason: "Avoid exclamation marks" };
+// DocliQ allows exclamation marks in success states. No global ban.
 
 const UI_ATTR_NAMES = new Set([
   "title",
@@ -115,8 +115,6 @@ function findViolations(text: string) {
   const trimmed = text.trim();
   const violations: string[] = [];
 
-  if (BANNED_EXCLAMATION.pattern.test(trimmed)) violations.push(BANNED_EXCLAMATION.reason);
-
   for (const rule of BANNED_SUBSTRINGS) {
     if (rule.pattern.test(trimmed)) violations.push(rule.reason);
   }
@@ -190,27 +188,27 @@ async function lintGermanFormality() {
   const lines = raw.split(/\r?\n/);
   const findings: Array<{ line: number; text: string; violations: string[] }> = [];
 
-  const informal = [
-    /\bdu\b/i,
-    /\bdich\b/i,
-    /\bdir\b/i,
-    /\bdein\b/i,
-    /\bdeine\b/i,
-    /\bdeinen\b/i,
-    /\bdeinem\b/i,
-    /\bdeiner\b/i,
-    /\bdeines\b/i,
+  // DocliQ uses informal "du" address. Flag formal "Sie" forms as violations.
+  const formal = [
+    /\bSie\b/,
+    /\bIhr\b/,
+    /\bIhre\b/,
+    /\bIhren\b/,
+    /\bIhrem\b/,
+    /\bIhrer\b/,
+    /\bIhres\b/,
+    /\bIhnen\b/,
   ];
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i] ?? "";
     if (!line.includes('"')) continue;
-    for (const re of informal) {
+    for (const re of formal) {
       if (re.test(line)) {
         findings.push({
           line: i + 1,
           text: line.trim().slice(0, 140),
-          violations: ["German must use formal 'Sie' (no du/dein/dich/dir)"],
+          violations: ["DocliQ uses informal 'du' (no Sie/Ihr/Ihnen)"],
         });
         break;
       }
