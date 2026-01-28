@@ -18,6 +18,19 @@ Refine appointment status presentation, remove telemedicine/video UI surfaces, a
 - No new features or backend logic.
 - No redesign of layouts beyond the specified status/tag adjustments.
 
+## Phased Plan
+**Phase 1 — Status System + Card Rules**  
+Apply the central status presentation rules everywhere cards appear. Remove “Processing” and “DOCLIQ MATCH” tags. Enforce uppercase status pills with the specified colors. Implement pending layout rules: SEARCHING shows “SEARCHING FOR DOCTOR” and hides doctor identity; WAITING shows doctor identity; both hide date/time and show an inline spinner in the date/time slot.
+
+**Phase 2 — Navigation + List Behavior**  
+Remove History from the bottom nav while keeping `/history` reachable via “See all.” Cap “My Appointments” and “Book Again” at 3 cards each, and show “See all” only when there are more than 3. Update appointments status tabs to support horizontal drag/scroll.
+
+**Phase 3 — Telemedicine UI Removal**  
+Remove all telemedicine/video UI surfaces (booking choices, appointment type labels, filters/tabs, badges, and related static copy). Keep telehealth routes intact but hidden from normal entry points.
+
+**Phase 4 — UX QA Pass**  
+Validate acceptance criteria across home, appointments list, history, and any appointment detail card summaries. Confirm consistency of status tags, pending spinner behavior, and the absence of telemedicine UI surfaces.
+
 ## Central Status Presentation Rules (Apply Everywhere)
 These rules apply to all appointment cards and lists (home, appointments list, history, and any detail card summaries):
 
