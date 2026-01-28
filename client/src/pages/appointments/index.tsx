@@ -4,8 +4,6 @@ import { motion } from "framer-motion";
 import { Calendar, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import appLogo from "@/assets/app-logo.svg";
-import { branding } from "@/config/branding";
 import { useToast } from "@/hooks/use-toast";
 import PushNotificationBanner from "@/components/ui/push-notification-banner";
 import { getUserAppointments, saveAppointment, clearBookingDraft, saveBookingDraft } from "@/lib/storage";
@@ -24,6 +22,19 @@ type Appointment = AppointmentCardData & {
   rawDate?: string;
   rawTime?: string;
 };
+
+const STATUS_FILTERS = [
+  { id: "all", label: "All" },
+  { id: "searching", label: "Searching" },
+  { id: "waiting", label: "Waiting for confirmation" },
+  { id: "confirmed", label: "Confirmed" },
+  { id: "rejected", label: "Rejected" },
+  { id: "expired", label: "Expired" },
+  { id: "completed", label: "Completed" },
+  { id: "cancelled", label: "Cancelled" },
+] as const;
+
+type StatusFilterId = (typeof STATUS_FILTERS)[number]["id"];
 
 function parseAnyDate(date: string) {
   if (/^\d{4}-\d{2}-\d{2}$/.test(date)) {
@@ -79,6 +90,7 @@ function convertStoredAppointments(
       date: dateText,
       rawDate: apt.date,
       rawTime: formatStoredTime(apt.time, locale),
+      matchStatus: apt.matchStatus,
       subStatus:
         apt.status === "completed"
           ? "completed"
@@ -93,7 +105,7 @@ function convertStoredAppointments(
 
 export default function AppointmentsPage() {
   const [, setLocation] = useLocation();
-  const [activeTab, setActiveTab] = useState<"upcoming" | "past">("upcoming");
+  const [activeFilter, setActiveFilter] = useState<StatusFilterId>("all");
   const [pendingBooking, setPendingBooking] = useState<Appointment | null>(null);
   const [showPushNotification, setShowPushNotification] = useState(false);
   const [confirmedDoctorName, setConfirmedDoctorName] = useState("");
@@ -199,9 +211,11 @@ export default function AppointmentsPage() {
     ? [pendingBooking, ...storedAppointments]
     : storedAppointments;
 
-  const filteredAppointments = allAppointments.filter(apt => {
-    // Only show upcoming and processing appointments in this view
-    return apt.status === "upcoming" || apt.status === "processing";
+  const filteredAppointments = allAppointments.filter((apt) => {
+    if (activeFilter === "all") return true;
+    if (activeFilter === "completed") return apt.subStatus === "completed";
+    if (activeFilter === "cancelled") return apt.subStatus === "cancelled";
+    return apt.matchStatus === activeFilter;
   });
 
   return (
@@ -239,8 +253,26 @@ export default function AppointmentsPage() {
       <main className="p-5 relative">
 
         {/* Note: Removed tabs for Upcoming/Past as History is now in a separate tab */}
+        <div
+          className="flex gap-2 overflow-x-auto pb-1 no-scrollbar"
+          data-testid="appointments-filters"
+        >
+          {STATUS_FILTERS.map((filter) => (
+            <button
+              key={filter.id}
+              onClick={() => setActiveFilter(filter.id)}
+              className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors whitespace-nowrap ${
+                activeFilter === filter.id
+                  ? "bg-primary text-white border-primary"
+                  : "bg-card text-muted-foreground border-border hover:border-primary/50"
+              }`}
+            >
+              {filter.label}
+            </button>
+          ))}
+        </div>
 
-        <div className="space-y-4">
+        <div className="space-y-4" data-testid="appointments-list">
           {isLoading ? (
             // Loading Skeleton
             Array.from({ length: 3 }).map((_, i) => (
