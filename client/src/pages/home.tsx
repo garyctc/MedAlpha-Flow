@@ -2,10 +2,8 @@ import * as React from "react";
 import { useState, useEffect } from "react";
 import { useLocation, Link } from "wouter";
 import useEmblaCarousel from "embla-carousel-react";
-import { motion } from "framer-motion";
-import { Bell, Plus, Stethoscope, FileText } from "lucide-react";
+import { Bell, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { DateBadge } from "@/components/ui/date-badge";
 import { useTranslation } from "react-i18next";
 import { formatLocalDate, formatLocalTime, getLocale } from "@/i18n";
 import { getUserProfile, getUserAppointments, clearBookingDraft, saveBookingDraft } from "@/lib/storage";
@@ -13,14 +11,9 @@ import { LoadingSkeleton } from "@/components/ui/loading-skeleton";
 import { useNotifications } from "@/contexts/NotificationsContext";
 import type { CmsNotification } from "@/lib/notifications";
 import type { UserProfile, Appointment } from "@/types/storage";
+import { AppointmentCard } from "@/components/appointment-card";
+import { seedBookAgainDraft } from "@/lib/booking/intent";
 import appLogo from "@/assets/app-logo.svg";
-import { DEFAULT_DOCTOR_AVATAR } from "@/lib/constants/doctors";
-
-// Health service tiles
-const healthServices = [
-  { id: "gp", label: "GP", icon: Stethoscope, path: "/booking/entry" },
-  { id: "records", label: "Records", icon: FileText, path: "/history" },
-];
 
 function PromoCarousel({ promos }: { promos: CmsNotification[] }) {
   const { t } = useTranslation();
@@ -69,17 +62,23 @@ export default function Home() {
   const [, setLocation] = useLocation();
   const [isLoading, setIsLoading] = useState(true);
   const [profile, setProfile] = useState<UserProfile | null>(null);
-  const [upcomingAppointment, setUpcomingAppointment] = useState<Appointment | null>(null);
+  const [myAppointments, setMyAppointments] = useState<Appointment[]>([]);
+  const [bookAgainAppointments, setBookAgainAppointments] = useState<Appointment[]>([]);
   const { unreadCount, promos } = useNotifications();
 
   useEffect(() => {
     const timer = setTimeout(() => {
       const userProfile = getUserProfile();
       const appointments = getUserAppointments();
-      const upcoming = appointments.find(a => a.status === 'upcoming');
+      const sorted = [...appointments].sort(
+        (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      );
+      const mine = sorted.filter((apt) => apt.status !== "completed").slice(0, 5);
+      const bookAgain = sorted.filter((apt) => apt.status === "completed").slice(0, 5);
 
       setProfile(userProfile);
-      setUpcomingAppointment(upcoming || null);
+      setMyAppointments(mine);
+      setBookAgainAppointments(bookAgain);
       setIsLoading(false);
     }, 400);
 
@@ -132,56 +131,55 @@ export default function Home() {
               <PromoCarousel promos={promos} />
             </section>
 
-            {/* Next Appointment Section */}
+            {/* My Appointments Section */}
             <section className="px-5 space-y-3">
               <div className="flex items-center justify-between">
-                <h2 className="font-semibold text-lg text-foreground">{t("home.sections.nextAppointment")}</h2>
-                {upcomingAppointment && (
-                  <Link href="/appointments" className="text-sm font-medium text-primary">
-                    {t("common.buttons.seeAll")}
-                  </Link>
-                )}
+                <h2 className="font-semibold text-lg text-foreground">
+                  {t("home.sections.myAppointments", { defaultValue: "My Appointments" })}
+                </h2>
+                <Link href="/appointments" className="text-sm font-medium text-primary">
+                  {t("common.buttons.seeAll")}
+                </Link>
               </div>
 
-              {upcomingAppointment ? (
-                <motion.button
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => setLocation(`/appointments/${upcomingAppointment.id}`)}
-                  className="w-full bg-card rounded-3xl p-4 shadow-[var(--shadow-card)] border border-border flex items-center gap-4 text-left"
-                >
-                  {/* Doctor photo */}
-                  <div className="relative flex-shrink-0">
-                    <div className="w-14 h-14 rounded-full overflow-hidden bg-muted flex items-center justify-center">
-                      <img
-                          src={upcomingAppointment.doctorImage || DEFAULT_DOCTOR_AVATAR}
-                          alt={upcomingAppointment.doctor}
-                          className="w-full h-full object-cover"
-                        />
-                    </div>
-                    {/* Verification badge */}
-                    <div className="absolute -bottom-0.5 -right-0.5 w-5 h-5 bg-primary rounded-full flex items-center justify-center border-2 border-card">
-                      <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                        <path d="M2 5L4 7L8 3" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
-                    </div>
-                  </div>
-
-                  {/* Info */}
-                  <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-foreground truncate">{upcomingAppointment.doctor}</p>
-                    <p className="text-sm text-muted-foreground truncate">
-                      {upcomingAppointment.specialty} • {upcomingAppointment.type === 'video' ? 'Video' : 'Check-up'}
-                    </p>
-                  </div>
-
-                  {/* Date badge with time */}
-                  <div className="flex-shrink-0 text-center">
-                    <DateBadge date={new Date(upcomingAppointment.date)} />
-                    <p className="text-xs text-muted-foreground mt-1">
-                      {formatLocalTime(upcomingAppointment.time, locale)}
-                    </p>
-                  </div>
-                </motion.button>
+              {myAppointments.length > 0 ? (
+                <div className="space-y-3" data-testid="home-my-appointments-list">
+                  {myAppointments.map((appointment) => (
+                    <AppointmentCard
+                      key={appointment.id}
+                      data={{
+                        id: appointment.id,
+                        status:
+                          appointment.status === "processing"
+                            ? "processing"
+                            : appointment.status === "upcoming"
+                              ? "upcoming"
+                              : "past",
+                        type: appointment.type,
+                        doctor: appointment.doctor,
+                        doctorImage: appointment.doctorImage,
+                        role: appointment.specialty,
+                        location: appointment.clinic,
+                        date: `${formatLocalDate(appointment.date, locale)} • ${formatLocalTime(
+                          appointment.time,
+                          locale
+                        )}`,
+                        rawDate: appointment.date,
+                        rawTime: formatLocalTime(appointment.time, locale),
+                        subStatus:
+                          appointment.status === "completed"
+                            ? "completed"
+                            : appointment.status === "cancelled"
+                              ? "cancelled"
+                              : appointment.status === "processing"
+                                ? "processing"
+                                : undefined,
+                        matchStatus: appointment.matchStatus,
+                      }}
+                      onClick={() => setLocation(`/appointments/${appointment.id}`)}
+                    />
+                  ))}
+                </div>
               ) : (
                 <div className="bg-card rounded-3xl border border-dashed border-border p-8 text-center">
                   <p className="text-muted-foreground">{t("home.empty.title")}</p>
@@ -198,33 +196,51 @@ export default function Home() {
               )}
             </section>
 
-            {/* Health Services Grid */}
+            {/* Book Again Section */}
             <section className="px-5 space-y-3">
-              <h2 className="font-semibold text-lg text-foreground">{t("home.sections.healthServices")}</h2>
-              <div className="grid grid-cols-2 gap-3">
-                {healthServices.map((service) => (
-                  <Link
-                    key={service.id}
-                    href={service.path}
-                    onClick={() => {
-                      if (service.id === 'gp') {
-                        clearBookingDraft();
-                        saveBookingDraft({ type: 'in-person' });
-                      }
-                    }}
-                  >
-                    <motion.div
-                      whileTap={{ scale: 0.97 }}
-                      className="bg-card rounded-2xl p-4 shadow-[var(--shadow-soft)] border border-border flex flex-col items-center gap-3 text-center hover:border-primary/20 transition-colors"
-                    >
-                      <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
-                        <service.icon size={24} className="text-primary" strokeWidth={1.5} />
-                      </div>
-                      <span className="text-sm font-medium text-foreground">{service.label}</span>
-                    </motion.div>
-                  </Link>
-                ))}
+              <div className="flex items-center justify-between">
+                <h2 className="font-semibold text-lg text-foreground">
+                  {t("appointments.detail.bookAgain", { defaultValue: "Book Again" })}
+                </h2>
+                <Link href="/history" className="text-sm font-medium text-primary">
+                  {t("common.buttons.seeAll")}
+                </Link>
               </div>
+              {bookAgainAppointments.length > 0 ? (
+                <div className="space-y-3" data-testid="home-book-again-list">
+                  {bookAgainAppointments.map((appointment) => (
+                    <AppointmentCard
+                      key={appointment.id}
+                      data={{
+                        id: appointment.id,
+                        status: "past",
+                        type: appointment.type,
+                        doctor: appointment.doctor,
+                        doctorImage: appointment.doctorImage,
+                        role: appointment.specialty,
+                        location: appointment.clinic,
+                        date: `${formatLocalDate(appointment.date, locale)} • ${formatLocalTime(
+                          appointment.time,
+                          locale
+                        )}`,
+                        rawDate: appointment.date,
+                        rawTime: formatLocalTime(appointment.time, locale),
+                        subStatus: appointment.status === "cancelled" ? "cancelled" : "completed",
+                      }}
+                      onClick={() => {
+                        seedBookAgainDraft(appointment);
+                        setLocation("/booking/slots");
+                      }}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <div className="bg-card rounded-3xl border border-dashed border-border p-6 text-center">
+                  <p className="text-muted-foreground">
+                    {t("home.bookAgain.empty", { defaultValue: "No completed appointments yet" })}
+                  </p>
+                </div>
+              )}
             </section>
           </>
         )}
