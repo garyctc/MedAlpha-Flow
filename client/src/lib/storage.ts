@@ -27,10 +27,14 @@ const KEYS = {
   AUTH_STATE: 'auth-state',
   SETTINGS: 'user-settings',
   LINKED_ACCOUNTS: 'linked-accounts',
+  LOCATION_PERMISSION_STATE: 'location-permission-state',
+  LOCATION_EXPLAINER_SEEN: 'location-explainer-seen',
   // Legacy keys for migration
   LEGACY_ADDRESS: 'user-address',
   LEGACY_INSURANCE_TYPE: 'user-insurance-type',
 } as const;
+
+export type LocationPermissionState = 'prompt' | 'granted' | 'denied';
 
 export function clearStorage(): void {
   Object.values(KEYS).forEach((key) => localStorage.removeItem(key));
@@ -243,6 +247,28 @@ export function saveBookingDraft(draft: Partial<BookingDraft>): void {
 
 export function clearBookingDraft(): void {
   localStorage.removeItem(KEYS.BOOKING_DRAFT);
+}
+
+// === Location Permission ===
+
+export function getLocationPermissionState(): LocationPermissionState {
+  const value = localStorage.getItem(KEYS.LOCATION_PERMISSION_STATE);
+  if (value === "granted" || value === "denied" || value === "prompt") {
+    return value;
+  }
+  return "prompt";
+}
+
+export function setLocationPermissionState(state: LocationPermissionState): void {
+  localStorage.setItem(KEYS.LOCATION_PERMISSION_STATE, state);
+}
+
+export function getLocationExplainerSeen(): boolean {
+  return localStorage.getItem(KEYS.LOCATION_EXPLAINER_SEEN) === "1";
+}
+
+export function setLocationExplainerSeen(seen: boolean): void {
+  localStorage.setItem(KEYS.LOCATION_EXPLAINER_SEEN, seen ? "1" : "0");
 }
 
 // === Registration Draft Management ===
