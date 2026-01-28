@@ -71,6 +71,7 @@
       "suggested": "Empfohlen",
       "nextAppointment": "Nächster Termin",
       "discoverMore": "Mehr entdecken",
+      "myAppointments": "Meine Termine",
       "healthServices": "Gesundheitsservices",
       "upcoming": "Anstehend",
       "recent": "Letzte Aktivitäten"
@@ -108,24 +109,65 @@
     },
     "entry": {
       "title": "Termin buchen",
+      "fastTitle": "Schnell einen Arzt finden",
+      "fastSubtitle": "Wir finden den nächsten verfügbaren Termin",
       "selectSpecialty": "Fachgebiet wählen",
       "selectDoctor": "Ärztin oder Arzt auswählen",
-      "fastest": "Schnellster verfügbarer Termin"
+      "fastest": "Schnellster verfügbarer Termin",
+      "doctorSubtitle": "Eine bestimmte Ärztin oder einen Arzt wählen"
     },
     "slots": {
       "title": "Zeitfenster auswählen",
       "makeRecurring": "Wiederkehrend buchen",
-      "cadence": "Nachsorgeintervall"
+      "cadence": "Nachsorgeintervall",
+      "windowsTitle": "Zeitfenster auswählen",
+      "windows": {
+        "morning": "Morgens",
+        "afternoon": "Nachmittags",
+        "evening": "Abends"
+      }
+    },
+    "location": {
+      "permission": {
+        "title": "Standort aktivieren",
+        "heading": "Kliniken schneller finden",
+        "body": "Erlauben Sie den Standortzugriff, um nahe Kliniken zu priorisieren und Ihre Wartezeit zu verkürzen.",
+        "cta": "Standort aktivieren",
+        "privacy": {
+          "title": "Ihre Privatsphäre steht an erster Stelle",
+          "body": "Wir nutzen Ihren Standort nur während der Buchung."
+        },
+        "modal": {
+          "title": "Standortzugriff erlauben?",
+          "body": "Wir nutzen Ihren Standort, um nahe Kliniken zuerst anzuzeigen. Sie können dies später in den Einstellungen ändern.",
+          "deny": "Nicht jetzt",
+          "allow": "Standort erlauben"
+        },
+        "warning": {
+          "title": "Kliniken schneller finden",
+          "body": "Aktivieren Sie den Standort, um die nächstgelegenen Kliniken zuerst anzuzeigen.",
+          "cta": "Standort aktivieren"
+        }
+      }
     },
     "review": {
-      "title": "Buchung prüfen",
-      "confirm": "Buchung bestätigen"
+      "title": "Anfrage prüfen",
+      "confirm": "Termin anfragen"
     },
     "success": {
-      "title": "Termin bestätigt",
-      "subtitle": "Ihr Termin ist gebucht.",
+      "title": "Anfrage gesendet",
+      "subtitle": "Wir suchen den nächstmöglichen Termin für Sie. Wir informieren Sie, sobald er bestätigt ist.",
       "summaryDateTime": "{{date}} um {{time}}",
-      "addToCalendar": "Zum Kalender hinzufügen"
+      "addToCalendar": "Zum Kalender hinzufügen",
+      "cardTitle": "Smart Match arbeitet",
+      "cardSubtitle": "Sie erhalten in Kürze eine Bestätigung.",
+      "backHome": "Zur Startseite",
+      "notifications": {
+        "title": "Bleiben Sie informiert",
+        "body": "Aktivieren Sie Benachrichtigungen, damit wir Sie informieren können, sobald Ihr Termin bestätigt ist.",
+        "deny": "Nicht jetzt",
+        "allow": "Benachrichtigungen aktivieren"
+      }
     }
   },
   "appointments": {
@@ -144,6 +186,13 @@
     "placeholders": {
       "doctor": "Wird bestätigt",
       "awaitingConfirmation": "Wartet auf Bestätigung"
+    },
+    "matchStatus": {
+      "searching": "Suche läuft",
+      "waiting": "Wartet auf Bestätigung",
+      "confirmed": "Bestätigt",
+      "rejected": "Abgelehnt",
+      "expired": "Abgelaufen"
     },
     "partner": {
       "smartMatch": "DocliQ Match"
@@ -171,6 +220,7 @@
       "getDirections": "Route",
       "addToCalendar": "Zum Kalender hinzufügen",
       "reschedule": "Termin verschieben",
+      "bookAgain": "Erneut buchen",
       "bring": {
         "title": "Bitte mitbringen",
         "items": {

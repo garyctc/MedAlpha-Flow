@@ -71,6 +71,7 @@
       "suggested": "Suggested",
       "nextAppointment": "Next Appointment",
       "discoverMore": "Discover more",
+      "myAppointments": "My Appointments",
       "healthServices": "Health Services",
       "upcoming": "Upcoming",
       "recent": "Recent activity"
@@ -108,24 +109,65 @@
     },
     "entry": {
       "title": "Book an Appointment",
+      "fastTitle": "Find a doctor fast",
+      "fastSubtitle": "We'll match you with the first available appointment",
       "selectSpecialty": "Select Specialty",
       "selectDoctor": "Select Doctor",
-      "fastest": "Fastest available appointment"
+      "fastest": "Fastest available appointment",
+      "doctorSubtitle": "Choose a specific doctor"
     },
     "slots": {
       "title": "Select a Slot",
       "makeRecurring": "Make recurring",
-      "cadence": "Follow-up cadence"
+      "cadence": "Follow-up cadence",
+      "windowsTitle": "Select a time window",
+      "windows": {
+        "morning": "Morning",
+        "afternoon": "Afternoon",
+        "evening": "Evening"
+      }
+    },
+    "location": {
+      "permission": {
+        "title": "Enable location",
+        "heading": "Find clinics faster",
+        "body": "Allow location access to prioritize nearby clinics and shorten your wait time.",
+        "cta": "Enable location",
+        "privacy": {
+          "title": "Your privacy comes first",
+          "body": "We only use location while you book appointments."
+        },
+        "modal": {
+          "title": "Allow location access?",
+          "body": "We use your location to sort nearby clinics first. You can change this later in settings.",
+          "deny": "Not now",
+          "allow": "Allow location"
+        },
+        "warning": {
+          "title": "Find Clinics Faster",
+          "body": "Enable location to sort the closest clinics first.",
+          "cta": "Enable Location"
+        }
+      }
     },
     "review": {
-      "title": "Review booking",
-      "confirm": "Confirm booking"
+      "title": "Review Request",
+      "confirm": "Request Appointment"
     },
     "success": {
-      "title": "Appointment confirmed",
-      "subtitle": "Your appointment is booked.",
+      "title": "Request sent",
+      "subtitle": "We're matching you with the first available appointment. We'll notify you as soon as it's confirmed.",
       "summaryDateTime": "{{date}} at {{time}}",
-      "addToCalendar": "Add to calendar"
+      "addToCalendar": "Add to calendar",
+      "cardTitle": "Smart Match is working",
+      "cardSubtitle": "You'll get a confirmation shortly.",
+      "backHome": "Back to Home",
+      "notifications": {
+        "title": "Stay updated",
+        "body": "Enable notifications so we can alert you when your appointment is confirmed.",
+        "deny": "Not now",
+        "allow": "Enable notifications"
+      }
     }
   },
   "appointments": {
@@ -144,6 +186,13 @@
     "placeholders": {
       "doctor": "To be confirmed",
       "awaitingConfirmation": "Awaiting confirmation"
+    },
+    "matchStatus": {
+      "searching": "Searching",
+      "waiting": "Waiting for confirmation",
+      "confirmed": "Confirmed",
+      "rejected": "Rejected",
+      "expired": "Expired"
     },
     "partner": {
       "smartMatch": "DocliQ Match"
@@ -171,6 +220,7 @@
       "getDirections": "Get directions",
       "addToCalendar": "Add to calendar",
       "reschedule": "Reschedule appointment",
+      "bookAgain": "Book Again",
       "bring": {
         "title": "What to bring",
         "items": {
