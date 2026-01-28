@@ -1,3 +1,4 @@
+import "@/i18n";
 import { render, screen } from "@testing-library/react";
 import { AppointmentCard } from "@/components/appointment-card";
 
