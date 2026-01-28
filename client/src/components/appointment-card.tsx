@@ -3,6 +3,10 @@ import { Check, Video, Loader2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { DateBadge } from "@/components/ui/date-badge";
 import { DEFAULT_DOCTOR_AVATAR } from "@/lib/constants/doctors";
+import { getMatchStatusLabel } from "@/lib/appointments/status";
+import type { Appointment } from "@/types/storage";
+
+type MatchStatus = NonNullable<Appointment["matchStatus"]>;
 
 export type AppointmentCardData = {
   id: string;
@@ -16,6 +20,7 @@ export type AppointmentCardData = {
   rawDate?: string;
   rawTime?: string;
   subStatus?: "cancelled" | "completed" | "processing";
+  matchStatus?: MatchStatus;
   amount?: string;
 };
 
@@ -70,6 +75,11 @@ export function AppointmentCard({
       {/* Info */}
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 mb-0.5">
+          {data.matchStatus && (
+            <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-primary/10 text-primary">
+              {getMatchStatusLabel(data.matchStatus)}
+            </span>
+          )}
           {data.subStatus === "processing" && (
             <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full uppercase tracking-wider bg-primary/10 text-primary">
               {t("common.status.processing")}
