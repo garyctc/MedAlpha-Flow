@@ -12,7 +12,8 @@ import type {
 } from '@/types/storage';
 import { format, parse } from "date-fns";
 import { enUS } from "date-fns/locale";
-import { DOCTORS, findDoctorByName } from '@/lib/constants/doctors';
+import { findDoctorByName } from "@/lib/constants/doctors";
+import { mapMatchStatusToLifecycle } from "@/lib/appointments/status";
 
 // Storage keys
 const KEYS = {
@@ -30,6 +31,10 @@ const KEYS = {
   LEGACY_ADDRESS: 'user-address',
   LEGACY_INSURANCE_TYPE: 'user-insurance-type',
 } as const;
+
+export function clearStorage(): void {
+  Object.values(KEYS).forEach((key) => localStorage.removeItem(key));
+}
 
 // === Profile Management ===
 
@@ -348,59 +353,169 @@ export function updateAppointment(id: string, updates: Partial<Appointment>): vo
 // === Demo Data Seeding ===
 
 export function seedDemoData(): void {
-  // Only seed if no profile exists
-  if (getUserProfile()) return;
+  const existingProfile = getUserProfile();
+  if (!existingProfile) {
+    const demoProfile: UserProfile = {
+      firstName: 'Sarah',
+      lastName: 'Schmidt',
+      dateOfBirth: '1985-03-15',
+      phone: '+49 30 12345678',
+      email: 'sarah.schmidt@example.com',
+      street: 'Hauptstraße 123',
+      city: 'Berlin',
+      postalCode: '10115',
+    };
+    localStorage.setItem(KEYS.PROFILE, JSON.stringify(demoProfile));
+  }
 
-  // Seed profile
-  const demoProfile: UserProfile = {
-    firstName: 'Sarah',
-    lastName: 'Schmidt',
-    dateOfBirth: '1985-03-15',
-    phone: '+49 30 12345678',
-    email: 'sarah.schmidt@example.com',
-    street: 'Hauptstraße 123',
-    city: 'Berlin',
-    postalCode: '10115',
-  };
-  localStorage.setItem(KEYS.PROFILE, JSON.stringify(demoProfile));
-
-  // Seed insurance
-  const demoInsurance: UserInsurance = {
-    type: 'gkv',
-    provider: 'AOK',
-    memberNumber: 'A123456789',
-    insuranceNumber: 'L234567890',
-  };
-  localStorage.setItem(KEYS.INSURANCE, JSON.stringify(demoInsurance));
+  const existingInsurance = getUserInsurance();
+  if (!existingInsurance) {
+    const demoInsurance: UserInsurance = {
+      type: 'gkv',
+      provider: 'AOK',
+      memberNumber: 'A123456789',
+      insuranceNumber: 'L234567890',
+    };
+    localStorage.setItem(KEYS.INSURANCE, JSON.stringify(demoInsurance));
+  }
 
   // Seed appointments with proper doctor avatars from DOCTORS list
-  const drWeber = DOCTORS.find(d => d.name.includes('Weber'));
-  const drSchmidt = DOCTORS.find(d => d.name.includes('Schmidt'));
+  const drWeber = findDoctorByName("Dr. Sarah Weber");
+  const drSchmidt = findDoctorByName("Dr. Anna Schmidt");
+  const drChen = findDoctorByName("Dr. Michael Chen");
+  const drMuller = findDoctorByName("Dr. Thomas Müller");
+  const now = new Date().toISOString();
 
   const demoAppointments: Appointment[] = [
     {
-      id: 'appt-1',
-      type: 'video',
-      doctor: 'Dr. Sarah Weber',
-      doctorImage: drWeber?.image || undefined,
-      specialty: 'Dermatology',
-      clinic: 'Teleclinic',
-      date: 'Jan 10, 2026',
-      time: '10:00',
-      status: 'completed',
-      createdAt: '2026-01-09T10:00:00Z',
+      id: "match-searching",
+      type: "in-person",
+      doctor: "Dr. Michael Chen",
+      doctorImage: drChen?.image || undefined,
+      specialty: "General Practice",
+      clinic: "DocliQ Health Center",
+      date: "2026-02-02",
+      time: "pending",
+      timeWindow: "morning",
+      status: mapMatchStatusToLifecycle("searching"),
+      matchStatus: "searching",
+      createdAt: now,
     },
     {
-      id: 'appt-2',
-      type: 'in-person',
-      doctor: 'Dr. Anna Schmidt',
+      id: "match-waiting",
+      type: "video",
+      doctor: "Dr. Sarah Weber",
+      doctorImage: drWeber?.image || undefined,
+      specialty: "General Practice",
+      clinic: "Teleclinic",
+      date: "2026-02-03",
+      time: "pending",
+      timeWindow: "afternoon",
+      status: mapMatchStatusToLifecycle("waiting"),
+      matchStatus: "waiting",
+      createdAt: "2026-01-27T10:00:00Z",
+    },
+    {
+      id: "match-confirmed",
+      type: "in-person",
+      doctor: "Dr. Anna Schmidt",
       doctorImage: drSchmidt?.image || undefined,
-      specialty: 'General Practice',
-      clinic: 'Praxis am Park',
-      date: 'Feb 5, 2026',
-      time: '14:30',
-      status: 'upcoming',
-      createdAt: '2026-01-20T10:00:00Z',
+      specialty: "General Practice",
+      clinic: "Praxis am Park",
+      date: "2026-02-04",
+      time: "10:30",
+      timeWindow: "morning",
+      status: mapMatchStatusToLifecycle("confirmed"),
+      matchStatus: "confirmed",
+      createdAt: "2026-01-27T11:00:00Z",
+    },
+    {
+      id: "match-rejected",
+      type: "in-person",
+      doctor: "Dr. Thomas Müller",
+      doctorImage: drMuller?.image || undefined,
+      specialty: "General Practice",
+      clinic: "DocliQ Health Center",
+      date: "2026-02-05",
+      time: "pending",
+      timeWindow: "evening",
+      status: mapMatchStatusToLifecycle("rejected"),
+      matchStatus: "rejected",
+      createdAt: "2026-01-27T12:00:00Z",
+    },
+    {
+      id: "match-expired",
+      type: "video",
+      doctor: "Dr. Sarah Weber",
+      doctorImage: drWeber?.image || undefined,
+      specialty: "Dermatology",
+      clinic: "Teleclinic",
+      date: "2026-02-06",
+      time: "pending",
+      timeWindow: "morning",
+      status: mapMatchStatusToLifecycle("expired"),
+      matchStatus: "expired",
+      createdAt: "2026-01-27T13:00:00Z",
+    },
+    {
+      id: "book-again-1",
+      type: "video",
+      doctor: "Dr. Sarah Weber",
+      doctorImage: drWeber?.image || undefined,
+      specialty: "Dermatology",
+      clinic: "Teleclinic",
+      date: "2025-12-15",
+      time: "09:00",
+      status: "completed",
+      createdAt: "2025-12-15T09:00:00Z",
+    },
+    {
+      id: "book-again-2",
+      type: "in-person",
+      doctor: "Dr. Anna Schmidt",
+      doctorImage: drSchmidt?.image || undefined,
+      specialty: "General Practice",
+      clinic: "Praxis am Park",
+      date: "2025-12-10",
+      time: "11:30",
+      status: "completed",
+      createdAt: "2025-12-10T11:30:00Z",
+    },
+    {
+      id: "book-again-3",
+      type: "video",
+      doctor: "Dr. Michael Chen",
+      doctorImage: drChen?.image || undefined,
+      specialty: "General Practice",
+      clinic: "Teleclinic",
+      date: "2025-11-20",
+      time: "15:00",
+      status: "completed",
+      createdAt: "2025-11-20T15:00:00Z",
+    },
+    {
+      id: "book-again-4",
+      type: "in-person",
+      doctor: "Dr. Thomas Müller",
+      doctorImage: drMuller?.image || undefined,
+      specialty: "General Practice",
+      clinic: "DocliQ Health Center",
+      date: "2025-11-05",
+      time: "08:30",
+      status: "completed",
+      createdAt: "2025-11-05T08:30:00Z",
+    },
+    {
+      id: "book-again-5",
+      type: "video",
+      doctor: "Dr. Sarah Weber",
+      doctorImage: drWeber?.image || undefined,
+      specialty: "Dermatology",
+      clinic: "Teleclinic",
+      date: "2025-10-18",
+      time: "13:15",
+      status: "completed",
+      createdAt: "2025-10-18T13:15:00Z",
     },
   ];
   localStorage.setItem(KEYS.APPOINTMENTS, JSON.stringify(demoAppointments));
