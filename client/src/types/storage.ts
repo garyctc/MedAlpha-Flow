@@ -27,7 +27,9 @@ export interface Appointment {
   clinic: string;
   date: string;
   time: string;
+  timeWindow?: 'morning' | 'afternoon' | 'evening';
   status: 'upcoming' | 'completed' | 'cancelled' | 'processing';
+  matchStatus?: 'searching' | 'waiting' | 'confirmed' | 'rejected' | 'expired';
   createdAt: string;
   cancelledAt?: string;
 }
@@ -46,6 +48,7 @@ export interface BookingDraft {
   doctorImage?: string;
   date?: string;
   time?: string;
+  timeWindow?: 'morning' | 'afternoon' | 'evening';
   // Telehealth-specific fields
   symptoms?: string[];
   symptomDuration?: string;
