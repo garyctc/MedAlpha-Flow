@@ -9,6 +9,7 @@
     "tokens:generate": "tsx script/generate-design-tokens.ts",
     "copy:lint": "tsx script/lint-copy.ts",
     "build": "tsx script/generate-design-tokens.ts && tsx script/build.ts",
+    "build:client": "tsx script/generate-design-tokens.ts && vite build",
     "start": "NODE_ENV=production node dist/index.cjs",
     "check": "tsc",
     "db:push": "drizzle-kit push"
