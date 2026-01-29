@@ -120,3 +120,49 @@ it("shows a loading animation for searching status", () => {
 
   expect(screen.getByLabelText("Searching")).toBeInTheDocument();
 });
+
+it("uses standard card styling for searching status", () => {
+  const { container } = render(
+    <AppointmentCard
+      data={{
+        id: "7",
+        status: "processing",
+        matchStatus: "searching",
+        type: "in-person",
+        doctor: "Dr. Lina Becker",
+        role: "General Practice",
+        location: "DocliQ Health Center",
+        date: "Jan 2, 2026",
+      }}
+      onClick={() => {}}
+    />
+  );
+
+  const button = container.querySelector("button");
+  expect(button).toBeInTheDocument();
+  expect(button).toHaveClass("bg-card", "border-border");
+  expect(button).not.toHaveClass("bg-primary/5", "border-primary/20");
+});
+
+it("uses standard card styling for waiting status", () => {
+  const { container } = render(
+    <AppointmentCard
+      data={{
+        id: "8",
+        status: "processing",
+        matchStatus: "waiting",
+        type: "in-person",
+        doctor: "Dr. Lina Becker",
+        role: "General Practice",
+        location: "DocliQ Health Center",
+        date: "Jan 2, 2026",
+      }}
+      onClick={() => {}}
+    />
+  );
+
+  const button = container.querySelector("button");
+  expect(button).toBeInTheDocument();
+  expect(button).toHaveClass("bg-card", "border-border");
+  expect(button).not.toHaveClass("bg-primary/5", "border-primary/20");
+});

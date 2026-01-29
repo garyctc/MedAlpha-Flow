@@ -74,11 +74,7 @@ export function AppointmentCard({
     <motion.button
       whileTap={{ scale: 0.98 }}
       onClick={onClick}
-      className={`w-full p-4 rounded-3xl shadow-[var(--shadow-card)] border flex items-center gap-4 text-left transition-all ${
-        isPending
-          ? "bg-primary/5 border-primary/20"
-          : "bg-card border-border hover:border-primary/30"
-      }`}
+      className="w-full p-4 rounded-3xl shadow-[var(--shadow-card)] border flex items-center gap-4 text-left transition-all bg-card border-border hover:border-primary/30"
     >
       {/* Doctor Photo with Badge */}
       <div className="relative flex-shrink-0">
