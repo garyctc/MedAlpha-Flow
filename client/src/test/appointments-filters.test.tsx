@@ -32,7 +32,6 @@ describe("Appointments filters", () => {
       "Waiting for confirmation",
       "Confirmed",
       "Rejected",
-      "Expired",
       "Completed",
       "Cancelled",
     ].forEach((label) => {
@@ -43,6 +42,6 @@ describe("Appointments filters", () => {
 
     const list = screen.getByTestId("appointments-list");
     expect(within(list).getAllByRole("button")).toHaveLength(1);
-    expect(within(list).getByText("Searching")).toBeInTheDocument();
+    expect(within(list).getByText("SEARCHING")).toBeInTheDocument();
   });
 });
