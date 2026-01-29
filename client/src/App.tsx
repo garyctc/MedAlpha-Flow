@@ -30,8 +30,6 @@ import BookingSuccess from "@/pages/booking/success";
 
 // Smart Match Integration
 import SmartMatchProcessing from "@/pages/booking/smart-match-processing";
-import SmartMatchRefinement from "@/pages/booking/smart-match-refinement";
-import SmartMatchSuccess from "@/pages/booking/smart-match-success";
 
 // Prescription Flow
 import PrescriptionType from "@/pages/prescriptions/type";
@@ -148,8 +146,6 @@ function AppRoutes() {
 
       {/* Smart Match Integration */}
       <Route path="/booking/smart-match-processing" component={SmartMatchProcessing} />
-      <Route path="/booking/smart-match-refinement" component={SmartMatchRefinement} />
-      <Route path="/booking/smart-match-success" component={SmartMatchSuccess} />
 
       {/* Prescription Routes */}
       <Route path="/prescriptions" component={PrescriptionType} />

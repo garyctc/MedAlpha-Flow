@@ -118,11 +118,6 @@ export function AppointmentCard({
         <p className="text-sm text-muted-foreground truncate">
           {data.role} • Check-up
         </p>
-        {isProcessing && (
-          <span className="inline-block mt-1 text-[9px] font-semibold text-primary bg-primary/10 px-2 py-0.5 rounded-full uppercase tracking-wider">
-            {t("appointments.partner.smartMatch")}
-          </span>
-        )}
       </div>
 
       {/* Date Badge */}

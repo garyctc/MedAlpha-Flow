@@ -8,9 +8,6 @@ export default function SmartMatchProcessing() {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    // Check if this is a retry (from refinement)
-    const isRetry = sessionStorage.getItem("smart-match-retry") === "true";
-
     // Animate progress bar
     const progressTimer = setInterval(() => {
       setProgress((p) => Math.min(p + 15, 90));
@@ -21,23 +18,9 @@ export default function SmartMatchProcessing() {
       setStep((s) => Math.min(s + 1, 2));
     }, 800);
 
-    // Final decision after 2.5s
+    // Navigate to success after 2.5s
     const decisionTimer = setTimeout(() => {
-      if (isRetry) {
-        // Second time always succeeds
-        sessionStorage.removeItem("smart-match-retry");
-        setLocation("/booking/smart-match-success");
-      } else {
-        const random = Math.random();
-        if (random < 0.7) {
-          // 70% success
-          setLocation("/booking/smart-match-success");
-        } else {
-          // 30% refinement
-          sessionStorage.setItem("smart-match-retry", "true");
-          setLocation("/booking/smart-match-refinement");
-        }
-      }
+      setLocation("/booking/success");
     }, 2500);
 
     return () => {
@@ -115,10 +98,7 @@ export default function SmartMatchProcessing() {
 
       {/* Cancel Button */}
       <button
-        onClick={() => {
-          sessionStorage.removeItem("smart-match-retry");
-          setLocation("/booking/review");
-        }}
+        onClick={() => setLocation("/booking/review")}
         className="text-muted-foreground font-medium text-sm hover:text-foreground"
       >
         Cancel
