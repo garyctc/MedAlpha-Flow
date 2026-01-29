@@ -149,6 +149,10 @@ export default function Home() {
                     data={{
                       ...appointment,
                       statusLabel: t(`home.appointments.status.${appointment.statusKey}`),
+                      statusLabelClass:
+                        appointment.statusKey === "searching" || appointment.statusKey === "waiting"
+                          ? "bg-yellow-50 text-yellow-700"
+                          : undefined,
                     }}
                     onClick={() => setLocation("/appointments")}
                   />

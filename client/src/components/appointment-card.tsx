@@ -22,6 +22,7 @@ export type AppointmentCardData = {
   matchStatus?: MatchStatus;
   amount?: string;
   statusLabel?: string;
+  statusLabelClass?: string;
 };
 
 export function AppointmentCard({
@@ -95,7 +96,11 @@ export function AppointmentCard({
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 mb-0.5">
           {data.statusLabel && (
-            <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full uppercase tracking-wider bg-primary/10 text-primary">
+            <span
+              className={`text-[10px] font-semibold px-2 py-0.5 rounded-full uppercase tracking-wider ${
+                data.statusLabelClass ?? "bg-primary/10 text-primary"
+              }`}
+            >
               {data.statusLabel}
             </span>
           )}

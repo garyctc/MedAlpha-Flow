@@ -166,3 +166,25 @@ it("uses standard card styling for waiting status", () => {
   expect(button).toHaveClass("bg-card", "border-border");
   expect(button).not.toHaveClass("bg-primary/5", "border-primary/20");
 });
+
+it("applies custom status label styling when provided", () => {
+  render(
+    <AppointmentCard
+      data={{
+        id: "9",
+        status: "upcoming",
+        type: "in-person",
+        doctor: "Dr. Lina Becker",
+        role: "General Practice",
+        location: "DocliQ Health Center",
+        date: "Jan 2, 2026",
+        statusLabel: "Searching",
+        statusLabelClass: "bg-yellow-50 text-yellow-700",
+      }}
+      onClick={() => {}}
+    />
+  );
+
+  const label = screen.getByText("Searching");
+  expect(label).toHaveClass("bg-yellow-50", "text-yellow-700");
+});

@@ -165,8 +165,12 @@ describe("Home appointments sections", () => {
     const myAppointmentsList = screen.getByTestId("home-my-appointments-list");
 
     expect(within(myAppointmentsList).getAllByRole("button")).toHaveLength(3);
-    expect(screen.getByText("Searching")).toBeInTheDocument();
-    expect(screen.getByText("Waiting for confirmation")).toBeInTheDocument();
+    const searchingLabel = screen.getByText("Searching");
+    const waitingLabel = screen.getByText("Waiting for confirmation");
+    expect(searchingLabel).toBeInTheDocument();
+    expect(waitingLabel).toBeInTheDocument();
+    expect(searchingLabel).toHaveClass("bg-yellow-50", "text-yellow-700");
+    expect(waitingLabel).toHaveClass("bg-yellow-50", "text-yellow-700");
     expect(screen.getByText("Confirmed")).toBeInTheDocument();
   });
 
