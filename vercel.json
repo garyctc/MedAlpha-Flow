@@ -1,7 +1,10 @@
 {
   "buildCommand": "npm run build:client",
   "outputDirectory": "dist/public",
-  "routes": [
-    { "src": "^/(?!assets/).*", "dest": "/index.html" }
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
   ]
 }
