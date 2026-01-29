@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useLocation, useParams } from "wouter";
-import { Calendar, Clock, MapPin, Navigation, CalendarPlus, Info, AlertCircle, FileText, XCircle, Loader2 } from "lucide-react";
+import { Calendar, Clock, MapPin, Navigation, CalendarPlus, Info, AlertCircle, FileText, XCircle, Search } from "lucide-react";
 import SubPageHeader from "@/components/layout/SubPageHeader";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -93,7 +93,7 @@ export default function AppointmentDetail() {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-background pb-20">
-        <SubPageHeader title={t("appointments.detail.title")} backPath="/appointments" />
+        <SubPageHeader title={t("appointments.detail.title")} />
         <main className="p-5 space-y-6">
           <div className="flex flex-col items-center">
             <Skeleton className="w-20 h-20 rounded-full mb-4" />
@@ -118,7 +118,7 @@ export default function AppointmentDetail() {
   if (!appointment) {
     return (
       <div className="min-h-screen bg-background pb-20">
-        <SubPageHeader title={t("appointments.detail.title")} backPath="/appointments" />
+        <SubPageHeader title={t("appointments.detail.title")} />
         <main className="p-5">
           <div className="flex flex-col items-center justify-center py-12 text-center">
             <div className="w-16 h-16 bg-destructive/10 rounded-full flex items-center justify-center mb-4">
@@ -140,7 +140,7 @@ export default function AppointmentDetail() {
 
   return (
     <div className="min-h-screen bg-background pb-20">
-      <SubPageHeader title={t("appointments.detail.title")} backPath="/appointments" />
+      <SubPageHeader title={t("appointments.detail.title")} />
 
       <main className="p-5 space-y-6">
         {/* Centered Doctor Card */}
@@ -148,7 +148,7 @@ export default function AppointmentDetail() {
           <div className="relative mb-4">
             <div className="w-20 h-20 rounded-full overflow-hidden bg-primary/10 flex items-center justify-center">
               {isSearching ? (
-                <Loader2 size={22} className="text-muted-foreground animate-spin" aria-label="Searching" />
+                <Search size={22} className="text-muted-foreground" aria-label="Searching" />
               ) : (
                 <img
                   src={appointment.doctorImage || DEFAULT_DOCTOR_AVATAR}
@@ -173,9 +173,7 @@ export default function AppointmentDetail() {
               <div className="flex-1">
                 <p className="text-xs text-muted-foreground uppercase tracking-wide">{t("appointments.detail.dateTime", { defaultValue: "Date & Time" })}</p>
                 {isPending ? (
-                  <div className="mt-2">
-                    <Loader2 size={16} className="text-muted-foreground animate-spin" aria-label="Loading time" />
-                  </div>
+                  <p className="font-semibold text-foreground">{t("appointments.detail.waiting", { defaultValue: "Waiting" })}</p>
                 ) : (
                   <>
                     <p className="font-semibold text-foreground">{dateLabel}</p>

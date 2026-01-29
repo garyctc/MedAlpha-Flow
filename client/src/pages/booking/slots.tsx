@@ -168,13 +168,15 @@ export default function BookingSlots() {
   }, [draft?.doctor]);
 
   const backPath = useMemo(() => {
+    // Book Again or Reschedule from home/appointments → go back to home
+    if (draft?.intent === "book-again" || draft?.intent === "reschedule") return "/home";
     if (draft?.entryMode === "fast") return "/booking/entry";
     if (draft?.entryMode === "specialty") {
       const clinicId = getClinicIdByName(draft?.location);
       return clinicId ? `/booking/doctors?location=${clinicId}` : "/booking/doctors";
     }
     return "/booking/doctors";
-  }, [draft?.entryMode, draft?.location]);
+  }, [draft?.intent, draft?.entryMode, draft?.location]);
 
   const handleContinue = () => {
     if (!selectedDate || selectedWindows.length === 0) return;
