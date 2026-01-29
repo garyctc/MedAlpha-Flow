@@ -20,15 +20,20 @@ function NotificationRow({
   body,
   createdAt,
   isRead,
+  kind,
 }: {
   id: string;
   title: string;
   body: string;
   createdAt: string;
   isRead: boolean;
+  kind: "promo" | "tip";
 }) {
+  // Promo notifications link to article page, tips link to notification detail
+  const href = kind === "promo" ? `/article/${id}` : `/notifications/${id}`;
+
   return (
-    <Link href={`/notifications/${id}`} className="block">
+    <Link href={href} className="block">
       <div className="px-4 py-4 flex items-start gap-3 hover:bg-muted/40 transition-colors">
         <div className="pt-1">
           {!isRead ? (
@@ -84,6 +89,7 @@ function NotificationsTab({ value }: { value: TabValue }) {
             body={n.body}
             createdAt={n.createdAt}
             isRead={isRead(n.id)}
+            kind={n.kind}
           />
           {idx < filtered.length - 1 ? <div className="h-px bg-border mx-4" /> : null}
         </div>
