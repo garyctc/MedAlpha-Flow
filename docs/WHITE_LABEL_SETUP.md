@@ -1,5 +1,7 @@
 # White Label Setup Guide
 
+# This is header 1
+
 MedAlpha Connect is built to support white-label deployments. Partners can customize the app's branding, colors, and features while maintaining identical functionality.
 
 ## Quick Start

@@ -1,8 +1,7 @@
 # Visual Guidelines
 
-**Version:** 1.0.0  
-**Last Updated:** 2026-01-16  
-**Design Variation:** A - dm Clinical Trust
+**Version:** 2.0.0
+**Last Updated:** 2026-01-27
 
 ---
 
@@ -18,24 +17,36 @@
 
 ## 1. Visual Identity Overview
 
-MedAlpha Connect extends the dm-drogerie markt brand into healthcare services. The visual identity balances **clinical trustworthiness** with the **familiar dm brand** users already trust.
+**DocliQ** combines trust and efficiency, a digital companion that makes health appointments as simple as they should be.
+
+**Name etymology:**
+- **Doc** = Doctor, Trust, Medicine
+- **liQ** = Click + IQ + Quick
+
+**Brand promise:** "Health should never be complicated. With one click, we take care of the rest."
+
+### Three Pillars
+
+| Trust | Efficiency | Humanity |
+|-------|------------|----------|
+| Professional and secure, like visiting a doctor, just digital | To an appointment in seconds. No waiting queues, no paperwork | Warmth in technology. Health is personal |
 
 ### Core Aesthetic
 
-- **Professional and trustworthy**, not sterile or cold
+- **Warm and trustworthy**, not sterile or cold
 - **Clean and clear**, prioritizing readability
-- **Accessible to all ages**, from Elena (23) to Helga (68)
-- **Blue-dominant** for medical credibility
-- **dm brand touches** (red accents, yellow highlights) for recognition
+- **Accessible for everyone**, from digital natives to beginners
+- **Teal-dominant** for modern trust
+- **Coral accents** for warmth and humanity
 
 ### Key Visual Qualities
 
 | Quality | Expression |
 |---------|------------|
-| Trustworthy | Blue primary color, clean typography, consistent spacing |
-| Accessible | Large touch targets, high contrast, clear hierarchy |
+| Trustworthy | Teal primary color, clean typography, consistent spacing |
+| Accessible | Large touch targets, high contrast (4.8:1 min), clear hierarchy |
 | Efficient | Minimal decoration, purposeful whitespace, direct actions |
-| Familiar | dm brand colors as accents, Open Sans (dm-adjacent), recognizable patterns |
+| Warm | Cream backgrounds, coral highlights, friendly motion |
 
 ---
 
@@ -43,57 +54,65 @@ MedAlpha Connect extends the dm-drogerie markt brand into healthcare services. T
 
 ### 2a. Design Direction Rationale
 
-**Why blue-dominant over warm/soft:**
-- Healthcare apps require clinical credibility. Blue signals trust, professionalism, medical authority.
-- dm's core blue (#0C3D91) is already trusted by 12.5 million app users.
-- Older users (Helga, Thomas) associate blue with reliability.
+**Why teal-dominant:**
+- Teal combines the trust of blue with the warmth of green.
+- Modern and distinctive without being clinical.
+- Conveys both professionalism and approachability.
+
+**Why cream backgrounds (#FAF8F5):**
+- Warmer than cool grays, aligns with "Warmth in Technology" pillar.
+- Reduces eye strain for extended use.
+- Creates calm, welcoming environment.
 
 **Why moderate border radius (8-20px):**
 - Professional appearance without being harsh.
 - Softer than clinical/corporate, but not playful.
-- Balances trust (older users) with modernity (younger users).
+- Balances trust with modernity.
 
-**Why blue-tinted shadows:**
-- Subtle depth without warmth. Maintains clinical feel.
-- Consistent with primary color palette.
-- Differentiates from competitors using gray or warm shadows.
+**Why charcoal-tinted shadows:**
+- Warm depth that complements cream backgrounds.
+- Consistent with charcoal text color.
+- Sophisticated without clinical coldness.
 
-**Why Open Sans:**
-- Clean, highly readable at all sizes.
+**Why DM Sans:**
+- Modern, geometric sans-serif with excellent readability.
+- Clean and technical, yet friendly.
 - Excellent German character support (umlauts, ß).
-- Neutral personality, doesn't compete with content.
-- dm-adjacent without being identical to dm main app.
+- Medium weight (500) adds typographic flexibility.
 
-### 2b. Anti-Patterns (What Breaks This Aesthetic)
+### 2b. Anti-Patterns
 
-Avoid these choices that contradict "clinical trust":
+Avoid these choices that contradict DocliQ's aesthetic:
 
 **Visual:**
-- **Warm or playful colors** as primary. Keep warmth in accents only (yellow highlights).
-- **Very rounded corners (24px+)** on primary elements. Feels too casual for healthcare.
+- **Cool gray backgrounds**. Use cream for warmth.
+- **Blue primary colors**. Use teal for modern trust.
+- **Very rounded corners (24px+)** on primary elements. Feels too casual.
+- **Low contrast text**. Maintain 4.8:1 minimum.
 - **Decorative illustrations** without purpose. Every visual must inform or guide.
-- **Low contrast text**. Healthcare information must be readable.
-- **Inconsistent blue shades**. Use only the defined blue scale.
 
 **Interaction:**
-- **Bouncy or playful animations**. Keep motion professional and purposeful.
+- **Overly bouncy animations**. Keep motion subtle and purposeful.
 - **Gamification elements**. This is healthcare, not a game.
-- **Hidden navigation**. Users (especially Helga) must always know where they are.
+- **Hidden navigation**. Users must always know where they are.
+- **Animations over 500ms**. Respect users' time.
 
 **Content:**
-- **Casual or trendy language**. Professional tone throughout.
-- **Excessive exclamation marks**. Calm confidence, not excitement.
+- **Casual or trendy language**. Warm but professional.
 - **Medical jargon without explanation**. Clear for all literacy levels.
 
-### 2c. Persona-Specific Considerations
+### 2c. Universal Accessibility Principles
 
-| Persona | Visual Needs |
-|---------|--------------|
-| **Helga (68)** | Large text, high contrast, obvious touch targets, clear step indicators |
-| **Thomas (51)** | No-nonsense layout, visible pricing, clear confirmations |
-| **Sarah (34)** | Efficient layouts, quick-scan hierarchy, family-friendly imagery |
-| **Marc (42)** | Polished, data-forward, minimal friction |
-| **Elena (23)** | Modern feel, but not at expense of clarity. Accepts professional over trendy. |
+DocliQ is designed for everyone, from digital natives to beginners. These principles apply universally:
+
+| Principle | Implementation |
+|-----------|----------------|
+| Large touch targets | Minimum 44px, critical actions 48px |
+| High contrast | 4.8:1 minimum for all text |
+| Clear hierarchy | Primary action always visually prominent |
+| Step indicators | Always show progress in multi-step flows |
+| Readable text | 16px minimum body text |
+| Visible focus | Clear focus rings for keyboard navigation |
 
 ---
 
@@ -101,11 +120,7 @@ Avoid these choices that contradict "clinical trust":
 
 ### 3a. Color Philosophy
 
-The color system has three layers:
-
-1. **Primitives**: Raw color scales (blue-10 through blue-90, etc.)
-2. **Brand**: dm-specific colors (dmBlue, dmRed, dmYellow)
-3. **Semantic**: Purpose-driven tokens (primary, success, error)
+DocliQ's palette combines professionalism with warmth. Teal for action, Slate for calm, Coral for humanity.
 
 **Always use semantic tokens in components.** Primitives are for edge cases only.
 
@@ -113,20 +128,22 @@ The color system has three layers:
 
 | Token | Hex | Usage |
 |-------|-----|-------|
-| `primary` | #0C3D91 | Primary CTAs, headers, links, active states |
-| `primaryLight` | #1E5BB8 | Hover states, secondary emphasis |
-| `primaryDark` | #082B6A | Pressed states, text on light backgrounds |
+| `primary` | #12a395 | Primary CTAs, headers, links, active states |
+| `primaryLight` | #1ab8a8 | Hover states, secondary emphasis |
+| `primaryDark` | #0e8277 | Pressed states, text on light backgrounds |
 
-### 3c. Brand Accents
+### 3c. Secondary & Accent
 
 | Token | Hex | Usage |
 |-------|-----|-------|
-| `secondary` (dmRed) | #EE161F | Destructive actions, critical alerts, brand accent |
-| `accent` (dmYellow) | #FFC603 | Highlights, badges, promotions, attention |
+| `secondary` (slate) | #5e7a86 | Secondary text, subdued elements, borders |
+| `accent` (coral) | #ebba73 | Highlights, badges, promotions, warmth moments |
 
-**Usage rules:**
-- Red: Use sparingly. Reserved for destructive actions (cancel appointment, delete) and critical alerts.
-- Yellow: Promotional content, success badges, "new" indicators. Never for warnings.
+**Coral usage rules:**
+- Promotional badges ("New", "Popular", "Recommended")
+- Featured highlights (top doctors, best times)
+- Warmth/delight moments (booking confirmation celebration)
+- **Never** for semantic states (success/warning/error)
 
 ### 3d. Semantic Colors
 
@@ -140,10 +157,10 @@ The color system has three layers:
 
 | Token | Hex | Usage |
 |-------|-----|-------|
-| `background` | #F5F7FA | App background, screen base |
+| `background` | #FAF8F5 | App background, screen base (cream) |
 | `backgroundCard` | #FFFFFF | Cards, elevated surfaces |
-| `foreground` | #1A1A2E | Primary text |
-| `foregroundSecondary` | #5A6178 | Secondary text, labels |
+| `foreground` | #1c2a38 | Primary text (charcoal) |
+| `foregroundSecondary` | #5e7a86 | Secondary text, labels (slate) |
 | `foregroundMuted` | #8E94A7 | Placeholders, metadata, disabled |
 | `border` | #E2E8F0 | Dividers, card borders |
 
@@ -153,11 +170,11 @@ The color system has three layers:
 
 ### 4a. Font Family
 
-**Primary:** Open Sans (Google Fonts)  
-**Weights:** 400 (Regular), 600 (SemiBold), 700 (Bold)  
+**Primary:** DM Sans (Google Fonts)
+**Weights:** 400 (Regular), 500 (Medium), 600 (SemiBold), 700 (Bold)
 **Fallback:** system-ui, sans-serif
 
-### 4b. Type Scale
+### 4b. Type Scale (Mobile App)
 
 | Style | Size | Weight | Line Height | Usage |
 |-------|------|--------|-------------|-------|
@@ -166,8 +183,11 @@ The color system has three layers:
 | H3 | 18px | 600 | 26px | Card titles, subsections |
 | Body Large | 18px | 400 | 28px | Introductions, key info |
 | Body | 16px | 400 | 24px | Default text |
-| Caption | 14px | 400 | 20px | Labels, metadata |
+| Label | 14px | 500 | 20px | Form labels, navigation |
+| Caption | 14px | 400 | 20px | Metadata |
 | Small | 12px | 400 | 16px | Fine print, timestamps |
+
+**Note:** DocliQ branding shows larger sizes (72px/48px/32px) for marketing materials. The mobile app uses this adapted scale.
 
 ### 4c. German Language Considerations
 
@@ -175,16 +195,6 @@ The color system has three layers:
 - Design layouts with flexible widths, not fixed pixel counts.
 - Test all UI with German text before English.
 - Special characters (ä, ö, ü, ß) must render correctly.
-
-### 4d. Accessibility Mode Typography
-
-When Accessibility Mode is enabled:
-
-| Style | Standard | Enhanced |
-|-------|----------|----------|
-| Body | 16px | 18px |
-| Caption | 14px | 16px |
-| All text | 1.5 line-height | 1.6 line-height |
 
 ---
 
@@ -211,9 +221,9 @@ When Accessibility Mode is enabled:
 | Mode | Minimum Size |
 |------|--------------|
 | Standard | 44 × 44px |
-| Accessibility Enhanced | 48 × 48px |
+| Critical actions | 48 × 48px |
 
-**Critical for Helga persona.** All interactive elements must meet minimum touch target size.
+All interactive elements must meet minimum touch target size.
 
 ---
 
@@ -241,13 +251,13 @@ When Accessibility Mode is enabled:
 
 ### 7a. Shadow System
 
-All shadows use blue tint (rgba(12, 61, 145, *)) for consistency with primary color.
+All shadows use charcoal tint (rgba(28, 42, 56, *)) for warm depth.
 
 | Token | Value | Usage |
 |-------|-------|-------|
-| `soft` | 0 1px 3px rgba(12, 61, 145, 0.06) | Subtle depth, list items |
-| `card` | 0 2px 8px rgba(12, 61, 145, 0.08) | Cards, default elevation |
-| `elevated` | 0 4px 16px rgba(12, 61, 145, 0.12) | Modals, sheets, overlays |
+| `soft` | 0 1px 3px rgba(28, 42, 56, 0.06) | Subtle depth, list items |
+| `card` | 0 2px 8px rgba(28, 42, 56, 0.08) | Cards, default elevation |
+| `elevated` | 0 4px 16px rgba(28, 42, 56, 0.12) | Modals, sheets, overlays |
 
 ### 7b. Elevation Hierarchy
 
@@ -261,8 +271,8 @@ All shadows use blue tint (rgba(12, 61, 145, *)) for consistency with primary co
 
 ### 8a. Icon Style
 
-- **Source:** Lucide React or similar clean line icon library
-- **Stroke weight:** 1.5-2px consistent
+- **Source:** Lucide React (standard for DocliQ)
+- **Stroke weight:** 2px consistent
 - **Style:** Rounded corners, simple shapes
 - **Color:** Inherit from parent (foreground, primary, etc.)
 
@@ -274,11 +284,14 @@ All shadows use blue tint (rgba(12, 61, 145, *)) for consistency with primary co
 | Buttons, navigation | 24px |
 | Feature illustrations | 32-48px |
 
-### 8c. Icon States
+### 8c. Icon Colors
 
-- **Default:** foregroundSecondary (#5A6178)
-- **Active/Selected:** primary (#0C3D91)
-- **Disabled:** foregroundMuted (#8E94A7)
+| State | Color |
+|-------|-------|
+| Default | foregroundSecondary (#5e7a86) |
+| Active/Selected | primary (#12a395) |
+| Disabled | foregroundMuted (#8E94A7) |
+| Accent | coral (#ebba73) |
 
 ---
 
@@ -286,9 +299,9 @@ All shadows use blue tint (rgba(12, 61, 145, *)) for consistency with primary co
 
 ### 9a. Hierarchy Principles
 
-1. **Primary actions** are most prominent (filled blue buttons).
+1. **Primary actions** are most prominent (filled teal buttons).
 2. **Secondary actions** are visible but subdued (outlined or ghost buttons).
-3. **Destructive actions** use red, positioned away from primary actions.
+3. **Destructive actions** use error red, positioned away from primary actions.
 4. **Information hierarchy** follows: title → key data → metadata.
 
 ### 9b. Card Hierarchy
@@ -309,53 +322,83 @@ All shadows use blue tint (rgba(12, 61, 145, *)) for consistency with primary co
 
 ### 10a. Animation Principles
 
-- **Purposeful:** Every animation guides attention or confirms action.
-- **Subtle:** No bouncy or playful easing.
-- **Fast:** 150-200ms for most interactions.
+- **Purposeful:** Every animation guides attention, confirms action, or adds delight.
+- **Subtle:** Smooth and refined, not bouncy or jarring.
+- **Responsive:** 200-300ms for most interactions.
 - **Reduced motion:** Honor `prefers-reduced-motion` setting.
 
 ### 10b. Timing
 
 | Interaction | Duration | Easing |
 |-------------|----------|--------|
-| Button press | 150ms | ease-out |
-| Page transition | 200ms | ease-in-out |
-| Modal open/close | 250ms | ease-out |
+| Button press | 200ms | ease-out |
+| Hover effects | 200ms | ease-out |
+| Page transition | 300ms | ease-in-out |
+| Modal open/close | 300ms | ease-out |
+| Accordion expand | 700ms | ease-out |
 | Skeleton loading | 1.5s | linear (pulse) |
 
 ### 10c. Feedback Patterns
 
-- **Button press:** Subtle scale (0.98) or opacity change
-- **Success:** Green checkmark animation (brief)
-- **Error:** Shake animation on invalid input (subtle)
-- **Loading:** Skeleton screens, not spinners (where possible)
+| Interaction | Effect |
+|-------------|--------|
+| Button hover | scale(1.05) or lift (translateY + shadow) |
+| Button press | scale(0.98), slight opacity change |
+| Success | Green checkmark animation (brief) |
+| Error | Subtle shake on invalid input |
+| Loading | Skeleton screens, not spinners (where possible) |
+
+### 10d. Do's and Don'ts
+
+| Do | Don't |
+|----|-------|
+| Fast, subtle transitions (200-300ms) | Long animations (>500ms) |
+| Consistent easing functions | Blinking/pulsing elements |
+| Animation on interaction | Animation on critical flows |
+| Respect reduced motion | Complex keyframe sequences |
+| Hover scale/lift for delight | Bouncy spring physics |
 
 ---
 
-## 11. Accessibility Mode
+## 11. Accessibility
 
 ### 11a. Overview
 
-Accessibility Mode is designed primarily for users like Helga (68) who need enhanced visibility and larger touch targets. It should be:
+DocliQ meets WCAG 2.1 AA compliance as a minimum standard. Accessibility is built into the base design, with an optional enhanced mode for users who need it.
 
-- **Easily discoverable** in Profile/Settings
-- **Persistent** across sessions
-- **Non-stigmatizing** in presentation ("Comfort Mode" or "Enhanced Display")
+### 11b. Baseline Accessibility
 
-### 11b. Visual Changes in Accessibility Mode
+| Property | Standard |
+|----------|----------|
+| Contrast ratio | 4.8:1 minimum |
+| Touch targets | 44px minimum |
+| Base font size | 16px |
+| Focus indicators | Visible, 2px ring |
+| Keyboard navigation | Full support |
+
+### 11c. Four Accessibility Pillars
+
+| Visual | Motor | Auditory | Cognitive |
+|--------|-------|----------|-----------|
+| Contrast min. 4.8:1 | Full keyboard navigation | Subtitles for videos | Clear, simple language |
+| Font size min. 16px | Skip links available | No audio autoplay | Consistent navigation |
+| Focus indicators visible | Touch targets 44px+ | Visual alternatives | Errors clearly described |
+| No text in images | No time limits | Transcripts available | Help always accessible |
+
+### 11d. Enhanced Mode (Optional)
+
+For users requiring additional accommodation:
 
 | Property | Standard | Enhanced |
 |----------|----------|----------|
 | Base font size | 16px | 18px |
 | Touch targets | 44px | 48px |
-| Contrast ratio | 4.5:1 | 7:1 |
+| Contrast ratio | 4.8:1 | 7:1 |
 | Line height | 1.5 | 1.6 |
 | Focus ring width | 2px | 3px |
 
-### 11c. Implementation
-
 ```css
-/* Accessibility mode class applied to root */
+/* Enhanced mode class applied to root */
 .accessibility-enhanced {
   --font-size-body: 1.125rem;
   --touch-target-min: 48px;
@@ -363,75 +406,32 @@ Accessibility Mode is designed primarily for users like Helga (68) who need enha
 }
 ```
 
-### 11d. High Contrast Variant
-
-For users requiring maximum contrast:
-
-| Element | Standard | High Contrast |
-|---------|----------|---------------|
-| Text on background | #1A1A2E on #F5F7FA | #000000 on #FFFFFF |
-| Primary button | #0C3D91 bg, white text | #0C3D91 bg, white text |
-| Borders | #E2E8F0 | #1A1A2E |
-
 ---
 
-## 12. White-Label Considerations
-
-### 12a. Customizable Elements
-
-| Element | Customizable | Notes |
-|---------|--------------|-------|
-| Primary color | ✅ | Must maintain 4.5:1 contrast |
-| Secondary color | ✅ | Must maintain 4.5:1 contrast |
-| Accent color | ✅ | - |
-| Logo (splash, header) | ✅ | Provide SVG with safe areas |
-| App name | ✅ | Max 20 characters recommended |
-| Font family | ✅ | Must support German characters |
-
-### 12b. Fixed Elements
-
-| Element | Why Fixed |
-|---------|-----------|
-| Spacing scale | Layout integrity |
-| Border radius | Visual consistency |
-| Success/Warning/Error | Universal understanding |
-| Accessibility tokens | Legal/ethical requirement |
-
-### 12c. Partner Color Guidance
-
-When customizing for partners:
-
-1. Primary color should work on white backgrounds (dark enough).
-2. Primary color should work as button background with white text (4.5:1 contrast).
-3. Avoid colors too similar to success (green) or error (red).
-4. Test all states: default, hover, pressed, disabled.
-
----
-
-## 13. Component Style Summary
+## 12. Component Style Summary
 
 ### Buttons
 
 | Type | Style |
 |------|-------|
-| Primary | Filled blue, white text, rounded-md |
-| Secondary | Outlined blue, blue text, rounded-md |
-| Ghost | No border, blue text |
-| Destructive | Filled red (secondary color), white text |
+| Primary | Filled teal (#12a395), white text, rounded-md |
+| Secondary | Outlined teal, teal text, rounded-md |
+| Ghost | No border, teal text |
+| Destructive | Filled error red (#DC2626), white text |
 
 ### Cards
 
 - White background (#FFFFFF)
 - Rounded-lg (16px)
-- Shadow-card
+- Shadow-card (charcoal-tinted)
 - Padding 16-20px
 
 ### Inputs
 
-- Border: gray-20 (#E2E8F0)
+- Border: slate (#5e7a86) at 40% opacity
 - Rounded-md (12px)
 - Padding: 12-16px
-- Focus: 2px primary ring
+- Focus: 2px teal ring
 
 ### Bottom Sheets
 
@@ -442,20 +442,20 @@ When customizing for partners:
 
 ---
 
-## 14. Emotional Feel
+## 13. Emotional Feel
 
-The MedAlpha Connect experience should feel:
+The DocliQ experience should feel:
 
 | Quality | Not |
 |---------|-----|
-| Professional | Sterile |
-| Trustworthy | Cold |
+| Warm | Cold |
+| Trustworthy | Clinical |
 | Clear | Boring |
 | Efficient | Rushed |
 | Helpful | Patronizing |
-| Calm | Slow |
+| Modern | Trendy |
 
-**Target emotion:** "I trust this app with my health information. It's easy to use and gets things done."
+**Target emotion:** "I trust this app with my health. It feels warm and gets things done quickly."
 
 ---
 
@@ -463,4 +463,5 @@ The MedAlpha Connect experience should feel:
 
 | Version | Date | Changes |
 |---------|------|---------|
-| 1.0.0 | 2026-01-16 | Initial release based on Variation A (dm Clinical Trust) |
+| 2.0.0 | 2026-01-27 | Rebrand to DocliQ. New color palette (teal/charcoal/cream/slate/coral). DM Sans typography. Charcoal-tinted shadows. More expressive animation. Universal accessibility principles. Removed white-label section. |
+| 1.0.0 | 2026-01-16 | Initial release for MedAlpha Connect |

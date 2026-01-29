@@ -1,26 +1,63 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "lastUpdated": "2026-01-27",
-  "description": "Machine-readable design tokens for MedAlpha Connect. Source of truth for AI agents and build tools.",
-  "designVariation": "A - dm Clinical Trust",
+  "description": "Machine-readable design tokens for DocliQ. Source of truth for AI agents and build tools.",
 
   "colors": {
     "primitives": {
-      "blue": {
-        "10": "#E88A73",
-        "20": "#D6E2F5",
-        "30": "#A8C4EA",
-        "40": "#6A9AD8",
-        "50": "#3A75C4",
-        "60": "#1E5BB8",
-        "70": "#0C3D91",
-        "80": "#082B6A",
-        "90": "#051C47"
+      "teal": {
+        "10": "#E6F7F5",
+        "20": "#B3EBE6",
+        "30": "#80DED6",
+        "40": "#4DD1C7",
+        "50": "#1AB8A8",
+        "60": "#12a395",
+        "70": "#0e8277",
+        "80": "#0A615A",
+        "90": "#07413C"
+      },
+      "charcoal": {
+        "10": "#E8EAEC",
+        "20": "#C5CACD",
+        "30": "#A2A9AF",
+        "40": "#7F8990",
+        "50": "#5C6872",
+        "60": "#3D4A53",
+        "70": "#1c2a38",
+        "80": "#141E28",
+        "90": "#0C1219"
+      },
+      "slate": {
+        "10": "#EEF2F4",
+        "20": "#D5DEE2",
+        "30": "#BCCAD0",
+        "40": "#A3B6BE",
+        "50": "#8AA2AC",
+        "60": "#5e7a86",
+        "70": "#4B626B",
+        "80": "#384950",
+        "90": "#253136"
+      },
+      "coral": {
+        "10": "#FDF6EC",
+        "20": "#F9E9CF",
+        "30": "#F5DCB2",
+        "40": "#F1CF95",
+        "50": "#ebba73",
+        "60": "#D9A45C",
+        "70": "#C78E45",
+        "80": "#A5752E",
+        "90": "#835C17"
+      },
+      "cream": {
+        "base": "#FAF8F5",
+        "light": "#FDFCFA",
+        "dark": "#F5F2ED"
       },
       "gray": {
         "10": "#F5F7FA",
-        "20": "#E5E7EB",
+        "20": "#E2E8F0",
         "30": "#CBD5E1",
         "40": "#94A3B8",
         "50": "#64748B",
@@ -51,17 +88,6 @@
         "80": "#15803D",
         "90": "#166534"
       },
-      "yellow": {
-        "10": "#FFFBEB",
-        "20": "#FEF3C7",
-        "30": "#FDE68A",
-        "40": "#FACC15",
-        "50": "#EAB308",
-        "60": "#CA8A04",
-        "70": "#A16207",
-        "80": "#854D0E",
-        "90": "#713F12"
-      },
       "orange": {
         "10": "#FFF7ED",
         "20": "#FFEDD5",
@@ -76,80 +102,94 @@
     },
 
     "brand": {
-      "dmBlue": {
-        "value": "#0C3D91",
-        "reference": "blue-70",
+      "teal": {
+        "value": "#12a395",
+        "reference": "teal-60",
         "usage": "Primary brand color, headers, primary CTAs"
       },
-      "dmBlueLight": {
-        "value": "#1E5BB8",
-        "reference": "blue-60"
+      "tealLight": {
+        "value": "#1ab8a8",
+        "reference": "teal-50"
       },
-      "dmBlueDark": {
-        "value": "#082B6A",
-        "reference": "blue-80"
+      "tealDark": {
+        "value": "#0e8277",
+        "reference": "teal-70"
       },
-      "dmRed": {
-        "value": "#EE161F",
-        "usage": "Brand accent, alerts, destructive actions"
+      "charcoal": {
+        "value": "#1c2a38",
+        "reference": "charcoal-70",
+        "usage": "Primary text, depth"
       },
-      "dmYellow": {
-        "value": "#FFC603",
-        "usage": "Highlights, badges, attention"
+      "slate": {
+        "value": "#5e7a86",
+        "reference": "slate-60",
+        "usage": "Secondary text, subdued elements"
+      },
+      "coral": {
+        "value": "#ebba73",
+        "reference": "coral-50",
+        "usage": "Accent, highlights, warmth moments"
+      },
+      "cream": {
+        "value": "#FAF8F5",
+        "reference": "cream-base",
+        "usage": "App background"
       }
     },
 
     "semantic": {
       "primary": {
-        "value": "#13A3B5",
-        "reference": "DocliQ teal",
+        "value": "#12a395",
+        "reference": "teal-60",
         "usage": "Primary CTAs, headers, navigation, links"
       },
       "primaryLight": {
-        "value": "#1DB5C6",
-        "reference": "DocliQ teal light"
+        "value": "#1ab8a8",
+        "reference": "teal-50"
       },
       "primaryDark": {
-        "value": "#0F7F8C",
-        "reference": "DocliQ teal dark"
+        "value": "#0e8277",
+        "reference": "teal-70"
       },
       "secondary": {
-        "value": "#EE161F",
-        "reference": "dmRed",
-        "usage": "Brand accent, critical alerts, destructive actions"
+        "value": "#5e7a86",
+        "reference": "slate-60",
+        "usage": "Secondary text, subdued elements, borders"
       },
       "secondaryLight": {
-        "value": "#FF4D4D",
-        "reference": "red-40"
+        "value": "#8AA2AC",
+        "reference": "slate-50"
       },
       "accent": {
-        "value": "#E88A73",
-        "reference": "DocliQ coral",
-        "usage": "Highlights, badges, subtle accents"
+        "value": "#ebba73",
+        "reference": "coral-50",
+        "usage": "Highlights, badges, promotions, warmth"
       },
       "background": {
         "value": "#FAF8F5",
-        "reference": "DocliQ cream"
+        "reference": "cream-base"
       },
       "backgroundCard": {
         "value": "#FFFFFF",
         "reference": "white"
       },
       "foreground": {
-        "value": "#1C2A30",
+        "value": "#1c2a38",
+        "reference": "charcoal-70",
         "usage": "Primary text"
       },
       "foregroundSecondary": {
-        "value": "#5A6178",
+        "value": "#5e7a86",
+        "reference": "slate-60",
         "usage": "Secondary text, labels"
       },
       "foregroundMuted": {
-        "value": "#5E7A86",
+        "value": "#8E94A7",
         "usage": "Placeholders, disabled text, metadata"
       },
       "success": {
-        "value": "#10B77F",
-        "reference": "DocliQ teal-green",
+        "value": "#2E7D32",
+        "reference": "green-80",
         "usage": "Confirmation, completed states, positive feedback"
       },
       "warning": {
@@ -163,12 +203,12 @@
         "usage": "Validation errors, failed states, critical alerts"
       },
       "border": {
-        "value": "#E5E7EB",
+        "value": "#E2E8F0",
         "reference": "gray-20"
       },
       "ring": {
-        "value": "#13A3B5",
-        "reference": "DocliQ teal",
+        "value": "#12a395",
+        "reference": "teal-60",
         "usage": "Focus ring for accessibility"
       }
     }
@@ -191,22 +231,22 @@
 
   "borderRadius": {
     "sm": {
-      "value": "12px",
+      "value": "8px",
       "tailwindClass": "rounded-sm",
       "usage": "Chips, badges, small elements"
     },
     "md": {
-      "value": "16px",
+      "value": "12px",
       "tailwindClass": "rounded-md",
       "usage": "Input fields, buttons, small cards"
     },
     "lg": {
-      "value": "20px",
+      "value": "16px",
       "tailwindClass": "rounded-lg",
       "usage": "Cards, panels"
     },
     "xl": {
-      "value": "24px",
+      "value": "20px",
       "tailwindClass": "rounded-xl",
       "usage": "Bottom sheets, modals, large cards"
     },
@@ -218,23 +258,23 @@
   },
 
   "shadows": {
+    "soft": {
+      "value": "0 1px 3px rgba(28, 42, 56, 0.06)",
+      "usage": "Subtle depth, list items"
+    },
     "card": {
-      "value": "0 2px 8px rgba(28, 42, 48, 0.06)",
+      "value": "0 2px 8px rgba(28, 42, 56, 0.08)",
       "usage": "Card elevation, default shadow"
     },
     "elevated": {
-      "value": "0 4px 16px rgba(28, 42, 48, 0.08)",
+      "value": "0 4px 16px rgba(28, 42, 56, 0.12)",
       "usage": "Modals, bottom sheets, elevated surfaces"
-    },
-    "soft": {
-      "value": "0 1px 3px rgba(28, 42, 48, 0.04)",
-      "usage": "Subtle depth, list items"
     }
   },
 
   "typography": {
     "fontFamily": {
-      "sans": ["Open Sans", "system-ui", "sans-serif"]
+      "sans": ["DM Sans", "system-ui", "sans-serif"]
     },
     "scale": {
       "h1": {
@@ -267,11 +307,17 @@
         "fontWeight": "400",
         "usage": "Default body text"
       },
+      "label": {
+        "fontSize": "0.875rem",
+        "lineHeight": "1.25rem",
+        "fontWeight": "500",
+        "usage": "Form labels, navigation"
+      },
       "caption": {
         "fontSize": "0.875rem",
         "lineHeight": "1.25rem",
         "fontWeight": "400",
-        "usage": "Labels, metadata, helper text"
+        "usage": "Metadata, helper text"
       },
       "small": {
         "fontSize": "0.75rem",
@@ -280,6 +326,12 @@
         "usage": "Fine print, timestamps"
       }
     },
+    "weights": {
+      "regular": 400,
+      "medium": 500,
+      "semibold": 600,
+      "bold": 700
+    },
     "german": {
       "note": "German text tends to be 20-30% longer than English. Design for flexible layouts."
     }
@@ -287,20 +339,27 @@
 
   "animation": {
     "duration": {
-      "fast": "150ms",
-      "default": "200ms",
-      "slow": "300ms"
+      "fast": "200ms",
+      "default": "250ms",
+      "slow": "300ms",
+      "accordion": "700ms"
     },
     "easing": {
       "default": "cubic-bezier(0.4, 0, 0.2, 1)",
-      "note": "Smooth, professional. Not bouncy."
+      "note": "Smooth, purposeful. Subtle delight allowed."
+    },
+    "effects": {
+      "hoverScale": "scale(1.05)",
+      "pressScale": "scale(0.98)",
+      "liftTranslate": "translateY(-2px)",
+      "note": "Hover effects allowed for warmth and delight"
     }
   },
 
   "touchTargets": {
     "minimum": "44px",
     "comfortable": "48px",
-    "note": "WCAG 2.1 AA compliant. Helga persona requires comfortable sizing."
+    "note": "WCAG 2.1 AA compliant. 48px for critical actions."
   },
 
   "accessibility": {
@@ -308,75 +367,34 @@
       "standard": {
         "fontSize": "1rem",
         "touchTarget": "44px",
-        "contrast": "4.5:1"
+        "contrast": "4.8:1"
       },
       "enhanced": {
         "fontSize": "1.125rem",
         "touchTarget": "48px",
         "contrast": "7:1",
-        "description": "For users like Helga who need larger text and touch targets"
+        "lineHeight": "1.6",
+        "description": "For users who need larger text and touch targets"
       }
     },
     "tokens": {
       "focusRingWidth": "2px",
+      "focusRingWidthEnhanced": "3px",
       "focusRingOffset": "2px",
-      "focusRingColor": "#0C3D91",
-      "highContrastBorder": "#1A1A2E",
+      "focusRingColor": "#12a395",
+      "highContrastBorder": "#1c2a38",
       "largeTextScale": "1.125"
-    }
-  },
-
-  "whiteLabel": {
-    "description": "Tokens that can be customized per partner/brand deployment",
-    "customizable": {
-      "colors": {
-        "primary": true,
-        "primaryLight": true,
-        "primaryDark": true,
-        "secondary": true,
-        "accent": true,
-        "note": "Background, foreground, success/warning/error should remain consistent for UX"
-      },
-      "branding": {
-        "appName": true,
-        "logoSplash": true,
-        "logoHeader": true,
-        "faviconUrl": true
-      },
-      "typography": {
-        "fontFamily": true,
-        "note": "Font weights and sizes should remain consistent"
-      },
-      "features": {
-        "telemedicineEnabled": true,
-        "prescriptionEnabled": true,
-        "appointmentBookingEnabled": true,
-        "pharmacySearchEnabled": true,
-        "note": "Feature toggles per partner deployment"
-      }
     },
-    "fixed": {
-      "spacing": "Spacing scale must remain consistent for layout integrity",
-      "borderRadius": "Radius system maintains visual consistency",
-      "shadows": "Shadow depth hierarchy should not change",
-      "accessibility": "Accessibility tokens are non-negotiable"
-    },
-    "partnerExample": {
-      "partnerId": "example-partner",
-      "overrides": {
-        "primary": "#1E40AF",
-        "secondary": "#7C3AED",
-        "accent": "#F59E0B",
-        "appName": "Partner Health",
-        "logoSplash": "/assets/partners/example/logo-splash.svg",
-        "logoHeader": "/assets/partners/example/logo-header.svg"
-      }
+    "wcag": {
+      "target": "WCAG 2.1 AA",
+      "contrastMinimum": "4.8:1",
+      "contrastLargeText": "3:1"
     }
   },
 
   "i18n": {
     "supportedLocales": ["de", "en"],
     "defaultLocale": "de",
-    "note": "German primary, English for expats and SSO partners"
+    "note": "German primary, English secondary"
   }
 }

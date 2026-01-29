@@ -1,297 +1,288 @@
 # Copy & Tone Guidelines
 
-**Version:** 1.0.0  
-**Last Updated:** 2026-01-16  
+**Version:** 2.0.0
+**Last Updated:** 2026-01-27
 **Languages:** German (primary), English (secondary)
-
-**Demo note:** This repo currently boots in English (`en`) by default for demo purposes, even though the baseline tokens list German (`de`) as the default locale.
 
 ---
 
 ## 1. Positioning Context
 
-**Product:** MedAlpha Connect, a healthcare app by dm-drogerie markt offering appointment booking, telemedicine, and prescription redemption.
+**Product:** DocliQ combines trust and efficiency – a digital companion that makes health appointments as simple as they should be.
 
-**Brand promise:** "Your trusted healthcare companion. Simple, reliable, always there."
+**Name etymology:**
+- **Doc** = Doctor, Trust, Medicine
+- **liQ** = Click + IQ + Quick
+- *Intelligent, fast, with one click*
 
-**Core values:**
-- **Trustworthy:** Professional, credible, secure
-- **Accessible:** Clear for all ages and digital skill levels
-- **Efficient:** Respects users' time
-- **Caring:** Supportive without being patronizing
+**Brand promise:** "Health should never be complicated. With one click, we take care of the rest."
 
----
+**Three pillars:**
 
-## 2. Tone Rules
-
-### 2a. Professional, Not Clinical
-
-**The balance:** Sound like a knowledgeable healthcare professional, not a cold medical system.
-
-| ❌ Too clinical | ❌ Too casual | ✅ Right tone |
-|-----------------|---------------|---------------|
-| "Appointment request submitted for processing" | "Awesome! You're all booked!" | "Termin bestätigt" / "Appointment confirmed" |
-| "Authentication credentials required" | "Pop in your login deets" | "Bitte anmelden" / "Please sign in" |
-| "Prescription retrieval initiated" | "Getting your meds now!" | "Rezept wird abgerufen" / "Retrieving prescription" |
-
-### 2b. Clear Over Clever
-
-**Priority:** Clarity > personality. Healthcare information must be unambiguous.
-
-| ❌ Avoid | ✅ Use |
-|----------|--------|
-| "Your health journey starts here" | "Termin buchen" / "Book appointment" |
-| "Let's get you feeling better!" | "Wählen Sie einen Arzt" / "Select a doctor" |
-| "Oops! Something went wrong" | "Verbindungsfehler. Bitte erneut versuchen." / "Connection error. Please try again." |
-
-### 2c. Respectful of All Users
-
-**Remember the personas:** Helga (68) needs straightforward language. Elena (23) can handle modern phrasing but still needs clarity.
-
-**Rules:**
-- No slang or trendy expressions.
-- No abbreviations without explanation (first use: "Gesundheitskarte (eGK)").
-- No assumptions about technical knowledge.
-- No ageist language (avoid implying something is "easy" or "simple").
-
-### 2d. Reassuring Without Overpromising
-
-**Healthcare context requires precision.**
-
-| ❌ Overpromising | ✅ Accurate |
-|------------------|-------------|
-| "Your prescription will arrive tomorrow" | "Voraussichtliche Lieferung: 1-2 Werktage" / "Estimated delivery: 1-2 business days" |
-| "The doctor will call you now" | "Der Arzt meldet sich in Kürze" / "The doctor will be with you shortly" |
-| "100% secure" | "Ihre Daten sind verschlüsselt und geschützt" / "Your data is encrypted and protected" |
+| Trust | Efficiency | Humanity |
+|-------|------------|----------|
+| Professional and secure, like visiting a doctor, just digital | To an appointment in seconds. No waiting queues, no paperwork | Warmth in technology. Health is personal |
 
 ---
 
-## 3. Voice Characteristics
+## 2. Voice & Tone
+
+### Our Voice
 
 | Characteristic | Expression |
 |---------------|------------|
-| **Confident** | State information directly. "Termin bestätigt" not "Ihr Termin wurde erfolgreich gebucht" |
-| **Calm** | No urgency unless necessary. Avoid exclamation marks. |
-| **Helpful** | Offer next steps. "Termin bestätigt. In Kalender speichern?" |
-| **Human** | Use "Sie" (formal you) consistently. Address the user directly. |
+| **Warm** | Friendly and welcoming, never cold or distant |
+| **Clear** | Speak plainly, without jargon or buzzwords |
+| **Helpful** | Guide through the process, never patronizing |
+| **Respectful** | Health is personal. We treat it that way |
+
+### Tone Balance
+
+**The balance:** Sound like a helpful friend who happens to know healthcare, not a cold medical system.
+
+| Too clinical | Too casual | Right tone |
+|--------------|------------|------------|
+| "Appointment request submitted for processing" | "Awesome! You're all booked!" | "Termin bestätigt!" |
+| "Authentication credentials required" | "Pop in your login deets" | "Bitte anmelden" |
+
+### Clear Over Clever
+
+**Priority:** Clarity > personality. Healthcare information must be unambiguous.
+
+| Avoid | Use |
+|-------|-----|
+| "Your health journey starts here" | "Buchen" |
+| "Let's get you feeling better!" | "Arzt wählen" |
+
+### Reassuring Without Overpromising
+
+| Overpromising | Accurate |
+|---------------|----------|
+| "The doctor will call you now" | "Der Arzt meldet sich in Kürze" |
+| "100% secure" | "Deine Daten sind verschlüsselt und geschützt" |
 
 ---
 
-## 4. German Language Rules
+## 3. German Language Rules
 
-### 4a. Formal Address (Sie)
+### 3a. Informal Address (du)
 
-**Always use formal "Sie" address.** This is a healthcare app, not a social platform.
+**DocliQ uses the informal "du" form** for a personal, modern approach. This is intentional even though traditional German healthcare uses formal "Sie". The warmth of "du" aligns with DocliQ's humanity pillar.
 
-| ❌ Informal | ✅ Formal |
-|-------------|----------|
-| "Dein Termin" | "Ihr Termin" |
-| "Wähle einen Arzt" | "Wählen Sie einen Arzt" |
-| "Hast du Fragen?" | "Haben Sie Fragen?" |
+| Formal (old) | Informal (DocliQ) |
+|--------------|-------------------|
+| "Ihr Termin" | "Dein Termin" |
+| "Wählen Sie einen Arzt" | "Wähl einen Arzt" |
+| "Haben Sie Fragen?" | "Hast du Fragen?" |
+| "Ihre Daten" | "Deine Daten" |
 
-### 4b. Clarity Over Brevity
+**Note:** This applies across all ages. DocliQ's voice is consistently warm and personal for everyone, from digital natives to those new to apps.
 
-German sentences can be longer than English. Prioritize clarity.
+### 3b. Clarity in Context
 
-| ❌ Too abbreviated | ✅ Clear |
-|--------------------|----------|
-| "Rx scannen" | "Rezept mit NFC scannen" |
-| "Termin wählen" | "Datum und Uhrzeit wählen" |
-| "Bestätigen?" | "Termin verbindlich buchen?" |
+German sentences can be longer than English. Ensure context is clear, especially when using short button labels.
 
-### 4c. Medical Terminology
+| Context | Copy |
+|---------|------|
+| Booking screen, clear context | "Buchen" |
+| Ambiguous context | "Termin buchen" |
+| Date picker | "Datum wählen" |
 
-**Use official German medical terms, then explain if needed.**
+### 3c. Common Phrases
 
-| Term | Usage |
-|------|-------|
-| Gesundheitskarte | Use "Gesundheitskarte" or "eGK" (elektronische Gesundheitskarte) |
-| E-Rezept | "E-Rezept" (established term for electronic prescription) |
-| Videosprechstunde | Preferred over "Telemedicine" or "Video-Konsultation" |
-| GKV / PKV | "Gesetzliche/Private Krankenversicherung" on first use |
-
-### 4d. Common Healthcare Phrases
-
-| Context | German | English equivalent |
-|---------|--------|-------------------|
-| Book appointment | "Termin buchen" | Book appointment |
-| Cancel | "Termin stornieren" | Cancel appointment |
-| Reschedule | "Termin verschieben" | Reschedule |
-| Doctor | "Arzt" / "Ärztin" | Doctor |
-| Prescription | "Rezept" | Prescription |
-| Pharmacy | "Apotheke" | Pharmacy |
-| Health insurance | "Krankenversicherung" | Health insurance |
+| Context | German | English |
+|---------|--------|---------|
+| Book appointment | "Buchen" | "Book" |
+| Cancel | "Stornieren" | "Cancel" |
+| Reschedule | "Verschieben" | "Reschedule" |
+| Doctor | "Arzt" / "Ärztin" | "Doctor" |
+| Health insurance | "Krankenversicherung" | "Health insurance" |
 
 ---
 
-## 5. English Language Rules
+## 4. English Language Rules
 
-### 5a. Consistent American English
+### 4a. Consistent American English
 
-Use American English spelling and conventions.
-
-| ❌ British | ✅ American |
-|------------|-------------|
+| British | American |
+|---------|----------|
 | Colour | Color |
 | Organisation | Organization |
 | Centre | Center |
 
-### 5b. Match German Formality
+### 4b. Match German Warmth
 
-English should feel equally professional.
+English should feel equally warm and approachable.
 
-| ❌ Too casual | ✅ Professional |
-|---------------|-----------------|
-| "Hey there!" | "Welcome" |
-| "You're all set!" | "Appointment confirmed" |
-| "Oops!" | "Error" |
+| Too casual | Too clinical | Right tone |
+|------------|--------------|------------|
+| "Hey there!" | "Welcome, user" | "Welcome" |
+| "You're all set!" | "Booking confirmed" | "Appointment confirmed!" |
+| "Oops!" | "Error 500" | "Something went wrong" |
 
 ---
 
-## 6. Copy Style
+## 5. Copy Patterns
 
-### 6a. Short, Direct, Active
+### 5a. Buttons & CTAs
 
-- Use active voice.
-- Keep sentences under 15 words where possible.
-- One idea per sentence.
-- Lead with the action verb.
+**Rules:**
+- Use single-word imperatives when context is clear
+- Maximum 3 words
+- Be concrete: "Jetzt buchen" instead of "Weiter"
 
-| ❌ Passive/long | ✅ Active/short |
-|-----------------|-----------------|
-| "Your appointment has been successfully booked by our system" | "Termin bestätigt" |
-| "The prescription you requested is now being processed" | "Rezept wird verarbeitet" |
-| "You will need to select a date before continuing" | "Datum wählen" |
+| Context | German | English |
+|---------|--------|---------|
+| Primary CTA | "Buchen" | "Book" |
+| Confirm | "Bestätigen" | "Confirm" |
+| Cancel action | "Abbrechen" | "Cancel" |
+| Delete | "Löschen" | "Delete" |
+| Save | "Speichern" | "Save" |
+| Continue | "Weiter" | "Continue" |
+| Back | "Zurück" | "Back" |
+| Retry | "Nochmal" | "Try Again" |
+| Done | "Fertig" | "Done" |
+| Close | "Schließen" | "Close" |
 
-### 6b. Hierarchy in Multi-Step Flows
+### 5b. Error Messages
 
-For Helga and other users needing guidance, structure information clearly.
+**Format:** Empathy + Cause + Solution
+
+DocliQ errors acknowledge the frustration briefly, then provide clear recovery steps. Never assign blame.
+
+| Type | German | English |
+|------|--------|---------|
+| Generic | "Das hat leider nicht geklappt. Bitte versuch es erneut." | "Unfortunately, that didn't work. Please try again." |
+| Network | "Keine Internetverbindung. Bitte prüf deine Verbindung." | "No internet connection. Please check your connection." |
+| Server | "Unser Dienst ist gerade nicht erreichbar. Versuch es in ein paar Minuten nochmal." | "Our service is temporarily unavailable. Try again in a few minutes." |
+| Validation | "Bitte füll alle Pflichtfelder aus." | "Please complete all required fields." |
+| Session | "Deine Sitzung ist abgelaufen. Bitte melde dich erneut an." | "Your session expired. Please sign in again." |
+
+### 5c. Success Messages
+
+**Exclamation marks are allowed** in success states to convey positive energy.
+
+| Action | German | English |
+|--------|--------|---------|
+| Appointment booked | "Termin bestätigt!" | "Appointment confirmed!" |
+| Profile updated | "Profil aktualisiert!" | "Profile updated!" |
+| Settings saved | "Gespeichert!" | "Saved!" |
+
+### 5d. Empty States
+
+**Format:** Brief statement + Suggested action
+
+| Screen | German | English |
+|--------|--------|---------|
+| No appointments | "Keine Termine. Jetzt einen buchen?" | "No appointments. Book one?" |
+| No history | "Noch keine Aktivität" | "No activity yet" |
+
+### 5e. Placeholder Text
+
+- Give examples: "z.B. Hausarzt, Kardiologie" / "e.g. GP, Cardiology"
+- Short and helpful
+- Never Lorem Ipsum in production
+
+---
+
+## 6. Multi-Step Flows
+
+Structure information clearly for all users.
 
 ```
-Step 1 of 3: Datum wählen
+Schritt 1 von 3: Datum wählen
 [Primary action]
 
 Nächster Schritt: Uhrzeit wählen
 ```
 
-### 6c. Error Messages
-
-**Format:** What happened + What to do
-
-| ❌ Vague | ✅ Actionable |
-|----------|---------------|
-| "Error" | "Verbindung fehlgeschlagen. Bitte Internetverbindung prüfen." |
-| "Something went wrong" | "Gesundheitskarte nicht erkannt. Karte erneut auflegen." |
-| "Try again later" | "Dienst vorübergehend nicht verfügbar. In 5 Minuten erneut versuchen." |
+**Best practices:**
+- Always show step numbers
+- Indicate what comes next
+- Make the primary action visually prominent
+- Maximum 3 main actions per screen
 
 ---
 
-## 7. UI Microcopy Examples
+## 7. Notification Copy
 
-### 7a. Button Labels
+### 7a. Push Notifications
 
-Use verb + object. Avoid generic labels.
-
-| Context | German | English |
-|---------|--------|---------|
-| Primary CTA | "Termin buchen" | "Book Appointment" |
-| Confirm | "Bestätigen" | "Confirm" |
-| Cancel | "Abbrechen" | "Cancel" |
-| Delete | "Löschen" | "Delete" |
-| Save | "Speichern" | "Save" |
-| Continue | "Weiter" | "Continue" |
-| Back | "Zurück" | "Back" |
-| Retry | "Erneut versuchen" | "Try Again" |
-| Done | "Fertig" | "Done" |
-| Close | "Schließen" | "Close" |
-
-### 7b. Empty States
-
-**Format:** Brief statement + Action
-
-| Screen | German | English |
-|--------|--------|---------|
-| No appointments | "Keine Termine. Termin buchen?" | "No appointments. Book one?" |
-| No prescriptions | "Keine Rezepte vorhanden" | "No prescriptions available" |
-| No history | "Noch keine Aktivität" | "No activity yet" |
-
-### 7c. Success Messages
-
-| Action | German | English |
-|--------|--------|---------|
-| Appointment booked | "Termin bestätigt" | "Appointment confirmed" |
-| Prescription ordered | "Rezept bestellt" | "Prescription ordered" |
-| Profile updated | "Profil aktualisiert" | "Profile updated" |
-| Settings saved | "Einstellungen gespeichert" | "Settings saved" |
-
-### 7d. Error Messages
-
-| Error type | German | English |
-|------------|--------|---------|
-| Network | "Keine Internetverbindung" | "No internet connection" |
-| Server | "Dienst nicht verfügbar. Bitte später erneut versuchen." | "Service unavailable. Please try again later." |
-| Validation | "Bitte füllen Sie alle Pflichtfelder aus" | "Please complete all required fields" |
-| NFC fail | "Karte nicht erkannt. Bitte erneut versuchen." | "Card not detected. Please try again." |
-| Session expired | "Sitzung abgelaufen. Bitte erneut anmelden." | "Session expired. Please sign in again." |
-
----
-
-## 8. Notification Copy
-
-### 8a. Push Notification Format
-
-**Format:** [Action/Update] + [Relevant detail]
+**Format:** [Update] + [Relevant detail]
 
 | Type | German | English |
 |------|--------|---------|
-| Appointment reminder | "Termin morgen um 14:30 bei Dr. Müller" | "Appointment tomorrow at 2:30 PM with Dr. Müller" |
-| Prescription ready | "Neues Rezept verfügbar" | "New prescription available" |
-| Post-appointment | "Wie war Ihr Termin? Rezept einlösen?" | "How was your appointment? Redeem a prescription?" |
-| Delivery update | "Ihre Bestellung ist unterwegs" | "Your order is on its way" |
+| Appointment reminder | "Dein Termin morgen um 14:30 bei Dr. Müller" | "Your appointment tomorrow at 2:30 PM with Dr. Müller" |
+| Confirmation | "Termin bestätigt für den 20.01. um 10:00" | "Appointment confirmed for Jan 20 at 10:00 AM" |
 
-### 8b. In-App Toast Messages
+### 7b. In-App Toasts
 
-**Keep under 5 words. Include undo where applicable.**
+**Keep under 5 words.**
 
 | Action | German | English |
 |--------|--------|---------|
-| Item deleted | "Gelöscht" [Rückgängig] | "Deleted" [Undo] |
-| Item saved | "Gespeichert" | "Saved" |
+| Deleted | "Gelöscht" [Rückgängig] | "Deleted" [Undo] |
+| Saved | "Gespeichert" | "Saved" |
 | Copied | "Kopiert" | "Copied" |
-| Added to calendar | "Zum Kalender hinzugefügt" | "Added to calendar" |
+| Added to calendar | "Im Kalender gespeichert" | "Added to calendar" |
 
 ---
 
-## 9. Sensitive Topic Guidelines
+## 8. Privacy & Sensitivity
 
-### 9a. Privacy-Conscious Language
+### 8a. Privacy-Conscious Language
 
-For users like Elena ordering sensitive medications:
+In history and notifications, use generic terms unless user is in private context.
 
-| ❌ Explicit | ✅ Discreet |
-|-------------|-------------|
+| Explicit | Discreet |
+|----------|----------|
 | "Birth control pills ordered" | "Rezept bestellt" |
-| "Acne medication" | "Medikament" |
+| "Dermatologist appointment" | "Termin bestätigt" |
 
-**In history and notifications, use generic terms unless user is in private context.**
-
-### 9b. Health Condition References
+### 8b. Health Condition References
 
 Never assume or label the user's condition.
 
-| ❌ Assumptive | ✅ Neutral |
-|---------------|-----------|
-| "For your diabetes medication" | "Für Ihr Rezept" |
-| "Your chronic condition" | "Ihre regelmäßigen Medikamente" |
+| Assumptive | Neutral |
+|------------|---------|
+| "For your diabetes medication" | "Für dein Rezept" |
+| "Your chronic condition" | "Deine regelmäßigen Medikamente" |
 
-### 9c. Insurance Information
+### 8c. Insurance Information
 
-Present insurance options neutrally. GKV and PKV users should feel equally supported.
+Present options neutrally. GKV and PKV users should feel equally supported.
 
-| ❌ Biased | ✅ Neutral |
-|-----------|-----------|
+| Biased | Neutral |
+|--------|---------|
 | "Standard insurance" | "Gesetzliche Versicherung (GKV)" |
 | "Premium insurance" | "Private Versicherung (PKV)" |
+
+---
+
+## 9. Accessibility Principles
+
+DocliQ speaks to everyone, from digital natives to those new to apps. These principles ensure the experience works for all users:
+
+### Universal Clarity
+- Always show step numbers in multi-step flows
+- Confirmation dialogs should be explicit: "Termin verbindlich buchen?"
+- Error messages always include specific recovery steps
+- Avoid idioms or figures of speech
+
+### Transparency
+- Show relevant information upfront (date, time, doctor, specialty)
+- No marketing language in functional flows
+- Be specific: "Termin: 15.01., 09:00, Dr. Müller"
+
+### Efficiency
+- Minimize words in repeated flows
+- Key information first (scannable)
+- No fluff
+
+### Inclusivity
+- No assumptions about technical knowledge
+- No ageist language (avoid "easy" or "simple")
+- No slang or trendy expressions
 
 ---
 
@@ -303,13 +294,13 @@ Use `{{variable}}` for dynamic values.
 
 ```json
 // de.json
-"appointment.confirmation": "Ihr Termin am {{date}} um {{time}} bei {{doctor}} wurde bestätigt."
+"appointment.confirmation": "Dein Termin am {{date}} um {{time}} bei {{doctor}} wurde bestätigt."
 
 // en.json
 "appointment.confirmation": "Your appointment on {{date}} at {{time}} with {{doctor}} has been confirmed."
 ```
 
-### 10b. Date and Time Formatting
+### 10b. Date and Time
 
 | Format | German | English |
 |--------|--------|---------|
@@ -317,9 +308,7 @@ Use `{{variable}}` for dynamic values.
 | Time | 14:30 Uhr | 2:30 PM |
 | Duration | 30 Min. | 30 min |
 
-### 10c. Plural Handling
-
-German and English have different plural rules.
+### 10c. Plurals
 
 ```json
 // de.json
@@ -351,76 +340,60 @@ All ARIA labels must be translated.
 
 ---
 
-## 11. Persona-Specific Adjustments
+## 11. Anti-Patterns
 
-### 11a. Helga (68) - Clarity First
-
-- Always show step numbers in flows: "Schritt 1 von 3"
-- Confirmation dialogs should be explicit: "Termin verbindlich buchen?"
-- Error messages should include specific recovery steps.
-- Avoid idioms or figures of speech.
-
-### 11b. Thomas (51) - Transparency
-
-- Show prices and costs clearly.
-- Confirmation messages should be complete: "Termin bestätigt. Kostenlos mit Ihrer GKV."
-- No marketing language in functional flows.
-
-### 11c. Sarah (34) - Efficiency
-
-- Minimize words in flows she'll repeat often.
-- Support quick-scan: key info first.
-- Family context where relevant: "Termin für [Kind's Name]"
-
-### 11d. Marc (42) - Precision
-
-- Use specific times and durations.
-- Data-forward confirmations: "Termin: 15.01., 09:00, Dr. Müller, Allgemeinmedizin"
-- No fluff, no marketing.
-
-### 11e. Elena (23) - Modern but Clear
-
-- Modern phrasing acceptable, but not slang.
-- Privacy messaging: "Diskrete Lieferung" / "Discreet delivery"
-- Can handle more compact layouts.
-
----
-
-## 12. Anti-Patterns
-
-### 12a. Never Use
+### 11a. Never Use
 
 | Pattern | Why |
 |---------|-----|
-| Exclamation marks (except true emergencies) | Feels unprofessional, creates false urgency |
-| Marketing superlatives ("best", "amazing", "incredible") | Erodes trust in healthcare context |
-| Emojis | Unprofessional for healthcare |
-| Slang or colloquialisms | Excludes older users, reduces clarity |
+| Marketing superlatives ("best", "amazing") | Erodes trust in healthcare context |
+| Emojis | Keeps professional appearance |
+| Slang or colloquialisms | Reduces clarity |
 | Passive aggressive ("As mentioned before...") | Unprofessional |
-| Uncertainty ("maybe", "might", "possibly") in confirmations | Erodes trust |
+| Uncertainty in confirmations ("maybe", "might") | Erodes trust |
+| Blame language ("You did...", "You forgot...") | Unhelpful, accusatory |
 
-### 12b. Avoid Unless Necessary
+### 11b. Conditional Use
 
-| Pattern | When acceptable |
-|---------|-----------------|
-| Abbreviations | Only established ones (GKV, PKV, eGK) with first-use explanation |
-| Technical terms | Only when official (E-Rezept, NFC) with context |
-| English words in German text | Only when German equivalent is awkward or unknown |
+| Pattern | When allowed |
+|---------|--------------|
+| Exclamation marks | Success states only |
+| Abbreviations | Only established ones (GKV, PKV) with first-use explanation |
+| Technical terms | Only when official, with context |
+| English words in German | Only when German equivalent is awkward |
 
 ---
 
-## 13. Writing Checklist
+## 12. Writing Checklist
 
 Before finalizing any copy, verify:
 
-- [ ] Is this in formal German (Sie)?
-- [ ] Is the message under 15 words?
-- [ ] Is it action-oriented (starts with verb)?
-- [ ] Would Helga understand it immediately?
-- [ ] Is it free of marketing language?
-- [ ] Does it include next steps (where applicable)?
-- [ ] Is there an English translation?
-- [ ] Are interpolation variables correct?
+- [ ] Uses informal German (du)?
+- [ ] Under 15 words?
+- [ ] Action-oriented (starts with verb)?
+- [ ] Clear to all users regardless of age or tech experience?
+- [ ] Free of marketing language?
+- [ ] Includes next steps (where applicable)?
+- [ ] English translation available?
+- [ ] Interpolation variables correct?
+- [ ] Warm but professional tone?
+- [ ] Error messages empathetic with clear recovery?
+- [ ] Success messages use exclamation appropriately?
+
+---
+
+## Appendix: Future Feature Terms
+
+*These terms will be relevant when telemedicine, prescriptions, and pharmacy features launch.*
+
+| Term | Usage |
+|------|-------|
+| Gesundheitskarte | "Gesundheitskarte" or "eGK" (elektronische Gesundheitskarte) |
+| E-Rezept | "E-Rezept" (established term for electronic prescription) |
+| Videosprechstunde | Preferred over "Telemedicine" or "Video-Konsultation" |
+| GKV / PKV | "Gesetzliche/Private Krankenversicherung" on first use |
+| Apotheke | Pharmacy |
+| Rezept | Prescription |
 
 ---
 
@@ -428,5 +401,5 @@ Before finalizing any copy, verify:
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 2.0.0 | 2026-01-27 | Rebrand to DocliQ. Informal "du" address. New tone (warm, empathetic errors). Single-word button imperatives. Universal accessibility principles. |
 | 1.0.0 | 2026-01-16 | Initial release for MedAlpha Connect |
-
