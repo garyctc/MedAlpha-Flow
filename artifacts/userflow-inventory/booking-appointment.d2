@@ -1,0 +1,239 @@
+direction: down
+
+# Start
+start: Start {
+  shape: circle
+  style.fill: "#1C2E6A"
+  style.font-color: "#FFFFFF"
+}
+
+start -> entry: {
+  style.stroke: "#9AA0A6"
+}
+
+# Entry
+entry: BKG-011 | Booking Entry {
+  shape: document
+  style.fill: "#2E7D32"
+  style.font-color: "#FFFFFF"
+}
+
+entry -> entry-choice: {
+  style.stroke: "#9AA0A6"
+}
+
+entry-choice: Entry mode? {
+  shape: diamond
+  style.fill: "#1C2E6A"
+  style.font-color: "#FFFFFF"
+}
+
+# Specialty path
+entry-choice -> choose-specialty: Choose Specialty
+choose-specialty: Tap "Select Specialty" {
+  shape: rectangle
+  style.fill: "#2F5FD1"
+  style.font-color: "#FFFFFF"
+  style.border-radius: 6
+}
+
+choose-specialty -> specialty: {
+  style.stroke: "#9AA0A6"
+}
+
+specialty: BKG-002 | Specialty Select {
+  shape: document
+  style.fill: "#2E7D32"
+  style.font-color: "#FFFFFF"
+}
+
+specialty -> choose-location: {
+  style.stroke: "#9AA0A6"
+}
+
+choose-location: Select location {
+  shape: rectangle
+  style.fill: "#2F5FD1"
+  style.font-color: "#FFFFFF"
+  style.border-radius: 6
+}
+
+choose-location -> location: {
+  style.stroke: "#9AA0A6"
+}
+
+location: BKG-003 | Location Select {
+  shape: document
+  style.fill: "#2E7D32"
+  style.font-color: "#FFFFFF"
+}
+
+location -> choose-doctor: {
+  style.stroke: "#9AA0A6"
+}
+
+choose-doctor: Select doctor {
+  shape: rectangle
+  style.fill: "#2F5FD1"
+  style.font-color: "#FFFFFF"
+  style.border-radius: 6
+}
+
+choose-doctor -> doctor: {
+  style.stroke: "#9AA0A6"
+}
+
+doctor: BKG-004 | Doctor Select {
+  shape: document
+  style.fill: "#2E7D32"
+  style.font-color: "#FFFFFF"
+}
+
+# Doctor-first path
+entry-choice -> choose-doctor-direct: Choose Doctor
+choose-doctor-direct: Tap "Select Doctor" {
+  shape: rectangle
+  style.fill: "#2F5FD1"
+  style.font-color: "#FFFFFF"
+  style.border-radius: 6
+}
+
+choose-doctor-direct -> doctor
+
+# Shared downstream
+doctor -> choose-slot: {
+  style.stroke: "#9AA0A6"
+}
+
+choose-slot: Pick date & time {
+  shape: rectangle
+  style.fill: "#2F5FD1"
+  style.font-color: "#FFFFFF"
+  style.border-radius: 6
+}
+
+choose-slot -> calendar: {
+  style.stroke: "#9AA0A6"
+}
+
+calendar: BKG-005 | Calendar {
+  shape: document
+  style.fill: "#2E7D32"
+  style.font-color: "#FFFFFF"
+}
+
+calendar -> review-action: {
+  style.stroke: "#9AA0A6"
+}
+
+review-action: Review details {
+  shape: rectangle
+  style.fill: "#2F5FD1"
+  style.font-color: "#FFFFFF"
+  style.border-radius: 6
+}
+
+review-action -> review: {
+  style.stroke: "#9AA0A6"
+}
+
+review: BKG-006 | Review Booking {
+  shape: document
+  style.fill: "#2E7D32"
+  style.font-color: "#FFFFFF"
+}
+
+review -> confirm-action: {
+  style.stroke: "#9AA0A6"
+  style.stroke-width: 2
+}
+
+confirm-action: Confirm booking {
+  shape: rectangle
+  style.fill: "#2F5FD1"
+  style.font-color: "#FFFFFF"
+  style.border-radius: 6
+}
+
+confirm-action -> smart-processing: {
+  style.stroke: "#9AA0A6"
+  style.stroke-width: 2
+}
+
+smart-processing: BKG-008 | Smart Match Processing {
+  shape: document
+  style.fill: "#2E7D32"
+  style.font-color: "#FFFFFF"
+}
+
+smart-processing -> refinement-decision: {
+  style.stroke: "#9AA0A6"
+}
+
+refinement-decision: Needs refinement? {
+  shape: diamond
+  style.fill: "#1C2E6A"
+  style.font-color: "#FFFFFF"
+}
+
+refinement-decision -> refinement-action: Yes
+refinement-action: Answer refinement questions {
+  shape: rectangle
+  style.fill: "#2F5FD1"
+  style.font-color: "#FFFFFF"
+  style.border-radius: 6
+}
+
+refinement-action -> refinement: {
+  style.stroke: "#9AA0A6"
+}
+
+refinement: BKG-009 | Smart Match Refinement {
+  shape: document
+  style.fill: "#2E7D32"
+  style.font-color: "#FFFFFF"
+}
+
+refinement -> smart-processing: {
+  style.stroke: "#9AA0A6"
+}
+
+refinement-decision -> smart-success: No
+
+smart-success: BKG-010 | Smart Match Success {
+  shape: document
+  style.fill: "#2E7D32"
+  style.font-color: "#FFFFFF"
+}
+
+smart-success -> view-confirmation: {
+  style.stroke: "#9AA0A6"
+}
+
+view-confirmation: View confirmation {
+  shape: rectangle
+  style.fill: "#2F5FD1"
+  style.font-color: "#FFFFFF"
+  style.border-radius: 6
+}
+
+view-confirmation -> booking-success: {
+  style.stroke: "#9AA0A6"
+}
+
+booking-success: BKG-007 | Booking Success {
+  shape: document
+  style.fill: "#2E7D32"
+  style.font-color: "#FFFFFF"
+}
+
+booking-success -> end: {
+  style.stroke: "#9AA0A6"
+}
+
+# End
+end: End {
+  shape: circle
+  style.fill: "#1C2E6A"
+  style.font-color: "#FFFFFF"
+}
