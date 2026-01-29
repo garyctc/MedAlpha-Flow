@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import { useLocation } from "wouter";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
 import { DOCTORS } from "@/lib/constants/doctors";
 import { saveBookingDraft, getBookingDraft } from "@/lib/storage";
 import { cn } from "@/lib/utils";
@@ -114,6 +115,7 @@ export default function BookingSlots() {
   const [currentMonth, setCurrentMonth] = useState(() => new Date());
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
+  const [isRecurring, setIsRecurring] = useState(false);
 
   const calendarDays = useMemo(
     () => generateCalendarDays(currentMonth),
@@ -262,6 +264,22 @@ export default function BookingSlots() {
               </button>
             ))}
           </div>
+        </div>
+
+        <div className="bg-card rounded-2xl border border-border px-4 py-3 flex items-center justify-between">
+          <div className="space-y-1">
+            <p className="text-sm font-semibold text-foreground">
+              {t("booking.slots.makeRecurring", { defaultValue: "Make recurring" })}
+            </p>
+            <p className="text-xs text-muted-foreground">
+              {t("booking.slots.cadence", { defaultValue: "Follow-up cadence" })}
+            </p>
+          </div>
+          <Switch
+            checked={isRecurring}
+            onCheckedChange={setIsRecurring}
+            aria-label={t("booking.slots.makeRecurring", { defaultValue: "Make recurring" })}
+          />
         </div>
 
         {/* Time Slots */}
