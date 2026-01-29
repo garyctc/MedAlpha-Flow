@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Check, Video, Loader2 } from "lucide-react";
+import { Video } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { DateBadge } from "@/components/ui/date-badge";
 import { DEFAULT_DOCTOR_AVATAR } from "@/lib/constants/doctors";
@@ -47,7 +47,7 @@ export function AppointmentCard({
           : "bg-card border-border hover:border-primary/30"
       }`}
     >
-      {/* Doctor Photo with Badge */}
+      {/* Doctor Photo */}
       <div className="relative flex-shrink-0">
         <div className="w-14 h-14 rounded-full overflow-hidden bg-muted flex items-center justify-center">
           <img
@@ -56,16 +56,6 @@ export function AppointmentCard({
               className="w-full h-full object-cover"
             />
         </div>
-        {!isProcessing && (
-          <div className="absolute -bottom-0.5 -right-0.5 w-5 h-5 bg-primary rounded-full flex items-center justify-center border-2 border-card">
-            <Check size={10} className="text-white" strokeWidth={3} />
-          </div>
-        )}
-        {isProcessing && (
-          <div className="absolute -bottom-0.5 -right-0.5 w-5 h-5 bg-primary rounded-full flex items-center justify-center border-2 border-card">
-            <Loader2 size={10} className="text-white animate-spin" />
-          </div>
-        )}
       </div>
 
       {/* Info */}
