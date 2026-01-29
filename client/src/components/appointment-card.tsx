@@ -15,6 +15,7 @@ export type AppointmentCardData = {
   date: string;
   rawDate?: string;
   rawTime?: string;
+  statusLabel?: string;
   subStatus?: "cancelled" | "completed" | "processing";
   amount?: string;
 };
@@ -70,6 +71,11 @@ export function AppointmentCard({
       {/* Info */}
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 mb-0.5">
+          {data.statusLabel && (
+            <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full uppercase tracking-wider bg-primary/10 text-primary">
+              {data.statusLabel}
+            </span>
+          )}
           {data.subStatus === "processing" && (
             <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full uppercase tracking-wider bg-primary/10 text-primary">
               {t("common.status.processing")}

@@ -75,6 +75,14 @@
       "upcoming": "Anstehend",
       "recent": "Letzte Aktivitäten"
     },
+    "appointments": {
+      "title": "Meine Termine",
+      "status": {
+        "searching": "Suche läuft",
+        "waiting": "Warten auf Bestätigung",
+        "confirmed": "Bestätigt"
+      }
+    },
     "upcoming": {
       "subtitle": "Allgemeiner Check-up"
     },

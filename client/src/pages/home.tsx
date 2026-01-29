@@ -5,16 +5,15 @@ import useEmblaCarousel from "embla-carousel-react";
 import { motion } from "framer-motion";
 import { Bell, Plus, Stethoscope, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { DateBadge } from "@/components/ui/date-badge";
+import { AppointmentCard } from "@/components/appointment-card";
 import { useTranslation } from "react-i18next";
-import { formatLocalDate, formatLocalTime, getLocale } from "@/i18n";
-import { getUserProfile, getUserAppointments, clearBookingDraft, saveBookingDraft } from "@/lib/storage";
+import { getUserProfile, clearBookingDraft, saveBookingDraft } from "@/lib/storage";
 import { LoadingSkeleton } from "@/components/ui/loading-skeleton";
 import { useNotifications } from "@/contexts/NotificationsContext";
 import type { CmsNotification } from "@/lib/notifications";
-import type { UserProfile, Appointment } from "@/types/storage";
+import type { UserProfile } from "@/types/storage";
 import appLogo from "@/assets/app-logo.svg";
-import { DEFAULT_DOCTOR_AVATAR } from "@/lib/constants/doctors";
+import { HOME_APPOINTMENT_MOCKS, HOME_APPOINTMENT_STATUS_ORDER } from "@/lib/appointments/home-mocks";
 
 // Health service tiles
 const healthServices = [
@@ -65,21 +64,16 @@ function PromoCarousel({ promos }: { promos: CmsNotification[] }) {
 
 export default function Home() {
   const { t } = useTranslation();
-  const locale = getLocale();
   const [, setLocation] = useLocation();
   const [isLoading, setIsLoading] = useState(true);
   const [profile, setProfile] = useState<UserProfile | null>(null);
-  const [upcomingAppointment, setUpcomingAppointment] = useState<Appointment | null>(null);
   const { unreadCount, promos } = useNotifications();
 
   useEffect(() => {
     const timer = setTimeout(() => {
       const userProfile = getUserProfile();
-      const appointments = getUserAppointments();
-      const upcoming = appointments.find(a => a.status === 'upcoming');
 
       setProfile(userProfile);
-      setUpcomingAppointment(upcoming || null);
       setIsLoading(false);
     }, 400);
 
@@ -87,6 +81,9 @@ export default function Home() {
   }, []);
 
   const firstName = profile?.firstName || "Alex";
+  const orderedHomeAppointments = HOME_APPOINTMENT_STATUS_ORDER
+    .map((key) => HOME_APPOINTMENT_MOCKS.find((item) => item.statusKey === key))
+    .filter((item): item is (typeof HOME_APPOINTMENT_MOCKS)[number] => Boolean(item));
 
   return (
     <div className="min-h-screen bg-background pb-32" data-testid="home-screen">
@@ -135,67 +132,19 @@ export default function Home() {
             {/* Next Appointment Section */}
             <section className="px-5 space-y-3">
               <div className="flex items-center justify-between">
-                <h2 className="font-semibold text-lg text-foreground">{t("home.sections.nextAppointment")}</h2>
-                {upcomingAppointment && (
-                  <Link href="/appointments" className="text-sm font-medium text-primary">
-                    {t("common.buttons.seeAll")}
-                  </Link>
-                )}
+                <h2 className="font-semibold text-lg text-foreground">{t("home.appointments.title")}</h2>
               </div>
 
-              {upcomingAppointment ? (
-                <motion.button
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => setLocation(`/appointments/${upcomingAppointment.id}`)}
-                  className="w-full bg-card rounded-3xl p-4 shadow-[var(--shadow-card)] border border-border flex items-center gap-4 text-left"
-                >
-                  {/* Doctor photo */}
-                  <div className="relative flex-shrink-0">
-                    <div className="w-14 h-14 rounded-full overflow-hidden bg-muted flex items-center justify-center">
-                      <img
-                          src={upcomingAppointment.doctorImage || DEFAULT_DOCTOR_AVATAR}
-                          alt={upcomingAppointment.doctor}
-                          className="w-full h-full object-cover"
-                        />
-                    </div>
-                    {/* Verification badge */}
-                    <div className="absolute -bottom-0.5 -right-0.5 w-5 h-5 bg-primary rounded-full flex items-center justify-center border-2 border-card">
-                      <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                        <path d="M2 5L4 7L8 3" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
-                    </div>
-                  </div>
-
-                  {/* Info */}
-                  <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-foreground truncate">{upcomingAppointment.doctor}</p>
-                    <p className="text-sm text-muted-foreground truncate">
-                      {upcomingAppointment.specialty} • {upcomingAppointment.type === 'video' ? 'Video' : 'Check-up'}
-                    </p>
-                  </div>
-
-                  {/* Date badge with time */}
-                  <div className="flex-shrink-0 text-center">
-                    <DateBadge date={new Date(upcomingAppointment.date)} />
-                    <p className="text-xs text-muted-foreground mt-1">
-                      {formatLocalTime(upcomingAppointment.time, locale)}
-                    </p>
-                  </div>
-                </motion.button>
-              ) : (
-                <div className="bg-card rounded-3xl border border-dashed border-border p-8 text-center">
-                  <p className="text-muted-foreground">{t("home.empty.title")}</p>
-                  <Link
-                    href="/booking/entry"
-                    onClick={() => {
-                      clearBookingDraft();
-                      saveBookingDraft({ type: 'in-person' });
-                    }}
-                  >
-                    <Button variant="link" className="text-primary mt-2">{t("home.empty.cta")}</Button>
-                  </Link>
-                </div>
-              )}
+              {orderedHomeAppointments.map((apt) => (
+                <AppointmentCard
+                  key={apt.id}
+                  data={{
+                    ...apt,
+                    statusLabel: t(`home.appointments.status.${apt.statusKey}`),
+                  }}
+                  onClick={() => setLocation("/appointments")}
+                />
+              ))}
             </section>
 
             {/* Health Services Grid */}
