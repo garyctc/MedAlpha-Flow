@@ -169,4 +169,16 @@ describe("Home appointments sections", () => {
     expect(screen.getByText("Waiting for confirmation")).toBeInTheDocument();
     expect(screen.getByText("Confirmed")).toBeInTheDocument();
   });
+
+  it("shows searching copy in the prototype list", async () => {
+    clearStorage();
+
+    renderHome();
+
+    await act(async () => {
+      vi.advanceTimersByTime(600);
+    });
+
+    expect(screen.getByText("Searching for doctor")).toBeInTheDocument();
+  });
 });

@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Loader2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { DateBadge } from "@/components/ui/date-badge";
 import { DEFAULT_DOCTOR_AVATAR } from "@/lib/constants/doctors";
@@ -82,11 +83,15 @@ export function AppointmentCard({
       {/* Doctor Photo with Badge */}
       <div className="relative flex-shrink-0">
         <div className="w-14 h-14 rounded-full overflow-hidden bg-muted flex items-center justify-center">
-          <img
-            src={data.doctorImage || DEFAULT_DOCTOR_AVATAR}
-            alt={data.doctor}
-            className="w-full h-full object-cover"
-          />
+          {isSearching ? (
+            <Loader2 size={18} className="text-muted-foreground animate-spin" aria-label="Searching" />
+          ) : (
+            <img
+              src={data.doctorImage || DEFAULT_DOCTOR_AVATAR}
+              alt={data.doctor}
+              className="w-full h-full object-cover"
+            />
+          )}
         </div>
       </div>
 
@@ -98,7 +103,7 @@ export function AppointmentCard({
               {data.statusLabel}
             </span>
           )}
-          {statusPill && (
+          {statusPill && !data.statusLabel && (
             <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full uppercase tracking-wider ${statusPill.className}`}>
               {statusPill.label}
             </span>

@@ -100,3 +100,23 @@ it("renders custom status label when provided", () => {
 
   expect(screen.getByText("Searching")).toBeInTheDocument();
 });
+
+it("shows a loading animation for searching status", () => {
+  render(
+    <AppointmentCard
+      data={{
+        id: "6",
+        status: "processing",
+        matchStatus: "searching",
+        type: "in-person",
+        doctor: "Dr. Lina Becker",
+        role: "General Practice",
+        location: "DocliQ Health Center",
+        date: "Jan 2, 2026",
+      }}
+      onClick={() => {}}
+    />
+  );
+
+  expect(screen.getByLabelText("Searching")).toBeInTheDocument();
+});

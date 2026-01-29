@@ -11,6 +11,7 @@ export const HOME_APPOINTMENT_MOCKS: HomeAppointmentMock[] = [
   {
     id: "home-searching",
     statusKey: "searching",
+    matchStatus: "searching",
     status: "processing",
     type: "in-person",
     doctor: "Dr. Lina Meyer",
@@ -23,6 +24,7 @@ export const HOME_APPOINTMENT_MOCKS: HomeAppointmentMock[] = [
   {
     id: "home-waiting",
     statusKey: "waiting",
+    matchStatus: "waiting",
     status: "upcoming",
     type: "in-person",
     doctor: "Dr. Sarah Weber",
