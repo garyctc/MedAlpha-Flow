@@ -148,3 +148,24 @@ export function getClinicName(clinicId: number): string {
 export function getClinicNames(clinicIds: number[]): string {
   return clinicIds.map(id => getClinicName(id)).join(", ");
 }
+
+/**
+ * Map specialty name to i18n translation key
+ */
+const SPECIALTY_KEYS: Record<string, string> = {
+  "General Practice": "specialty.generalPractice",
+  "Dermatology": "specialty.dermatology",
+  "Cardiology": "specialty.cardiology",
+  "Orthopedics": "specialty.orthopedics",
+  "Gynecology": "specialty.gynecology",
+  "Pediatrics": "specialty.pediatrics",
+  "Internal Medicine": "specialty.internalMedicine",
+  "Family Medicine": "specialty.familyMedicine",
+};
+
+/**
+ * Get the i18n key for a specialty name
+ */
+export function getSpecialtyKey(specialty: string): string {
+  return SPECIALTY_KEYS[specialty] || specialty;
+}

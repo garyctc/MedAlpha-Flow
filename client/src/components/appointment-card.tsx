@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Search } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { DateBadge } from "@/components/ui/date-badge";
-import { DEFAULT_DOCTOR_AVATAR } from "@/lib/constants/doctors";
+import { DEFAULT_DOCTOR_AVATAR, getSpecialtyKey } from "@/lib/constants/doctors";
 import type { Appointment } from "@/types/storage";
 
 type MatchStatus = NonNullable<Appointment["matchStatus"]>;
@@ -116,7 +116,7 @@ export function AppointmentCard({
           {isSearching ? t("appointments.searchingForDoctor") : data.doctor}
         </p>
         <p className="text-sm text-muted-foreground truncate">
-          {data.role} • {t("appointments.checkUp")}
+          {t(getSpecialtyKey(data.role))} • {t("appointments.checkUp")}
         </p>
       </div>
 
