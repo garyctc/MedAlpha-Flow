@@ -131,7 +131,7 @@ function buildCss(tokens: DesignTokens) {
   );
 
   const gray20 = getRequiredHex(tokens, "colors.primitives.gray.20", primitives.gray?.["20"]);
-  const teal10 = getRequiredHex(tokens, "colors.primitives.teal.10", primitives.teal?.["10"]);
+  const blue10 = getRequiredHex(tokens, "colors.primitives.blue.10", primitives.blue?.["10"]);
 
   const radiusSm = tokens.borderRadius.sm?.value ?? "8px";
   const radiusMd = tokens.borderRadius.md?.value ?? "12px";
@@ -163,13 +163,13 @@ function buildCss(tokens: DesignTokens) {
     `  --primary-foreground: ${hexToHslTriplet(primaryForeground)};`,
     "",
     `  --secondary: ${hexToHslTriplet(gray20)};`,
-    `  --secondary-foreground: ${hexToHslTriplet(primary)};`,
+    `  --secondary-foreground: ${hexToHslTriplet(foreground)};`,
     "",
     `  --muted: ${hexToHslTriplet(gray20)};`,
     `  --muted-foreground: ${hexToHslTriplet(mutedForeground)};`,
     "",
-    `  --accent: ${hexToHslTriplet(teal10)};`,
-    `  --accent-foreground: ${hexToHslTriplet(primary)};`,
+    `  --accent: ${hexToHslTriplet(blue10)};`,
+    `  --accent-foreground: ${hexToHslTriplet(primaryForeground)};`,
     "",
     `  --destructive: ${hexToHslTriplet(destructive)};`,
     `  --destructive-foreground: ${hexToHslTriplet(destructiveForeground)};`,
