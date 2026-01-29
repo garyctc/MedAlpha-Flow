@@ -53,10 +53,10 @@ function PromoCarousel({ promos }: { promos: CmsNotification[] }) {
                 <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-transparent" />
               </div>
               {/* Content */}
-              <div className="p-4 space-y-2">
-                <h3 className="font-semibold text-foreground">{promo.title}</h3>
-                <p className="text-sm text-muted-foreground line-clamp-2">{stripMarkdown(promo.body)}</p>
-                <span className="text-primary text-sm font-medium">
+              <div className="p-4 flex flex-col h-[156px]">
+                <h3 className="font-semibold text-foreground line-clamp-2">{promo.title}</h3>
+                <p className="text-sm text-muted-foreground line-clamp-2 mt-2 flex-1">{stripMarkdown(promo.body)}</p>
+                <span className="text-primary text-sm font-medium pt-3">
                   {t("common.buttons.learnMore")}
                 </span>
               </div>

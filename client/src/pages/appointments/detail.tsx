@@ -44,9 +44,9 @@ export default function AppointmentDetail() {
   }, [params.id]);
 
   // Use appointment data or fallback
-  const doctorName = appointment?.doctor || "Unknown Doctor";
+  const doctorName = appointment?.doctor || t("appointments.unknownDoctor");
   const specialty = appointment?.specialty || t("specialty.generalPractice");
-  const clinicName = appointment?.clinic || "Unknown Clinic";
+  const clinicName = appointment?.clinic || t("appointments.unknownClinic");
   const clinicAddress = "Friedrichstraße 123, Berlin";
   const dateIso = appointment?.date || "";
   const time24 = appointment?.time || "";
@@ -54,7 +54,7 @@ export default function AppointmentDetail() {
   const timeLabel = time24 ? formatLocalTime(time24, locale) : "";
   const isSearching = appointment?.matchStatus === "searching";
   const isPending = isSearching || appointment?.matchStatus === "waiting" || appointment?.status === "processing";
-  const displayDoctorName = isSearching ? "Searching for doctor" : doctorName;
+  const displayDoctorName = isSearching ? t("appointments.searchingForDoctor") : doctorName;
 
   const handleCancel = () => {
     if (appointment) {

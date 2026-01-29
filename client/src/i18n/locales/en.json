@@ -24,7 +24,14 @@
     }
   },
   "specialty": {
-    "generalPractice": "General practice"
+    "generalPractice": "General Practice",
+    "dermatology": "Dermatology",
+    "cardiology": "Cardiology",
+    "orthopedics": "Orthopedics",
+    "gynecology": "Gynecology",
+    "pediatrics": "Pediatrics",
+    "internalMedicine": "Internal Medicine",
+    "familyMedicine": "Family Medicine"
   },
   "nav": {
     "home": "Home",
@@ -126,6 +133,7 @@
     },
     "slots": {
       "title": "Select a Slot",
+      "selectAppointment": "Select appointment",
       "makeRecurring": "Make recurring",
       "cadence": "Follow-up cadence",
       "windowsTitle": "Select a time window",
@@ -133,7 +141,51 @@
         "morning": "Morning",
         "afternoon": "Afternoon",
         "evening": "Evening"
+      },
+      "timeRanges": {
+        "morning": "(7h - 12h)",
+        "afternoon": "(12h - 15h)",
+        "evening": "(15h - 19h)"
+      },
+      "months": {
+        "january": "January",
+        "february": "February",
+        "march": "March",
+        "april": "April",
+        "may": "May",
+        "june": "June",
+        "july": "July",
+        "august": "August",
+        "september": "September",
+        "october": "October",
+        "november": "November",
+        "december": "December"
+      },
+      "days": {
+        "mon": "MON",
+        "tue": "TUE",
+        "wed": "WED",
+        "thu": "THU",
+        "fri": "FRI",
+        "sat": "SAT",
+        "sun": "SUN"
       }
+    },
+    "refinement": {
+      "title": "Additional Information Needed",
+      "selectAlternative": "Please select an alternative below.",
+      "scenarios": {
+        "timeUnavailable": "Your preferred time slot is unavailable.",
+        "specialistAvailable": "We found a similar specialist available sooner.",
+        "nearbyClinic": "Suggested nearby clinic with availability."
+      },
+      "labels": {
+        "timeSlots": "Available Time Slots",
+        "specialties": "Alternative Specialties",
+        "clinics": "Nearby Clinics"
+      },
+      "submit": "Submit Selection",
+      "cancel": "Cancel Booking"
     },
     "location": {
       "permission": {
@@ -197,10 +249,27 @@
     },
     "matchStatus": {
       "searching": "Searching",
+      "searchingUpper": "SEARCHING",
+      "waiting": "Waiting for confirmation",
+      "waitingUpper": "WAITING FOR CONFIRMATION",
+      "confirmed": "Confirmed",
+      "confirmedUpper": "CONFIRMED",
+      "rejected": "Rejected",
+      "rejectedUpper": "REJECTED",
+      "expired": "Expired",
+      "expiredUpper": "EXPIRED",
+      "cancelled": "Cancelled",
+      "cancelledUpper": "CANCELLED",
+      "completed": "Completed",
+      "completedUpper": "COMPLETED"
+    },
+    "statusFilters": {
+      "searching": "Searching",
       "waiting": "Waiting for confirmation",
       "confirmed": "Confirmed",
       "rejected": "Rejected",
-      "expired": "Expired"
+      "completed": "Completed",
+      "cancelled": "Cancelled"
     },
     "partner": {
       "smartMatch": "DocliQ Match"
@@ -222,6 +291,10 @@
       "noUpcomingWithType": "No upcoming {{type}} appointments",
       "viewHistory": "View history"
     },
+    "searchingForDoctor": "Searching for doctor",
+    "checkUp": "Check-up",
+    "unknownDoctor": "Unknown Doctor",
+    "unknownClinic": "Unknown Clinic",
     "detail": {
       "title": "Appointment details",
       "badgeTomorrowAt": "Tomorrow at {{time}}",
@@ -246,6 +319,37 @@
         "toastTitle": "Appointment cancelled",
         "toastDescription": "Appointment cancelled."
       }
+    }
+  },
+  "pharmacy": {
+    "detail": {
+      "title": "Pharmacy Details",
+      "reservationConfirmed": "Reservation confirmed",
+      "address": "Address",
+      "openingHours": "Opening Hours",
+      "monFri": "Mon - Fri",
+      "saturday": "Saturday",
+      "sunday": "Sunday",
+      "phone": "Phone",
+      "email": "Email",
+      "reservePrescription": "Reserve Prescription",
+      "getDirections": "Get Directions",
+      "callPharmacy": "Call Pharmacy",
+      "eprescriptionNote": "Present your e-prescription at the pharmacy counter. Your Gesundheitskarte may be required.",
+      "reviews": "reviews",
+      "away": "away",
+      "closed": "Closed"
+    }
+  },
+  "article": {
+    "notFound": "Article not found",
+    "goBackHome": "Go back home",
+    "noImage": "No image"
+  },
+  "doctors": {
+    "availability": {
+      "today": "Today",
+      "tomorrow": "Tomorrow"
     }
   },
   "profile": {

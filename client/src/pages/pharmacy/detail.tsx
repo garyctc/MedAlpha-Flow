@@ -5,12 +5,14 @@ import SubPageHeader from "@/components/layout/SubPageHeader";
 import { Button } from "@/components/ui/button";
 import { getPharmacyById, PHARMACIES } from "@/lib/constants/pharmacies";
 import { showSuccess } from "@/lib/toast-helpers";
+import { useTranslation } from "react-i18next";
 
 export default function PharmacyDetail() {
   const [, setLocation] = useLocation();
   const searchString = useSearch();
   const params = new URLSearchParams(searchString);
   const pharmacyId = params.get("id") || "1";
+  const { t } = useTranslation();
 
   const pharmacy = useMemo(() => {
     return getPharmacyById(pharmacyId) || PHARMACIES[0];
@@ -27,12 +29,12 @@ export default function PharmacyDetail() {
       status: "reserved"
     });
     localStorage.setItem("pharmacy-orders", JSON.stringify(orders));
-    showSuccess("Reservation confirmed");
+    showSuccess(t("pharmacy.detail.reservationConfirmed"));
   };
 
   return (
     <div className="min-h-screen bg-background pb-20">
-      <SubPageHeader title="Pharmacy Details" backPath="/pharmacy/list" />
+      <SubPageHeader title={t("pharmacy.detail.title")} backPath="/pharmacy/list" />
 
       <main className="p-5 space-y-6">
         {/* Hero Section */}
@@ -65,7 +67,7 @@ export default function PharmacyDetail() {
                 <MapPin size={20} />
               </div>
               <div>
-                <h3 className="font-semibold text-foreground text-sm">Address</h3>
+                <h3 className="font-semibold text-foreground text-sm">{t("pharmacy.detail.address")}</h3>
                 <p className="text-muted-foreground text-sm">{pharmacy.address}, {pharmacy.postalCode} {pharmacy.city}</p>
                 <p className="text-primary text-xs font-medium mt-1">{pharmacy.distance} away</p>
               </div>
@@ -77,18 +79,18 @@ export default function PharmacyDetail() {
                 <Clock size={20} />
               </div>
               <div className="flex-1">
-                <h3 className="font-semibold text-foreground text-sm mb-1">Opening Hours</h3>
+                <h3 className="font-semibold text-foreground text-sm mb-1">{t("pharmacy.detail.openingHours")}</h3>
                 <div className="text-sm space-y-1">
                    <div className="flex justify-between">
-                     <span className="text-muted-foreground">Mon - Fri</span>
+                     <span className="text-muted-foreground">{t("pharmacy.detail.monFri")}</span>
                      <span className="font-medium text-foreground">{pharmacy.hoursDetail.weekday}</span>
                    </div>
                    <div className="flex justify-between">
-                     <span className="text-muted-foreground">Saturday</span>
+                     <span className="text-muted-foreground">{t("pharmacy.detail.saturday")}</span>
                      <span className="font-medium text-foreground">{pharmacy.hoursDetail.saturday}</span>
                    </div>
                    <div className="flex justify-between">
-                     <span className="text-muted-foreground">Sunday</span>
+                     <span className="text-muted-foreground">{t("pharmacy.detail.sunday")}</span>
                      <span className={`font-medium ${pharmacy.hoursDetail.sunday === "Closed" ? "text-red-500" : "text-foreground"}`}>{pharmacy.hoursDetail.sunday}</span>
                    </div>
                 </div>
@@ -102,7 +104,7 @@ export default function PharmacyDetail() {
                    <Phone size={20} />
                  </div>
                  <div>
-                   <h3 className="font-semibold text-foreground text-sm">Phone</h3>
+                   <h3 className="font-semibold text-foreground text-sm">{t("pharmacy.detail.phone")}</h3>
                    <p className="text-muted-foreground text-sm">{pharmacy.phone}</p>
                  </div>
               </div>
@@ -112,7 +114,7 @@ export default function PharmacyDetail() {
                    <Mail size={20} />
                  </div>
                  <div>
-                   <h3 className="font-semibold text-foreground text-sm">Email</h3>
+                   <h3 className="font-semibold text-foreground text-sm">{t("pharmacy.detail.email")}</h3>
                    <p className="text-muted-foreground text-sm">{pharmacy.email}</p>
                  </div>
               </div>
@@ -122,20 +124,20 @@ export default function PharmacyDetail() {
         {/* Action Buttons */}
         <div className="space-y-3 pt-2">
            <Button onClick={handleReserve} className="w-full h-12 rounded-3xl bg-primary shadow-lg shadow-primary/20 flex items-center gap-2">
-             <ShoppingBag size={18} /> Reserve Prescription
+             <ShoppingBag size={18} /> {t("pharmacy.detail.reservePrescription")}
            </Button>
            <Button variant="outline" className="w-full h-12 rounded-3xl border-border text-foreground hover:bg-muted flex items-center gap-2">
-             <Navigation size={18} /> Get Directions
+             <Navigation size={18} /> {t("pharmacy.detail.getDirections")}
            </Button>
            <Button variant="outline" className="w-full h-12 rounded-3xl border-border text-foreground hover:bg-muted flex items-center gap-2">
-             <Phone size={18} /> Call Pharmacy
+             <Phone size={18} /> {t("pharmacy.detail.callPharmacy")}
            </Button>
         </div>
 
         {/* Info Note */}
         <div className="bg-amber-50 border border-amber-100 rounded-3xl p-4 text-center">
            <p className="text-xs text-amber-800 font-medium">
-             Present your e-prescription at the pharmacy counter. Your Gesundheitskarte may be required.
+             {t("pharmacy.detail.eprescriptionNote")}
            </p>
         </div>
       </main>

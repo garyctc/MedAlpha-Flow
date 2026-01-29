@@ -7,13 +7,13 @@ import { Input } from "@/components/ui/input";
 import { saveBookingDraft, getBookingDraft } from "@/lib/storage";
 import { useTranslation } from "react-i18next";
 
-const specialties = [
-  { id: "gp", name: "General Practice", icon: Stethoscope },
-  { id: "derm", name: "Dermatology", icon: User },
-  { id: "cardio", name: "Cardiology", icon: HeartPulse },
-  { id: "ortho", name: "Orthopedics", icon: Bone },
-  { id: "gyno", name: "Gynecology", icon: User },
-  { id: "peds", name: "Pediatrics", icon: Baby },
+const specialtyConfigs = [
+  { id: "gp", nameKey: "specialty.generalPractice", icon: Stethoscope },
+  { id: "derm", nameKey: "specialty.dermatology", icon: User },
+  { id: "cardio", nameKey: "specialty.cardiology", icon: HeartPulse },
+  { id: "ortho", nameKey: "specialty.orthopedics", icon: Bone },
+  { id: "gyno", nameKey: "specialty.gynecology", icon: User },
+  { id: "peds", nameKey: "specialty.pediatrics", icon: Baby },
 ];
 
 export default function SpecialtySelect() {
@@ -33,6 +33,11 @@ export default function SpecialtySelect() {
     saveBookingDraft({ specialty });
     setLocation(`/booking/location?specialty=${specialty}`);
   };
+
+  const specialties = specialtyConfigs.map(item => ({
+    ...item,
+    name: t(item.nameKey)
+  }));
 
   const filteredSpecialties = specialties.filter(item =>
     item.name.toLowerCase().includes(searchQuery.toLowerCase())

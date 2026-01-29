@@ -1,5 +1,6 @@
 import * as React from "react";
-import { demoNotifications, sortByCreatedAtDesc, type CmsNotification } from "@/lib/notifications";
+import { getNotifications, sortByCreatedAtDesc, type CmsNotification } from "@/lib/notifications";
+import { getLocale, type Locale } from "@/i18n";
 
 type ReadMap = Record<string, string>; // notificationId -> readAt ISO
 
@@ -46,7 +47,26 @@ function cleanupReadMap(map: ReadMap, ids: Set<string>): ReadMap {
 const NotificationsContext = React.createContext<NotificationsContextValue | null>(null);
 
 export function NotificationsProvider({ children }: { children: React.ReactNode }) {
-  const notifications = React.useMemo(() => sortByCreatedAtDesc(demoNotifications), []);
+  const [locale, setLocale] = React.useState<Locale>(getLocale);
+
+  // Listen for language changes
+  React.useEffect(() => {
+    const handleStorageChange = () => {
+      setLocale(getLocale());
+    };
+    window.addEventListener("storage", handleStorageChange);
+    // Also check periodically for in-app changes
+    const interval = setInterval(() => {
+      const currentLocale = getLocale();
+      setLocale(prev => prev !== currentLocale ? currentLocale : prev);
+    }, 500);
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+      clearInterval(interval);
+    };
+  }, []);
+
+  const notifications = React.useMemo(() => sortByCreatedAtDesc(getNotifications(locale)), [locale]);
   const promos = React.useMemo(() => notifications.filter((n) => n.kind === "promo"), [notifications]);
 
   const [readMap, setReadMap] = React.useState<ReadMap>(() =>

@@ -15,6 +15,23 @@ export function mapMatchStatusToLifecycle(status: MatchStatus) {
   }
 }
 
+/** Returns the i18n translation key for the match status */
+export function getMatchStatusTranslationKey(status: MatchStatus): string {
+  switch (status) {
+    case "searching":
+      return "appointments.matchStatus.searching";
+    case "waiting":
+      return "appointments.matchStatus.waiting";
+    case "confirmed":
+      return "appointments.matchStatus.confirmed";
+    case "rejected":
+      return "appointments.matchStatus.rejected";
+    case "expired":
+      return "appointments.matchStatus.expired";
+  }
+}
+
+/** @deprecated Use getMatchStatusTranslationKey with i18n instead */
 export function getMatchStatusLabel(status: MatchStatus) {
   switch (status) {
     case "searching":

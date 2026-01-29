@@ -1,6 +1,7 @@
 import { useParams, useLocation, Link } from "wouter";
 import { ArrowLeft } from "lucide-react";
 import { useNotifications } from "@/contexts/NotificationsContext";
+import { useTranslation } from "react-i18next";
 
 function RichContent({ content }: { content: string }) {
   const lines = content.split("\n");
@@ -138,6 +139,7 @@ export default function ArticlePage() {
   const { id } = useParams<{ id: string }>();
   const [, setLocation] = useLocation();
   const { promos } = useNotifications();
+  const { t } = useTranslation();
 
   const article = promos.find((p) => p.id === id);
 
@@ -145,9 +147,9 @@ export default function ArticlePage() {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center p-5">
         <div className="text-center space-y-4">
-          <p className="text-muted-foreground">Article not found</p>
+          <p className="text-muted-foreground">{t("article.notFound")}</p>
           <Link href="/home" className="text-primary font-medium">
-            Go back home
+            {t("article.goBackHome")}
           </Link>
         </div>
       </div>
@@ -166,7 +168,7 @@ export default function ArticlePage() {
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center">
-            <span className="text-muted-foreground">No image</span>
+            <span className="text-muted-foreground">{t("article.noImage")}</span>
           </div>
         )}
         {/* Gradient overlay for back button visibility */}

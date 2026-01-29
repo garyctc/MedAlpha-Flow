@@ -211,7 +211,7 @@ export default function DoctorSelect() {
                   <div className="flex items-center justify-between mt-2">
                     <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
                       <Clock size={12} />
-                      {t("booking.doctors.nextAvailable", { time: doc.nextAvailable, defaultValue: `Next: ${doc.nextAvailable}` })}
+                      {t("booking.doctors.nextAvailable", { time: t(`doctors.availability.${doc.nextAvailable}`), defaultValue: `Next: ${doc.nextAvailable}` })}
                     </div>
                     <span className="text-xs font-semibold bg-primary text-white px-3 py-1.5 rounded-xl">
                       {t("common.buttons.book", { defaultValue: "Book" })}

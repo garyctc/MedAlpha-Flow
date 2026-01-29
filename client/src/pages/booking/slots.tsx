@@ -23,24 +23,13 @@ function getClinicIdByName(name: string | undefined): number | null {
 type TimeWindow = NonNullable<BookingDraft["timeWindow"]>;
 
 const TIME_WINDOWS: TimeWindow[] = ["morning", "afternoon", "evening"];
-const TIME_WINDOW_LABELS: Record<TimeWindow, string> = {
-  morning: "Morning",
-  afternoon: "Afternoon",
-  evening: "Evening",
-};
 
-const TIME_WINDOW_RANGES: Record<TimeWindow, string> = {
-  morning: "(7h - 12h)",
-  afternoon: "(12h - 15h)",
-  evening: "(15h - 19h)",
-};
+const MONTH_KEYS = [
+  "january", "february", "march", "april", "may", "june",
+  "july", "august", "september", "october", "november", "december"
+] as const;
 
-const MONTH_NAMES = [
-  "January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December"
-];
-
-const DAY_NAMES = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
+const DAY_KEYS = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"] as const;
 
 interface CalendarDay {
   date: string;
@@ -216,7 +205,7 @@ export default function BookingSlots() {
             "text-lg font-semibold text-foreground flex-1 text-center",
             draft?.intent !== "reschedule" && "pr-8"
           )}>
-            Select appointment
+            {t("booking.slots.selectAppointment")}
           </h1>
         </div>
       </header>
@@ -227,7 +216,7 @@ export default function BookingSlots() {
           {/* Month Header */}
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-foreground">
-              {MONTH_NAMES[currentMonth.getMonth()]} {currentMonth.getFullYear()}
+              {t(`booking.slots.months.${MONTH_KEYS[currentMonth.getMonth()]}`)} {currentMonth.getFullYear()}
             </h2>
             <div className="flex gap-1">
               <button
@@ -255,9 +244,9 @@ export default function BookingSlots() {
 
           {/* Day Headers */}
           <div className="grid grid-cols-7 mb-2">
-            {DAY_NAMES.map(day => (
+            {DAY_KEYS.map(day => (
               <div key={day} className="text-center text-[11px] font-medium text-muted-foreground py-2">
-                {day}
+                {t(`booking.slots.days.${day}`)}
               </div>
             ))}
           </div>
@@ -315,13 +304,13 @@ export default function BookingSlots() {
                   )}
                 >
                   <div className="text-sm font-medium">
-                    {t(`booking.slots.windows.${window}`, { defaultValue: TIME_WINDOW_LABELS[window] })}
+                    {t(`booking.slots.windows.${window}`)}
                   </div>
                   <div className={cn(
                     "text-xs mt-0.5",
                     isSelected ? "text-white/80" : "text-muted-foreground"
                   )}>
-                    {TIME_WINDOW_RANGES[window]}
+                    {t(`booking.slots.timeRanges.${window}`)}
                   </div>
                 </button>
               );

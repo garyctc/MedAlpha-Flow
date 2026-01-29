@@ -24,7 +24,14 @@
     }
   },
   "specialty": {
-    "generalPractice": "Allgemeinmedizin"
+    "generalPractice": "Allgemeinmedizin",
+    "dermatology": "Dermatologie",
+    "cardiology": "Kardiologie",
+    "orthopedics": "Orthopädie",
+    "gynecology": "Gynäkologie",
+    "pediatrics": "Pädiatrie",
+    "internalMedicine": "Innere Medizin",
+    "familyMedicine": "Familienmedizin"
   },
   "nav": {
     "home": "Start",
@@ -126,6 +133,7 @@
     },
     "slots": {
       "title": "Zeitfenster auswählen",
+      "selectAppointment": "Termin auswählen",
       "makeRecurring": "Wiederkehrend buchen",
       "cadence": "Nachsorgeintervall",
       "windowsTitle": "Zeitfenster auswählen",
@@ -133,7 +141,51 @@
         "morning": "Morgens",
         "afternoon": "Nachmittags",
         "evening": "Abends"
+      },
+      "timeRanges": {
+        "morning": "(7 - 12 Uhr)",
+        "afternoon": "(12 - 15 Uhr)",
+        "evening": "(15 - 19 Uhr)"
+      },
+      "months": {
+        "january": "Januar",
+        "february": "Februar",
+        "march": "März",
+        "april": "April",
+        "may": "Mai",
+        "june": "Juni",
+        "july": "Juli",
+        "august": "August",
+        "september": "September",
+        "october": "Oktober",
+        "november": "November",
+        "december": "Dezember"
+      },
+      "days": {
+        "mon": "MO",
+        "tue": "DI",
+        "wed": "MI",
+        "thu": "DO",
+        "fri": "FR",
+        "sat": "SA",
+        "sun": "SO"
       }
+    },
+    "refinement": {
+      "title": "Weitere Informationen erforderlich",
+      "selectAlternative": "Bitte wählen Sie eine Alternative aus.",
+      "scenarios": {
+        "timeUnavailable": "Ihr gewünschtes Zeitfenster ist nicht verfügbar.",
+        "specialistAvailable": "Wir haben einen ähnlichen Facharzt gefunden, der früher verfügbar ist.",
+        "nearbyClinic": "Vorgeschlagene Praxis in der Nähe mit Verfügbarkeit."
+      },
+      "labels": {
+        "timeSlots": "Verfügbare Zeitfenster",
+        "specialties": "Alternative Fachgebiete",
+        "clinics": "Praxen in der Nähe"
+      },
+      "submit": "Auswahl bestätigen",
+      "cancel": "Buchung abbrechen"
     },
     "location": {
       "permission": {
@@ -197,10 +249,27 @@
     },
     "matchStatus": {
       "searching": "Suche läuft",
+      "searchingUpper": "SUCHE LÄUFT",
+      "waiting": "Wartet auf Bestätigung",
+      "waitingUpper": "WARTET AUF BESTÄTIGUNG",
+      "confirmed": "Bestätigt",
+      "confirmedUpper": "BESTÄTIGT",
+      "rejected": "Abgelehnt",
+      "rejectedUpper": "ABGELEHNT",
+      "expired": "Abgelaufen",
+      "expiredUpper": "ABGELAUFEN",
+      "cancelled": "Storniert",
+      "cancelledUpper": "STORNIERT",
+      "completed": "Abgeschlossen",
+      "completedUpper": "ABGESCHLOSSEN"
+    },
+    "statusFilters": {
+      "searching": "Suche läuft",
       "waiting": "Wartet auf Bestätigung",
       "confirmed": "Bestätigt",
       "rejected": "Abgelehnt",
-      "expired": "Abgelaufen"
+      "completed": "Abgeschlossen",
+      "cancelled": "Storniert"
     },
     "partner": {
       "smartMatch": "DocliQ Match"
@@ -222,6 +291,10 @@
       "noUpcomingWithType": "Keine anstehenden {{type}}-Termine",
       "viewHistory": "Verlauf ansehen"
     },
+    "searchingForDoctor": "Suche nach Arzt",
+    "checkUp": "Vorsorgeuntersuchung",
+    "unknownDoctor": "Unbekannter Arzt",
+    "unknownClinic": "Unbekannte Praxis",
     "detail": {
       "title": "Termindetails",
       "badgeTomorrowAt": "Morgen um {{time}}",
@@ -246,6 +319,37 @@
         "toastTitle": "Termin storniert",
         "toastDescription": "Termin storniert."
       }
+    }
+  },
+  "pharmacy": {
+    "detail": {
+      "title": "Apothekendetails",
+      "reservationConfirmed": "Reservierung bestätigt",
+      "address": "Adresse",
+      "openingHours": "Öffnungszeiten",
+      "monFri": "Mo - Fr",
+      "saturday": "Samstag",
+      "sunday": "Sonntag",
+      "phone": "Telefon",
+      "email": "E-Mail",
+      "reservePrescription": "Rezept reservieren",
+      "getDirections": "Route anzeigen",
+      "callPharmacy": "Apotheke anrufen",
+      "eprescriptionNote": "Zeigen Sie Ihr E-Rezept am Apothekentresen vor. Ihre Gesundheitskarte kann erforderlich sein.",
+      "reviews": "Bewertungen",
+      "away": "entfernt",
+      "closed": "Geschlossen"
+    }
+  },
+  "article": {
+    "notFound": "Artikel nicht gefunden",
+    "goBackHome": "Zurück zur Startseite",
+    "noImage": "Kein Bild"
+  },
+  "doctors": {
+    "availability": {
+      "today": "Heute",
+      "tomorrow": "Morgen"
     }
   },
   "profile": {

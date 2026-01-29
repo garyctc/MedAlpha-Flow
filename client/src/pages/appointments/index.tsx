@@ -23,17 +23,22 @@ type Appointment = AppointmentCardData & {
   rawTime?: string;
 };
 
-const STATUS_FILTERS = [
-  { id: "all", label: "All" },
-  { id: "searching", label: "Searching" },
-  { id: "waiting", label: "Waiting for confirmation" },
-  { id: "confirmed", label: "Confirmed" },
-  { id: "rejected", label: "Rejected" },
-  { id: "completed", label: "Completed" },
-  { id: "cancelled", label: "Cancelled" },
-] as const;
+const STATUS_FILTER_IDS = ["all", "searching", "waiting", "confirmed", "rejected", "completed", "cancelled"] as const;
 
-type StatusFilterId = (typeof STATUS_FILTERS)[number]["id"];
+type StatusFilterId = (typeof STATUS_FILTER_IDS)[number];
+
+function useStatusFilters() {
+  const { t } = useTranslation();
+  return [
+    { id: "all" as const, label: t("appointments.filters.all") },
+    { id: "searching" as const, label: t("appointments.statusFilters.searching") },
+    { id: "waiting" as const, label: t("appointments.statusFilters.waiting") },
+    { id: "confirmed" as const, label: t("appointments.statusFilters.confirmed") },
+    { id: "rejected" as const, label: t("appointments.statusFilters.rejected") },
+    { id: "completed" as const, label: t("appointments.statusFilters.completed") },
+    { id: "cancelled" as const, label: t("appointments.statusFilters.cancelled") },
+  ];
+}
 
 function parseAnyDate(date: string) {
   if (/^\d{4}-\d{2}-\d{2}$/.test(date)) {
@@ -113,6 +118,7 @@ export default function AppointmentsPage() {
   const { toast } = useToast();
   const { t } = useTranslation();
   const locale = getLocale();
+  const statusFilters = useStatusFilters();
 
   // Load appointments from localStorage
   useEffect(() => {
@@ -258,7 +264,7 @@ export default function AppointmentsPage() {
           className="flex gap-2 overflow-x-auto pb-1 no-scrollbar"
           data-testid="appointments-filters"
         >
-          {STATUS_FILTERS.map((filter) => (
+          {statusFilters.map((filter) => (
             <button
               key={filter.id}
               onClick={() => setActiveFilter(filter.id)}

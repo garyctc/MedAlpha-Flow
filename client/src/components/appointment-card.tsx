@@ -52,15 +52,15 @@ export function AppointmentCard({
     }
     switch (data.matchStatus) {
       case "searching":
-        return { label: "SEARCHING", className: "bg-yellow-50 text-yellow-700" };
+        return { label: t("appointments.matchStatus.searchingUpper"), className: "bg-yellow-50 text-yellow-700" };
       case "waiting":
-        return { label: "WAITING FOR CONFIRMATION", className: "bg-yellow-50 text-yellow-700" };
+        return { label: t("appointments.matchStatus.waitingUpper"), className: "bg-yellow-50 text-yellow-700" };
       case "confirmed":
-        return { label: "CONFIRMED", className: "bg-green-50 text-green-700" };
+        return { label: t("appointments.matchStatus.confirmedUpper"), className: "bg-green-50 text-green-700" };
       case "rejected":
-        return { label: "REJECTED", className: "bg-red-50 text-red-600" };
+        return { label: t("appointments.matchStatus.rejectedUpper"), className: "bg-red-50 text-red-600" };
       case "expired":
-        return { label: "CANCELLED", className: "bg-red-50 text-red-600" };
+        return { label: t("appointments.matchStatus.cancelledUpper"), className: "bg-red-50 text-red-600" };
       default:
         return null;
     }
@@ -113,10 +113,10 @@ export function AppointmentCard({
         </div>
 
         <p className="font-semibold text-foreground truncate">
-          {isSearching ? "Searching for doctor" : data.doctor}
+          {isSearching ? t("appointments.searchingForDoctor") : data.doctor}
         </p>
         <p className="text-sm text-muted-foreground truncate">
-          {data.role} • Check-up
+          {data.role} • {t("appointments.checkUp")}
         </p>
       </div>
 
