@@ -29,6 +29,12 @@ const TIME_WINDOW_LABELS: Record<TimeWindow, string> = {
   evening: "Evening",
 };
 
+const TIME_WINDOW_RANGES: Record<TimeWindow, string> = {
+  morning: "(7h - 12h)",
+  afternoon: "(12h - 15h)",
+  evening: "(15h - 19h)",
+};
+
 const MONTH_NAMES = [
   "January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
@@ -121,7 +127,7 @@ export default function BookingSlots() {
 
   const [currentMonth, setCurrentMonth] = useState(() => new Date());
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
-  const [selectedWindow, setSelectedWindow] = useState<TimeWindow | null>(null);
+  const [selectedWindows, setSelectedWindows] = useState<TimeWindow[]>([]);
 
   const calendarDays = useMemo(
     () => generateCalendarDays(currentMonth),
@@ -171,12 +177,13 @@ export default function BookingSlots() {
   }, [draft?.entryMode, draft?.location]);
 
   const handleContinue = () => {
-    if (!selectedDate || !selectedWindow) return;
+    if (!selectedDate || selectedWindows.length === 0) return;
     const isFast = draft?.entryMode === "fast";
 
     const nextDraft: Partial<BookingDraft> = {
       date: selectedDate,
-      timeWindow: selectedWindow,
+      timeWindow: selectedWindows[0],
+      timeWindows: selectedWindows,
       time: "pending",
       location: draft?.location || CLINIC_NAMES[selectedDoctor?.clinics[0] || 1],
     };
@@ -261,7 +268,7 @@ export default function BookingSlots() {
                 onClick={() => {
                   if (!day.isPast && day.isCurrentMonth) {
                     setSelectedDate(day.date);
-                    setSelectedWindow(null);
+                    setSelectedWindows([]);
                   }
                 }}
                 disabled={day.isPast || !day.isCurrentMonth}
@@ -280,37 +287,52 @@ export default function BookingSlots() {
           </div>
         </div>
 
-        {/* Time Windows */}
-        {selectedDate && (
-          <div className="space-y-3">
-            <h3 className="text-lg font-semibold text-foreground">
-              {t("booking.slots.windowsTitle", { defaultValue: "Select a time window" })}
-            </h3>
-            <div className="grid grid-cols-3 gap-3">
-              {TIME_WINDOWS.map((window) => (
+        {/* Time Windows - Always visible */}
+        <div className="space-y-3">
+          <h3 className="text-lg font-semibold text-foreground">
+            {t("booking.slots.windowsTitle", { defaultValue: "Select a time window" })}
+          </h3>
+          <div className="grid grid-cols-3 gap-3">
+            {TIME_WINDOWS.map((window) => {
+              const isSelected = selectedWindows.includes(window);
+              return (
                 <button
                   key={window}
-                  onClick={() => setSelectedWindow(window)}
+                  onClick={() => {
+                    setSelectedWindows(prev =>
+                      isSelected
+                        ? prev.filter(w => w !== window)
+                        : [...prev, window]
+                    );
+                  }}
                   className={cn(
-                    "h-12 rounded-2xl text-sm font-medium transition-colors",
-                    selectedWindow === window
+                    "py-3 px-2 rounded-2xl text-center transition-colors",
+                    isSelected
                       ? "bg-primary text-white"
                       : "bg-card border border-border text-foreground hover:border-primary/30"
                   )}
                 >
-                  {t(`booking.slots.windows.${window}`, { defaultValue: TIME_WINDOW_LABELS[window] })}
+                  <div className="text-sm font-medium">
+                    {t(`booking.slots.windows.${window}`, { defaultValue: TIME_WINDOW_LABELS[window] })}
+                  </div>
+                  <div className={cn(
+                    "text-xs mt-0.5",
+                    isSelected ? "text-white/80" : "text-muted-foreground"
+                  )}>
+                    {TIME_WINDOW_RANGES[window]}
+                  </div>
                 </button>
-              ))}
-            </div>
+              );
+            })}
           </div>
-        )}
+        </div>
       </main>
 
       {/* Continue Button */}
       <div className="fixed bottom-24 left-0 right-0 px-5 max-w-[375px] mx-auto z-40">
         <Button
           className="w-full h-12 rounded-2xl text-base font-semibold"
-          disabled={!selectedDate || !selectedWindow}
+          disabled={!selectedDate || selectedWindows.length === 0}
           onClick={handleContinue}
         >
           {t("common.buttons.continue")}
