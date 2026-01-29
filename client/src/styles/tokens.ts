@@ -3,8 +3,8 @@
 export const TOKENS = {
   animation: {
     durationMs: {
-      fast: 150,
-      default: 200,
+      fast: 200,
+      default: 250,
       slow: 300,
     },
     easing: {
@@ -13,9 +13,9 @@ export const TOKENS = {
     },
   },
   shadows: {
-    soft: "0 1px 3px rgba(12, 61, 145, 0.06)",
-    card: "0 2px 8px rgba(12, 61, 145, 0.08)",
-    elevated: "0 4px 16px rgba(12, 61, 145, 0.12)",
+    soft: "0 1px 3px rgba(28, 42, 56, 0.06)",
+    card: "0 2px 8px rgba(28, 42, 56, 0.08)",
+    elevated: "0 4px 16px rgba(28, 42, 56, 0.12)",
   },
   touchTargets: {
     minimum: "44px",
