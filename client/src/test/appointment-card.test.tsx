@@ -101,8 +101,8 @@ it("renders custom status label when provided", () => {
   expect(screen.getByText("Searching")).toBeInTheDocument();
 });
 
-it("shows a loading animation for searching status", () => {
-  render(
+it("shows a search icon for searching status", () => {
+  const { container } = render(
     <AppointmentCard
       data={{
         id: "6",
@@ -118,7 +118,7 @@ it("shows a loading animation for searching status", () => {
     />
   );
 
-  expect(screen.getByLabelText("Searching")).toBeInTheDocument();
+  expect(container.querySelector("svg.lucide-search")).toBeInTheDocument();
 });
 
 it("uses standard card styling for searching status", () => {

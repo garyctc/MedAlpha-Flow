@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Loader2 } from "lucide-react";
+import { Search } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { DateBadge } from "@/components/ui/date-badge";
 import { DEFAULT_DOCTOR_AVATAR } from "@/lib/constants/doctors";
@@ -81,7 +81,7 @@ export function AppointmentCard({
       <div className="relative flex-shrink-0">
         <div className="w-14 h-14 rounded-full overflow-hidden bg-muted flex items-center justify-center">
           {isSearching ? (
-            <Loader2 size={18} className="text-muted-foreground animate-spin" aria-label="Searching" />
+            <Search size={18} className="text-muted-foreground" aria-label="Searching" />
           ) : (
             <img
               src={data.doctorImage || DEFAULT_DOCTOR_AVATAR}
