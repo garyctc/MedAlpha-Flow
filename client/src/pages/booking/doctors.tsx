@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 import { useLocation, useSearch } from "wouter";
-import { Star, Clock, Calendar, MapPin, ChevronRight, Search, BadgeCheck } from "lucide-react";
+import { Star, Clock, Calendar, MapPin, ChevronRight, Search } from "lucide-react";
 import SubPageHeader from "@/components/layout/SubPageHeader";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Input } from "@/components/ui/input";
@@ -201,10 +201,6 @@ export default function DoctorSelect() {
                       alt={doc.name}
                       className="w-16 h-16 rounded-full object-cover"
                     />
-                  {/* Verification badge */}
-                  <div className="absolute -bottom-0.5 -right-0.5 w-5 h-5 bg-primary rounded-full flex items-center justify-center border-2 border-card">
-                    <BadgeCheck className="w-3 h-3 text-white" strokeWidth={2.5} />
-                  </div>
                 </div>
 
                 <div className="flex-1 min-w-0">

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useLocation, useParams } from "wouter";
-import { Calendar, Clock, MapPin, Navigation, CalendarPlus, Info, AlertCircle, FileText, XCircle, BadgeCheck } from "lucide-react";
+import { Calendar, Clock, MapPin, Navigation, CalendarPlus, Info, AlertCircle, FileText, XCircle, Loader2 } from "lucide-react";
 import SubPageHeader from "@/components/layout/SubPageHeader";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -52,6 +52,9 @@ export default function AppointmentDetail() {
   const time24 = appointment?.time || "";
   const dateLabel = dateIso ? formatLocalDate(dateIso, locale) : "";
   const timeLabel = time24 ? formatLocalTime(time24, locale) : "";
+  const isSearching = appointment?.matchStatus === "searching";
+  const isPending = isSearching || appointment?.matchStatus === "waiting" || appointment?.status === "processing";
+  const displayDoctorName = isSearching ? "Searching for doctor" : doctorName;
 
   const handleCancel = () => {
     if (appointment) {
@@ -144,19 +147,19 @@ export default function AppointmentDetail() {
         <div className="flex flex-col items-center text-center py-4">
           <div className="relative mb-4">
             <div className="w-20 h-20 rounded-full overflow-hidden bg-primary/10 flex items-center justify-center">
-              <img
+              {isSearching ? (
+                <Loader2 size={22} className="text-muted-foreground animate-spin" aria-label="Searching" />
+              ) : (
+                <img
                   src={appointment.doctorImage || DEFAULT_DOCTOR_AVATAR}
                   alt={doctorName}
                   className="w-full h-full object-cover"
                 />
-            </div>
-            {/* Verification badge */}
-            <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-primary rounded-full flex items-center justify-center border-2 border-background">
-              <BadgeCheck className="w-4 h-4 text-white" strokeWidth={2.5} />
+              )}
             </div>
           </div>
-          <h2 className="text-lg font-semibold text-foreground">{doctorName}</h2>
-          <p className="text-sm text-primary font-medium">{specialty}</p>
+          <h2 className="text-lg font-semibold text-foreground">{displayDoctorName}</h2>
+          {!isSearching && <p className="text-sm text-primary font-medium">{specialty}</p>}
         </div>
 
         {/* Details Card */}
@@ -169,12 +172,22 @@ export default function AppointmentDetail() {
               </div>
               <div className="flex-1">
                 <p className="text-xs text-muted-foreground uppercase tracking-wide">{t("appointments.detail.dateTime", { defaultValue: "Date & Time" })}</p>
-                <p className="font-semibold text-foreground">{dateLabel}</p>
-                <p className="text-sm text-muted-foreground">{timeLabel}</p>
+                {isPending ? (
+                  <div className="mt-2">
+                    <Loader2 size={16} className="text-muted-foreground animate-spin" aria-label="Loading time" />
+                  </div>
+                ) : (
+                  <>
+                    <p className="font-semibold text-foreground">{dateLabel}</p>
+                    <p className="text-sm text-muted-foreground">{timeLabel}</p>
+                  </>
+                )}
               </div>
-              <button onClick={handleAddToCalendar} className="text-primary text-xs font-semibold flex items-center gap-1 mt-1">
-                <CalendarPlus size={14} /> {t("appointments.detail.addToCalendar")}
-              </button>
+              {!isPending && (
+                <button onClick={handleAddToCalendar} className="text-primary text-xs font-semibold flex items-center gap-1 mt-1">
+                  <CalendarPlus size={14} /> {t("appointments.detail.addToCalendar")}
+                </button>
+              )}
             </div>
           </div>
 
