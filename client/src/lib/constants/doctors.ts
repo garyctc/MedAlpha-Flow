@@ -94,3 +94,57 @@ export function getDoctorAvatar(name: string): string {
 export function getRandomDoctor(): Doctor {
   return DOCTORS[Math.floor(Math.random() * DOCTORS.length)];
 }
+
+export interface Clinic {
+  id: number;
+  name: string;
+  address: string;
+  distance: string;
+  distanceKm: number;
+  rating: number;
+  reviews: number;
+}
+
+export const CLINICS: Clinic[] = [
+  {
+    id: 1,
+    name: "DocliQ Health Center",
+    address: "Friedrichstraße 123, Berlin",
+    distance: "1.2 km",
+    distanceKm: 1.2,
+    rating: 4.8,
+    reviews: 124
+  },
+  {
+    id: 2,
+    name: "MedCore Health Center",
+    address: "Alexanderplatz 5, Berlin",
+    distance: "2.5 km",
+    distanceKm: 2.5,
+    rating: 4.6,
+    reviews: 89
+  },
+  {
+    id: 3,
+    name: "City West Medical",
+    address: "Kurfürstendamm 22, Berlin",
+    distance: "4.1 km",
+    distanceKm: 4.1,
+    rating: 4.9,
+    reviews: 210
+  }
+];
+
+/**
+ * Get clinic name by ID
+ */
+export function getClinicName(clinicId: number): string {
+  return CLINICS.find(c => c.id === clinicId)?.name || `Clinic ${clinicId}`;
+}
+
+/**
+ * Get clinic names for a list of clinic IDs
+ */
+export function getClinicNames(clinicIds: number[]): string {
+  return clinicIds.map(id => getClinicName(id)).join(", ");
+}

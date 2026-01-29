@@ -329,7 +329,7 @@ export default function BookingSlots() {
       </main>
 
       {/* Continue Button */}
-      <div className="fixed bottom-24 left-0 right-0 px-5 max-w-[375px] mx-auto z-40">
+      <div className="fixed bottom-0 left-0 right-0 px-5 pb-8 pt-4 bg-gradient-to-t from-background via-background to-transparent max-w-[375px] mx-auto z-40">
         <Button
           className="w-full h-12 rounded-2xl text-base font-semibold"
           disabled={!selectedDate || selectedWindows.length === 0}

@@ -16,12 +16,12 @@ import Login from "@/pages/login";
 import Home from "@/pages/home";
 import NotificationsList from "@/pages/notifications/list";
 import NotificationDetail from "@/pages/notifications/detail";
+import ArticlePage from "@/pages/article";
 
 // Booking Flow
 import BookingType from "@/pages/booking/type";
 import BookingEntry from "@/pages/booking/entry";
 import SpecialtySelect from "@/pages/booking/specialty";
-import LocationPermissionExplainer from "@/pages/booking/location-permission";
 import LocationSelect from "@/pages/booking/location";
 import DoctorSelect from "@/pages/booking/doctors";
 import BookingSlots from "@/pages/booking/slots";
@@ -122,6 +122,7 @@ function AppRoutes() {
       <Route path="/home" component={Home} />
       <Route path="/notifications/:id" component={NotificationDetail} />
       <Route path="/notifications" component={NotificationsList} />
+      <Route path="/article/:id" component={ArticlePage} />
 
       {/* Registration Routes */}
       <Route path="/register" component={RegisterAccount} />
@@ -137,7 +138,6 @@ function AppRoutes() {
       <Route path="/booking/type" component={BookingType} />
       <Route path="/booking/entry" component={BookingEntry} />
       <Route path="/booking/specialty" component={SpecialtySelect} />
-      <Route path="/booking/location-permission" component={LocationPermissionExplainer} />
       <Route path="/booking/location" component={LocationSelect} />
       <Route path="/booking/doctors" component={DoctorSelect} />
       <Route path="/booking/slots" component={BookingSlots} />

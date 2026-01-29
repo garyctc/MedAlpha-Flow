@@ -1,51 +1,31 @@
 import { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 import { useLocation, useSearch } from "wouter";
-import { MapPin, Star, Navigation, ChevronRight, Search, AlertTriangle } from "lucide-react";
+import { MapPin, Star, Navigation, ChevronRight, Search, AlertTriangle, ShieldCheck } from "lucide-react";
 import SubPageHeader from "@/components/layout/SubPageHeader";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import {
   saveBookingDraft,
   getBookingDraft,
-  getLocationExplainerSeen,
   getLocationPermissionState,
+  setLocationPermissionState,
   getUserProfile,
 } from "@/lib/storage";
-import { DOCTORS } from "@/lib/constants/doctors";
+import { DOCTORS, CLINICS } from "@/lib/constants/doctors";
 import { ADDRESS_SUGGESTIONS } from "@/lib/constants/addresses";
 import { useTranslation } from "react-i18next";
-
-const clinics = [
-  {
-    id: 1,
-    name: "DocliQ Health Center",
-    address: "Friedrichstraße 123, Berlin",
-    distance: "1.2 km",
-    distanceKm: 1.2,
-    rating: 4.8,
-    reviews: 124
-  },
-  {
-    id: 2,
-    name: "MedCore Health Center",
-    address: "Alexanderplatz 5, Berlin",
-    distance: "2.5 km",
-    distanceKm: 2.5,
-    rating: 4.6,
-    reviews: 89
-  },
-  {
-    id: 3,
-    name: "City West Medical",
-    address: "Kurfürstendamm 22, Berlin",
-    distance: "4.1 km",
-    distanceKm: 4.1,
-    rating: 4.9,
-    reviews: 210
-  }
-];
 
 export default function LocationSelect() {
   const [, setLocation] = useLocation();
@@ -53,7 +33,8 @@ export default function LocationSelect() {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
-  const [permissionState] = useState(() => getLocationPermissionState());
+  const [permissionState, setPermissionStateLocal] = useState(() => getLocationPermissionState());
+  const [showDialog, setShowDialog] = useState(false);
   const { t } = useTranslation();
 
   // Check if coming from doctor path (has ?doctor param)
@@ -63,12 +44,12 @@ export default function LocationSelect() {
   const draft = useMemo(() => getBookingDraft(), []);
   const isFastEntry = draft?.entryMode === "fast";
 
-  // Filter clinics if doctor is selected
+  // Filter CLINICS if doctor is selected
   const filteredClinics = useMemo(() => {
     if (selectedDoctor) {
-      return clinics.filter(c => selectedDoctor.clinics.includes(c.id));
+      return CLINICS.filter(c => selectedDoctor.clinics.includes(c.id));
     }
-    return clinics;
+    return CLINICS;
   }, [selectedDoctor]);
 
   const displayClinics = useMemo(() => {
@@ -121,8 +102,9 @@ export default function LocationSelect() {
   }, [isFastEntry, permissionState, searchQuery]);
 
   useEffect(() => {
-    if (!getLocationExplainerSeen()) {
-      setLocation("/booking/location-permission");
+    // Skip loading simulation if permission not yet decided
+    if (permissionState === "prompt") {
+      setIsLoading(false);
       return;
     }
 
@@ -143,7 +125,16 @@ export default function LocationSelect() {
     }, 500);
 
     return () => clearTimeout(timer);
-  }, [draft, isFastEntry, permissionState, setLocation, t]);
+  }, [draft, isFastEntry, permissionState, t]);
+
+  const handlePermissionDecision = (state: "granted" | "denied") => {
+    setLocationPermissionState(state);
+    setPermissionStateLocal(state);
+    setShowDialog(false);
+    setIsLoading(true);
+    // Brief loading state before showing clinics
+    setTimeout(() => setIsLoading(false), 500);
+  };
 
   const handleClinicClick = (clinicId: number, clinicName: string) => {
     saveBookingDraft({ location: clinicName });
@@ -157,6 +148,97 @@ export default function LocationSelect() {
     }
   };
 
+  // Permission prompt state - show explainer
+  if (permissionState === "prompt") {
+    return (
+      <div className="min-h-screen bg-background pb-20">
+        <SubPageHeader
+          title={t("booking.location.permission.title", {
+            defaultValue: "Enable location",
+          })}
+          backPath="/booking/entry"
+        />
+
+        <main className="p-5 space-y-6">
+          <div className="bg-card border border-border rounded-3xl p-5 shadow-[var(--shadow-card)] space-y-4">
+            <div className="w-14 h-14 rounded-2xl bg-primary/10 text-primary flex items-center justify-center">
+              <MapPin size={26} />
+            </div>
+            <div className="space-y-2">
+              <h2 className="text-xl font-semibold text-foreground">
+                {t("booking.location.permission.heading", {
+                  defaultValue: "Find clinics faster",
+                })}
+              </h2>
+              <p className="text-sm text-muted-foreground">
+                {t("booking.location.permission.body", {
+                  defaultValue:
+                    "Allow location access to prioritize nearby clinics and shorten your wait time.",
+                })}
+              </p>
+            </div>
+            <Button className="w-full" onClick={() => setShowDialog(true)}>
+              {t("booking.location.permission.cta", {
+                defaultValue: "Enable location",
+              })}
+            </Button>
+          </div>
+
+          <div className="bg-muted/40 border border-dashed border-border rounded-3xl p-5 space-y-3">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-foreground/5 text-foreground flex items-center justify-center">
+                <ShieldCheck size={20} />
+              </div>
+              <div>
+                <p className="font-medium text-foreground">
+                  {t("booking.location.permission.privacy.title", {
+                    defaultValue: "Your privacy comes first",
+                  })}
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  {t("booking.location.permission.privacy.body", {
+                    defaultValue: "We only use location while you book appointments.",
+                  })}
+                </p>
+              </div>
+            </div>
+          </div>
+        </main>
+
+        <AlertDialog open={showDialog} onOpenChange={setShowDialog}>
+          <AlertDialogContent className="w-[90%] rounded-3xl">
+            <AlertDialogHeader>
+              <AlertDialogTitle>
+                {t("booking.location.permission.modal.title", {
+                  defaultValue: "Allow location access?",
+                })}
+              </AlertDialogTitle>
+              <AlertDialogDescription>
+                {t("booking.location.permission.modal.body", {
+                  defaultValue:
+                    "We use your location to sort nearby clinics first. You can change this later in settings.",
+                })}
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel onClick={() => handlePermissionDecision("denied")}>
+                {t("booking.location.permission.modal.deny", {
+                  defaultValue: "Not now",
+                })}
+              </AlertDialogCancel>
+              <AlertDialogAction onClick={() => handlePermissionDecision("granted")}>
+                {t("booking.location.permission.modal.allow", {
+                  defaultValue: "Allow location",
+                })}
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      </div>
+    );
+  }
+
+  // Granted or Denied state - show clinic list
   return (
     <div className="min-h-screen bg-background pb-20">
       <SubPageHeader
@@ -173,7 +255,7 @@ export default function LocationSelect() {
            </div>
         </div>
 
-        {permissionState !== "granted" && (
+        {permissionState === "denied" && (
           <div className="bg-amber-50 border border-amber-200 rounded-3xl p-4 space-y-3">
             <div className="flex items-start gap-3">
               <div className="w-10 h-10 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center">
@@ -195,7 +277,7 @@ export default function LocationSelect() {
             </div>
             <Button
               className="w-full"
-              onClick={() => setLocation("/booking/location-permission")}
+              onClick={() => handlePermissionDecision("granted")}
             >
               {t("booking.location.permission.warning.cta", {
                 defaultValue: "Enable Location",
@@ -204,51 +286,54 @@ export default function LocationSelect() {
           </div>
         )}
 
-        {/* Search */}
-        <div className="space-y-3">
-          <div className="relative">
-            <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-            <Input
-              type="text"
-              placeholder={t("booking.location.search", {
-                defaultValue: "Search address or clinic",
-              })}
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10"
-            />
-          </div>
-          {addressSuggestions.length > 0 && (
-            <div className="space-y-2">
-              <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                {t("booking.location.suggestions", {
-                  defaultValue: "Suggested addresses",
-                })}
-              </p>
-              <div className="space-y-2">
-                {addressSuggestions.slice(0, 4).map((address) => (
-                  <button
-                    key={address}
-                    type="button"
-                    onClick={() => setSearchQuery(address)}
-                    className="w-full text-left bg-card border border-border rounded-2xl px-4 py-3 text-sm text-foreground hover:border-primary/30 transition-colors"
-                  >
-                    {address}
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
-
-        <div>
-          <h2 className="text-lg font-semibold text-foreground mb-3">
+        <div className="space-y-4">
+          {/* Title */}
+          <h2 className="text-lg font-semibold text-foreground">
             {isLoading
               ? t("booking.location.searching", { defaultValue: "Finding nearby locations..." })
               : selectedDoctor
                 ? t("booking.location.forDoctor", { name: selectedDoctor.name, defaultValue: `Locations for ${selectedDoctor.name}` })
-                : t("booking.location.nearby", { defaultValue: "Nearby Clinics" })}
+                : t("booking.location.nearby", { defaultValue: "Clinics" })}
           </h2>
+
+          {/* Search */}
+          <div className="space-y-3">
+            <div className="relative">
+              <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                type="text"
+                placeholder={t("booking.location.search", {
+                  defaultValue: "Search address or clinic",
+                })}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10"
+              />
+            </div>
+            {addressSuggestions.length > 0 && (
+              <div className="space-y-2">
+                <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                  {t("booking.location.suggestions", {
+                    defaultValue: "Suggested addresses",
+                  })}
+                </p>
+                <div className="space-y-2">
+                  {addressSuggestions.slice(0, 4).map((address) => (
+                    <button
+                      key={address}
+                      type="button"
+                      onClick={() => setSearchQuery(address)}
+                      className="w-full text-left bg-card border border-border rounded-2xl px-4 py-3 text-sm text-foreground hover:border-primary/30 transition-colors"
+                    >
+                      {address}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Clinic list */}
           <div className="space-y-3">
             {isLoading ? (
               Array.from({ length: 3 }).map((_, i) => (

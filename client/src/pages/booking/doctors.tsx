@@ -7,7 +7,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Input } from "@/components/ui/input";
 import { Chip } from "@/components/ui/chip";
 import { saveBookingDraft, getBookingDraft } from "@/lib/storage";
-import { DOCTORS, DEFAULT_DOCTOR_AVATAR } from "@/lib/constants/doctors";
+import { DOCTORS, DEFAULT_DOCTOR_AVATAR, CLINICS, getClinicName, getClinicNames } from "@/lib/constants/doctors";
 import { useTranslation } from "react-i18next";
 
 type FilterType = 'all' | 'available' | 'top-rated';
@@ -17,16 +17,6 @@ const filters: { label: string; value: FilterType }[] = [
   { label: "Available Today", value: "available" },
   { label: "Highest Rated", value: "top-rated" },
 ];
-
-const CLINIC_NAMES: Record<number, string> = {
-  1: "DocliQ Health Center",
-  2: "MedCore Health Center",
-  3: "City West Medical",
-};
-
-function getClinicNames(clinicIds: number[]): string {
-  return clinicIds.map(id => CLINIC_NAMES[id] || `Clinic ${id}`).join(", ");
-}
 
 export default function DoctorSelect() {
   const [, setLocation] = useLocation();
@@ -41,7 +31,7 @@ export default function DoctorSelect() {
   const searchParams = new URLSearchParams(search);
   const locationId = searchParams.get("location");
   const locationIdNum = locationId ? parseInt(locationId) : null;
-  const locationName = locationIdNum ? CLINIC_NAMES[locationIdNum] : null;
+  const locationName = locationIdNum ? getClinicName(locationIdNum) : null;
 
   useEffect(() => {
     const draft = getBookingDraft();
@@ -91,7 +81,7 @@ export default function DoctorSelect() {
 
     if (doc.clinics.length === 1) {
       // Single clinic: auto-save location and go straight to slots
-      const clinicName = CLINIC_NAMES[doc.clinics[0]];
+      const clinicName = getClinicName(doc.clinics[0]);
       saveBookingDraft({ location: clinicName });
       setLocation("/booking/slots");
     } else {

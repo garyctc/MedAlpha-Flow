@@ -11,6 +11,9 @@ import { saveAuthState, seedDemoData } from "@/lib/storage";
 import { showError } from "@/lib/toast-helpers";
 import { useSSOProviders } from "@/hooks/use-sso-providers";
 
+// Feature flags
+const SHOW_SSO = false;
+
 // Demo credentials
 const DEMO_EMAIL = "alex@example.com";
 const DEMO_PASSWORD = "password123";
@@ -105,34 +108,38 @@ export default function Login() {
           </Button>
 
           {/* SSO Options */}
-          <div className="relative flex py-2 items-center">
-            <div className="flex-grow border-t border-border"></div>
-            <span className="flex-shrink-0 mx-4 text-muted-foreground text-xs font-medium uppercase tracking-wider">or continue with</span>
-            <div className="flex-grow border-t border-border"></div>
-          </div>
+          {SHOW_SSO && (
+            <>
+              <div className="relative flex py-2 items-center">
+                <div className="flex-grow border-t border-border"></div>
+                <span className="flex-shrink-0 mx-4 text-muted-foreground text-xs font-medium uppercase tracking-wider">or continue with</span>
+                <div className="flex-grow border-t border-border"></div>
+              </div>
 
-          <div className="grid grid-cols-2 gap-3">
-            {providers.slice(0, 2).map((provider) => (
-              <Button
-                key={provider.id}
-                type="button"
-                variant="outline"
-                className="h-12 gap-2"
-                onClick={() => setLocation(`/sso/loading?provider=${provider.id}`)}
-              >
-                <div
-                  className="w-6 h-6 rounded-full flex items-center justify-center"
-                  style={{
-                    backgroundColor: provider.backgroundColor,
-                    color: provider.textColor
-                  }}
-                >
-                  <span className="text-[6px] font-bold">{provider.logoInitials}</span>
-                </div>
-                {provider.displayName}
-              </Button>
-            ))}
-          </div>
+              <div className="grid grid-cols-2 gap-3">
+                {providers.slice(0, 2).map((provider) => (
+                  <Button
+                    key={provider.id}
+                    type="button"
+                    variant="outline"
+                    className="h-12 gap-2"
+                    onClick={() => setLocation(`/sso/loading?provider=${provider.id}`)}
+                  >
+                    <div
+                      className="w-6 h-6 rounded-full flex items-center justify-center"
+                      style={{
+                        backgroundColor: provider.backgroundColor,
+                        color: provider.textColor
+                      }}
+                    >
+                      <span className="text-[6px] font-bold">{provider.logoInitials}</span>
+                    </div>
+                    {provider.displayName}
+                  </Button>
+                ))}
+              </div>
+            </>
+          )}
 
         </form>
 

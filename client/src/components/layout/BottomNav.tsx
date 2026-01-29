@@ -13,13 +13,14 @@ export default function BottomNav() {
     { name: t("nav.profile"), icon: User, path: "/profile" },
   ];
 
-  // Only hide on auth screens and video calls
+  // Only hide on auth screens, video calls, and booking flow
   if (
     location === "/" ||
     location === "/login" ||
     location.startsWith("/register") ||
     location.startsWith("/sso") ||
-    location.startsWith("/teleclinic")
+    location.startsWith("/teleclinic") ||
+    location.startsWith("/booking")
   )
     return null;
 

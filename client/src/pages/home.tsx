@@ -13,7 +13,6 @@ import type { CmsNotification } from "@/lib/notifications";
 import type { UserProfile, Appointment } from "@/types/storage";
 import { AppointmentCard } from "@/components/appointment-card";
 import { seedBookAgainDraft } from "@/lib/booking/intent";
-import { HOME_APPOINTMENT_MOCKS, HOME_APPOINTMENT_STATUS_ORDER } from "@/lib/appointments/home-mocks";
 import appLogo from "@/assets/app-logo.svg";
 
 function PromoCarousel({ promos }: { promos: CmsNotification[] }) {
@@ -29,8 +28,8 @@ function PromoCarousel({ promos }: { promos: CmsNotification[] }) {
     <div className="overflow-hidden px-5" ref={emblaRef}>
       <div className="flex gap-3">
         {displayPromos.map((promo) => (
-          <div key={promo.id} className="flex-[0_0_72%] min-w-0">
-            <div className="bg-card rounded-3xl overflow-hidden shadow-[var(--shadow-card)] border border-border">
+          <Link key={promo.id} href={`/article/${promo.id}`} className="flex-[0_0_72%] min-w-0 block">
+            <div className="bg-card rounded-3xl overflow-hidden shadow-[var(--shadow-card)] border border-border hover:border-primary/30 transition-colors">
               {/* Image with gradient overlay on left */}
               <div className="relative h-32 overflow-hidden">
                 <img
@@ -45,12 +44,12 @@ function PromoCarousel({ promos }: { promos: CmsNotification[] }) {
               <div className="p-4 space-y-2">
                 <h3 className="font-semibold text-foreground">{promo.title}</h3>
                 <p className="text-sm text-muted-foreground line-clamp-2">{promo.body}</p>
-                <Button variant="link" className="text-primary h-auto p-0 text-sm font-medium">
+                <span className="text-primary text-sm font-medium">
                   {t("common.buttons.learnMore")}
-                </Button>
+                </span>
               </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>
@@ -63,6 +62,7 @@ export default function Home() {
   const [, setLocation] = useLocation();
   const [isLoading, setIsLoading] = useState(true);
   const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [awaitingAppointments, setMyAppointments] = useState<Appointment[]>([]);
   const [bookAgainAppointments, setBookAgainAppointments] = useState<Appointment[]>([]);
   const { unreadCount, promos } = useNotifications();
 
@@ -70,12 +70,18 @@ export default function Home() {
     const timer = setTimeout(() => {
       const userProfile = getUserProfile();
       const appointments = getUserAppointments();
+      // Get appointments with searching, waiting, or confirmed status
+      const awaitingAppointments = appointments.filter((apt) =>
+        apt.matchStatus === "searching" || apt.matchStatus === "waiting" || apt.matchStatus === "confirmed"
+      );
+      // Sort by createdAt for Book Again section
       const sorted = [...appointments].sort(
         (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
       );
       const bookAgain = sorted.filter((apt) => apt.status === "completed");
 
       setProfile(userProfile);
+      setMyAppointments(awaitingAppointments);
       setBookAgainAppointments(bookAgain);
       setIsLoading(false);
     }, 400);
@@ -86,9 +92,6 @@ export default function Home() {
   const firstName = profile?.firstName || "Alex";
   const visibleBookAgainAppointments = bookAgainAppointments.slice(0, 3);
   const showBookAgainSeeAll = bookAgainAppointments.length > 3;
-  const orderedHomeAppointments = HOME_APPOINTMENT_STATUS_ORDER
-    .map((key) => HOME_APPOINTMENT_MOCKS.find((item) => item.statusKey === key))
-    .filter((item): item is (typeof HOME_APPOINTMENT_MOCKS)[number] => Boolean(item));
 
   return (
     <div className="min-h-screen bg-background pb-32" data-testid="home-screen">
@@ -134,29 +137,42 @@ export default function Home() {
               <PromoCarousel promos={promos} />
             </section>
 
-            {/* My Appointments Section */}
+            {/* Awaiting Appointments Section */}
             <section className="px-5 space-y-3">
               <div className="flex items-center justify-between">
                 <h2 className="font-semibold text-lg text-foreground">
-                  {t("home.appointments.title")}
+                  {t("home.appointments.awaitingTitle", { defaultValue: "Awaiting appointments" })}
                 </h2>
               </div>
 
               <div className="space-y-3" data-testid="home-my-appointments-list">
-                {orderedHomeAppointments.map((appointment) => (
-                  <AppointmentCard
-                    key={appointment.id}
-                    data={{
-                      ...appointment,
-                      statusLabel: t(`home.appointments.status.${appointment.statusKey}`),
-                      statusLabelClass:
-                        appointment.statusKey === "searching" || appointment.statusKey === "waiting"
-                          ? "bg-yellow-50 text-yellow-700"
-                          : undefined,
-                    }}
-                    onClick={() => setLocation("/appointments")}
-                  />
-                ))}
+                {awaitingAppointments.length > 0 ? (
+                  awaitingAppointments.map((appointment) => (
+                    <AppointmentCard
+                      key={appointment.id}
+                      data={{
+                        id: appointment.id,
+                        status: appointment.status === "processing" ? "processing" : "upcoming",
+                        type: appointment.type,
+                        doctor: appointment.doctor,
+                        doctorImage: appointment.doctorImage,
+                        role: appointment.specialty,
+                        location: appointment.clinic,
+                        date: `${formatLocalDate(appointment.date, locale)} • ${formatLocalTime(appointment.time, locale)}`,
+                        rawDate: appointment.date,
+                        rawTime: formatLocalTime(appointment.time, locale),
+                        matchStatus: appointment.matchStatus,
+                      }}
+                      onClick={() => setLocation(`/appointments/${appointment.id}`)}
+                    />
+                  ))
+                ) : (
+                  <div className="bg-card rounded-3xl border border-dashed border-border p-6 text-center">
+                    <p className="text-muted-foreground">
+                      {t("home.appointments.awaitingEmpty", { defaultValue: "No awaiting appointments" })}
+                    </p>
+                  </div>
+                )}
               </div>
             </section>
 
