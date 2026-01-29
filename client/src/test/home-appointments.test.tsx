@@ -71,10 +71,10 @@ describe("Home appointments sections", () => {
 
     saveAppointment({
       id: "extra-processing-1",
-      type: "video",
+      type: "in-person",
       doctor: "Dr. Alan Turing",
       specialty: "Dermatology",
-      clinic: "Teleclinic",
+      clinic: "DocliQ Health Center",
       date: "2026-02-08",
       time: "pending",
       status: "processing",
@@ -83,10 +83,10 @@ describe("Home appointments sections", () => {
 
     saveAppointment({
       id: "extra-completed-1",
-      type: "video",
+      type: "in-person",
       doctor: "Dr. Grace Hopper",
       specialty: "General Practice",
-      clinic: "Teleclinic",
+      clinic: "DocliQ Health Center",
       date: "2025-10-01",
       time: "14:00",
       status: "completed",
@@ -100,20 +100,73 @@ describe("Home appointments sections", () => {
     clearStorage();
   });
 
-  it("shows My Appointments and Book Again sections with max 5 items", async () => {
+  it("shows My Appointments and Book Again sections with max 3 items", async () => {
     renderHome();
 
     await act(async () => {
       vi.advanceTimersByTime(600);
     });
 
-    expect(screen.getByText("My Appointments")).toBeInTheDocument();
+    expect(screen.getByText("My appointments")).toBeInTheDocument();
     expect(screen.getByText("Book Again")).toBeInTheDocument();
 
     const myAppointmentsList = screen.getByTestId("home-my-appointments-list");
     const bookAgainList = screen.getByTestId("home-book-again-list");
 
-    expect(within(myAppointmentsList).getAllByRole("button")).toHaveLength(5);
-    expect(within(bookAgainList).getAllByRole("button")).toHaveLength(5);
+    expect(within(myAppointmentsList).getAllByRole("button")).toHaveLength(3);
+    expect(within(bookAgainList).getAllByRole("button")).toHaveLength(3);
+  });
+
+  it("hides See all when sections have 3 or fewer items", async () => {
+    clearStorage();
+
+    saveAppointment({
+      id: "small-upcoming-1",
+      type: "in-person",
+      doctor: "Dr. Ada Lovelace",
+      specialty: "General Practice",
+      clinic: "DocliQ Health Center",
+      date: "2026-02-07",
+      time: "09:00",
+      status: "upcoming",
+      createdAt: "2026-01-27T14:00:00Z",
+    });
+
+    saveAppointment({
+      id: "small-completed-1",
+      type: "in-person",
+      doctor: "Dr. Grace Hopper",
+      specialty: "General Practice",
+      clinic: "DocliQ Health Center",
+      date: "2025-10-01",
+      time: "14:00",
+      status: "completed",
+      createdAt: "2025-10-01T14:00:00Z",
+    });
+
+    renderHome();
+
+    await act(async () => {
+      vi.advanceTimersByTime(600);
+    });
+
+    expect(screen.queryByText("See all")).not.toBeInTheDocument();
+  });
+
+  it("shows prototype appointments even when storage is empty", async () => {
+    clearStorage();
+
+    renderHome();
+
+    await act(async () => {
+      vi.advanceTimersByTime(600);
+    });
+
+    const myAppointmentsList = screen.getByTestId("home-my-appointments-list");
+
+    expect(within(myAppointmentsList).getAllByRole("button")).toHaveLength(3);
+    expect(screen.getByText("Searching")).toBeInTheDocument();
+    expect(screen.getByText("Waiting for confirmation")).toBeInTheDocument();
+    expect(screen.getByText("Confirmed")).toBeInTheDocument();
   });
 });

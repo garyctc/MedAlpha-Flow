@@ -67,6 +67,14 @@
         "subtitle": "Pharmacy pickup"
       }
     },
+    "appointments": {
+      "title": "My appointments",
+      "status": {
+        "searching": "Searching",
+        "waiting": "Waiting for confirmation",
+        "confirmed": "Confirmed"
+      }
+    },
     "sections": {
       "suggested": "Suggested",
       "nextAppointment": "Next Appointment",

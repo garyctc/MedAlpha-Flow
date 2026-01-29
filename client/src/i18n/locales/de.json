@@ -67,6 +67,14 @@
         "subtitle": "Abholung in der Apotheke"
       }
     },
+    "appointments": {
+      "title": "Meine Termine",
+      "status": {
+        "searching": "Suche läuft",
+        "waiting": "Warten auf Bestätigung",
+        "confirmed": "Bestätigt"
+      }
+    },
     "sections": {
       "suggested": "Empfohlen",
       "nextAppointment": "Nächster Termin",

@@ -1,9 +1,8 @@
 import { motion } from "framer-motion";
-import { Check, Video, Loader2 } from "lucide-react";
+import { Check, Loader2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { DateBadge } from "@/components/ui/date-badge";
 import { DEFAULT_DOCTOR_AVATAR } from "@/lib/constants/doctors";
-import { getMatchStatusLabel } from "@/lib/appointments/status";
 import type { Appointment } from "@/types/storage";
 
 type MatchStatus = NonNullable<Appointment["matchStatus"]>;
@@ -22,6 +21,7 @@ export type AppointmentCardData = {
   subStatus?: "cancelled" | "completed" | "processing";
   matchStatus?: MatchStatus;
   amount?: string;
+  statusLabel?: string;
 };
 
 export function AppointmentCard({
@@ -31,9 +31,38 @@ export function AppointmentCard({
   data: AppointmentCardData;
   onClick: () => void;
 }) {
-  const isVideo = data.type === "video";
-  const isProcessing = data.status === "processing";
   const { t } = useTranslation();
+  const isSearching = data.matchStatus === "searching";
+  const isWaiting = data.matchStatus === "waiting";
+  const isPending = isSearching || isWaiting;
+  const statusPill = (() => {
+    if (data.subStatus === "completed") {
+      return {
+        label: t("common.status.completed").toUpperCase(),
+        className: "bg-slate-100 text-slate-600",
+      };
+    }
+    if (data.subStatus === "cancelled") {
+      return {
+        label: t("common.status.cancelled").toUpperCase(),
+        className: "bg-red-50 text-red-600",
+      };
+    }
+    switch (data.matchStatus) {
+      case "searching":
+        return { label: "SEARCHING", className: "bg-yellow-50 text-yellow-700" };
+      case "waiting":
+        return { label: "WAITING FOR CONFIRMATION", className: "bg-yellow-50 text-yellow-700" };
+      case "confirmed":
+        return { label: "CONFIRMED", className: "bg-green-50 text-green-700" };
+      case "rejected":
+        return { label: "REJECTED", className: "bg-red-50 text-red-600" };
+      case "expired":
+        return { label: "CANCELLED", className: "bg-red-50 text-red-600" };
+      default:
+        return null;
+    }
+  })();
 
   // Try to parse date for DateBadge
   let dateObj: Date | null = null;
@@ -46,7 +75,7 @@ export function AppointmentCard({
       whileTap={{ scale: 0.98 }}
       onClick={onClick}
       className={`w-full p-4 rounded-3xl shadow-[var(--shadow-card)] border flex items-center gap-4 text-left transition-all ${
-        isProcessing
+        isPending
           ? "bg-primary/5 border-primary/20"
           : "bg-card border-border hover:border-primary/30"
       }`}
@@ -54,18 +83,22 @@ export function AppointmentCard({
       {/* Doctor Photo with Badge */}
       <div className="relative flex-shrink-0">
         <div className="w-14 h-14 rounded-full overflow-hidden bg-muted flex items-center justify-center">
-          <img
+          {isSearching ? (
+            <Loader2 size={18} className="text-muted-foreground animate-spin" aria-label="Searching" />
+          ) : (
+            <img
               src={data.doctorImage || DEFAULT_DOCTOR_AVATAR}
               alt={data.doctor}
               className="w-full h-full object-cover"
             />
+          )}
         </div>
-        {!isProcessing && (
+        {!isPending && (
           <div className="absolute -bottom-0.5 -right-0.5 w-5 h-5 bg-primary rounded-full flex items-center justify-center border-2 border-card">
             <Check size={10} className="text-white" strokeWidth={3} />
           </div>
         )}
-        {isProcessing && (
+        {isPending && (
           <div className="absolute -bottom-0.5 -right-0.5 w-5 h-5 bg-primary rounded-full flex items-center justify-center border-2 border-card">
             <Loader2 size={10} className="text-white animate-spin" />
           </div>
@@ -75,48 +108,31 @@ export function AppointmentCard({
       {/* Info */}
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 mb-0.5">
-          {data.matchStatus && (
-            <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-primary/10 text-primary">
-              {getMatchStatusLabel(data.matchStatus)}
-            </span>
-          )}
-          {data.subStatus === "processing" && (
+          {data.statusLabel && (
             <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full uppercase tracking-wider bg-primary/10 text-primary">
-              {t("common.status.processing")}
+              {data.statusLabel}
             </span>
           )}
-          {data.subStatus === "completed" && (
-            <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full uppercase tracking-wider bg-green-50 text-green-700">
-              {t("common.status.completed")}
-            </span>
-          )}
-          {data.subStatus === "cancelled" && (
-            <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full uppercase tracking-wider bg-red-50 text-red-600">
-              {t("common.status.cancelled")}
-            </span>
-          )}
-          {isVideo && !isProcessing && (
-            <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full uppercase tracking-wider bg-primary/10 text-primary flex items-center gap-1">
-              <Video size={10} /> {t("appointments.type.video")}
+          {statusPill && (
+            <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full uppercase tracking-wider ${statusPill.className}`}>
+              {statusPill.label}
             </span>
           )}
         </div>
 
-        <p className="font-semibold text-foreground truncate">{data.doctor}</p>
-        <p className="text-sm text-muted-foreground truncate">
-          {data.role} • {isVideo ? "Video" : "Check-up"}
+        <p className="font-semibold text-foreground truncate">
+          {isSearching ? "Searching for doctor" : data.doctor}
         </p>
-
-        {isProcessing && (
-          <span className="inline-block mt-1 text-[9px] font-semibold text-primary bg-primary/10 px-2 py-0.5 rounded-full uppercase tracking-wider">
-            {t("appointments.partner.smartMatch")}
-          </span>
-        )}
+        <p className="text-sm text-muted-foreground truncate">
+          {data.role} • Check-up
+        </p>
       </div>
 
       {/* Date Badge */}
       <div className="flex-shrink-0 text-center">
-        {dateObj ? (
+        {isPending ? (
+          <Loader2 size={16} className="text-muted-foreground animate-spin" aria-label="Loading time" />
+        ) : dateObj ? (
           <>
             <DateBadge date={dateObj} size="compact" />
             {data.rawTime && (

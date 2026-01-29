@@ -13,6 +13,7 @@ import type { CmsNotification } from "@/lib/notifications";
 import type { UserProfile, Appointment } from "@/types/storage";
 import { AppointmentCard } from "@/components/appointment-card";
 import { seedBookAgainDraft } from "@/lib/booking/intent";
+import { HOME_APPOINTMENT_MOCKS, HOME_APPOINTMENT_STATUS_ORDER } from "@/lib/appointments/home-mocks";
 import appLogo from "@/assets/app-logo.svg";
 
 function PromoCarousel({ promos }: { promos: CmsNotification[] }) {
@@ -62,7 +63,6 @@ export default function Home() {
   const [, setLocation] = useLocation();
   const [isLoading, setIsLoading] = useState(true);
   const [profile, setProfile] = useState<UserProfile | null>(null);
-  const [myAppointments, setMyAppointments] = useState<Appointment[]>([]);
   const [bookAgainAppointments, setBookAgainAppointments] = useState<Appointment[]>([]);
   const { unreadCount, promos } = useNotifications();
 
@@ -73,11 +73,9 @@ export default function Home() {
       const sorted = [...appointments].sort(
         (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
       );
-      const mine = sorted.filter((apt) => apt.status !== "completed").slice(0, 5);
-      const bookAgain = sorted.filter((apt) => apt.status === "completed").slice(0, 5);
+      const bookAgain = sorted.filter((apt) => apt.status === "completed");
 
       setProfile(userProfile);
-      setMyAppointments(mine);
       setBookAgainAppointments(bookAgain);
       setIsLoading(false);
     }, 400);
@@ -86,6 +84,11 @@ export default function Home() {
   }, []);
 
   const firstName = profile?.firstName || "Alex";
+  const visibleBookAgainAppointments = bookAgainAppointments.slice(0, 3);
+  const showBookAgainSeeAll = bookAgainAppointments.length > 3;
+  const orderedHomeAppointments = HOME_APPOINTMENT_STATUS_ORDER
+    .map((key) => HOME_APPOINTMENT_MOCKS.find((item) => item.statusKey === key))
+    .filter((item): item is (typeof HOME_APPOINTMENT_MOCKS)[number] => Boolean(item));
 
   return (
     <div className="min-h-screen bg-background pb-32" data-testid="home-screen">
@@ -135,65 +138,22 @@ export default function Home() {
             <section className="px-5 space-y-3">
               <div className="flex items-center justify-between">
                 <h2 className="font-semibold text-lg text-foreground">
-                  {t("home.sections.myAppointments", { defaultValue: "My Appointments" })}
+                  {t("home.appointments.title")}
                 </h2>
-                <Link href="/appointments" className="text-sm font-medium text-primary">
-                  {t("common.buttons.seeAll")}
-                </Link>
               </div>
 
-              {myAppointments.length > 0 ? (
-                <div className="space-y-3" data-testid="home-my-appointments-list">
-                  {myAppointments.map((appointment) => (
-                    <AppointmentCard
-                      key={appointment.id}
-                      data={{
-                        id: appointment.id,
-                        status:
-                          appointment.status === "processing"
-                            ? "processing"
-                            : appointment.status === "upcoming"
-                              ? "upcoming"
-                              : "past",
-                        type: appointment.type,
-                        doctor: appointment.doctor,
-                        doctorImage: appointment.doctorImage,
-                        role: appointment.specialty,
-                        location: appointment.clinic,
-                        date: `${formatLocalDate(appointment.date, locale)} • ${formatLocalTime(
-                          appointment.time,
-                          locale
-                        )}`,
-                        rawDate: appointment.date,
-                        rawTime: formatLocalTime(appointment.time, locale),
-                        subStatus:
-                          appointment.status === "completed"
-                            ? "completed"
-                            : appointment.status === "cancelled"
-                              ? "cancelled"
-                              : appointment.status === "processing"
-                                ? "processing"
-                                : undefined,
-                        matchStatus: appointment.matchStatus,
-                      }}
-                      onClick={() => setLocation(`/appointments/${appointment.id}`)}
-                    />
-                  ))}
-                </div>
-              ) : (
-                <div className="bg-card rounded-3xl border border-dashed border-border p-8 text-center">
-                  <p className="text-muted-foreground">{t("home.empty.title")}</p>
-                  <Link
-                    href="/booking/entry"
-                    onClick={() => {
-                      clearBookingDraft();
-                      saveBookingDraft({ type: 'in-person' });
+              <div className="space-y-3" data-testid="home-my-appointments-list">
+                {orderedHomeAppointments.map((appointment) => (
+                  <AppointmentCard
+                    key={appointment.id}
+                    data={{
+                      ...appointment,
+                      statusLabel: t(`home.appointments.status.${appointment.statusKey}`),
                     }}
-                  >
-                    <Button variant="link" className="text-primary mt-2">{t("home.empty.cta")}</Button>
-                  </Link>
-                </div>
-              )}
+                    onClick={() => setLocation("/appointments")}
+                  />
+                ))}
+              </div>
             </section>
 
             {/* Book Again Section */}
@@ -202,13 +162,15 @@ export default function Home() {
                 <h2 className="font-semibold text-lg text-foreground">
                   {t("appointments.detail.bookAgain", { defaultValue: "Book Again" })}
                 </h2>
-                <Link href="/history" className="text-sm font-medium text-primary">
-                  {t("common.buttons.seeAll")}
-                </Link>
+                {showBookAgainSeeAll && (
+                  <Link href="/history" className="text-sm font-medium text-primary">
+                    {t("common.buttons.seeAll")}
+                  </Link>
+                )}
               </div>
-              {bookAgainAppointments.length > 0 ? (
+              {visibleBookAgainAppointments.length > 0 ? (
                 <div className="space-y-3" data-testid="home-book-again-list">
-                  {bookAgainAppointments.map((appointment) => (
+                  {visibleBookAgainAppointments.map((appointment) => (
                     <AppointmentCard
                       key={appointment.id}
                       data={{
