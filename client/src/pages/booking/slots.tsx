@@ -6,6 +6,7 @@ import { DOCTORS } from "@/lib/constants/doctors";
 import { saveBookingDraft, getBookingDraft } from "@/lib/storage";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
+import type { BookingDraft } from "@/types/storage";
 
 const CLINIC_NAMES: Record<number, string> = {
   1: "DocliQ Health Center",
@@ -19,7 +20,14 @@ function getClinicIdByName(name: string | undefined): number | null {
   return entry ? parseInt(entry[0]) : null;
 }
 
-const TIME_SLOTS = ["08:00", "09:00", "10:30", "11:15", "13:45", "15:00"];
+type TimeWindow = NonNullable<BookingDraft["timeWindow"]>;
+
+const TIME_WINDOWS: TimeWindow[] = ["morning", "afternoon", "evening"];
+const TIME_WINDOW_LABELS: Record<TimeWindow, string> = {
+  morning: "Morning",
+  afternoon: "Afternoon",
+  evening: "Evening",
+};
 
 const MONTH_NAMES = [
   "January", "February", "March", "April", "May", "June",
@@ -113,7 +121,7 @@ export default function BookingSlots() {
 
   const [currentMonth, setCurrentMonth] = useState(() => new Date());
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
-  const [selectedTime, setSelectedTime] = useState<string | null>(null);
+  const [selectedWindow, setSelectedWindow] = useState<TimeWindow | null>(null);
 
   const calendarDays = useMemo(
     () => generateCalendarDays(currentMonth),
@@ -154,23 +162,31 @@ export default function BookingSlots() {
   }, [draft?.doctor]);
 
   const backPath = useMemo(() => {
-    if (draft?.entryMode === 'specialty') {
+    if (draft?.entryMode === "fast") return "/booking/entry";
+    if (draft?.entryMode === "specialty") {
       const clinicId = getClinicIdByName(draft?.location);
-      return clinicId ? `/booking/doctors?location=${clinicId}` : '/booking/doctors';
+      return clinicId ? `/booking/doctors?location=${clinicId}` : "/booking/doctors";
     }
-    return '/booking/doctors';
+    return "/booking/doctors";
   }, [draft?.entryMode, draft?.location]);
 
   const handleContinue = () => {
-    if (!selectedDate || !selectedTime) return;
+    if (!selectedDate || !selectedWindow) return;
+    const isFast = draft?.entryMode === "fast";
 
-    saveBookingDraft({
-      doctor: selectedDoctor?.name || draft?.doctor || "Available Doctor",
-      specialty: selectedDoctor?.specialty || draft?.specialty || "General Practice",
+    const nextDraft: Partial<BookingDraft> = {
       date: selectedDate,
-      time: selectedTime,
+      timeWindow: selectedWindow,
+      time: "pending",
       location: draft?.location || CLINIC_NAMES[selectedDoctor?.clinics[0] || 1],
-    });
+    };
+
+    if (!isFast) {
+      nextDraft.doctor = selectedDoctor?.name || draft?.doctor || "Available Doctor";
+      nextDraft.specialty = selectedDoctor?.specialty || draft?.specialty || "General Practice";
+    }
+
+    saveBookingDraft(nextDraft);
     setLocation("/booking/review");
   };
 
@@ -245,7 +261,7 @@ export default function BookingSlots() {
                 onClick={() => {
                   if (!day.isPast && day.isCurrentMonth) {
                     setSelectedDate(day.date);
-                    setSelectedTime(null);
+                    setSelectedWindow(null);
                   }
                 }}
                 disabled={day.isPast || !day.isCurrentMonth}
@@ -264,23 +280,25 @@ export default function BookingSlots() {
           </div>
         </div>
 
-        {/* Time Slots */}
+        {/* Time Windows */}
         {selectedDate && (
           <div className="space-y-3">
-            <h3 className="text-lg font-semibold text-foreground">Available times</h3>
+            <h3 className="text-lg font-semibold text-foreground">
+              {t("booking.slots.windowsTitle", { defaultValue: "Select a time window" })}
+            </h3>
             <div className="grid grid-cols-3 gap-3">
-              {TIME_SLOTS.map((time) => (
+              {TIME_WINDOWS.map((window) => (
                 <button
-                  key={time}
-                  onClick={() => setSelectedTime(time)}
+                  key={window}
+                  onClick={() => setSelectedWindow(window)}
                   className={cn(
                     "h-12 rounded-2xl text-sm font-medium transition-colors",
-                    selectedTime === time
+                    selectedWindow === window
                       ? "bg-primary text-white"
                       : "bg-card border border-border text-foreground hover:border-primary/30"
                   )}
                 >
-                  {time}
+                  {t(`booking.slots.windows.${window}`, { defaultValue: TIME_WINDOW_LABELS[window] })}
                 </button>
               ))}
             </div>
@@ -292,7 +310,7 @@ export default function BookingSlots() {
       <div className="fixed bottom-24 left-0 right-0 px-5 max-w-[375px] mx-auto z-40">
         <Button
           className="w-full h-12 rounded-2xl text-base font-semibold"
-          disabled={!selectedDate || !selectedTime}
+          disabled={!selectedDate || !selectedWindow}
           onClick={handleContinue}
         >
           {t("common.buttons.continue")}

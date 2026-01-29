@@ -5,16 +5,16 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
   getBookingDraft,
-  clearBookingDraft,
-  saveAppointment,
-  updateAppointment,
 } from "@/lib/storage";
-import { buildDraftAppointmentSeries } from "@/lib/booking/review";
 import { useTranslation } from "react-i18next";
 import { formatLocalDate, formatLocalTime, getLocale } from "@/i18n";
-import { showSuccess } from "@/lib/toast-helpers";
-import type { Appointment } from "@/types/storage";
 import { DEFAULT_DOCTOR_AVATAR } from "@/lib/constants/doctors";
+
+const TIME_WINDOW_LABELS: Record<"morning" | "afternoon" | "evening", string> = {
+  morning: "Morning",
+  afternoon: "Afternoon",
+  evening: "Evening",
+};
 
 export default function BookingReview() {
   const [, setLocation] = useLocation();
@@ -23,71 +23,50 @@ export default function BookingReview() {
   const locale = getLocale();
 
   const draft = getBookingDraft();
+  const isFast = draft?.entryMode === "fast";
+  const hasDoctor = Boolean(draft?.doctor);
+  const hasDate = Boolean(draft?.date);
+  const hasTime = Boolean(draft?.timeWindow || draft?.time);
+  const canReview = hasDate && hasTime && (isFast || hasDoctor);
+
+  const timeWindowKey = draft?.timeWindow;
+  const timeWindowLabel = timeWindowKey
+    ? t(`booking.slots.windows.${timeWindowKey}`, {
+        defaultValue: TIME_WINDOW_LABELS[timeWindowKey],
+      })
+    : null;
+  const timeLabel = timeWindowLabel ?? (draft?.time ? formatLocalTime(draft.time, locale) : "Pending");
 
   useEffect(() => {
-    if (!draft?.doctor || !draft?.date || !draft?.time) {
-      setLocation('/booking/specialty');
+    if (!canReview) {
+      setLocation(isFast ? "/booking/slots" : "/booking/specialty");
     }
-  }, [draft, setLocation]);
+  }, [canReview, isFast, setLocation]);
 
-  if (!draft?.doctor || !draft?.date || !draft?.time) {
+  if (!canReview || !draft) {
+    return null;
+  }
+
+  if (!draft.date) {
     return null;
   }
 
   const handleConfirm = () => {
     setIsConfirming(true);
 
-    setTimeout(() => {
-      if (draft.intent === "reschedule" && draft.rescheduleId) {
-        updateAppointment(draft.rescheduleId, {
-          date: draft.date!,
-          time: draft.time!,
-          doctor: draft.doctor!,
-          doctorImage: draft.doctorImage,
-          clinic: draft.location || "Medical Center Mitte",
-        });
-        sessionStorage.setItem("last-booked-appointment", draft.rescheduleId);
-      } else if (draft.recurring && draft.recurrenceCount && draft.recurrenceIntervalWeeks) {
-        const series = buildDraftAppointmentSeries(draft, `appt-${Date.now()}`);
-        series.forEach((item) => {
-          saveAppointment({
-            id: item.id,
-            type: draft.type || "in-person",
-            doctor: draft.doctor!,
-            doctorImage: draft.doctorImage,
-            specialty: draft.specialty || "General Practice",
-            clinic: draft.location || "Medical Center Mitte",
-            date: item.date,
-            time: item.time,
-            status: "upcoming",
-            createdAt: new Date().toISOString(),
-          });
-        });
-        if (series[0]) {
-          sessionStorage.setItem("last-booked-appointment", series[0].id);
-        }
-      } else {
-        const newAppointment: Appointment = {
-          id: `appt-${Date.now()}`,
-          type: draft.type || "in-person",
-          doctor: draft.doctor!,
-          doctorImage: draft.doctorImage,
-          specialty: draft.specialty || "General Practice",
-          clinic: draft.location || "Medical Center Mitte",
-          date: draft.date!,
-          time: draft.time!,
-          status: "upcoming",
+    if (draft?.date) {
+      localStorage.setItem(
+        "pending-smart-match-booking",
+        JSON.stringify({
+          id: `pending-${Date.now()}`,
+          dateIso: draft.date,
+          time: timeLabel,
           createdAt: new Date().toISOString(),
-        };
+        })
+      );
+    }
 
-        saveAppointment(newAppointment);
-        sessionStorage.setItem("last-booked-appointment", newAppointment.id);
-      }
-
-      clearBookingDraft();
-      showSuccess(t("booking.success.title"));
-      setLocation("/booking/success");
-    }, 800);
+    setLocation("/booking/smart-match-processing");
   };
 
   // Format the date for display
@@ -110,31 +89,42 @@ export default function BookingReview() {
             </button>
           )}
           <div className={cn("flex-1 text-center", draft?.intent !== "reschedule" && "pr-8")}>
-            <h1 className="text-lg font-semibold text-foreground">Appointment Overview</h1>
+            <h1 className="text-lg font-semibold text-foreground">Review Request</h1>
           </div>
         </div>
       </header>
 
       <main className="px-5 space-y-6">
         {/* Doctor Card - Centered */}
-        <div className="flex flex-col items-center text-center py-4">
-          {/* Doctor Photo with Verification Badge */}
-          <div className="relative mb-3">
-            <div className="w-20 h-20 rounded-full overflow-hidden bg-muted flex items-center justify-center">
-              <img
-                  src={draft.doctorImage || DEFAULT_DOCTOR_AVATAR}
-                  alt={draft.doctor}
-                  className="w-full h-full object-cover"
-                />
+        {!isFast && draft?.doctor && (
+          <div className="flex flex-col items-center text-center py-4">
+            {/* Doctor Photo with Verification Badge */}
+            <div className="relative mb-3">
+              <div className="w-20 h-20 rounded-full overflow-hidden bg-muted flex items-center justify-center">
+                <img
+                    src={draft.doctorImage || DEFAULT_DOCTOR_AVATAR}
+                    alt={draft.doctor}
+                    className="w-full h-full object-cover"
+                  />
+              </div>
+              {/* Verification Badge */}
+              <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-primary rounded-full flex items-center justify-center border-2 border-background">
+                <Check size={12} className="text-white" strokeWidth={3} />
+              </div>
             </div>
-            {/* Verification Badge */}
-            <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-primary rounded-full flex items-center justify-center border-2 border-background">
-              <Check size={12} className="text-white" strokeWidth={3} />
-            </div>
+            <h2 className="text-lg font-semibold text-foreground">{draft.doctor}</h2>
+            <p className="text-sm font-medium text-primary">{draft.specialty || "General Medicine"}</p>
           </div>
-          <h2 className="text-lg font-semibold text-foreground">{draft.doctor}</h2>
-          <p className="text-sm font-medium text-primary">{draft.specialty || "General Medicine"}</p>
-        </div>
+        )}
+
+        {isFast && (
+          <div className="bg-card rounded-3xl border border-border shadow-[var(--shadow-card)] p-5 text-left">
+            <h2 className="text-lg font-semibold text-foreground mb-2">Matching in progress</h2>
+            <p className="text-sm text-muted-foreground">
+              We'll share your request with available doctors and confirm the first match.
+            </p>
+          </div>
+        )}
 
         {/* Details Section */}
         <div className="space-y-4">
@@ -146,7 +136,7 @@ export default function BookingReview() {
             <div>
               <p className="text-xs text-muted-foreground mb-0.5">Date & Time</p>
               <p className="font-semibold text-foreground">{formattedDate}</p>
-              <p className="text-sm text-foreground">{formatLocalTime(draft.time, locale)}</p>
+              <p className="text-sm text-foreground">{timeLabel}</p>
             </div>
           </div>
 
@@ -207,15 +197,15 @@ export default function BookingReview() {
           className="w-full h-12 rounded-2xl text-base font-semibold gap-2"
           disabled={isConfirming}
         >
-          {isConfirming ? "Confirming..." : (
+          {isConfirming ? "Requesting..." : (
             <>
-              Confirm appointment
+              Request Appointment
               <Check size={18} strokeWidth={2.5} />
             </>
           )}
         </Button>
         <p className="text-xs text-muted-foreground text-center mt-3">
-          By confirming you accept our T&Cs and Privacy Policy.
+          By requesting you accept our T&Cs and Privacy Policy.
         </p>
       </div>
     </div>

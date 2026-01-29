@@ -29,7 +29,6 @@ const STATUS_FILTERS = [
   { id: "waiting", label: "Waiting for confirmation" },
   { id: "confirmed", label: "Confirmed" },
   { id: "rejected", label: "Rejected" },
-  { id: "expired", label: "Expired" },
   { id: "completed", label: "Completed" },
   { id: "cancelled", label: "Cancelled" },
 ] as const;
@@ -135,6 +134,7 @@ export default function AppointmentsPage() {
       setPendingBooking({
         id: booking.id,
         status: "processing",
+        matchStatus: "searching",
         type: "in-person",
         badge: "",
         badgeColor: "",
@@ -155,6 +155,7 @@ export default function AppointmentsPage() {
         const confirmedAppointment: Appointment = {
           id: booking.id,
           status: "upcoming",
+          matchStatus: "confirmed",
           type: "in-person",
           badge: "",
           badgeColor: "",

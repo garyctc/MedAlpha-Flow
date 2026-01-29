@@ -16,4 +16,10 @@ describe("demo seed", () => {
     expect(matchStatuses.has("rejected")).toBe(true);
     expect(matchStatuses.has("expired")).toBe(true);
   });
+
+  it("does not seed video appointments", () => {
+    seedDemoData();
+    const appointments = getUserAppointments();
+    expect(appointments.some((appointment) => appointment.type === "video")).toBe(false);
+  });
 });

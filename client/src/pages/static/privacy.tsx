@@ -47,7 +47,6 @@ export default function PrivacyPolicy() {
             <ul className="list-disc pl-5 space-y-2">
               <li>Facilitate appointment bookings with doctors and specialists.</li>
               <li>Process and manage your digital prescriptions (E-Rezept).</li>
-              <li>Enable secure video consultations through our telemedicine partners.</li>
               <li>Communicate with you regarding your appointments, health updates, and service changes.</li>
               <li>Comply with legal obligations and healthcare regulations.</li>
             </ul>
@@ -60,7 +59,6 @@ export default function PrivacyPolicy() {
             </p>
             <ul className="list-disc pl-5 space-y-2">
               <li><strong>Healthcare Providers:</strong> Doctors and clinics you book appointments with.</li>
-              <li><strong>Telemedicine Platforms:</strong> Video consultation providers (e.g., Teleclinic) to facilitate your virtual visits.</li>
               <li><strong>Pharmacies:</strong> Online and local pharmacies (via Apo Group) for prescription fulfillment.</li>
             </ul>
           </section>

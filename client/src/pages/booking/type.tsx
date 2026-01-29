@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useLocation } from "wouter";
-import { Building, Video, ChevronRight } from "lucide-react";
+import { Building, ChevronRight } from "lucide-react";
 import SubPageHeader from "@/components/layout/SubPageHeader";
 import { clearBookingDraft, saveBookingDraft } from "@/lib/storage";
 import { useTranslation } from "react-i18next";
@@ -13,12 +13,6 @@ export default function BookingType() {
     clearBookingDraft();
     saveBookingDraft({ type: 'in-person' });
     setLocation("/booking/entry");
-  };
-
-  const handleVideoClick = () => {
-    clearBookingDraft();
-    saveBookingDraft({ type: 'video' });
-    setLocation("/teleclinic/simulated");
   };
 
   return (
@@ -44,26 +38,6 @@ export default function BookingType() {
           <ChevronRight size={20} className="text-muted-foreground group-hover:text-primary transition-colors" />
         </motion.button>
 
-        {/* Telemedicine Card */}
-        <motion.button
-          whileTap={{ scale: 0.98 }}
-          onClick={handleVideoClick}
-          className="w-full bg-card p-5 rounded-3xl shadow-[var(--shadow-card)] border border-border flex items-center justify-between group hover:border-primary/30 transition-colors text-left relative overflow-hidden"
-        >
-          <div className="flex items-center gap-4 relative z-10">
-            <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center shrink-0">
-              <Video size={24} className="text-primary" strokeWidth={1.5} />
-            </div>
-            <div>
-              <h3 className="font-semibold text-foreground text-lg">{t("booking.type.video.title")}</h3>
-              <p className="text-muted-foreground text-sm mt-0.5">{t("booking.type.video.subtitle")}</p>
-              <span className="inline-block mt-2 text-[10px] font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-full uppercase tracking-wider">
-                  {t("booking.type.video.partner")}
-              </span>
-            </div>
-          </div>
-          <ChevronRight size={20} className="text-muted-foreground group-hover:text-primary transition-colors relative z-10" />
-        </motion.button>
       </main>
     </div>
   );

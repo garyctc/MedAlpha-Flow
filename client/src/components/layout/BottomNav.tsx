@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { Home, Calendar, Clock, User } from "lucide-react";
+import { Home, Calendar, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 
@@ -10,7 +10,6 @@ export default function BottomNav() {
   const tabs = [
     { name: t("nav.home"), icon: Home, path: "/home" },
     { name: t("nav.appointments"), icon: Calendar, path: "/appointments" },
-    { name: t("nav.history"), icon: Clock, path: "/history" },
     { name: t("nav.profile"), icon: User, path: "/profile" },
   ];
 
@@ -26,7 +25,7 @@ export default function BottomNav() {
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-border h-20 pb-safe max-w-[375px] mx-auto">
-      <div className="grid grid-cols-4 items-center h-full pt-2 pb-4">
+      <div className="grid grid-cols-3 items-center h-full pt-2 pb-4">
         {tabs.map((tab) => {
           const isActive = location === tab.path || location.startsWith(tab.path + "/");
           return (

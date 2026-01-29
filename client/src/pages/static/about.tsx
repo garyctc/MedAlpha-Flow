@@ -90,7 +90,7 @@ export default function AboutPage() {
             </div>
             <div>
               <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold mb-1">Focus</p>
-              <p className="text-sm text-muted-foreground">Digital healthcare platform for appointment booking, prescription management, and telemedicine.</p>
+              <p className="text-sm text-muted-foreground">Digital healthcare platform for appointment booking and prescription management.</p>
             </div>
           </div>
         </section>

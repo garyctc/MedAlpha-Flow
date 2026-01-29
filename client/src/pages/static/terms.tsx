@@ -56,7 +56,6 @@ export default function TermsOfService() {
             <ul className="list-disc pl-5 space-y-2">
               <li>Book appointments with healthcare providers.</li>
               <li>Access digital prescriptions (E-Rezept) and pharmacy services.</li>
-              <li>Schedule telemedicine consultations with licensed medical professionals.</li>
               <li>Manage personal health information and insurance details.</li>
             </ul>
             <p className="mt-4">

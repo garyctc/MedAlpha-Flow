@@ -33,7 +33,7 @@ export default function FAQPage() {
                   How do I book an appointment?
                 </AccordionTrigger>
                 <AccordionContent className="bg-muted px-4 py-3 rounded-b-3xl border border-t-0 border-border text-muted-foreground text-sm leading-relaxed">
-                  To book an appointment, go to the Home screen and tap "Book Appointment". Select whether you want an in-person visit or video consultation, choose your specialty, and pick a time slot that works for you.
+                  To book an appointment, go to the Home screen and tap "Book Appointment". Choose your specialty and pick a time slot that works for you.
                 </AccordionContent>
               </AccordionItem>
 
@@ -51,7 +51,7 @@ export default function FAQPage() {
                   What if I'm late?
                 </AccordionTrigger>
                 <AccordionContent className="bg-muted px-4 py-3 rounded-b-3xl border border-t-0 border-border text-muted-foreground text-sm leading-relaxed">
-                  If you're running late, please contact the clinic directly. For video consultations, try to join at least 5 minutes early to test your connection. Appointments may be cancelled if you are more than 10 minutes late.
+                  If you're running late, please contact the clinic directly. Appointments may be cancelled if you are more than 10 minutes late.
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
@@ -74,7 +74,7 @@ export default function FAQPage() {
                   Do I need my health card?
                 </AccordionTrigger>
                 <AccordionContent className="bg-muted px-4 py-3 rounded-b-3xl border border-t-0 border-border text-muted-foreground text-sm leading-relaxed">
-                  For in-person visits, you should always bring your Gesundheitskarte. For video consultations and redeeming e-prescriptions through the app, your verified digital identity is sufficient.
+                  For in-person visits, you should always bring your Gesundheitskarte. For redeeming e-prescriptions through the app, your verified digital identity is sufficient.
                 </AccordionContent>
               </AccordionItem>
 
@@ -89,28 +89,6 @@ export default function FAQPage() {
             </Accordion>
           </section>
 
-          <section>
-            <h3 className="text-sm font-semibold text-foreground mb-3 px-1">Video Consultations</h3>
-            <Accordion type="single" collapsible className="space-y-3">
-              <AccordionItem value="item-7" className="border-b-0">
-                <AccordionTrigger className="bg-card px-4 py-3 rounded-3xl border border-border hover:no-underline hover:border-primary/30 transition-all text-sm font-medium text-foreground data-[state=open]:rounded-b-none data-[state=open]:border-b-0 shadow-[var(--shadow-card)]">
-                  What do I need for a video call?
-                </AccordionTrigger>
-                <AccordionContent className="bg-muted px-4 py-3 rounded-b-3xl border border-t-0 border-border text-muted-foreground text-sm leading-relaxed">
-                  You need a stable internet connection, a device with a camera and microphone (smartphone, tablet, or computer), and a quiet private space for your consultation.
-                </AccordionContent>
-              </AccordionItem>
-
-              <AccordionItem value="item-8" className="border-b-0">
-                <AccordionTrigger className="bg-card px-4 py-3 rounded-3xl border border-border hover:no-underline hover:border-primary/30 transition-all text-sm font-medium text-foreground data-[state=open]:rounded-b-none data-[state=open]:border-b-0 shadow-[var(--shadow-card)]">
-                  Is it covered by insurance?
-                </AccordionTrigger>
-                <AccordionContent className="bg-muted px-4 py-3 rounded-b-3xl border border-t-0 border-border text-muted-foreground text-sm leading-relaxed">
-                  Yes, most statutory and private health insurance providers in Germany cover video consultations for many common medical issues, just like a regular doctor's visit.
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
-          </section>
         </div>
 
         {/* Support Link */}
