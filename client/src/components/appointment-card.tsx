@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import { Check, Loader2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { DateBadge } from "@/components/ui/date-badge";
 import { DEFAULT_DOCTOR_AVATAR } from "@/lib/constants/doctors";
@@ -83,26 +82,12 @@ export function AppointmentCard({
       {/* Doctor Photo with Badge */}
       <div className="relative flex-shrink-0">
         <div className="w-14 h-14 rounded-full overflow-hidden bg-muted flex items-center justify-center">
-          {isSearching ? (
-            <Loader2 size={18} className="text-muted-foreground animate-spin" aria-label="Searching" />
-          ) : (
-            <img
-              src={data.doctorImage || DEFAULT_DOCTOR_AVATAR}
-              alt={data.doctor}
-              className="w-full h-full object-cover"
-            />
-          )}
+          <img
+            src={data.doctorImage || DEFAULT_DOCTOR_AVATAR}
+            alt={data.doctor}
+            className="w-full h-full object-cover"
+          />
         </div>
-        {!isPending && (
-          <div className="absolute -bottom-0.5 -right-0.5 w-5 h-5 bg-primary rounded-full flex items-center justify-center border-2 border-card">
-            <Check size={10} className="text-white" strokeWidth={3} />
-          </div>
-        )}
-        {isPending && (
-          <div className="absolute -bottom-0.5 -right-0.5 w-5 h-5 bg-primary rounded-full flex items-center justify-center border-2 border-card">
-            <Loader2 size={10} className="text-white animate-spin" />
-          </div>
-        )}
       </div>
 
       {/* Info */}
@@ -130,9 +115,7 @@ export function AppointmentCard({
 
       {/* Date Badge */}
       <div className="flex-shrink-0 text-center">
-        {isPending ? (
-          <Loader2 size={16} className="text-muted-foreground animate-spin" aria-label="Loading time" />
-        ) : dateObj ? (
+        {isPending ? null : dateObj ? (
           <>
             <DateBadge date={dateObj} size="compact" />
             {data.rawTime && (
