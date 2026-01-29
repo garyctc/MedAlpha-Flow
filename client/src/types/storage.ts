@@ -49,6 +49,7 @@ export interface BookingDraft {
   date?: string;
   time?: string;
   timeWindow?: 'morning' | 'afternoon' | 'evening';
+  timeWindows?: ('morning' | 'afternoon' | 'evening')[];
   // Telehealth-specific fields
   symptoms?: string[];
   symptomDuration?: string;
