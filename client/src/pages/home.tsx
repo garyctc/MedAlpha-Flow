@@ -15,6 +15,18 @@ import { AppointmentCard } from "@/components/appointment-card";
 import { seedBookAgainDraft } from "@/lib/booking/intent";
 import appLogo from "@/assets/app-logo.svg";
 
+function stripMarkdown(text: string): string {
+  return text
+    .replace(/\*\*(.+?)\*\*/g, "$1") // bold
+    .replace(/\*(.+?)\*/g, "$1") // italic
+    .replace(/^##?\s+/gm, "") // headings
+    .replace(/^[-•]\s+/gm, "") // bullets
+    .replace(/!\[.*?\]\(.*?\)/g, "") // images
+    .replace(/^---$/gm, "") // dividers
+    .replace(/\n+/g, " ") // newlines to spaces
+    .trim();
+}
+
 function PromoCarousel({ promos }: { promos: CmsNotification[] }) {
   const { t } = useTranslation();
   const [emblaRef] = useEmblaCarousel({ loop: false, align: "start" });
@@ -43,7 +55,7 @@ function PromoCarousel({ promos }: { promos: CmsNotification[] }) {
               {/* Content */}
               <div className="p-4 space-y-2">
                 <h3 className="font-semibold text-foreground">{promo.title}</h3>
-                <p className="text-sm text-muted-foreground line-clamp-2">{promo.body}</p>
+                <p className="text-sm text-muted-foreground line-clamp-2">{stripMarkdown(promo.body)}</p>
                 <span className="text-primary text-sm font-medium">
                   {t("common.buttons.learnMore")}
                 </span>
