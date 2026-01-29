@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useLocation, useParams } from "wouter";
-import { Calendar, Clock, MapPin, Navigation, CalendarPlus, Info, AlertCircle, FileText, XCircle, BadgeCheck } from "lucide-react";
+import { Calendar, Clock, MapPin, Navigation, CalendarPlus, Info, AlertCircle, FileText, XCircle } from "lucide-react";
 import SubPageHeader from "@/components/layout/SubPageHeader";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -149,10 +149,6 @@ export default function AppointmentDetail() {
                   alt={doctorName}
                   className="w-full h-full object-cover"
                 />
-            </div>
-            {/* Verification badge */}
-            <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-primary rounded-full flex items-center justify-center border-2 border-background">
-              <BadgeCheck className="w-4 h-4 text-white" strokeWidth={2.5} />
             </div>
           </div>
           <h2 className="text-lg font-semibold text-foreground">{doctorName}</h2>

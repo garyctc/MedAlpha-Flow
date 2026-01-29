@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "wouter";
-import { Check, Calendar, BadgeCheck } from "lucide-react";
+import { Check, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DURATION_DEFAULT, DURATION_SLOW, EASING_DEFAULT, shouldReduceMotion } from "@/lib/motion";
 import { useTranslation } from "react-i18next";
@@ -79,16 +79,13 @@ export default function BookingSuccess() {
 
         {/* Summary Card */}
         <div className="bg-card rounded-3xl border border-border shadow-[var(--shadow-card)] p-5 mb-8 text-center mx-auto max-w-xs">
-          {/* Doctor avatar with verification badge */}
+          {/* Doctor avatar */}
           <div className="relative w-16 h-16 mx-auto mb-4">
             <img
               src={doctorImage}
               alt={doctorName}
               className="w-16 h-16 rounded-full object-cover"
             />
-            <div className="absolute -bottom-0.5 -right-0.5 w-5 h-5 bg-primary rounded-full flex items-center justify-center border-2 border-card">
-              <BadgeCheck className="w-3 h-3 text-white" strokeWidth={2.5} />
-            </div>
           </div>
 
           <p className="font-semibold text-foreground text-lg mb-1">{doctorName}</p>
