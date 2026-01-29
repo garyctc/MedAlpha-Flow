@@ -119,9 +119,9 @@ export default function BookingReview() {
 
         {isFast && (
           <div className="bg-card rounded-3xl border border-border shadow-[var(--shadow-card)] p-5 text-left">
-            <h2 className="text-lg font-semibold text-foreground mb-2">Matching in progress</h2>
+            <h2 className="text-lg font-semibold text-foreground mb-2">How it works</h2>
             <p className="text-sm text-muted-foreground">
-              We'll share your request with available doctors and confirm the first match.
+              After you confirm, we'll match you with an available doctor. This usually takes about 30 minutes. We'll notify you once your appointment is confirmed.
             </p>
           </div>
         )}
