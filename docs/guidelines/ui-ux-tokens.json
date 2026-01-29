@@ -1,0 +1,63 @@
+{
+  "$schema": "https://design-tokens.github.io/community-group/format/#/",
+  "docliq": {
+    "color": {
+      "background": {
+        "base": { "value": "#FAF8F5", "type": "color" }
+      },
+      "text": {
+        "primary": { "value": "#1C2A30", "type": "color" },
+        "secondary": { "value": "#5E7A86", "type": "color" }
+      },
+      "action": {
+        "primary": { "value": "#13A3B5", "type": "color" }
+      },
+      "accent": {
+        "human": { "value": "#E88A73", "type": "color" }
+      }
+    },
+    "typography": {
+      "fontFamily": {
+        "primary": { "value": "DM Sans", "type": "fontFamily" }
+      },
+      "fontWeight": {
+        "regular": { "value": 400, "type": "fontWeight" },
+        "medium": { "value": 500, "type": "fontWeight" },
+        "semibold": { "value": 600, "type": "fontWeight" },
+        "bold": { "value": 700, "type": "fontWeight" }
+      },
+      "fontSize": {
+        "body": { "value": "16px", "type": "fontSize" }
+      }
+    },
+    "iconography": {
+      "set": { "value": "lucide", "type": "string" },
+      "sizes": {
+        "s16": { "value": "16px", "type": "dimension" },
+        "s20": { "value": "20px", "type": "dimension" },
+        "s24": { "value": "24px", "type": "dimension" },
+        "s32": { "value": "32px", "type": "dimension" }
+      }
+    },
+    "interaction": {
+      "touchTarget": {
+        "min": { "value": "44px", "type": "dimension" }
+      },
+      "motion": {
+        "duration": {
+          "short": { "value": "200ms", "type": "duration" },
+          "base": { "value": "300ms", "type": "duration" }
+        },
+        "easing": {
+          "standard": { "value": "ease-out", "type": "cubicBezier" }
+        }
+      }
+    },
+    "accessibility": {
+      "contrast": {
+        "text": { "value": "4.5:1", "type": "string" },
+        "largeText": { "value": "3:1", "type": "string" }
+      }
+    }
+  }
+}

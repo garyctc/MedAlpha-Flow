@@ -19,24 +19,24 @@ export default function RegisterGKVDetails() {
   const isFormValid = provider && insuranceNumber.length >= 9 && agreed;
 
   return (
-    <div className="min-h-screen bg-white pb-6">
+    <div className="min-h-screen bg-background pb-6">
       <SubPageHeader title="Health Card Details" backPath="/register/insurance" />
-      
+
       <div className="px-5 py-4">
-        <div className="flex items-center gap-2 text-sm font-medium text-slate-500 mb-6">
+        <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground mb-6">
           <span className="text-primary">Step 4</span> of 5
-          <div className="flex-1 h-1 bg-slate-100 rounded-full">
+          <div className="flex-1 h-1 bg-muted rounded-full">
             <div className="w-4/5 h-full bg-primary rounded-full"></div>
           </div>
         </div>
 
         <div className="flex items-center gap-4 mb-6">
-          <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600">
+          <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
             <CreditCard size={24} />
           </div>
           <div>
-            <h2 className="text-lg font-bold font-display text-slate-900">Set up your Gesundheitskarte</h2>
-            <p className="text-slate-500 text-sm">You'll use this card to retrieve prescriptions</p>
+            <h2 className="text-lg font-semibold font-display text-foreground">Set up your Gesundheitskarte</h2>
+            <p className="text-muted-foreground text-sm">You'll use this card to retrieve prescriptions</p>
           </div>
         </div>
 
@@ -44,7 +44,7 @@ export default function RegisterGKVDetails() {
           <div className="space-y-2">
             <Label>Insurance provider</Label>
             <Select onValueChange={setProvider} value={provider}>
-              <SelectTrigger className="h-12 bg-slate-50 border-slate-200">
+              <SelectTrigger className="h-12 bg-muted border-border">
                 <SelectValue placeholder="Search your provider..." />
               </SelectTrigger>
               <SelectContent>
@@ -60,58 +60,61 @@ export default function RegisterGKVDetails() {
           <div className="space-y-2">
             <div className="flex justify-between">
               <Label htmlFor="ins-num">Insurance number</Label>
-              <HelpCircle size={16} className="text-slate-400" />
+              <HelpCircle size={16} className="text-muted-foreground" />
             </div>
-            <Input 
-              id="ins-num" 
+            <Input
+              id="ins-num"
               placeholder="e.g. X123456789"
               value={insuranceNumber}
               onChange={(e) => setInsuranceNumber(e.target.value)}
-              className="h-12 bg-slate-50 border-slate-200"
+              className="h-12 bg-muted border-border"
             />
-            <p className="text-xs text-slate-500">Found on front of your card (10 digits)</p>
+            <p className="text-xs text-muted-foreground">Found on front of your card (10 digits)</p>
           </div>
         </div>
 
         {/* Info Card */}
-        <div className="bg-blue-50 rounded-xl p-5 mb-6">
-          <h3 className="font-bold text-blue-900 mb-3 flex items-center gap-2">
-            <Info size={16} /> How prescriptions work with GKV
+        <div className="bg-primary/10 rounded-3xl p-5 mb-6 border border-border">
+          <h3 className="font-semibold text-foreground mb-3 flex items-center gap-2">
+            <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center">
+              <Info size={14} className="text-primary" />
+            </div>
+            How prescriptions work with GKV
           </h3>
-          <ul className="space-y-2 text-sm text-blue-800">
+          <ul className="space-y-2 text-sm text-muted-foreground">
             <li className="flex gap-2 items-start">
-              <span className="bg-blue-200 text-blue-800 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">1</span>
+              <span className="bg-primary/20 text-primary w-5 h-5 rounded-full flex items-center justify-center text-xs font-semibold shrink-0 mt-0.5">1</span>
               Scan your health card using NFC
             </li>
             <li className="flex gap-2 items-start">
-              <span className="bg-blue-200 text-blue-800 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">2</span>
+              <span className="bg-primary/20 text-primary w-5 h-5 rounded-full flex items-center justify-center text-xs font-semibold shrink-0 mt-0.5">2</span>
               Enter the 6-digit CAN from your card
             </li>
             <li className="flex gap-2 items-start">
-              <span className="bg-blue-200 text-blue-800 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">3</span>
+              <span className="bg-primary/20 text-primary w-5 h-5 rounded-full flex items-center justify-center text-xs font-semibold shrink-0 mt-0.5">3</span>
               Verify with SMS code
             </li>
             <li className="flex gap-2 items-start">
-              <span className="bg-blue-200 text-blue-800 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">4</span>
-              Select prescriptions and pay copay (€5-10)
+              <span className="bg-primary/20 text-primary w-5 h-5 rounded-full flex items-center justify-center text-xs font-semibold shrink-0 mt-0.5">4</span>
+              Select prescriptions and pay copay (5-10 EUR)
             </li>
           </ul>
         </div>
 
         <div className="flex items-start gap-3 mb-8">
-          <Checkbox 
-            id="copay" 
+          <Checkbox
+            id="copay"
             checked={agreed}
             onCheckedChange={(checked) => setAgreed(checked as boolean)}
             className="mt-1"
           />
-          <Label htmlFor="copay" className="text-sm font-normal text-slate-600 leading-snug">
-            I understand my prescription copay will be €5-10 per medication
+          <Label htmlFor="copay" className="text-sm font-normal text-muted-foreground leading-snug">
+            I understand my prescription copay will be 5-10 EUR per medication
           </Label>
         </div>
 
         <Button
-          className="w-full h-12 text-base font-medium rounded-xl"
+          className="w-full h-12 text-base font-medium rounded-3xl"
           disabled={!isFormValid || isLoading}
           onClick={() => {
             setIsLoading(true);

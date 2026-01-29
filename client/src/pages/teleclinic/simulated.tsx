@@ -2,20 +2,17 @@ import { useEffect, useState, useMemo } from "react";
 import { useLocation } from "wouter";
 import { Loader2, Video, Check, Calendar, Lock, RefreshCw, ChevronLeft, ChevronRight, Share, Compass } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import { saveAppointment, getBookingDraft } from "@/lib/storage";
 import { format, addDays, setHours, setMinutes } from "date-fns";
+import { DOCTORS, getRandomDoctor } from "@/lib/constants/doctors";
 
 type FlowStep = "loading" | "booking" | "confirming";
 
-const DOCTORS = [
-  "Dr. Weber",
-  "Dr. Schmidt",
-  "Dr. Fischer",
-  "Dr. Bauer"
-];
-
 export default function TeleclinicSimulated() {
   const [, setLocation] = useLocation();
+  const { i18n } = useTranslation();
+  const locale = i18n.language;
   const [step, setStep] = useState<FlowStep>("loading");
   const [selectedReason, setSelectedReason] = useState<string>("");
   const [selectedTime, setSelectedTime] = useState<string>("");
@@ -24,6 +21,7 @@ export default function TeleclinicSimulated() {
   const timeSlots = useMemo(() => {
     const now = new Date();
     const slots: string[] = [];
+    const timeFormat = locale === 'de' ? "HH:mm" : "h:mm a";
 
     // Add some slots for today if it's early enough
     const currentHour = now.getHours();
@@ -31,23 +29,23 @@ export default function TeleclinicSimulated() {
       const todaySlot1 = setMinutes(setHours(now, Math.max(currentHour + 1, 14)), 0);
       const todaySlot2 = setMinutes(setHours(now, Math.max(currentHour + 2, 15)), 30);
       if (todaySlot1.getHours() < 18) {
-        slots.push(`Today, ${format(todaySlot1, "h:mm a")}`);
+        slots.push(`Today, ${format(todaySlot1, timeFormat)}`);
       }
       if (todaySlot2.getHours() < 18) {
-        slots.push(`Today, ${format(todaySlot2, "h:mm a")}`);
+        slots.push(`Today, ${format(todaySlot2, timeFormat)}`);
       }
     }
 
     // Add slots for tomorrow
     const tomorrow = addDays(now, 1);
-    slots.push(`Tomorrow, ${format(setHours(setMinutes(tomorrow, 0), 10), "h:mm a")}`);
-    slots.push(`Tomorrow, ${format(setHours(setMinutes(tomorrow, 0), 14), "h:mm a")}`);
+    slots.push(`Tomorrow, ${format(setHours(setMinutes(tomorrow, 0), 10), timeFormat)}`);
+    slots.push(`Tomorrow, ${format(setHours(setMinutes(tomorrow, 0), 14), timeFormat)}`);
 
     return slots.slice(0, 4); // Max 4 slots
-  }, []);
+  }, [locale]);
 
-  // Random doctor for this session
-  const doctor = useMemo(() => DOCTORS[Math.floor(Math.random() * DOCTORS.length)], []);
+  // Random doctor for this session (from centralized list with consistent avatars)
+  const selectedDoctor = useMemo(() => getRandomDoctor(), []);
 
   // Auto-advance from loading to booking
   useEffect(() => {
@@ -79,11 +77,12 @@ export default function TeleclinicSimulated() {
         // Keep default
       }
 
-      // Save video appointment to persistent storage
+      // Save video appointment to persistent storage with consistent doctor avatar
       saveAppointment({
         id: `TEL-${Date.now()}`,
         type: "video",
-        doctor: doctor,
+        doctor: selectedDoctor.name,
+        doctorImage: selectedDoctor.image || undefined,
         specialty: selectedReason || "General Consultation",
         clinic: "Teleclinic",
         date,
@@ -97,7 +96,7 @@ export default function TeleclinicSimulated() {
       }, 1500);
       return () => clearTimeout(timer);
     }
-  }, [step, setLocation, selectedReason, selectedTime, doctor]);
+  }, [step, setLocation, selectedReason, selectedTime, selectedDoctor]);
 
   const handleBooking = () => {
     if (selectedReason && selectedTime) {
@@ -126,12 +125,12 @@ export default function TeleclinicSimulated() {
   const renderContent = () => {
     if (step === "loading") {
       return (
-        <div className="min-h-full bg-slate-50 flex flex-col items-center justify-center p-5 text-center">
-          <div className="w-16 h-16 bg-white rounded-2xl mb-6 flex items-center justify-center shadow-sm">
+        <div className="min-h-full bg-muted flex flex-col items-center justify-center p-5 text-center">
+          <div className="w-16 h-16 bg-card rounded-3xl mb-6 flex items-center justify-center shadow-[var(--shadow-card)]">
             <Video className="text-cyan-500" size={32} />
           </div>
-          <h2 className="text-2xl font-bold text-slate-900 mb-2">Opening Teleclinic...</h2>
-          <p className="text-slate-500 mb-8 text-sm">Loading secure video consultation platform</p>
+          <h2 className="text-2xl font-semibold text-foreground mb-2">Opening Teleclinic...</h2>
+          <p className="text-muted-foreground mb-8 text-sm">Loading secure video consultation platform</p>
           <Loader2 className="animate-spin text-cyan-500 mb-8" size={32} />
         </div>
       );
@@ -139,39 +138,39 @@ export default function TeleclinicSimulated() {
 
     if (step === "confirming") {
       return (
-        <div className="min-h-full bg-gradient-to-b from-green-50 to-white flex flex-col items-center justify-center p-5 text-center">
+        <div className="min-h-full bg-gradient-to-b from-emerald-50 to-background flex flex-col items-center justify-center p-5 text-center">
           <motion.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
-            className="w-20 h-20 bg-green-500 rounded-full mb-6 flex items-center justify-center shadow-lg"
+            className="w-20 h-20 bg-emerald-500 rounded-full mb-6 flex items-center justify-center shadow-lg"
           >
             <Check className="text-white" size={40} />
           </motion.div>
-          <h2 className="text-2xl font-bold text-slate-900 mb-2">Booking confirmed</h2>
-          <p className="text-slate-600 text-sm">Returning to your appointments...</p>
+          <h2 className="text-2xl font-semibold text-foreground mb-2">Booking confirmed</h2>
+          <p className="text-muted-foreground text-sm">Returning to your appointments...</p>
         </div>
       );
     }
 
     // Booking form
     return (
-      <div className="min-h-full bg-white pb-20">
+      <div className="min-h-full bg-card pb-20">
         {/* Teleclinic Header */}
-        <div className="bg-white border-b border-slate-200 p-5">
+        <div className="bg-card border-b border-border p-5">
           <div className="flex items-center gap-3 mb-1">
             <div className="w-10 h-10 bg-cyan-500 rounded-full flex items-center justify-center">
-              <span className="text-white text-xl font-bold">+</span>
+              <span className="text-white text-xl font-semibold">+</span>
             </div>
-            <h1 className="text-xl font-normal text-slate-900">teleclinic</h1>
+            <h1 className="text-xl font-normal text-foreground">teleclinic</h1>
           </div>
-          <p className="text-slate-600 text-sm mt-3">Book your video consultation</p>
+          <p className="text-muted-foreground text-sm mt-3">Book your video consultation</p>
         </div>
 
         {/* Form Content */}
         <div className="p-5 space-y-6">
           {/* Reason Selection */}
           <div>
-            <label className="block text-sm font-semibold text-slate-900 mb-3">
+            <label className="block text-sm font-semibold text-foreground mb-3">
               Reason for Consultation
             </label>
             <div className="space-y-2">
@@ -180,14 +179,14 @@ export default function TeleclinicSimulated() {
                   key={reason}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => setSelectedReason(reason)}
-                  className={`w-full p-4 rounded-lg border text-left transition-all ${
+                  className={`w-full p-4 rounded-3xl border text-left transition-all ${
                     selectedReason === reason
                       ? "border-cyan-500 bg-cyan-50"
-                      : "border-slate-200 bg-white hover:border-slate-300"
+                      : "border-border bg-card hover:border-muted-foreground/30"
                   }`}
                 >
                   <span className={`font-normal ${
-                    selectedReason === reason ? "text-slate-900" : "text-slate-700"
+                    selectedReason === reason ? "text-foreground" : "text-muted-foreground"
                   }`}>
                     {reason}
                   </span>
@@ -198,7 +197,7 @@ export default function TeleclinicSimulated() {
 
           {/* Time Selection */}
           <div>
-            <label className="block text-sm font-semibold text-slate-900 mb-3">
+            <label className="block text-sm font-semibold text-foreground mb-3">
               Available Times
             </label>
             <div className="space-y-2">
@@ -207,16 +206,16 @@ export default function TeleclinicSimulated() {
                   key={time}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => setSelectedTime(time)}
-                  className={`w-full p-4 rounded-lg border text-left transition-all ${
+                  className={`w-full p-4 rounded-3xl border text-left transition-all ${
                     selectedTime === time
                       ? "border-cyan-500 bg-cyan-50"
-                      : "border-slate-200 bg-white hover:border-slate-300"
+                      : "border-border bg-card hover:border-muted-foreground/30"
                   }`}
                 >
                   <div className="flex items-center gap-3">
-                    <Calendar size={18} className={selectedTime === time ? "text-cyan-600" : "text-slate-400"} />
+                    <Calendar size={18} className={selectedTime === time ? "text-cyan-600" : "text-muted-foreground"} />
                     <span className={`font-normal ${
-                      selectedTime === time ? "text-slate-900" : "text-slate-700"
+                      selectedTime === time ? "text-foreground" : "text-muted-foreground"
                     }`}>
                       {time}
                     </span>
@@ -231,10 +230,10 @@ export default function TeleclinicSimulated() {
             whileTap={{ scale: 0.98 }}
             onClick={handleBooking}
             disabled={!selectedReason || !selectedTime}
-            className={`w-full py-4 rounded-lg font-semibold text-base transition-all ${
+            className={`w-full py-4 rounded-3xl font-semibold text-base transition-all ${
               selectedReason && selectedTime
                 ? "bg-cyan-500 text-white shadow-sm"
-                : "bg-slate-200 text-slate-400 cursor-not-allowed"
+                : "bg-muted text-muted-foreground cursor-not-allowed"
             }`}
           >
             Book Appointment
@@ -243,7 +242,7 @@ export default function TeleclinicSimulated() {
           {/* Cancel */}
           <button
             onClick={() => setLocation("/booking/type")}
-            className="w-full text-slate-500 text-sm font-normal hover:text-slate-700"
+            className="w-full text-muted-foreground text-sm font-normal hover:text-foreground"
           >
             Cancel
           </button>
@@ -254,8 +253,8 @@ export default function TeleclinicSimulated() {
 
   // Browser chrome wrapper
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-slate-100">
-      <div className="w-full max-w-[375px] h-full bg-white flex flex-col">
+    <div className="fixed inset-0 flex items-center justify-center bg-muted">
+      <div className="w-full max-w-[375px] h-full bg-card flex flex-col">
         {/* Browser Header */}
         <div className="bg-cyan-500 h-[60px] flex items-center px-4 justify-between shrink-0">
         {/* Cancel Button */}

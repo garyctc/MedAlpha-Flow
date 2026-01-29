@@ -16,20 +16,20 @@ import Login from "@/pages/login";
 import Home from "@/pages/home";
 import NotificationsList from "@/pages/notifications/list";
 import NotificationDetail from "@/pages/notifications/detail";
+import ArticlePage from "@/pages/article";
 
 // Booking Flow
 import BookingType from "@/pages/booking/type";
+import BookingEntry from "@/pages/booking/entry";
 import SpecialtySelect from "@/pages/booking/specialty";
 import LocationSelect from "@/pages/booking/location";
 import DoctorSelect from "@/pages/booking/doctors";
-import BookingCalendar from "@/pages/booking/calendar";
+import BookingSlots from "@/pages/booking/slots";
 import BookingReview from "@/pages/booking/review";
 import BookingSuccess from "@/pages/booking/success";
 
 // Smart Match Integration
 import SmartMatchProcessing from "@/pages/booking/smart-match-processing";
-import SmartMatchRefinement from "@/pages/booking/smart-match-refinement";
-import SmartMatchSuccess from "@/pages/booking/smart-match-success";
 
 // Prescription Flow
 import PrescriptionType from "@/pages/prescriptions/type";
@@ -122,6 +122,7 @@ function AppRoutes() {
       <Route path="/home" component={Home} />
       <Route path="/notifications/:id" component={NotificationDetail} />
       <Route path="/notifications" component={NotificationsList} />
+      <Route path="/article/:id" component={ArticlePage} />
 
       {/* Registration Routes */}
       <Route path="/register" component={RegisterAccount} />
@@ -135,17 +136,16 @@ function AppRoutes() {
       {/* Booking Routes */}
       <Route path="/booking" component={BookingType} />
       <Route path="/booking/type" component={BookingType} />
+      <Route path="/booking/entry" component={BookingEntry} />
       <Route path="/booking/specialty" component={SpecialtySelect} />
       <Route path="/booking/location" component={LocationSelect} />
       <Route path="/booking/doctors" component={DoctorSelect} />
-      <Route path="/booking/calendar" component={BookingCalendar} />
+      <Route path="/booking/slots" component={BookingSlots} />
       <Route path="/booking/review" component={BookingReview} />
       <Route path="/booking/success" component={BookingSuccess} />
 
       {/* Smart Match Integration */}
       <Route path="/booking/smart-match-processing" component={SmartMatchProcessing} />
-      <Route path="/booking/smart-match-refinement" component={SmartMatchRefinement} />
-      <Route path="/booking/smart-match-success" component={SmartMatchSuccess} />
 
       {/* Prescription Routes */}
       <Route path="/prescriptions" component={PrescriptionType} />

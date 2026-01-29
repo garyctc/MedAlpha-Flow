@@ -73,49 +73,49 @@ export default function CompleteProfile() {
 
   return (
     <div className="min-h-screen bg-background pb-safe">
-      <header className="px-5 py-4 pt-12 bg-white border-b border-slate-100 sticky top-0 z-10">
-        <h1 className="font-bold text-xl text-slate-900 font-display">Complete Your Profile</h1>
+      <header className="px-5 py-4 pt-12 bg-card border-b border-border sticky top-0 z-10">
+        <h1 className="font-semibold text-xl text-foreground font-display">Complete Your Profile</h1>
       </header>
 
       <main className="p-5 space-y-6">
-        <div className="text-sm text-slate-500">
-          <p className="font-medium text-slate-900 mb-1">Welcome from {provider?.displayName || 'partner'}</p>
+        <div className="text-sm text-muted-foreground">
+          <p className="font-medium text-foreground mb-1">Welcome from {provider?.displayName || 'partner'}</p>
           <p>We just need a few more details to get you started.</p>
         </div>
 
         {/* Read-only Section */}
-        <div className="bg-slate-50 rounded-xl p-4 border border-slate-100 space-y-4">
-          <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">From your {provider?.displayName || 'partner'} account:</span>
-          
+        <div className="bg-muted rounded-3xl p-4 border border-border space-y-4">
+          <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">From your {provider?.displayName || 'partner'} account:</span>
+
           <div className="space-y-3">
             <div>
-              <Label className="text-xs text-slate-500 mb-1 block">Full Name</Label>
+              <Label className="text-xs text-muted-foreground mb-1 block">Full Name</Label>
               <div className="relative">
-                <Input 
-                  value="Max Mustermann" 
-                  readOnly 
-                  className="bg-white border-slate-200 pr-10" 
+                <Input
+                  value="Max Mustermann"
+                  readOnly
+                  className="bg-card border-border pr-10"
                 />
-                <Lock className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
+                <Lock className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={14} />
               </div>
             </div>
-            
+
             <div>
-              <Label className="text-xs text-slate-500 mb-1 block">Email</Label>
+              <Label className="text-xs text-muted-foreground mb-1 block">Email</Label>
               <div className="relative">
-                <Input 
-                  value="max@example.com" 
-                  readOnly 
-                  className="bg-white border-slate-200 pr-10" 
+                <Input
+                  value="max@example.com"
+                  readOnly
+                  className="bg-card border-border pr-10"
                 />
-                <Lock className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
+                <Lock className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={14} />
               </div>
             </div>
           </div>
-          
+
           <div className="flex items-center gap-1.5 pt-1">
-             <div className="w-1.5 h-1.5 rounded-full bg-slate-400"></div>
-             <span className="text-xs text-slate-500 font-medium">Managed by {provider?.displayName || 'partner'}</span>
+             <div className="w-1.5 h-1.5 rounded-full bg-muted-foreground"></div>
+             <span className="text-xs text-muted-foreground font-medium">Managed by {provider?.displayName || 'partner'}</span>
           </div>
         </div>
 
@@ -123,36 +123,36 @@ export default function CompleteProfile() {
         <div className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="phone">Phone Number <span className="text-red-500">*</span></Label>
-            <Input 
-              id="phone" 
-              placeholder="+49" 
+            <Input
+              id="phone"
+              placeholder="+49"
               value={formData.phone}
               onChange={(e) => setFormData({...formData, phone: e.target.value})}
-              className="h-12 rounded-xl bg-white border-slate-200"
+              className="h-12 rounded-3xl bg-card border-border"
             />
-            <p className="text-xs text-slate-400">For appointment reminders</p>
+            <p className="text-xs text-muted-foreground">For appointment reminders</p>
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="dob">Date of Birth <span className="text-red-500">*</span></Label>
             <div className="relative">
-              <Input 
-                id="dob" 
-                placeholder="DD.MM.YYYY" 
+              <Input
+                id="dob"
+                placeholder="DD.MM.YYYY"
                 value={formData.dob}
                 onChange={(e) => setFormData({...formData, dob: e.target.value})}
-                className="h-12 rounded-xl bg-white border-slate-200 pr-10"
+                className="h-12 rounded-3xl bg-card border-border pr-10"
               />
-              <CalendarIcon className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+              <CalendarIcon className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={18} />
             </div>
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="insurance">Health Insurance</Label>
             <div className="relative">
-              <select 
+              <select
                 id="insurance"
-                className="w-full h-12 rounded-xl bg-white border border-slate-200 px-3 appearance-none text-slate-900"
+                className="w-full h-12 rounded-3xl bg-card border border-border px-3 appearance-none text-foreground"
                 value={formData.insurance}
                 onChange={(e) => setFormData({...formData, insurance: e.target.value})}
               >
@@ -162,13 +162,13 @@ export default function CompleteProfile() {
                 <option value="barmer">Barmer</option>
                 <option value="pkv">Private (PKV)</option>
               </select>
-              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={18} />
+              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" size={18} />
             </div>
           </div>
         </div>
 
         <Button
-          className="w-full h-12 text-base font-medium bg-primary hover:bg-primary/90 rounded-xl shadow-lg shadow-primary/20 mt-8"
+          className="w-full h-12 text-base font-medium bg-primary hover:bg-primary/90 rounded-3xl shadow-lg shadow-primary/20 mt-8"
           onClick={handleContinue}
           disabled={isSaving}
         >

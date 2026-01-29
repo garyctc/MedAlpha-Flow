@@ -32,7 +32,7 @@ export default function TelehealthCall() {
       </div>
       
       {/* Self View (PIP) */}
-      <div className="absolute top-16 right-5 w-28 h-40 bg-black/40 rounded-xl overflow-hidden backdrop-blur-md border border-white/10 shadow-lg">
+      <div className="absolute top-16 right-5 w-28 h-40 bg-black/40 rounded-3xl overflow-hidden backdrop-blur-md border border-white/10 shadow-lg">
          <div className="w-full h-full flex items-center justify-center">
             {camOn ? <div className="w-8 h-8 rounded-full bg-white/20"></div> : <VideoOff size={20} className="text-white/50" />}
          </div>
@@ -43,7 +43,7 @@ export default function TelehealthCall() {
         <div className="w-32 h-32 bg-slate-700 rounded-full flex items-center justify-center mb-6 shadow-2xl">
            <span className="text-4xl">👨‍⚕️</span>
         </div>
-        <h2 className="text-2xl font-bold mb-1">Dr. Müller</h2>
+        <h2 className="text-2xl font-semibold mb-1">Dr. Müller</h2>
         <p className="font-mono text-white/70 bg-black/20 px-3 py-1 rounded-full text-sm">{formatTime(duration)}</p>
       </div>
 

@@ -5,34 +5,28 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0" +
-" hover-elevate active-elevate-2",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-2xl text-base font-medium transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0",
   {
     variants: {
       variant: {
         default:
-           // @replit: no hover
-           "bg-primary text-primary-foreground",
+          "bg-primary text-primary-foreground active:brightness-95",
         destructive:
-          "bg-destructive text-destructive-foreground",
+          "bg-destructive text-destructive-foreground active:brightness-95",
         outline:
-          // @replit Shows the background color of whatever card / sidebar / accent background it is inside of.
-          // Inherits the current text color. Uses shadow-xs. no shadow on active
-          // No hover state
-          "border border-border shadow-xs active:shadow-none",
+          "border border-gray-200 bg-white text-foreground active:bg-gray-50",
         secondary:
-          // @replit no hover, outlined primary
-          "border border-primary bg-transparent text-primary",
-        // @replit no hover, transparent border
-        ghost: "border border-transparent",
-        link: "text-primary underline-offset-4 hover:underline",
+          "border border-primary bg-transparent text-primary active:bg-primary/5",
+        ghost:
+          "text-foreground active:bg-gray-100",
+        link:
+          "text-primary underline-offset-4 hover:underline",
       },
       size: {
-        // @replit changed sizes (WCAG 2.1 AA: 44px minimum touch target)
-        default: "min-h-11 px-4 py-2",
-        sm: "min-h-10 rounded-md px-3 text-xs",
-        lg: "min-h-12 rounded-md px-8",
-        icon: "h-11 w-11",
+        default: "min-h-12 px-6 py-3",
+        sm: "min-h-10 rounded-xl px-4 text-sm",
+        lg: "min-h-14 rounded-2xl px-8 text-lg",
+        icon: "h-11 w-11 rounded-xl",
       },
     },
     defaultVariants: {
@@ -46,17 +40,21 @@ export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean
+  trailingIcon?: React.ReactNode
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
+  ({ className, variant, size, asChild = false, trailingIcon, children, ...props }, ref) => {
     const Comp = asChild ? Slot : "button"
     return (
       <Comp
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
         {...props}
-      />
+      >
+        {children}
+        {trailingIcon && <span className="ml-1">{trailingIcon}</span>}
+      </Comp>
     )
   }
 )

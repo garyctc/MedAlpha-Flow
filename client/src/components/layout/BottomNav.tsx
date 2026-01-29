@@ -1,52 +1,51 @@
 import { Link, useLocation } from "wouter";
-import { Home, Calendar, Clock, User } from "lucide-react";
+import { Home, Calendar, User } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "react-i18next";
 
 export default function BottomNav() {
   const [location] = useLocation();
+  const { t } = useTranslation();
 
   const tabs = [
-    { name: "Home", icon: Home, path: "/home" },
-    { name: "Appointments", icon: Calendar, path: "/appointments" },
-    { name: "History", icon: Clock, path: "/history" },
-    { name: "Profile", icon: User, path: "/profile" },
+    { name: t("nav.home"), icon: Home, path: "/home" },
+    { name: t("nav.appointments"), icon: Calendar, path: "/appointments" },
+    { name: t("nav.profile"), icon: User, path: "/profile" },
   ];
 
-  // Don't show on splash, login, flows (registration, booking, prescriptions, telehealth), SSO, teleclinic, or notifications
+  // Only hide on auth screens, video calls, and booking flow
   if (
     location === "/" ||
     location === "/login" ||
     location.startsWith("/register") ||
     location.startsWith("/sso") ||
     location.startsWith("/teleclinic") ||
-    location.startsWith("/booking") ||
-    location.startsWith("/prescriptions") ||
-    location.startsWith("/telehealth") ||
-    location.startsWith("/notifications")
+    location.startsWith("/booking")
   )
     return null;
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-slate-200 h-[80px] pb-safe max-w-[375px] mx-auto">
-      <div className="grid grid-cols-4 items-center h-14 w-full">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-border h-20 pb-safe max-w-[375px] mx-auto">
+      <div className="grid grid-cols-3 items-center h-full pt-2 pb-4">
         {tabs.map((tab) => {
-          const isActive = location === tab.path || location.startsWith(tab.path + "/"); // Simple active check
+          const isActive = location === tab.path || location.startsWith(tab.path + "/");
           return (
-            <Link 
-              key={tab.name} 
-              href={tab.path} 
-              className="flex flex-col items-center justify-center w-full h-full space-y-1"
+            <Link
+              key={tab.name}
+              href={tab.path}
+              className="flex flex-col items-center justify-center w-full h-full gap-1"
             >
               <tab.icon
-                size={22}
+                size={24}
+                strokeWidth={isActive ? 2 : 1.5}
                 className={cn(
                   "transition-colors duration-200",
-                  isActive ? "text-primary fill-current" : "text-slate-400 stroke-[1.5px]"
+                  isActive ? "text-primary" : "text-muted-foreground"
                 )}
               />
               <span className={cn(
-                "text-[9px] font-medium transition-colors duration-200",
-                 isActive ? "text-primary" : "text-slate-400"
+                "text-[10px] font-medium transition-colors duration-200",
+                isActive ? "text-primary" : "text-muted-foreground"
               )}>
                 {tab.name}
               </span>

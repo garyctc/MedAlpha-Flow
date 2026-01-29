@@ -24,11 +24,11 @@ export default function PrivacyPolicy() {
       <SubPageHeader title="Privacy Policy" backPath="/profile/legal" />
       
       <main className="p-5 relative">
-        <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-6">Last Updated: January 1, 2026</p>
+        <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-6">Last Updated: January 1, 2026</p>
 
-        <div className="space-y-8 text-slate-700 text-sm leading-relaxed">
+        <div className="space-y-8 text-muted-foreground text-sm leading-relaxed">
           <section>
-            <h2 className="text-lg font-bold text-slate-900 mb-3 font-display">Data We Collect</h2>
+            <h2 className="text-lg font-semibold text-foreground mb-3 font-display">Data We Collect</h2>
             <p className="mb-4">
               We collect personal data that you provide to us directly, such as when you create an account, update your profile, book an appointment, or use our services. This includes:
             </p>
@@ -40,33 +40,31 @@ export default function PrivacyPolicy() {
           </section>
 
           <section>
-            <h2 className="text-lg font-bold text-slate-900 mb-3 font-display">How We Use Your Data</h2>
+            <h2 className="text-lg font-semibold text-foreground mb-3 font-display">How We Use Your Data</h2>
             <p className="mb-4">
               We use your data primarily to provide and improve our healthcare services. Specifically, we use it to:
             </p>
             <ul className="list-disc pl-5 space-y-2">
               <li>Facilitate appointment bookings with doctors and specialists.</li>
               <li>Process and manage your digital prescriptions (E-Rezept).</li>
-              <li>Enable secure video consultations through our telemedicine partners.</li>
               <li>Communicate with you regarding your appointments, health updates, and service changes.</li>
               <li>Comply with legal obligations and healthcare regulations.</li>
             </ul>
           </section>
 
           <section>
-            <h2 className="text-lg font-bold text-slate-900 mb-3 font-display">Data Sharing</h2>
+            <h2 className="text-lg font-semibold text-foreground mb-3 font-display">Data Sharing</h2>
             <p className="mb-4">
               We do not sell your personal data. We only share your data with trusted partners necessary to provide our services:
             </p>
             <ul className="list-disc pl-5 space-y-2">
               <li><strong>Healthcare Providers:</strong> Doctors and clinics you book appointments with.</li>
-              <li><strong>Telemedicine Platforms:</strong> Video consultation providers (e.g., Teleclinic) to facilitate your virtual visits.</li>
               <li><strong>Pharmacies:</strong> Online and local pharmacies (via Apo Group) for prescription fulfillment.</li>
             </ul>
           </section>
 
           <section>
-            <h2 className="text-lg font-bold text-slate-900 mb-3 font-display">Your Rights</h2>
+            <h2 className="text-lg font-semibold text-foreground mb-3 font-display">Your Rights</h2>
             <p className="mb-4">
               Under the GDPR, you have the following rights regarding your personal data:
             </p>
@@ -79,11 +77,11 @@ export default function PrivacyPolicy() {
           </section>
 
           <section>
-            <h2 className="text-lg font-bold text-slate-900 mb-3 font-display">Contact</h2>
+            <h2 className="text-lg font-semibold text-foreground mb-3 font-display">Contact</h2>
             <p>
               If you have any questions about this Privacy Policy or wish to exercise your rights, please contact our Data Protection Officer at:
             </p>
-            <p className="mt-2 font-medium">privacy@medalpha.de</p>
+            <p className="mt-2 font-medium">privacy@docliq.de</p>
           </section>
         </div>
 
@@ -91,7 +89,7 @@ export default function PrivacyPolicy() {
         {showScrollTop && (
           <Button
             onClick={scrollToTop}
-            className="fixed bottom-6 right-5 w-12 h-12 rounded-full shadow-lg bg-white hover:bg-slate-50 text-slate-900 z-50 transition-all border border-slate-100"
+            className="fixed bottom-6 right-5 w-12 h-12 rounded-full shadow-[var(--shadow-card)] bg-card hover:bg-muted text-foreground z-50 transition-all border border-border"
           >
             <ArrowUp size={24} />
           </Button>

@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import annotationsData from "../../../../docs/annotations/screen-annotations.json";
 
 // Route to Screen ID mapping (exact matches)
-const routeToScreenId: Record<string, string> = {
+export const routeToScreenId: Record<string, string> = {
   "/": "AUTH-001",
   "/login": "AUTH-002",
   "/register": "REG-001",
@@ -18,6 +18,7 @@ const routeToScreenId: Record<string, string> = {
   "/home": "HOME-001",
   "/booking": "BKG-001",
   "/booking/type": "BKG-001",
+  "/booking/entry": "BKG-011",
   "/booking/specialty": "BKG-002",
   "/booking/location": "BKG-003",
   "/booking/doctors": "BKG-004",

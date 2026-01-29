@@ -52,22 +52,22 @@ export default function DataPrivacy() {
       <main className="p-5 space-y-6">
         {/* Intro */}
         <section>
-          <p className="text-sm text-slate-700 leading-relaxed">
+          <p className="text-sm text-foreground leading-relaxed">
             Under the GDPR (General Data Protection Regulation), you have the right to access, export, and delete your personal data. Use the options below to manage your data.
           </p>
         </section>
 
         {/* Data Export */}
         <section>
-          <h2 className="text-lg font-bold text-slate-900 mb-3 font-display">Export Your Data</h2>
-          <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-5 space-y-3">
-            <p className="text-sm text-slate-700">
+          <h2 className="text-lg font-semibold text-foreground mb-3 font-display">Export Your Data</h2>
+          <div className="bg-card rounded-3xl border border-border shadow-[var(--shadow-card)] p-5 space-y-3">
+            <p className="text-sm text-foreground">
               Download all your data in a machine-readable format (JSON).
             </p>
             <Button
               onClick={handleExportClick}
               disabled
-              className="w-full h-12 rounded-xl flex items-center gap-2"
+              className="w-full h-12 rounded-3xl flex items-center gap-2"
               variant="outline"
             >
               <Download size={18} />
@@ -78,22 +78,22 @@ export default function DataPrivacy() {
 
         {/* Data Categories */}
         <section>
-          <h2 className="text-lg font-bold text-slate-900 mb-3 font-display">Data We Store</h2>
+          <h2 className="text-lg font-semibold text-foreground mb-3 font-display">Data We Store</h2>
           <div className="space-y-3">
             {dataCategories.map((category, idx) => (
               <div
                 key={idx}
-                className="bg-white rounded-2xl border border-slate-100 shadow-sm p-4 flex items-start gap-3"
+                className="bg-card rounded-3xl border border-border shadow-[var(--shadow-card)] p-4 flex items-start gap-3"
               >
                 <div className="text-2xl flex-shrink-0">{category.icon}</div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
-                    <p className="font-semibold text-slate-900 text-sm">{category.title}</p>
-                    <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-blue-100 text-blue-700">
+                    <p className="font-semibold text-foreground text-sm">{category.title}</p>
+                    <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-primary/10 text-primary">
                       {category.status}
                     </span>
                   </div>
-                  <p className="text-xs text-slate-500">{category.description}</p>
+                  <p className="text-xs text-muted-foreground">{category.description}</p>
                 </div>
               </div>
             ))}
@@ -102,15 +102,15 @@ export default function DataPrivacy() {
 
         {/* Account Deletion */}
         <section>
-          <h2 className="text-lg font-bold text-slate-900 mb-3 font-display">Delete Your Account</h2>
-          <div className="bg-red-50 rounded-2xl border border-red-100 shadow-sm p-5 space-y-3">
+          <h2 className="text-lg font-semibold text-foreground mb-3 font-display">Delete Your Account</h2>
+          <div className="bg-red-50 rounded-3xl border border-border shadow-[var(--shadow-card)] p-5 space-y-3">
             <p className="text-sm text-red-900 leading-relaxed">
               Deleting your account is permanent and cannot be undone. All your data will be removed from our systems.
             </p>
             <Button
               onClick={handleDeleteClick}
               disabled
-              className="w-full h-12 rounded-xl flex items-center gap-2"
+              className="w-full h-12 rounded-3xl flex items-center gap-2"
               variant="outline"
             >
               <Trash2 size={18} />
@@ -121,27 +121,33 @@ export default function DataPrivacy() {
 
         {/* GDPR Rights */}
         <section>
-          <h2 className="text-lg font-bold text-slate-900 mb-3 font-display">Your GDPR Rights</h2>
-          <div className="bg-blue-50 rounded-2xl border border-blue-100 p-5 space-y-3">
+          <h2 className="text-lg font-semibold text-foreground mb-3 font-display">Your GDPR Rights</h2>
+          <div className="bg-primary/10 rounded-3xl border border-border p-5 space-y-3">
             <div className="flex gap-3">
-              <Lock size={18} className="text-blue-600 flex-shrink-0 mt-0.5" />
+              <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                <Lock size={16} className="text-primary" />
+              </div>
               <div>
-                <p className="text-sm font-semibold text-blue-900 mb-1">Right to Access (Article 15)</p>
-                <p className="text-xs text-blue-800">You can request a copy of all personal data we hold about you.</p>
+                <p className="text-sm font-semibold text-foreground mb-1">Right to Access (Article 15)</p>
+                <p className="text-xs text-muted-foreground">You can request a copy of all personal data we hold about you.</p>
               </div>
             </div>
             <div className="flex gap-3">
-              <Lock size={18} className="text-blue-600 flex-shrink-0 mt-0.5" />
+              <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                <Lock size={16} className="text-primary" />
+              </div>
               <div>
-                <p className="text-sm font-semibold text-blue-900 mb-1">Right to Data Portability (Article 20)</p>
-                <p className="text-xs text-blue-800">You can request your data in a structured, machine-readable format.</p>
+                <p className="text-sm font-semibold text-foreground mb-1">Right to Data Portability (Article 20)</p>
+                <p className="text-xs text-muted-foreground">You can request your data in a structured, machine-readable format.</p>
               </div>
             </div>
             <div className="flex gap-3">
-              <Lock size={18} className="text-blue-600 flex-shrink-0 mt-0.5" />
+              <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                <Lock size={16} className="text-primary" />
+              </div>
               <div>
-                <p className="text-sm font-semibold text-blue-900 mb-1">Right to Erasure (Article 17)</p>
-                <p className="text-xs text-blue-800">You can request deletion of your personal data, with limited exceptions.</p>
+                <p className="text-sm font-semibold text-foreground mb-1">Right to Erasure (Article 17)</p>
+                <p className="text-xs text-muted-foreground">You can request deletion of your personal data, with limited exceptions.</p>
               </div>
             </div>
           </div>
@@ -149,8 +155,8 @@ export default function DataPrivacy() {
 
         {/* Contact */}
         <section>
-          <p className="text-xs text-slate-500 text-center">
-            For data requests or questions, contact: <span className="font-medium text-slate-700">privacy@medalpha.de</span>
+          <p className="text-xs text-muted-foreground text-center">
+            For data requests or questions, contact: <span className="font-medium text-foreground">privacy@docliq.de</span>
           </p>
         </section>
       </main>

@@ -14,7 +14,7 @@ type NotificationsContextValue = {
   markRead: (id: string) => void;
 };
 
-const READ_STORAGE_KEY = "medalpha.notifications.read.v1";
+const READ_STORAGE_KEY = "docliq.notifications.read.v1";
 
 function safeParseReadMap(raw: string | null): ReadMap {
   if (!raw) return {};

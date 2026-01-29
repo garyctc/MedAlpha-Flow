@@ -30,13 +30,13 @@ export default function RegisterAccount() {
   const isFormValid = isEmailValid && validations.length && validations.uppercase && validations.number && validations.match && consentPrivacy && consentDataProcessing;
 
   return (
-    <div className="min-h-screen bg-white pb-6">
+    <div className="min-h-screen bg-background pb-6">
       <SubPageHeader title="Create Account" backPath="/login" />
-      
+
       <div className="px-5 py-4">
-        <div className="flex items-center gap-2 text-sm font-medium text-slate-500 mb-6">
+        <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground mb-6">
           <span className="text-primary">Step 1</span> of 5
-          <div className="flex-1 h-1 bg-slate-100 rounded-full">
+          <div className="flex-1 h-1 bg-muted rounded-full">
             <div className="w-1/5 h-full bg-primary rounded-full"></div>
           </div>
         </div>
@@ -58,14 +58,14 @@ export default function RegisterAccount() {
         }}>
           <div className="space-y-2">
             <Label htmlFor="email">Email address</Label>
-            <Input 
-              id="email" 
-              type="email" 
+            <Input
+              id="email"
+              type="email"
               placeholder="name@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               onBlur={() => setTouched({...touched, email: true})}
-              className={`h-12 bg-slate-50 border-slate-200 focus:bg-white transition-all ${touched.email && !isEmailValid ? "border-red-500" : ""}`}
+              className={`h-12 bg-muted border-border focus:bg-card transition-all ${touched.email && !isEmailValid ? "border-red-500" : ""}`}
             />
             {touched.email && !isEmailValid && (
               <p className="text-xs text-red-500 font-medium">Please enter a valid email address</p>
@@ -81,12 +81,12 @@ export default function RegisterAccount() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 onBlur={() => setTouched({...touched, password: true})}
-                className="h-12 bg-slate-50 border-slate-200 focus:bg-white transition-all pr-10"
+                className="h-12 bg-muted border-border focus:bg-card transition-all pr-10"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground"
               >
                 {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
               </button>
@@ -107,7 +107,7 @@ export default function RegisterAccount() {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               onBlur={() => setTouched({...touched, confirm: true})}
-              className={`h-12 bg-slate-50 border-slate-200 focus:bg-white transition-all ${touched.confirm && !validations.match ? "border-red-500" : ""}`}
+              className={`h-12 bg-muted border-border focus:bg-card transition-all ${touched.confirm && !validations.match ? "border-red-500" : ""}`}
             />
             {touched.confirm && !validations.match && (
               <p className="text-xs text-red-500 font-medium">Passwords do not match</p>
@@ -145,15 +145,15 @@ export default function RegisterAccount() {
 
           <Button
             type="submit"
-            className="w-full h-12 text-base font-medium rounded-xl mt-4"
+            className="w-full h-12 text-base font-medium rounded-3xl mt-4"
             disabled={!isFormValid || isLoading}
           >
             {isLoading ? "Creating account..." : "Continue"}
           </Button>
 
-          <div className="text-center text-sm text-slate-500 mt-4">
+          <div className="text-center text-sm text-muted-foreground mt-4">
             Already have an account?{" "}
-            <a href="/login" className="text-primary font-bold hover:underline">Sign in</a>
+            <a href="/login" className="text-primary font-semibold hover:underline">Sign in</a>
           </div>
         </form>
       </div>
@@ -163,9 +163,9 @@ export default function RegisterAccount() {
 
 function ValidationItem({ satisfied, label }: { satisfied: boolean, label: string }) {
   return (
-    <div className={`flex items-center gap-2 text-xs ${satisfied ? "text-emerald-600" : "text-slate-400"}`}>
-      <div className={`w-4 h-4 rounded-full flex items-center justify-center ${satisfied ? "bg-emerald-100" : "bg-slate-100"}`}>
-        {satisfied ? <Check size={10} strokeWidth={3} /> : <div className="w-1 h-1 rounded-full bg-slate-300" />}
+    <div className={`flex items-center gap-2 text-xs ${satisfied ? "text-emerald-600" : "text-muted-foreground"}`}>
+      <div className={`w-4 h-4 rounded-full flex items-center justify-center ${satisfied ? "bg-emerald-100" : "bg-muted"}`}>
+        {satisfied ? <Check size={10} strokeWidth={3} /> : <div className="w-1 h-1 rounded-full bg-muted-foreground/50" />}
       </div>
       <span>{label}</span>
     </div>

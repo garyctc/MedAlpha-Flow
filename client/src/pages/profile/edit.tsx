@@ -141,58 +141,58 @@ export default function EditProfile() {
       
       <main className="p-5 space-y-5">
         <div className="space-y-3">
-          <Label htmlFor="firstName" className="text-sm font-medium text-slate-700">First Name</Label>
+          <Label htmlFor="firstName" className="text-sm font-medium text-foreground">First Name</Label>
           <div className="relative">
             <Input
               id="firstName"
               value={formData.firstName}
               readOnly={!!primaryProvider}
               onChange={(e) => handleFieldChange("firstName", e.target.value)}
-              className={`h-12 rounded-xl ${primaryProvider ? 'bg-slate-50 border-slate-200 text-slate-500 pr-10' : 'bg-white'} ${errors.firstName && !primaryProvider ? 'border-red-500 focus-visible:ring-red-500' : 'border-slate-200'}`}
+              className={`h-12 rounded-xl ${primaryProvider ? 'bg-muted border-border text-muted-foreground pr-10' : 'bg-card'} ${errors.firstName && !primaryProvider ? 'border-red-500 focus-visible:ring-red-500' : 'border-border'}`}
             />
-            {primaryProvider && <Lock className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />}
+            {primaryProvider && <Lock className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={16} />}
             {errors.firstName && !primaryProvider && <AlertCircle className="absolute right-3 top-1/2 -translate-y-1/2 text-red-500" size={16} />}
           </div>
           {errors.firstName && !primaryProvider && <p className="text-xs text-red-600">{errors.firstName}</p>}
         </div>
 
         <div className="space-y-3">
-          <Label htmlFor="lastName" className="text-sm font-medium text-slate-700">Last Name</Label>
+          <Label htmlFor="lastName" className="text-sm font-medium text-foreground">Last Name</Label>
           <div className="relative">
              <Input
               id="lastName"
               value={formData.lastName}
               readOnly={!!primaryProvider}
               onChange={(e) => handleFieldChange("lastName", e.target.value)}
-              className={`h-12 rounded-xl ${primaryProvider ? 'bg-slate-50 border-slate-200 text-slate-500 pr-10' : 'bg-white'} ${errors.lastName && !primaryProvider ? 'border-red-500 focus-visible:ring-red-500' : 'border-slate-200'}`}
+              className={`h-12 rounded-xl ${primaryProvider ? 'bg-muted border-border text-muted-foreground pr-10' : 'bg-card'} ${errors.lastName && !primaryProvider ? 'border-red-500 focus-visible:ring-red-500' : 'border-border'}`}
             />
-            {primaryProvider && <Lock className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />}
+            {primaryProvider && <Lock className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={16} />}
             {errors.lastName && !primaryProvider && <AlertCircle className="absolute right-3 top-1/2 -translate-y-1/2 text-red-500" size={16} />}
           </div>
           {errors.lastName && !primaryProvider && <p className="text-xs text-red-600">{errors.lastName}</p>}
         </div>
 
         <div className="space-y-3">
-          <Label className="text-sm font-medium text-slate-700">Date of Birth</Label>
+          <Label className="text-sm font-medium text-foreground">Date of Birth</Label>
           <div className="relative">
-            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={16} />
             <Input
               value={formData.dateOfBirth.split('-').reverse().join('.')}
               readOnly
-              className="h-12 rounded-xl bg-slate-50 border-slate-200 pl-10 text-slate-500"
+              className="h-12 rounded-xl bg-muted border-border pl-10 text-muted-foreground"
             />
           </div>
-          <p className="text-xs text-slate-400">Change only possible via support</p>
+          <p className="text-xs text-muted-foreground">Change only possible via support</p>
         </div>
 
         <div className="space-y-3">
-          <Label htmlFor="phone" className="text-sm font-medium text-slate-700">Phone Number</Label>
+          <Label htmlFor="phone" className="text-sm font-medium text-foreground">Phone Number</Label>
           <div className="relative">
             <Input
               id="phone"
               value={formData.phone}
               onChange={(e) => handleFieldChange("phone", e.target.value)}
-              className={`h-12 rounded-xl bg-white pr-10 ${errors.phone ? "border-red-500 focus-visible:ring-red-500" : "border-slate-200"}`}
+              className={`h-12 rounded-xl bg-card pr-10 ${errors.phone ? "border-red-500 focus-visible:ring-red-500" : "border-border"}`}
               placeholder="+49 151 12345678"
             />
             {errors.phone && <AlertCircle className="absolute right-3 top-1/2 -translate-y-1/2 text-red-500" size={16} />}
@@ -201,16 +201,16 @@ export default function EditProfile() {
         </div>
 
         <div className="space-y-3">
-          <Label htmlFor="email" className="text-sm font-medium text-slate-700">Email</Label>
+          <Label htmlFor="email" className="text-sm font-medium text-foreground">Email</Label>
           <div className="relative">
              <Input
               id="email"
               value={formData.email}
               readOnly={!!primaryProvider}
               onChange={(e) => handleFieldChange("email", e.target.value)}
-              className={`h-12 rounded-xl ${primaryProvider ? 'bg-slate-50 border-slate-200 text-slate-500 pr-10' : 'bg-white'} ${errors.email && !primaryProvider ? 'border-red-500 focus-visible:ring-red-500' : 'border-slate-200'}`}
+              className={`h-12 rounded-xl ${primaryProvider ? 'bg-muted border-border text-muted-foreground pr-10' : 'bg-card'} ${errors.email && !primaryProvider ? 'border-red-500 focus-visible:ring-red-500' : 'border-border'}`}
             />
-             {primaryProvider && <Lock className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />}
+             {primaryProvider && <Lock className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={16} />}
              {errors.email && !primaryProvider && <AlertCircle className="absolute right-3 top-1/2 -translate-y-1/2 text-red-500" size={16} />}
           </div>
            {errors.email && !primaryProvider && <p className="text-xs text-red-600">{errors.email}</p>}
@@ -219,38 +219,38 @@ export default function EditProfile() {
         {/* Address - Hidden in V1 (only for prescription delivery) */}
         {FEATURES.prescriptionEnabled && (
           <div className="space-y-3">
-            <Label className="text-sm font-medium text-slate-700">Address</Label>
+            <Label className="text-sm font-medium text-foreground">Address</Label>
             {hasAddress ? (
               <>
                 <div className="relative">
                   <Input
                     value={profile?.street || ""}
                     readOnly
-                    className="h-12 rounded-xl bg-slate-50 border-slate-200 text-slate-500 pr-10"
+                    className="h-12 rounded-xl bg-muted border-border text-muted-foreground pr-10"
                   />
-                  <Lock className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+                  <Lock className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={16} />
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   <div className="relative">
                     <Input
                       value={profile?.city || ""}
                       readOnly
-                      className="h-12 rounded-xl bg-slate-50 border-slate-200 text-slate-500 pr-10"
+                      className="h-12 rounded-xl bg-muted border-border text-muted-foreground pr-10"
                     />
-                    <Lock className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+                    <Lock className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={16} />
                   </div>
                   <div className="relative">
                     <Input
                       value={profile?.postalCode || ""}
                       readOnly
-                      className="h-12 rounded-xl bg-slate-50 border-slate-200 text-slate-500 pr-10"
+                      className="h-12 rounded-xl bg-muted border-border text-muted-foreground pr-10"
                     />
-                    <Lock className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+                    <Lock className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={16} />
                   </div>
                 </div>
               </>
             ) : (
-              <div className="h-12 rounded-xl bg-slate-50 border border-slate-200 flex items-center px-4 text-slate-500 text-sm">
+              <div className="h-12 rounded-xl bg-muted border border-border flex items-center px-4 text-muted-foreground text-sm">
                 No address on file
               </div>
             )}
@@ -258,10 +258,10 @@ export default function EditProfile() {
         )}
       </main>
 
-      <div className="fixed bottom-0 left-0 right-0 p-5 bg-white border-t border-slate-100 pb-safe z-[60] max-w-[375px] mx-auto">
+      <div className="fixed bottom-0 left-0 right-0 p-5 bg-card border-t border-border pb-safe z-[60] max-w-[375px] mx-auto">
         <div className="space-y-2">
            <Button
-            className="w-full h-12 text-base rounded-xl bg-primary hover:bg-primary/90 text-white"
+            className="w-full h-12 text-base rounded-3xl bg-primary hover:bg-primary/90 text-white"
             onClick={handleSave}
             disabled={isSaving}
            >
@@ -276,7 +276,7 @@ export default function EditProfile() {
            </Button>
            <Button
             variant="ghost"
-            className="w-full h-12 text-base rounded-xl text-slate-600"
+            className="w-full h-12 text-base rounded-3xl text-muted-foreground"
             onClick={handleBack}
            >
              Cancel

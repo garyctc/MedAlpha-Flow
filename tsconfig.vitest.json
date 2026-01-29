@@ -1,0 +1,5 @@
+{
+  "extends": "./tsconfig.json",
+  "include": ["client/src/test/storage-types.test.ts"],
+  "exclude": ["node_modules", "build", "dist"]
+}

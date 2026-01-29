@@ -26,29 +26,29 @@ export default function TelehealthSummary() {
 
   return (
     <div className="min-h-screen bg-background pb-20">
-      <header className="px-5 py-4 pt-12 text-center bg-white border-b border-slate-100">
-        <h1 className="font-bold text-lg text-slate-900">Consultation Complete</h1>
+      <header className="px-5 py-4 pt-12 text-center bg-card border-b border-border">
+        <h1 className="font-semibold text-lg text-foreground">Consultation Complete</h1>
       </header>
-      
+
       <main className="p-5 space-y-6">
         {/* Summary Card */}
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 text-center">
-          <div className="w-16 h-16 bg-purple-50 text-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
+        <div className="bg-card rounded-3xl shadow-[var(--shadow-card)] border border-border p-6 text-center">
+          <div className="w-16 h-16 bg-primary/10 text-primary rounded-full flex items-center justify-center mx-auto mb-4">
             <Video size={32} />
           </div>
-          <h2 className="text-xl font-bold text-slate-900 mb-1">Dr. Müller</h2>
-          <p className="text-slate-500 text-sm mb-4">{consultDate} • 12 mins</p>
-          
-          <div className="h-px bg-slate-100 w-full my-4"></div>
-          
+          <h2 className="text-xl font-semibold text-foreground mb-1">Dr. Müller</h2>
+          <p className="text-muted-foreground text-sm mb-4">{consultDate} • 12 mins</p>
+
+          <div className="h-px bg-border w-full my-4"></div>
+
           <div className="text-left space-y-4">
              <div>
-               <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Diagnosis</p>
-               <p className="font-medium text-slate-900">Common cold (Viral upper respiratory infection)</p>
+               <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1">Diagnosis</p>
+               <p className="font-medium text-foreground">Common cold (Viral upper respiratory infection)</p>
              </div>
              <div>
-               <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Recommendation</p>
-               <p className="text-sm text-slate-700 leading-relaxed">
+               <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1">Recommendation</p>
+               <p className="text-sm text-foreground leading-relaxed">
                  Rest, increase fluid intake (water, tea). Take OTC medication like Paracetamol for fever if needed. Monitor symptoms for next 48 hours.
                </p>
              </div>
@@ -56,27 +56,27 @@ export default function TelehealthSummary() {
         </div>
 
         {/* Action Card */}
-        <div className="bg-white p-4 rounded-xl border border-slate-100 flex items-center justify-between shadow-sm">
+        <div className="bg-card p-4 rounded-3xl border border-border flex items-center justify-between shadow-[var(--shadow-card)]">
            <div className="flex items-center gap-3">
-             <div className="w-10 h-10 bg-blue-50 text-primary rounded-full flex items-center justify-center">
+             <div className="w-10 h-10 bg-primary/10 text-primary rounded-full flex items-center justify-center">
                <Calendar size={20} />
              </div>
-             <span className="font-medium text-slate-900">Book Follow-up</span>
+             <span className="font-medium text-foreground">Book Follow-up</span>
            </div>
            <Link href="/telehealth/schedule-type">
-             <Button size="sm" variant="outline" className="border-blue-200 text-primary hover:bg-blue-50">Book</Button>
+             <Button size="sm" variant="outline" className="border-primary/20 text-primary hover:bg-primary/10">Book</Button>
            </Link>
         </div>
 
         {/* Rating */}
         <div className="text-center py-4">
-          <p className="text-sm font-medium text-slate-700 mb-3">Rate Your Consultation</p>
+          <p className="text-sm font-medium text-foreground mb-3">Rate Your Consultation</p>
           <div className="flex justify-center gap-2">
             {[1, 2, 3, 4, 5].map((star) => (
               <Star
                 key={star}
                 size={28}
-                className={`cursor-pointer hover:scale-110 transition-transform ${star <= rating ? "text-amber-400 fill-current" : "text-slate-300"}`}
+                className={`cursor-pointer hover:scale-110 transition-transform ${star <= rating ? "text-amber-400 fill-current" : "text-muted-foreground"}`}
                 onClick={() => setRating(star)}
               />
             ))}
@@ -85,7 +85,7 @@ export default function TelehealthSummary() {
       </main>
 
       {/* Sticky Bottom Button */}
-      <div className="fixed bottom-0 left-0 right-0 p-5 bg-white border-t border-slate-100 pb-safe z-10">
+      <div className="fixed bottom-0 left-0 right-0 p-5 bg-card border-t border-border pb-safe z-10">
         <div className="max-w-[375px] mx-auto">
           <Link href="/home">
             <Button className="w-full h-12 text-base rounded-xl bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/20">

@@ -1,62 +1,44 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Link, useLocation } from "wouter";
-import { Check, Calendar } from "lucide-react";
+import { useLocation } from "wouter";
+import { Check, Bell } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { DURATION_DEFAULT, DURATION_SLOW, EASING_DEFAULT, shouldReduceMotion } from "@/lib/motion";
-import { useTranslation } from "react-i18next";
-import { formatLocalDate, formatLocalTime, getLocale } from "@/i18n";
-import { getUserAppointments, clearBookingDraft } from "@/lib/storage";
-import type { Appointment } from "@/types/storage";
+import { clearBookingDraft } from "@/lib/storage";
 
 export default function BookingSuccess() {
-  const [, setLocation] = useLocation();
   const reduceMotion = shouldReduceMotion();
-  const { t } = useTranslation();
-  const locale = getLocale();
-
-  const [appointment, setAppointment] = useState<Appointment | null>(null);
+  const [, setLocation] = useLocation();
+  const [showNotificationDialog, setShowNotificationDialog] = useState(false);
 
   useEffect(() => {
-    // Clear any remaining draft
     clearBookingDraft();
-
-    // Load the last booked appointment from sessionStorage
-    const lastBookedId = sessionStorage.getItem('last-booked-appointment');
-    if (lastBookedId) {
-      const appointments = getUserAppointments();
-      const booked = appointments.find(a => a.id === lastBookedId);
-      if (booked) {
-        setAppointment(booked);
-      }
-      sessionStorage.removeItem('last-booked-appointment');
-    } else {
-      // Fallback: get the most recent upcoming appointment
-      const appointments = getUserAppointments();
-      const recent = appointments.find(a => a.status === 'upcoming');
-      if (recent) {
-        setAppointment(recent);
-      }
-    }
   }, []);
 
-  // Use appointment data or fallback
-  const doctorName = appointment?.doctor || "Dr. Anna Schmidt";
-  const clinicName = appointment?.clinic || "Health Center Berlin";
-  const dateIso = appointment?.date || "2026-01-20";
-  const time24 = appointment?.time || "09:00";
-  const dateLabel = formatLocalDate(dateIso, locale);
-  const timeLabel = formatLocalTime(time24, locale);
+  const handleNavigateHome = () => {
+    setShowNotificationDialog(false);
+    setLocation("/home");
+  };
 
   return (
-    <div className="min-h-screen bg-white flex flex-col items-center justify-center p-6 text-center" data-testid="success-screen">
+    <div className="min-h-screen bg-background flex flex-col items-center justify-center p-6 text-center" data-testid="success-screen">
       <motion.div
         initial={reduceMotion ? false : { scale: 0.8, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={reduceMotion ? { duration: 0 } : { duration: DURATION_SLOW, ease: EASING_DEFAULT }}
-        className="w-24 h-24 bg-green-50 rounded-full flex items-center justify-center mb-6"
+        className="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mb-6"
       >
-        <div className="w-16 h-16 bg-success rounded-full flex items-center justify-center shadow-lg shadow-green-200">
+        <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center shadow-lg shadow-primary/20">
           <Check size={40} className="text-white" strokeWidth={3} />
         </div>
       </motion.div>
@@ -71,30 +53,44 @@ export default function BookingSuccess() {
         }
         className="w-full"
       >
-        <h1 className="text-2xl font-bold font-display text-slate-900 mb-2">{t("booking.success.title")}</h1>
-        <p className="text-slate-500 mb-8 max-w-[280px] mx-auto">{t("booking.success.subtitle")}</p>
+        <h1 className="text-2xl font-semibold text-foreground mb-2">Request sent</h1>
+        <p className="text-muted-foreground mb-8 max-w-[280px] mx-auto">
+          We're matching you with the first available appointment. We'll notify you as soon as it's confirmed.
+        </p>
 
-        {/* Summary Card (Compact) */}
-        <div className="bg-slate-50 rounded-2xl border border-slate-100 p-4 mb-8 text-center mx-auto max-w-xs">
-           <p className="font-bold text-slate-900 text-lg mb-1">{doctorName}</p>
-           <p className="text-primary font-medium text-sm mb-3">
-             {t("booking.success.summaryDateTime", { date: dateLabel, time: timeLabel })}
-           </p>
-           <p className="text-xs text-slate-500">{clinicName}</p>
+        <div className="bg-card rounded-3xl border border-border shadow-[var(--shadow-card)] p-5 mb-8 text-left mx-auto max-w-xs">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+              <Bell className="w-5 h-5 text-primary" strokeWidth={2} />
+            </div>
+            <div>
+              <p className="font-semibold text-foreground">Smart Match is working</p>
+              <p className="text-sm text-muted-foreground">You'll get a confirmation shortly.</p>
+            </div>
+          </div>
         </div>
 
         <div className="space-y-3 w-full">
-           <Button variant="outline" className="w-full h-12 rounded-xl text-base border-primary text-primary hover:bg-primary/5">
-             <Calendar size={18} className="mr-2" /> {t("booking.success.addToCalendar")}
-           </Button>
-           
-           <Link href="/home">
-             <Button className="w-full h-12 rounded-xl text-base bg-primary hover:bg-primary/90">
-               {t("common.buttons.done")}
-             </Button>
-           </Link>
+          <Button className="w-full h-12" onClick={() => setShowNotificationDialog(true)}>
+            Back to Home
+          </Button>
         </div>
       </motion.div>
+
+      <AlertDialog open={showNotificationDialog} onOpenChange={setShowNotificationDialog}>
+        <AlertDialogContent className="w-[90%] rounded-3xl">
+          <AlertDialogHeader>
+            <AlertDialogTitle>Stay updated</AlertDialogTitle>
+            <AlertDialogDescription>
+              Enable notifications so we can alert you when your appointment is confirmed.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={handleNavigateHome}>Not now</AlertDialogCancel>
+            <AlertDialogAction onClick={handleNavigateHome}>Enable notifications</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

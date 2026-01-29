@@ -5,8 +5,8 @@
  */
 
 export const branding = {
-  appName: import.meta.env.VITE_APP_NAME || 'MedAlpha Connect',
-  companyName: import.meta.env.VITE_COMPANY_NAME || 'MedAlpha GmbH',
-  supportEmail: import.meta.env.VITE_SUPPORT_EMAIL || 'legal@medalpha.de',
+  appName: import.meta.env.VITE_APP_NAME || 'DocliQ',
+  companyName: import.meta.env.VITE_COMPANY_NAME || 'DocliQ GmbH',
+  supportEmail: import.meta.env.VITE_SUPPORT_EMAIL || 'legal@docliq.de',
   tagline: import.meta.env.VITE_TAGLINE || 'Your healthcare companion',
 };

@@ -1,10 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import { User, Shield, HelpCircle, LogOut, ChevronRight, CreditCard, Bell, FileText, Globe, Link2, Database } from "lucide-react";
-import SubPageHeader from "@/components/layout/SubPageHeader";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -16,8 +14,6 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import avatarImage from "@assets/generated_images/professional_user_avatar_for_healthcare_app.png";
-import appLogo from "@/assets/app-logo.svg";
-import { branding } from "@/config/branding";
 import { getUserProfile, getUserInsurance, clearAuthState } from "@/lib/storage";
 import { showSuccess } from "@/lib/toast-helpers";
 import { useTranslation } from "react-i18next";
@@ -72,74 +68,61 @@ export default function ProfilePage() {
 
   return (
     <div className="min-h-screen bg-background pb-24">
-      <header className="px-5 py-4 pt-12 bg-white border-b border-slate-100 flex justify-between items-center sticky top-0 z-10">
-        <div className="flex items-center gap-2 min-h-10">
-          <div className="w-8 h-8 flex items-center justify-center">
-            <img src={appLogo} alt={`${branding.appName} Logo`} className="w-full h-full object-contain" />
-          </div>
-          <h1 className="font-bold text-xl text-slate-900 font-display">{t("profile.title")}</h1>
-        </div>
+      <header className="pt-12 pb-4 px-5">
+        <h1 className="text-2xl font-semibold text-foreground">{t("profile.title")}</h1>
       </header>
-      
+
       <main className="p-5 space-y-8">
         {/* User Info Card */}
         <div className="flex flex-col items-center text-center">
-           <div className="w-24 h-24 rounded-full border-4 border-white shadow-md overflow-hidden mb-4">
-             <img src={avatarImage} alt="Profile" className="w-full h-full object-cover" />
-           </div>
-           {isLoading ? (
-             <>
-               <Skeleton className="h-7 w-40 mb-2" />
-               <Skeleton className="h-4 w-48" />
-             </>
-           ) : (
-             <>
-               <h2 className="text-xl font-bold text-slate-900 font-display">{displayName}</h2>
-               <p className="text-slate-500 text-sm">{displayEmail}</p>
-             </>
-           )}
+          <div className="w-24 h-24 rounded-full border-4 border-card shadow-md overflow-hidden mb-4">
+            <img src={avatarImage} alt="Profile" className="w-full h-full object-cover" />
+          </div>
+          {isLoading ? (
+            <>
+              <Skeleton className="h-7 w-40 mb-2" />
+              <Skeleton className="h-4 w-48" />
+            </>
+          ) : (
+            <>
+              <h2 className="text-xl font-semibold text-foreground">{displayName}</h2>
+              <p className="text-muted-foreground text-sm">{displayEmail}</p>
+            </>
+          )}
         </div>
 
         {/* Menu Sections */}
         <div className="space-y-6">
-           <section>
-             <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 px-1">{t("profile.sections.account")}</h3>
-             <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
-                <MenuRow icon={User} label={t("profile.menu.personalInfo")} onClick={() => setLocation("/profile/edit")} />
-                {FEATURES.prescriptionEnabled && (
-                  <>
-                    <div className="h-px bg-slate-50 mx-4"></div>
-                    <MenuRow icon={Shield} label={t("profile.menu.insuranceInfo")} onClick={handleInsuranceClick} />
-                  </>
-                )}
-                <div className="h-px bg-slate-50 mx-4"></div>
-                <MenuRow
-                  icon={Link2}
-                  label={t("profile.menu.linkedAccounts")}
-                  onClick={() => setLocation("/profile/linked-accounts")}
-                />
-                <div className="h-px bg-slate-50 mx-4"></div>
-                <MenuRow icon={Bell} label={t("profile.menu.notifications")} onClick={handleNotificationsClick} />
-                <div className="h-px bg-slate-50 mx-4"></div>
-                <MenuRow icon={Database} label={t("profile.menu.myData", { defaultValue: "My Data" })} onClick={() => setLocation("/profile/data")} />
-                <div className="h-px bg-slate-50 mx-4"></div>
-                <MenuRow icon={Globe} label={t("nav.language")} value={languageLabel} onClick={() => setLocation("/profile/language")} />
-             </div>
-           </section>
+          <section>
+            <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3 px-1">{t("profile.sections.account")}</h3>
+            <div className="bg-card rounded-3xl border border-border shadow-[var(--shadow-card)] overflow-hidden">
+              <MenuRow icon={User} label={t("profile.menu.personalInfo")} onClick={() => setLocation("/profile/edit")} />
+              {FEATURES.prescriptionEnabled && (
+                <>
+                  <div className="h-px bg-border mx-4"></div>
+                  <MenuRow icon={Shield} label={t("profile.menu.insuranceInfo")} onClick={handleInsuranceClick} />
+                </>
+              )}
+              <div className="h-px bg-border mx-4"></div>
+              <MenuRow icon={Database} label={t("profile.menu.myData", { defaultValue: "My Data" })} onClick={() => setLocation("/profile/data")} />
+              <div className="h-px bg-border mx-4"></div>
+              <MenuRow icon={Globe} label={t("nav.language")} value={languageLabel} onClick={() => setLocation("/profile/language")} />
+            </div>
+          </section>
 
-           <section>
-             <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 px-1">{t("profile.sections.support")}</h3>
-             <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
-                <MenuRow icon={HelpCircle} label={t("profile.menu.help")} onClick={() => setLocation("/profile/support")} />
-                <div className="h-px bg-slate-50 mx-4"></div>
-                <MenuRow icon={Shield} label={t("profile.menu.privacyLegal")} onClick={() => setLocation("/profile/legal")} />
-             </div>
-           </section>
+          <section>
+            <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3 px-1">{t("profile.sections.support")}</h3>
+            <div className="bg-card rounded-3xl border border-border shadow-[var(--shadow-card)] overflow-hidden">
+              <MenuRow icon={HelpCircle} label={t("profile.menu.help")} onClick={() => setLocation("/profile/support")} />
+              <div className="h-px bg-border mx-4"></div>
+              <MenuRow icon={Shield} label={t("profile.menu.privacyLegal")} onClick={() => setLocation("/profile/legal")} />
+            </div>
+          </section>
         </div>
 
         <Button
           variant="outline"
-          className="w-full h-12 rounded-xl border-red-100 text-red-500 hover:bg-red-50 hover:text-red-600 flex items-center gap-2"
+          className="w-full h-12 border-destructive/30 text-destructive hover:bg-destructive/10 flex items-center gap-2"
           onClick={() => setShowLogoutDialog(true)}
         >
           <LogOut size={18} /> {t("profile.signOut")}
@@ -147,7 +130,7 @@ export default function ProfilePage() {
       </main>
 
       <AlertDialog open={showLogoutDialog} onOpenChange={setShowLogoutDialog}>
-        <AlertDialogContent className="w-[90%] rounded-xl">
+        <AlertDialogContent className="w-[90%] rounded-3xl">
           <AlertDialogHeader>
             <AlertDialogTitle>{t("profile.logout.title", { defaultValue: "Log out?" })}</AlertDialogTitle>
             <AlertDialogDescription>
@@ -155,10 +138,10 @@ export default function ProfilePage() {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel className="rounded-md border-border">{t("common.cancel", { defaultValue: "Cancel" })}</AlertDialogCancel>
+            <AlertDialogCancel>{t("common.cancel", { defaultValue: "Cancel" })}</AlertDialogCancel>
             <AlertDialogAction
               onClick={handleSignOut}
-              className="bg-destructive hover:bg-destructive/90 text-destructive-foreground rounded-md"
+              className="bg-destructive hover:bg-destructive/90 text-destructive-foreground"
             >
               {t("profile.signOut")}
             </AlertDialogAction>
@@ -171,16 +154,16 @@ export default function ProfilePage() {
 
 function MenuRow({ icon: Icon, label, value, onClick }: any) {
   return (
-    <button onClick={onClick} className="w-full px-4 py-4 flex items-center justify-between hover:bg-slate-50 transition-colors group">
+    <button onClick={onClick} className="w-full px-4 py-4 flex items-center justify-between hover:bg-muted/50 transition-colors group">
       <div className="flex items-center gap-3">
-        <div className="w-8 h-8 rounded-full bg-slate-50 text-slate-500 flex items-center justify-center group-hover:bg-blue-50 group-hover:text-primary transition-colors">
-          <Icon size={16} />
+        <div className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center">
+          <Icon size={16} strokeWidth={1.5} />
         </div>
-        <span className="font-medium text-slate-700 text-sm group-hover:text-slate-900">{label}</span>
+        <span className="font-medium text-foreground text-sm">{label}</span>
       </div>
       <div className="flex items-center gap-2">
-        {value && <span className="text-sm text-slate-400 font-medium">{value}</span>}
-        <ChevronRight size={18} className="text-slate-300 group-hover:text-primary" />
+        {value && <span className="text-sm text-muted-foreground font-medium">{value}</span>}
+        <ChevronRight size={18} className="text-muted-foreground group-hover:text-primary" />
       </div>
     </button>
   );

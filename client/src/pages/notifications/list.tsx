@@ -75,7 +75,7 @@ function NotificationsTab({ value }: { value: TabValue }) {
   }
 
   return (
-    <div className="bg-card rounded-lg border border-border overflow-hidden">
+    <div className="bg-card rounded-3xl border border-border shadow-[var(--shadow-card)] overflow-hidden">
       {filtered.map((n, idx) => (
         <div key={n.id}>
           <NotificationRow
@@ -133,8 +133,8 @@ export default function NotificationsList() {
                 className={cn(
                   "px-3 py-1.5 rounded-full text-xs font-medium border transition-colors whitespace-nowrap flex items-center gap-1",
                   activeTab === tab.id
-                    ? "bg-slate-900 text-white border-slate-900"
-                    : "bg-white text-slate-600 border-slate-200 hover:border-slate-300"
+                    ? "bg-primary text-white border-primary"
+                    : "bg-card text-muted-foreground border-border hover:border-primary/50"
                 )}
               >
                 {tab.label}

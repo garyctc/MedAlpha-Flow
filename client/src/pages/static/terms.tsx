@@ -24,18 +24,18 @@ export default function TermsOfService() {
       <SubPageHeader title="Terms of Service" backPath="/profile/legal" />
 
       <main className="p-5 relative">
-        <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-6">Last Updated: January 1, 2026</p>
+        <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-6">Last Updated: January 1, 2026</p>
 
-        <div className="space-y-8 text-slate-700 text-sm leading-relaxed">
+        <div className="space-y-8 text-muted-foreground text-sm leading-relaxed">
           <section>
-            <h2 className="text-lg font-bold text-slate-900 mb-3 font-display">Acceptance of Terms</h2>
+            <h2 className="text-lg font-semibold text-foreground mb-3 font-display">Acceptance of Terms</h2>
             <p className="mb-4">
-              By creating an account and using MedAlpha, you agree to be bound by these Terms of Service. If you do not accept these terms, please do not use our services.
+              By creating an account and using DocliQ, you agree to be bound by these Terms of Service. If you do not accept these terms, please do not use our services.
             </p>
           </section>
 
           <section>
-            <h2 className="text-lg font-bold text-slate-900 mb-3 font-display">User Responsibilities</h2>
+            <h2 className="text-lg font-semibold text-foreground mb-3 font-display">User Responsibilities</h2>
             <p className="mb-4">
               You agree to:
             </p>
@@ -49,14 +49,13 @@ export default function TermsOfService() {
           </section>
 
           <section>
-            <h2 className="text-lg font-bold text-slate-900 mb-3 font-display">Service Description</h2>
+            <h2 className="text-lg font-semibold text-foreground mb-3 font-display">Service Description</h2>
             <p className="mb-4">
-              MedAlpha provides a digital healthcare platform enabling users to:
+              DocliQ provides a digital healthcare platform enabling users to:
             </p>
             <ul className="list-disc pl-5 space-y-2">
               <li>Book appointments with healthcare providers.</li>
               <li>Access digital prescriptions (E-Rezept) and pharmacy services.</li>
-              <li>Schedule telemedicine consultations with licensed medical professionals.</li>
               <li>Manage personal health information and insurance details.</li>
             </ul>
             <p className="mt-4">
@@ -65,31 +64,31 @@ export default function TermsOfService() {
           </section>
 
           <section>
-            <h2 className="text-lg font-bold text-slate-900 mb-3 font-display">Termination</h2>
+            <h2 className="text-lg font-semibold text-foreground mb-3 font-display">Termination</h2>
             <p className="mb-4">
               We may suspend or terminate your account if you violate these terms or engage in fraudulent activity. Upon termination, your right to access the service ends immediately. Outstanding balances remain due.
             </p>
           </section>
 
           <section>
-            <h2 className="text-lg font-bold text-slate-900 mb-3 font-display">Limitation of Liability</h2>
+            <h2 className="text-lg font-semibold text-foreground mb-3 font-display">Limitation of Liability</h2>
             <p className="mb-4">
-              MedAlpha is provided "as is" without warranties. To the fullest extent permitted by law, we are not liable for indirect, incidental, special, or consequential damages arising from use of or inability to use the service. This includes damages for lost profits, data, or medical decisions made relying on our platform.
+              DocliQ is provided "as is" without warranties. To the fullest extent permitted by law, we are not liable for indirect, incidental, special, or consequential damages arising from use of or inability to use the service. This includes damages for lost profits, data, or medical decisions made relying on our platform.
             </p>
             <p className="mt-2">
-              <strong>Medical Disclaimer:</strong> MedAlpha is not a substitute for professional medical advice. Always consult with qualified healthcare providers for medical diagnosis and treatment.
+              <strong>Medical Disclaimer:</strong> DocliQ is not a substitute for professional medical advice. Always consult with qualified healthcare providers for medical diagnosis and treatment.
             </p>
           </section>
 
           <section>
-            <h2 className="text-lg font-bold text-slate-900 mb-3 font-display">Changes to Terms</h2>
+            <h2 className="text-lg font-semibold text-foreground mb-3 font-display">Changes to Terms</h2>
             <p>
               We may modify these terms at any time. Changes become effective when posted. Continued use of the service constitutes acceptance of modified terms. We will notify users of significant changes via email or app notification.
             </p>
           </section>
 
           <section>
-            <h2 className="text-lg font-bold text-slate-900 mb-3 font-display">Governing Law</h2>
+            <h2 className="text-lg font-semibold text-foreground mb-3 font-display">Governing Law</h2>
             <p>
               These terms are governed by the laws of Germany. Any disputes shall be resolved in the courts of Berlin, Germany, subject to German consumer protection laws.
             </p>
@@ -100,7 +99,7 @@ export default function TermsOfService() {
         {showScrollTop && (
           <Button
             onClick={scrollToTop}
-            className="fixed bottom-6 right-5 w-12 h-12 rounded-full shadow-lg bg-white hover:bg-slate-50 text-slate-900 z-50 transition-all border border-slate-100"
+            className="fixed bottom-6 right-5 w-12 h-12 rounded-full shadow-[var(--shadow-card)] bg-card hover:bg-muted text-foreground z-50 transition-all border border-border"
           >
             <ArrowUp size={24} />
           </Button>

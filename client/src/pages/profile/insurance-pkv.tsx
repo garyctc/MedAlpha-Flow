@@ -98,24 +98,26 @@ export default function InsuranceInfoPKV() {
       <main className="p-5 space-y-8">
         {/* Insurance Type */}
         <div className="space-y-2">
-          <div className="flex items-center justify-between bg-purple-50 text-purple-600 p-3 rounded-2xl border border-purple-100">
+          <div className="flex items-center justify-between bg-primary/10 text-primary p-3 rounded-3xl border border-border">
              <div className="flex items-center gap-3">
-               <Shield size={20} className="fill-current" />
-               <span className="font-bold">Private Insurance (PKV)</span>
+               <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                 <Shield size={16} className="text-primary" />
+               </div>
+               <span className="font-semibold text-foreground">Private Insurance (PKV)</span>
              </div>
-             <Lock size={14} className="opacity-50" />
+             <Lock size={14} className="text-muted-foreground" />
           </div>
           <div className="flex justify-between items-center px-1">
-             <p className="text-xs text-slate-400">Change only possible via support</p>
+             <p className="text-xs text-muted-foreground">Change only possible via support</p>
              <button onClick={() => setLocation("/profile/support")} className="text-xs text-primary underline">Contact Support</button>
           </div>
         </div>
 
         {/* Provider */}
         <div className="space-y-3">
-          <Label className="text-sm font-medium text-slate-700">Private Insurance Provider</Label>
+          <Label className="text-sm font-medium text-foreground">Private Insurance Provider</Label>
           <Select value={provider} onValueChange={setProvider}>
-            <SelectTrigger className="h-12 rounded-xl bg-white border-slate-200">
+            <SelectTrigger className="h-12 rounded-xl bg-card border-border">
               <SelectValue placeholder="Select your provider" />
             </SelectTrigger>
             <SelectContent>
@@ -130,16 +132,20 @@ export default function InsuranceInfoPKV() {
 
         {/* GesundheitsID Setup */}
         <div className="space-y-3">
-           <Label className="text-sm font-medium text-slate-700">GesundheitsID Status</Label>
+           <Label className="text-sm font-medium text-foreground">GesundheitsID Status</Label>
 
            {isGesundheitsIdSetup ? (
-             <div className="bg-green-50 text-green-700 p-4 rounded-xl flex items-center gap-3 border border-green-100">
-               <Check size={20} />
+             <div className="bg-green-50 text-green-700 p-4 rounded-3xl flex items-center gap-3 border border-border">
+               <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center">
+                 <Check size={16} />
+               </div>
                <span className="font-medium text-sm">GesundheitsID connected</span>
              </div>
            ) : (
-             <div className="bg-amber-50 text-amber-700 p-4 rounded-xl flex items-center gap-3 border border-amber-100">
-               <AlertCircle size={20} />
+             <div className="bg-amber-50 text-amber-700 p-4 rounded-3xl flex items-center gap-3 border border-border">
+               <div className="w-8 h-8 rounded-full bg-amber-100 flex items-center justify-center">
+                 <AlertCircle size={16} />
+               </div>
                <span className="font-medium text-sm">GesundheitsID not set up</span>
              </div>
            )}
@@ -154,10 +160,10 @@ export default function InsuranceInfoPKV() {
         </div>
       </main>
 
-      <div className="fixed bottom-0 left-0 right-0 p-5 bg-white border-t border-slate-100 pb-safe z-10">
+      <div className="fixed bottom-0 left-0 right-0 p-5 bg-card border-t border-border pb-safe z-10">
         <div className="max-w-[375px] mx-auto space-y-2">
            <Button
-            className="w-full h-12 text-base rounded-xl bg-primary hover:bg-primary/90 text-white"
+            className="w-full h-12 text-base rounded-3xl bg-primary hover:bg-primary/90 text-white"
             onClick={handleSave}
             disabled={isSaving}
            >
@@ -172,7 +178,7 @@ export default function InsuranceInfoPKV() {
            </Button>
            <Button
             variant="ghost"
-            className="w-full h-12 text-base rounded-xl text-slate-600"
+            className="w-full h-12 text-base rounded-3xl text-muted-foreground"
             onClick={() => setLocation("/profile")}
            >
              Cancel

@@ -22,22 +22,34 @@ export interface Appointment {
   id: string;
   type: 'in-person' | 'video';
   doctor: string;
+  doctorImage?: string;
   specialty: string;
   clinic: string;
   date: string;
   time: string;
+  timeWindow?: 'morning' | 'afternoon' | 'evening';
   status: 'upcoming' | 'completed' | 'cancelled' | 'processing';
+  matchStatus?: 'searching' | 'waiting' | 'confirmed' | 'rejected' | 'expired';
   createdAt: string;
   cancelledAt?: string;
 }
 
 export interface BookingDraft {
   type?: 'in-person' | 'video';
+  entryMode?: 'specialty' | 'doctor' | 'fast';
+  intent?: 'new' | 'reschedule' | 'book-again';
+  rescheduleId?: string;
+  recurring?: boolean;
+  recurrenceCount?: number;
+  recurrenceIntervalWeeks?: number;
   specialty?: string;
   location?: string;
   doctor?: string;
+  doctorImage?: string;
   date?: string;
   time?: string;
+  timeWindow?: 'morning' | 'afternoon' | 'evening';
+  timeWindows?: ('morning' | 'afternoon' | 'evening')[];
   // Telehealth-specific fields
   symptoms?: string[];
   symptomDuration?: string;

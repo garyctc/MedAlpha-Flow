@@ -14,42 +14,42 @@ export default function PrescriptionRedeem() {
           animate={{ scale: 1, opacity: 1 }}
           className="bg-white rounded-3xl p-8 w-full shadow-2xl shadow-black/20 text-center relative mt-4"
         >
-          <div className="w-16 h-1 bg-slate-200 rounded-full mx-auto mb-6"></div>
-          
-          <h2 className="text-xl font-bold text-slate-900 mb-1">Amoxicillin 500mg</h2>
-          <p className="text-slate-500 text-sm mb-8">Ref #8923-1290-AZ</p>
+          <div className="w-16 h-1 bg-border rounded-full mx-auto mb-6"></div>
 
-          <div className="bg-white p-4 border-2 border-slate-900 rounded-2xl inline-block mb-6 relative">
-            <QrCode size={180} className="text-slate-900" />
+          <h2 className="text-xl font-semibold text-foreground mb-1">Amoxicillin 500mg</h2>
+          <p className="text-muted-foreground text-sm mb-8">Ref #8923-1290-AZ</p>
+
+          <div className="bg-card p-4 border-2 border-foreground rounded-3xl inline-block mb-6 relative">
+            <QrCode size={180} className="text-foreground" />
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                {/* Optional Logo in middle of QR */}
-               <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center">
+               <div className="w-10 h-10 bg-card rounded-full flex items-center justify-center">
                  <div className="w-2 h-2 bg-primary rounded-full"></div>
                </div>
             </div>
           </div>
 
-          <p className="text-slate-600 font-medium mb-6">Scan at any Cardlink pharmacy</p>
+          <p className="text-muted-foreground font-medium mb-6">Scan at any Cardlink pharmacy</p>
 
-          <div className="flex items-center justify-between bg-slate-50 rounded-xl p-3 border border-slate-100 mb-6">
+          <div className="flex items-center justify-between bg-muted rounded-3xl p-3 border border-border mb-6">
              <div className="text-left">
-               <span className="text-xs text-slate-400 block uppercase tracking-wider">Expires</span>
-               <span className="text-sm font-bold text-slate-800">Jan 28, 2026</span>
+               <span className="text-xs text-muted-foreground block uppercase tracking-wider">Expires</span>
+               <span className="text-sm font-semibold text-foreground">Jan 28, 2026</span>
              </div>
-             <div className="h-8 w-px bg-slate-200"></div>
+             <div className="h-8 w-px bg-border"></div>
              <div className="text-left">
-               <span className="text-xs text-slate-400 block uppercase tracking-wider">Copay</span>
-               <span className="text-sm font-bold text-slate-800">$15.00</span>
+               <span className="text-xs text-muted-foreground block uppercase tracking-wider">Copay</span>
+               <span className="text-sm font-semibold text-foreground">$15.00</span>
              </div>
           </div>
-          
+
           <div className="space-y-3">
-             <Button className="w-full h-12 rounded-xl bg-slate-900 text-white hover:bg-slate-800 flex items-center gap-2">
+             <Button className="w-full h-12 rounded-3xl bg-foreground text-background hover:bg-foreground/90 flex items-center gap-2">
                  <Radio size={18} className="animate-pulse" />
                  Tap for NFC
              </Button>
 
-             <Button variant="outline" className="w-full border-slate-200 h-12 rounded-xl">
+             <Button variant="outline" className="w-full border-border h-12 rounded-3xl">
                <Copy size={16} className="mr-2" /> Copy Reference ID
              </Button>
           </div>

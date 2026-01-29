@@ -17,8 +17,8 @@ export default function NfcIntro() {
       <main className="p-6 flex flex-col items-center">
           {/* Illustration Area */}
           <div className="relative w-48 h-48 mb-6 flex items-center justify-center">
-             <div className="absolute inset-0 bg-blue-50 rounded-full animate-pulse opacity-50"></div>
-             <Smartphone size={80} className="text-slate-300 relative z-10" />
+             <div className="absolute inset-0 bg-primary/10 rounded-full animate-pulse opacity-50"></div>
+             <Smartphone size={80} className="text-muted-foreground relative z-10" />
              
              {/* Floating Card */}
              <motion.div 
@@ -35,42 +35,42 @@ export default function NfcIntro() {
              </div>
           </div>
 
-          <h2 className="text-xl font-bold text-slate-900 text-center mb-6">Position your Gesundheitskarte</h2>
-          
-          <div className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 w-full space-y-4 mb-6">
+          <h2 className="text-xl font-semibold text-foreground text-center mb-6">Position your Gesundheitskarte</h2>
+
+          <div className="bg-card rounded-3xl p-5 shadow-[var(--shadow-card)] border border-border w-full space-y-4 mb-6">
              <div className="flex gap-4">
-               <div className="w-6 h-6 rounded-full bg-blue-100 text-primary flex items-center justify-center font-bold text-sm flex-shrink-0">1</div>
-               <p className="text-slate-600 text-sm font-medium">Have your health card (eGK) ready</p>
+               <div className="w-6 h-6 rounded-full bg-primary/10 text-primary flex items-center justify-center font-semibold text-sm flex-shrink-0">1</div>
+               <p className="text-muted-foreground text-sm font-medium">Have your health card (eGK) ready</p>
              </div>
              <div className="flex gap-4">
-               <div className="w-6 h-6 rounded-full bg-blue-100 text-primary flex items-center justify-center font-bold text-sm flex-shrink-0">2</div>
-               <p className="text-slate-600 text-sm font-medium">Find the 6-digit CAN on the card front</p>
+               <div className="w-6 h-6 rounded-full bg-primary/10 text-primary flex items-center justify-center font-semibold text-sm flex-shrink-0">2</div>
+               <p className="text-muted-foreground text-sm font-medium">Find the 6-digit CAN on the card front</p>
              </div>
              <div className="flex gap-4">
-               <div className="w-6 h-6 rounded-full bg-blue-100 text-primary flex items-center justify-center font-bold text-sm flex-shrink-0">3</div>
-               <p className="text-slate-600 text-sm font-medium">Hold the card against your phone</p>
+               <div className="w-6 h-6 rounded-full bg-primary/10 text-primary flex items-center justify-center font-semibold text-sm flex-shrink-0">3</div>
+               <p className="text-muted-foreground text-sm font-medium">Hold the card against your phone</p>
              </div>
           </div>
 
           <div className="w-full space-y-2 mb-8">
-            <label className="text-sm font-bold text-slate-700">Enter 6-digit CAN</label>
+            <label className="text-sm font-semibold text-foreground">Enter 6-digit CAN</label>
             <div className="relative">
-              <Input 
+              <Input
                 value={can}
                 onChange={(e) => setCan(e.target.value.replace(/[^0-9]/g, ''))}
                 maxLength={6}
                 placeholder="123456"
-                className="h-12 bg-white border-slate-200 tracking-widest text-lg"
+                className="h-12 bg-card border-border tracking-widest text-lg"
               />
-              <button className="absolute right-3 top-1/2 -translate-y-1/2 text-primary text-xs font-bold flex items-center gap-1">
+              <button className="absolute right-3 top-1/2 -translate-y-1/2 text-primary text-xs font-semibold flex items-center gap-1">
                 <HelpCircle size={14} /> Where is my CAN?
               </button>
             </div>
-            <p className="text-xs text-slate-500">The CAN is printed on your card, usually top right</p>
+            <p className="text-xs text-muted-foreground">The CAN is printed on your card, usually top right</p>
           </div>
 
-          <Button 
-            className="w-full h-12 text-base font-bold rounded-xl shadow-lg shadow-primary/20"
+          <Button
+            className="w-full h-12 text-base font-semibold rounded-3xl shadow-lg shadow-primary/20"
             onClick={() => setLocation("/prescriptions/nfc-scan")}
             disabled={can.length !== 6}
           >

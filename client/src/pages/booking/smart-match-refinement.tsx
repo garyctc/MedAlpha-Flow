@@ -44,7 +44,7 @@ export default function SmartMatchRefinement() {
   };
 
   return (
-    <div className="min-h-screen bg-white pb-20">
+    <div className="min-h-screen bg-background pb-20">
       {/* Header */}
       <div className="bg-amber-50 border-b border-amber-100 p-5">
         <div className="flex items-center gap-3 mb-3">
@@ -52,10 +52,10 @@ export default function SmartMatchRefinement() {
             <AlertCircle className="text-white" size={24} />
           </div>
           <div className="flex-1">
-            <h1 className="text-lg font-bold text-slate-900">Additional Information Needed</h1>
+            <h1 className="text-lg font-semibold text-foreground">Additional Information Needed</h1>
           </div>
         </div>
-        <p className="text-sm text-amber-800 bg-amber-100 p-3 rounded-lg">
+        <p className="text-sm text-amber-800 bg-amber-100 p-3 rounded-3xl">
           {scenario.message} Please select an alternative below.
         </p>
       </div>
@@ -63,7 +63,7 @@ export default function SmartMatchRefinement() {
       {/* Form Content */}
       <div className="p-5 space-y-6">
         <div>
-          <label className="block text-sm font-semibold text-slate-900 mb-3">
+          <label className="block text-sm font-semibold text-foreground mb-3">
             {scenario.type === "time" && "Available Time Slots"}
             {scenario.type === "specialty" && "Alternative Specialties"}
             {scenario.type === "location" && "Nearby Clinics"}
@@ -74,15 +74,15 @@ export default function SmartMatchRefinement() {
                 key={option}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => setSelectedOption(option)}
-                className={`w-full p-4 rounded-xl border-2 text-left transition-all ${
+                className={`w-full p-4 rounded-3xl border-2 text-left transition-all ${
                   selectedOption === option
-                    ? "border-purple-600 bg-purple-50"
-                    : "border-slate-200 bg-white hover:border-slate-300"
+                    ? "border-primary bg-primary/5"
+                    : "border-border bg-card hover:border-muted-foreground/30"
                 }`}
               >
                 <span
                   className={`font-medium ${
-                    selectedOption === option ? "text-purple-900" : "text-slate-700"
+                    selectedOption === option ? "text-foreground" : "text-muted-foreground"
                   }`}
                 >
                   {option}
@@ -94,7 +94,7 @@ export default function SmartMatchRefinement() {
 
         {/* Submit Button */}
         <Button
-          className="w-full h-12 text-base font-semibold rounded-xl bg-purple-600 hover:bg-purple-700 text-white"
+          className="w-full h-12 text-base font-semibold rounded-3xl"
           disabled={!selectedOption}
           onClick={handleSubmit}
         >
@@ -107,7 +107,7 @@ export default function SmartMatchRefinement() {
             sessionStorage.removeItem("smart-match-retry");
             setLocation("/booking/review");
           }}
-          className="w-full text-slate-500 text-sm font-medium hover:text-slate-700"
+          className="w-full text-muted-foreground text-sm font-medium hover:text-foreground"
         >
           Cancel Booking
         </button>

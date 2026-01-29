@@ -1,194 +1,212 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
-import { User, MapPin, Calendar, Clock } from "lucide-react";
-import SubPageHeader from "@/components/layout/SubPageHeader";
+import { ChevronLeft, Calendar, MapPin, FileText, Clock, XCircle, Check } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
-import { getBookingDraft, clearBookingDraft, saveAppointment } from "@/lib/storage";
+  getBookingDraft,
+} from "@/lib/storage";
 import { useTranslation } from "react-i18next";
 import { formatLocalDate, formatLocalTime, getLocale } from "@/i18n";
-import { showSuccess } from "@/lib/toast-helpers";
-import type { Appointment } from "@/types/storage";
+import { DEFAULT_DOCTOR_AVATAR } from "@/lib/constants/doctors";
+
+const TIME_WINDOW_LABELS: Record<"morning" | "afternoon" | "evening", string> = {
+  morning: "Morning",
+  afternoon: "Afternoon",
+  evening: "Evening",
+};
 
 export default function BookingReview() {
   const [, setLocation] = useLocation();
   const [isConfirming, setIsConfirming] = useState(false);
-  const [dialogOpen, setDialogOpen] = useState(false);
   const { t } = useTranslation();
   const locale = getLocale();
 
   const draft = getBookingDraft();
+  const isFast = draft?.entryMode === "fast";
+  const hasDoctor = Boolean(draft?.doctor);
+  const hasDate = Boolean(draft?.date);
+  const hasTime = Boolean(draft?.timeWindow || draft?.time);
+  const canReview = hasDate && hasTime && (isFast || hasDoctor);
 
-  // Redirect to start if draft is incomplete
+  const timeWindowKey = draft?.timeWindow;
+  const timeWindowLabel = timeWindowKey
+    ? t(`booking.slots.windows.${timeWindowKey}`, {
+        defaultValue: TIME_WINDOW_LABELS[timeWindowKey],
+      })
+    : null;
+  const timeLabel = timeWindowLabel ?? (draft?.time ? formatLocalTime(draft.time, locale) : "Pending");
+
   useEffect(() => {
-    if (!draft?.doctor || !draft?.date || !draft?.time) {
-      setLocation('/booking/specialty');
+    if (!canReview) {
+      setLocation(isFast ? "/booking/slots" : "/booking/specialty");
     }
-  }, [draft, setLocation]);
+  }, [canReview, isFast, setLocation]);
 
-  // Don't render if draft is incomplete
-  if (!draft?.doctor || !draft?.date || !draft?.time) {
+  if (!canReview || !draft) {
+    return null;
+  }
+
+  if (!draft.date) {
     return null;
   }
 
   const handleConfirm = () => {
     setIsConfirming(true);
-    setDialogOpen(false);
 
-    setTimeout(() => {
-      // Create the appointment
-      const newAppointment: Appointment = {
-        id: `appt-${Date.now()}`,
-        type: draft.type || 'in-person',
-        doctor: draft.doctor!,
-        specialty: draft.specialty || 'General Practice',
-        clinic: draft.location || 'Health Center Berlin',
-        date: draft.date!,
-        time: draft.time!,
-        status: 'upcoming',
-        createdAt: new Date().toISOString(),
-      };
+    if (draft?.date) {
+      localStorage.setItem(
+        "pending-smart-match-booking",
+        JSON.stringify({
+          id: `pending-${Date.now()}`,
+          dateIso: draft.date,
+          time: timeLabel,
+          createdAt: new Date().toISOString(),
+        })
+      );
+    }
 
-      saveAppointment(newAppointment);
-
-      // Store the new appointment ID for the success page
-      sessionStorage.setItem('last-booked-appointment', newAppointment.id);
-
-      clearBookingDraft();
-      showSuccess(t("booking.success.title"));
-      setLocation("/booking/success");
-    }, 800);
+    setLocation("/booking/smart-match-processing");
   };
 
+  // Format the date for display
+  const appointmentDate = new Date(draft.date);
+  const localeCode = locale === 'de' ? 'de-DE' : 'en-US';
+  const dayName = appointmentDate.toLocaleDateString(localeCode, { weekday: "long" });
+  const formattedDate = `${dayName}, ${appointmentDate.toLocaleDateString(localeCode, { month: "long", day: "numeric" })}`;
+
   return (
-    <div className="min-h-screen bg-background pb-28">
-      <SubPageHeader title={t("booking.review.title")} backPath="/booking/calendar" />
-      
-      <main className="p-5">
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
-          
-          {/* Doctor Section */}
-          <div className="p-4 flex items-center gap-4">
-            <div className="w-12 h-12 bg-slate-200 rounded-full flex-shrink-0"></div>
-            <div className="flex-1">
-              <p className="font-bold text-slate-900">{draft.doctor}</p>
-              <p className="text-sm text-slate-500">{draft.specialty || t("specialty.generalPractice")}</p>
-            </div>
+    <div className="min-h-screen bg-background pb-36">
+      {/* Header */}
+      <header className="px-5 pt-6 pb-4">
+        <div className="flex items-center gap-3 mb-4">
+          {draft?.intent !== "reschedule" && (
             <button
-              onClick={() => setLocation('/booking/doctors')}
-              className="text-sm font-medium text-primary hover:underline"
+              onClick={() => setLocation("/booking/slots")}
+              className="w-10 h-10 flex items-center justify-center text-foreground hover:text-primary transition-colors -ml-2"
             >
-              {t("common.buttons.edit")}
+              <ChevronLeft size={24} strokeWidth={1.5} />
             </button>
+          )}
+          <div className={cn("flex-1 text-center", draft?.intent !== "reschedule" && "pr-8")}>
+            <h1 className="text-lg font-semibold text-foreground">Review Request</h1>
           </div>
+        </div>
+      </header>
 
-          <div className="h-px bg-slate-100 mx-4"></div>
-
-          {/* Location Section */}
-          <div className="p-4 flex items-start gap-4">
-            <div className="w-10 h-10 bg-blue-50 text-primary rounded-full flex items-center justify-center flex-shrink-0">
-              <MapPin size={20} />
+      <main className="px-5 space-y-6">
+        {/* Doctor Card - Centered */}
+        {!isFast && draft?.doctor && (
+          <div className="flex flex-col items-center text-center py-4">
+            {/* Doctor Photo with Verification Badge */}
+            <div className="relative mb-3">
+              <div className="w-20 h-20 rounded-full overflow-hidden bg-muted flex items-center justify-center">
+                <img
+                    src={draft.doctorImage || DEFAULT_DOCTOR_AVATAR}
+                    alt={draft.doctor}
+                    className="w-full h-full object-cover"
+                  />
+              </div>
+              {/* Verification Badge */}
+              <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-primary rounded-full flex items-center justify-center border-2 border-background">
+                <Check size={12} className="text-white" strokeWidth={3} />
+              </div>
             </div>
-            <div className="flex-1 pt-0.5">
-              <p className="font-bold text-slate-900 text-sm">{draft.location || "Health Center Berlin"}</p>
-              <p className="text-xs text-slate-500 mt-0.5">Friedrichstraße 123, Berlin</p>
+            <h2 className="text-lg font-semibold text-foreground">{draft.doctor}</h2>
+            <p className="text-sm font-medium text-primary">{draft.specialty || "General Medicine"}</p>
+          </div>
+        )}
+
+        {isFast && (
+          <div className="bg-card rounded-3xl border border-border shadow-[var(--shadow-card)] p-5 text-left">
+            <h2 className="text-lg font-semibold text-foreground mb-2">How it works</h2>
+            <p className="text-sm text-muted-foreground">
+              After you confirm, we'll match you with an available doctor. This usually takes about 30 minutes. We'll notify you once your appointment is confirmed.
+            </p>
+          </div>
+        )}
+
+        {/* Details Section */}
+        <div className="space-y-4">
+          {/* Date & Time */}
+          <div className="flex items-start gap-4">
+            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+              <Calendar size={20} className="text-primary" strokeWidth={1.5} />
             </div>
-            <button
-              onClick={() => setLocation('/booking/location')}
-              className="text-sm font-medium text-primary hover:underline"
-            >
-              {t("common.buttons.edit")}
-            </button>
+            <div>
+              <p className="text-xs text-muted-foreground mb-0.5">Date & Time</p>
+              <p className="font-semibold text-foreground">{formattedDate}</p>
+              <p className="text-sm text-foreground">{timeLabel}</p>
+            </div>
           </div>
 
-          <div className="h-px bg-slate-100 mx-4"></div>
+          {/* Location */}
+          <div className="flex items-start gap-4">
+            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+              <MapPin size={20} className="text-primary" strokeWidth={1.5} />
+            </div>
+            <div>
+              <p className="text-xs text-muted-foreground mb-0.5">Location</p>
+              <p className="font-semibold text-foreground">{draft.location || "Medical Center Mitte"}</p>
+              <p className="text-sm text-muted-foreground">Hauptstraße 12, 10115 Berlin</p>
+            </div>
+          </div>
+        </div>
 
-          {/* Date & Time Section */}
-          <div className="p-4 flex items-start gap-4">
-             <div className="space-y-3 flex-1">
-                <div className="flex items-center gap-3">
-                  <Calendar size={18} className="text-primary" />
-                  <span className="text-sm font-medium text-slate-700">
-                    {formatLocalDate(draft.date, locale)}
-                  </span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Clock size={18} className="text-primary" />
-                  <span className="text-sm font-medium text-slate-700">
-                    {formatLocalTime(draft.time, locale)}
-                  </span>
-                </div>
-             </div>
-             <button
-               onClick={() => setLocation('/booking/calendar')}
-               className="text-sm font-medium text-primary hover:underline"
-             >
-               {t("common.buttons.edit")}
-             </button>
+        {/* Divider */}
+        <div className="h-px bg-border" />
+
+        {/* What You Need to Know */}
+        <div className="space-y-4">
+          <div className="flex items-center gap-2">
+            <div className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center">
+              <span className="text-primary text-xs font-bold">i</span>
+            </div>
+            <h3 className="text-xs font-semibold tracking-wider uppercase text-muted-foreground">
+              What you need to know
+            </h3>
           </div>
 
+          <div className="space-y-3">
+            <div className="flex items-start gap-3">
+              <FileText size={18} className="text-muted-foreground flex-shrink-0 mt-0.5" strokeWidth={1.5} />
+              <p className="text-sm text-foreground">
+                Please bring your <span className="font-semibold">insurance card</span> and a referral if applicable.
+              </p>
+            </div>
+            <div className="flex items-start gap-3">
+              <Clock size={18} className="text-muted-foreground flex-shrink-0 mt-0.5" strokeWidth={1.5} />
+              <p className="text-sm text-foreground">
+                Arrive approx. <span className="font-semibold">10 minutes</span> before your appointment for registration.
+              </p>
+            </div>
+            <div className="flex items-start gap-3">
+              <XCircle size={18} className="text-muted-foreground flex-shrink-0 mt-0.5" strokeWidth={1.5} />
+              <p className="text-sm text-foreground">
+                Free cancellation up to <span className="font-semibold">24 hours</span> before the appointment.
+              </p>
+            </div>
+          </div>
         </div>
       </main>
 
-      {/* Booking Confirmation Dialog */}
-      <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <AlertDialogContent className="max-w-sm">
-          <AlertDialogHeader>
-            <AlertDialogTitle>{t("booking.confirm.title") || "Confirm Booking"}</AlertDialogTitle>
-            <AlertDialogDescription className="space-y-3">
-              <div className="space-y-2">
-                <div className="flex items-center gap-2">
-                  <User size={16} className="text-slate-500" />
-                  <span className="text-sm font-medium text-slate-700">{draft.doctor}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Calendar size={16} className="text-slate-500" />
-                  <span className="text-sm text-slate-700">{formatLocalDate(draft.date, locale)}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Clock size={16} className="text-slate-500" />
-                  <span className="text-sm text-slate-700">{formatLocalTime(draft.time, locale)}</span>
-                </div>
-              </div>
-              <p className="text-xs text-slate-600 bg-amber-50 border border-amber-200 rounded p-2">
-                {t("booking.confirm.cancellation") || "Cancellation may incur fees"}
-              </p>
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
-            <AlertDialogCancel className="rounded-lg h-11">{t("common.buttons.cancel") || "Cancel"}</AlertDialogCancel>
-            <AlertDialogAction
-              onClick={handleConfirm}
-              disabled={isConfirming}
-              className="rounded-lg h-11 bg-primary hover:bg-primary/90"
-            >
-              {isConfirming ? "Confirming..." : t("booking.review.confirm") || "Confirm Booking"}
-            </AlertDialogAction>
-          </div>
-        </AlertDialogContent>
-      </AlertDialog>
-
-      {/* Sticky Bottom Button */}
-      <div className="fixed bottom-[80px] left-0 right-0 z-40 flex justify-center">
-        <div className="max-w-[375px] w-full bg-white border-t border-slate-100 px-5 py-4 flex justify-center">
-          <div className="w-[315px]">
-            <Button
-              onClick={() => setDialogOpen(true)}
-              className="w-full h-12 text-base rounded-xl bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/20"
-              disabled={isConfirming}
-            >
-              {isConfirming ? "Confirming..." : t("booking.review.confirm")}
-            </Button>
-          </div>
-        </div>
+      {/* Confirm Button */}
+      <div className="fixed bottom-0 left-0 right-0 px-5 pb-8 pt-4 bg-gradient-to-t from-background via-background to-transparent max-w-[375px] mx-auto z-40">
+        <Button
+          onClick={handleConfirm}
+          className="w-full h-12 rounded-2xl text-base font-semibold gap-2"
+          disabled={isConfirming}
+        >
+          {isConfirming ? "Requesting..." : (
+            <>
+              Request Appointment
+              <Check size={18} strokeWidth={2.5} />
+            </>
+          )}
+        </Button>
+        <p className="text-xs text-muted-foreground text-center mt-3">
+          By requesting you accept our T&Cs and Privacy Policy.
+        </p>
       </div>
     </div>
   );
