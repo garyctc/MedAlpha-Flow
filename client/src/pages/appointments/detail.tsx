@@ -93,7 +93,7 @@ export default function AppointmentDetail() {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-background pb-20">
-        <SubPageHeader title={t("appointments.detail.title")} />
+        <SubPageHeader title={t("appointments.detail.title")} backPath="/home" />
         <main className="p-5 space-y-6">
           <div className="flex flex-col items-center">
             <Skeleton className="w-20 h-20 rounded-full mb-4" />
@@ -118,7 +118,7 @@ export default function AppointmentDetail() {
   if (!appointment) {
     return (
       <div className="min-h-screen bg-background pb-20">
-        <SubPageHeader title={t("appointments.detail.title")} />
+        <SubPageHeader title={t("appointments.detail.title")} backPath="/home" />
         <main className="p-5">
           <div className="flex flex-col items-center justify-center py-12 text-center">
             <div className="w-16 h-16 bg-destructive/10 rounded-full flex items-center justify-center mb-4">
@@ -140,7 +140,7 @@ export default function AppointmentDetail() {
 
   return (
     <div className="min-h-screen bg-background pb-20">
-      <SubPageHeader title={t("appointments.detail.title")} />
+      <SubPageHeader title={t("appointments.detail.title")} backPath="/home" />
 
       <main className="p-5 space-y-6">
         {/* Centered Doctor Card */}

@@ -157,15 +157,19 @@ export default function BookingSlots() {
   }, [draft?.doctor]);
 
   const backPath = useMemo(() => {
-    // Book Again or Reschedule from home/appointments → go back to home
-    if (draft?.intent === "book-again" || draft?.intent === "reschedule") return "/home";
+    // Reschedule → go back to appointment details
+    if (draft?.intent === "reschedule") {
+      return `/appointments/${draft?.rescheduleId}`;
+    }
+    // Book Again from home/appointments → go back to home
+    if (draft?.intent === "book-again") return "/home";
     if (draft?.entryMode === "fast") return "/booking/entry";
     if (draft?.entryMode === "specialty") {
       const clinicId = getClinicIdByName(draft?.location);
       return clinicId ? `/booking/doctors?location=${clinicId}` : "/booking/doctors";
     }
     return "/booking/doctors";
-  }, [draft?.intent, draft?.entryMode, draft?.location]);
+  }, [draft?.intent, draft?.entryMode, draft?.location, draft?.rescheduleId]);
 
   const handleContinue = () => {
     if (!selectedDate || selectedWindows.length === 0) return;
@@ -193,18 +197,14 @@ export default function BookingSlots() {
       {/* Header */}
       <header className="px-5 pt-6 pb-4">
         <div className="flex items-center gap-3 mb-4">
-          {draft?.intent !== "reschedule" && (
-            <button
-              onClick={() => setLocation(backPath)}
-              className="w-10 h-10 flex items-center justify-center text-foreground hover:text-primary transition-colors -ml-2"
-            >
-              <ChevronLeft size={24} strokeWidth={1.5} />
-            </button>
-          )}
-          <h1 className={cn(
-            "text-lg font-semibold text-foreground flex-1 text-center",
-            draft?.intent !== "reschedule" && "pr-8"
-          )}>
+          <button
+            id="back-button"
+            onClick={() => setLocation(backPath)}
+            className="w-10 h-10 flex items-center justify-center text-foreground hover:text-primary transition-colors -ml-2"
+          >
+            <ChevronLeft size={24} strokeWidth={1.5} />
+          </button>
+          <h1 className="text-lg font-semibold text-foreground flex-1 text-center pr-8">
             {t("booking.slots.selectAppointment")}
           </h1>
         </div>
