@@ -8,5 +8,9 @@
       "Bash(git add:*)",
       "Bash(git commit:*)"
     ]
+  },
+  "spinnerVerbs": {
+    "mode": "replace",
+    "verbs": ["Phong ba bão táp cũng không làm khó được Lộc Lâm"]
   }
 }
